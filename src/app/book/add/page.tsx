@@ -85,6 +85,17 @@ const Page = () => {
               ) : (
                 <p>サムネイル画像なし</p>
               )}
+              <button
+                onClick={() =>
+                  fetch(`/api/books`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(bookInfo),
+                  })
+                }
+              >
+                この本を登録
+              </button>
             </>
           ) : (
             <p>本の情報が見つかりませんでした。ISBNを確認してください。</p>
