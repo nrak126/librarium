@@ -1,18 +1,28 @@
+"use client";
+
 import { Header } from "../components/Header";
-import "./globals.css";
+import "./styles/globals.css";
+import style from "./styles/layout.module.scss";
+import { usePathname } from "next/navigation";
 
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const pathname = usePathname();
+  const isBookCheck = pathname === "/book/add" || pathname === "/book/rental";
+  const isAuth = pathname.startsWith("/auth/");
+
   return (
-    <html lang="jp">
+    <html lang="ja">
       <body>
-        <div className="background">
+        <div className={isAuth ? style.auth : style.background}>
           <Header />
-          <div className="main">
-            <div className="main-contents">{children}</div>
+          <div className={isBookCheck ? undefined : style.main}>
+            <main className={isBookCheck ? undefined : style.mainContents}>
+              {children}
+            </main>
           </div>
         </div>
       </body>
