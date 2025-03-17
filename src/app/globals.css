@@ -1,0 +1,23 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: Arial, Helvetica, sans-serif;
+  /* background-image:url("https://cdn.discordapp.com/attachments/1327101301762293790/1342194688060293231/49.-Soft-Peach_1.jpg?ex=67b8bfb6&is=67b76e36&hm=7454d4e9f665f13dd4439853a37056e5581310844d1ff0e900585b9a2147c1b8&") */
+}
+
