@@ -12,15 +12,17 @@ export default function RootLayout({
 }>) {
   const pathname = usePathname();
   const isBookCheck = pathname === "/book/add" || pathname === "/book/rental";
-  const isAuth = pathname.startsWith("/auth/");
+  const isAuth = pathname === "/auth" || pathname.startsWith("/auth/");
 
   return (
     <html lang="ja">
       <body>
-        <div className={isAuth ? style.auth : style.background}>
-          <Header />
-          <div className={isBookCheck ? undefined : style.main}>
-            <main className={isBookCheck ? undefined : style.mainContents}>
+        <div className={isAuth ? undefined : style.background}>
+          {!isAuth && <Header />}
+          <div className={isAuth || isBookCheck ? undefined : style.main}>
+            <main
+              className={isAuth || isBookCheck ? undefined : style.mainContents}
+            >
               {children}
             </main>
           </div>
