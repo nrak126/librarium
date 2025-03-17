@@ -1,0 +1,28 @@
+.menuToggle {
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+    z-index: 100;
+    padding: 24px;
+    margin-left: 125px
+;
+    .bar {
+        width: 30px;
+        height: 3px;
+        background-color: #FFFBF5;
+        margin: 2.5px 0;
+        transition: 0.4s;
+    }
+
+    &.active {
+        .bar:nth-child(1) {
+            transform: rotate(45deg) translate(6px, 6px);
+        }
+        .bar:nth-child(2) {
+            opacity: 0;
+        }
+        .bar:nth-child(3) {
+            transform: rotate(-45deg) translate(6px, -6px);
+        }
+    }
+}
