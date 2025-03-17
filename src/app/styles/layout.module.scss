@@ -1,0 +1,21 @@
+.background {
+    background-color: #BB9C77;
+    height: 100vh;
+  }
+  
+  .main{
+    background-color: #FFFBF5;
+    display: flex;
+    justify-content: center;
+    /* align-items: center; */
+    height: 89vh;
+    width: 100%;
+    border-radius: 39px 39px     0 0;
+  }
+  
+  .mainContents {
+    margin-top: 4vh;
+  }
+  .auth{
+    display: none;
+  }
