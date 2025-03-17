@@ -4,7 +4,6 @@ import React, { useEffect, useState } from "react";
 import { Barcode } from "@/src/components/Barcode"; // Barcode コンポーネント
 import axios from "axios";
 import { BookEditor } from "@/src/components/BookEditor"; // パスは実際の場所に合わせて変更
-import { IndustryIdentifier } from "@/src/types/book"; // IndustryIdentifier 型をインポート
 
 import Image from "next/image";
 

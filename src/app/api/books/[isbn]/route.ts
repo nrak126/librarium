@@ -3,10 +3,10 @@ import { db } from '@/src/lib/firebaseAdmin';
 
 export async function GET(
   request: Request,
-  { params }: { params: { isbn: string } }
+  { params }: { params: Promise<{ isbn: string }> }
 ) {
   try {
-    const { isbn } = params;
+    const { isbn } = await params;
 
     const docRef = db.collection('books').doc(isbn);
     const docSnap = await docRef.get();

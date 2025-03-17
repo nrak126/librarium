@@ -24,7 +24,7 @@ export default function Page() {
         console.log("取得した本:", book);
         
         setBookInfo(book);
-      } catch (err: any) {
+      } catch (err: unknown) {
         console.error("エラー:", err);
         setError("データの取得に失敗しました。");
       }

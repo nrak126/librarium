@@ -1,13 +1,10 @@
 "use client";
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState } from "react";
 import type { Book } from "@/src/types/book";
 import Link from "next/link";
 
-import { useRouter } from "next/navigation";
-
 export default function Page() {
   const [books, setBooks] = useState<Book[]>([]);
-  const router = useRouter();
 
   useEffect(() => {
     (async () => {
