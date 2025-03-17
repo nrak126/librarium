@@ -1,12 +1,13 @@
 export type Book = {
-  isbn: string;
+  id: string;
   title: string;
   author: string;
-  publishedDate: Date;
   description: string;
-  coverImage: string;
-  quantity: number;
+  thumbnail: string;
   publisher: string;
+
+  stock: number;
+  available: number;
 }
 
 export type BookEditorProps = {
