@@ -8,7 +8,6 @@ import { useRouter } from "next/navigation";
 
 export default function Page() {
   const [signIn, setSignIn] = useState(false);
-  const [signUp, setSignUp] = useState(false);
   const router = useRouter();
 
   const handleSignIn = () => {
@@ -17,10 +16,6 @@ export default function Page() {
     router.push("/");
   };
 
-  const handleSignUp = () => {
-    setSignUp(true);
-    console.log("SignUpボタンが押されました", signUp);
-  };
 
   return (
     <div className={styles.whole}>
@@ -33,11 +28,7 @@ export default function Page() {
       />
 
       <button onClick={handleSignIn} className={styles.signInBtn}>
-        サインイン
-      </button>
-
-      <button onClick={handleSignUp} className={styles.signUpBtn}>
-        サインアップ
+        ログイン
       </button>
     </div>
   );
