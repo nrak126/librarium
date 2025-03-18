@@ -7,7 +7,25 @@ import { NavIcon } from "../NavIcon";
 import "swiper/css";
 import "swiper/scss/pagination";
 import { Pagination } from "swiper/modules";
-import "./index.scss"; // 追加したスタイルをインポート
+import "./index.scss";
+
+import Icon1 from "@/src/components/nav/NavIcon/Img/rental.svg";
+import Icon2 from "@/src/components/nav/NavIcon/Img/return.svg";
+import Icon3 from "@/src/components/nav/NavIcon/Img/user.svg";
+import Icon4 from "@/src/components/nav/NavIcon/Img/books.svg";
+import Icon5 from "@/src/components/nav/NavIcon/Img/add.svg";
+
+const iconData = [
+  {
+    id: 1,
+    name: "貸出",
+    iconUrl: Icon1,
+  },
+  { id: 2, name: "返却", iconUrl: Icon2 },
+  { id: 3, name: "利用者一覧", iconUrl: Icon3 },
+  { id: 4, name: "書籍一覧", iconUrl: Icon4 },
+  { id: 5, name: "新しい本の追加", iconUrl: Icon5 },
+];
 
 export const NavSlide: React.FC = () => {
   return (
@@ -24,24 +42,11 @@ export const NavSlide: React.FC = () => {
         }}
         centeredSlides={true}
       >
-        <SwiperSlide>
-          <NavIcon />
-        </SwiperSlide>
-        <SwiperSlide>
-          <NavIcon />
-        </SwiperSlide>
-        <SwiperSlide>
-          <NavIcon />
-        </SwiperSlide>
-        <SwiperSlide>
-          <NavIcon />
-        </SwiperSlide>
-        <SwiperSlide>
-          <NavIcon />
-        </SwiperSlide>
-        <SwiperSlide>
-          <NavIcon />
-        </SwiperSlide>
+        {iconData.map((icon) => (
+          <SwiperSlide key={icon.id}>
+            <NavIcon name={icon.name} iconUrl={icon.iconUrl} />
+          </SwiperSlide>
+        ))}
       </Swiper>
     </div>
   );
