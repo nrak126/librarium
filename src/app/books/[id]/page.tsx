@@ -2,7 +2,7 @@
 import Image from "next/image";
 import { Book } from "@/src/types/book";
 
-export default async function Page({ params }: { params: { id: string } }) {
+export default async function Page({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/books/${id}`, {
     cache: "no-store",
