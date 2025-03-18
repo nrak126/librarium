@@ -1,0 +1,32 @@
+.contents{
+    display: flex;
+    justify-content: center;
+}
+
+.searchContainer {
+    display: flex;
+    padding: 10px;
+    border: 1px solid lightgray;
+    border-radius: 999px;
+    background-color: #F0EDED;
+}
+.searchContainer {
+    > input {
+      border: none !important;
+      background-color: #F0EDED;
+  
+      &:focus {
+        outline:none;
+      }
+    }
+  }
+
+.searchBar{
+    background-color: #F0EDED;
+}
+::placeholder{
+        color: #C8C7C5;
+}
+.searchIcon{
+    color: #A3A3A3;
+}
