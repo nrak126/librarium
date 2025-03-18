@@ -1,9 +1,16 @@
 .BaseBtn {
     text-align: center;
+    height: 58px;
+    width: 132px;
+    font-size: 14px;
     padding: 10px 20px;
-    border-radius: 20px;
+    border-radius: 10px;
     border: none;
     background-color: #e2999b;
     color: #31291f;
     font-weight: bold;
+    box-shadow:  0px 3px 8px 1px rgb(27 55 99 / 25%);    
+}
+.BaseBtn:active {
+    transform: scale(0.9);
 }
