@@ -1,0 +1,62 @@
+.whole {
+  background: #fffbf5;
+  display: flex;
+  height: 100vh;
+  width: 100hv;
+  align-items: center;
+  flex-direction: column;
+}
+
+.icon {
+  margin-top: 7vh;
+  margin-bottom: 10vh;
+}
+
+.formName {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10vh;
+  .name {
+    color: #635038;
+    font-size: 1.8vh;
+    font-weight: bold;
+  }
+  .inputName {
+    width: 31vh;
+    height: 50px;
+    border: none;
+    border-bottom: 1px solid #635038;
+    background-color: #fffbf5;
+  }
+}
+
+.formNum {
+  display: flex;
+  flex-direction: column;
+  .number {
+    color: #635038;
+    font-size: 1.8vh;
+    font-weight: bold;
+  }
+  .inputNum {
+    width: 31vh;
+    height: 50px;
+    border: none;
+    border-bottom: 1px solid #635038;
+    background-color: #fffbf5;
+  }
+}
+
+.btn {
+  border: 1px solid #826640;
+  border-radius: 30;
+  color: #fffbf5;
+  height: 4.5vh;
+  width: 31vh;
+  //   margin-bottom: 8vh;
+  background: #826640;
+  box-shadow: 1px 1px 4px gray;
+  font-weight: bold;
+  font-size: 20px;
+  margin-top: 18vh;
+}
