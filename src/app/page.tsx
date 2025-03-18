@@ -1,11 +1,11 @@
 import { SearchBar } from "../components/SearchBar";
-import { NavIcon } from "../components/nav/NavIcon";
+import { NavSlide } from "../components/nav/NavSlide";
 
 export default function Home() {
   return (
     <>
       <SearchBar />
-      <NavIcon />
+      <NavSlide />
     </>
   );
 }
