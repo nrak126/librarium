@@ -13,13 +13,13 @@ export default function Page() {
 
   const handleSignIn = () => {
     setSignIn(true);
-    console.log("SignInボタンが押されました");
+    console.log("SignInボタンが押されました", signIn);
     router.push("/");
   };
 
   const handleSignUp = () => {
     setSignUp(true);
-    console.log("SignUpボタンが押されました");
+    console.log("SignUpボタンが押されました", signUp);
   };
 
   return (
