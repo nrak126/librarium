@@ -4,7 +4,6 @@ import React, { useEffect, useState } from "react";
 import { Barcode } from "@/src/components/Barcode"; // Barcode コンポーネント
 import axios from "axios";
 import { BookEditor } from "@/src/components/BookEditor"; // パスは実際の場所に合わせて変更
-import { IndustryIdentifier } from "@/src/types/book"; // IndustryIdentifier 型をインポート
 
 import Image from "next/image";
 
@@ -16,51 +15,34 @@ const Page = () => {
     const fetchBookData = async () => {
       try {
         const response = await axios.get(
-          `https://www.googleapis.com/books/v1/volumes?q=${isbn}&startIndex=0&maxResults=1&key=${process.env.NEXT_PUBLIC_GOOGLE_BOOKS_API_KEY}`
+          `https://app.rakuten.co.jp/services/api/BooksBook/Search/20170404?format=json&isbn=${isbn}&applicationId=${process.env.NEXT_PUBLIC_RAKUTEN_BOOKS_APP_ID}`
         );
 
-        // ISBN-13 の一致確認
-        const isMatched = response.data.items.some(
-          (item: {
-            volumeInfo: {
-              industryIdentifiers: IndustryIdentifier[];
-            };
-          }) =>
-            item.volumeInfo?.industryIdentifiers?.some(
-              (identifier: IndustryIdentifier) =>
-                identifier.type === "ISBN_13" && identifier.identifier === isbn
-            )
-        );
+        console.log("取得したデータ:", response.data.Items);
 
-        if (
-          response.data.items &&
-          response.data.items.length > 0 &&
-          isMatched
-        ) {
-          const volumeInfo = response.data.items[0].volumeInfo;
+        if (response.data.Items) {
+          const volumeInfo = response.data.Items[0].Item;
           const fetchedBook: Book = {
-            isbn: isbn, // ISBN
+            id: isbn, // ISBN
             title: volumeInfo.title || "タイトルが見つかりません",
-            author: volumeInfo.authors
-              ? volumeInfo.authors.join(", ") //著者が複数いる場合カンマ区切り
-              : "著者情報がありません",
-            publishedDate: new Date(volumeInfo.publishedDate || ""), // 日付のフォーマットを合わせる
-            description: volumeInfo.description || "説明がありません",
-            coverImage: volumeInfo.imageLinks?.thumbnail || "", // 画像URL
-            quantity: 1, // 数量のデフォルト値（必要なら変更）
-            publisher: volumeInfo.publisher || "出版会社情報がありません",
+            author: volumeInfo.author || "著者情報がありません",
+            description: volumeInfo.itemCaption || "説明がありません",
+            thumbnail: volumeInfo.largeImageUrl || "",
+            publisher: volumeInfo.publisherName || "出版会社情報がありません",
+            stock: 1, // 数量のデフォルト値
+            available: 1, // 数量のデフォルト値
           };
-          setBookInfo(fetchedBook); // 本の情報をまとめて状態にセット
+          setBookInfo(fetchedBook); // 本の情報をセット
         } else {
           setBookInfo({
-            isbn: "",
+            id: isbn,
             title: "タイトルが見つかりません",
             author: "著者情報がありません",
-            publishedDate: new Date(),
             description: "説明がありません",
-            coverImage: "",
-            quantity: 0,
+            thumbnail: "",
             publisher: "出版会社情報がありません",
+            stock: 0,
+            available: 0,
           });
         }
       } catch (error) {
@@ -86,19 +68,33 @@ const Page = () => {
             <>
               <p>名前: {bookInfo.title}</p>
               <p>著者: {bookInfo.author}</p>
-              <p>出版日: {bookInfo.publishedDate.toLocaleDateString()}</p>
               <p>isbn: {isbn}</p>
-              <p>説明: {bookInfo.description}</p>
+              <p>説明: {bookInfo.description.substring(0, 100) + "..."}</p>
               <p>出版社: {bookInfo.publisher}</p>
+              <p>在庫: {bookInfo.stock}</p>
+              <p>貸出可能: {bookInfo.available}</p>
               <BookEditor bookInfo={bookInfo} />
-              {bookInfo.coverImage && bookInfo.coverImage !== "" && (
+              {bookInfo.thumbnail ? (
                 <Image
-                  src={bookInfo.coverImage}
+                  src={bookInfo.thumbnail}
                   alt="Book Cover"
-                  width={100}
-                  height={100}
+                  width={200}
+                  height={300}
                 />
+              ) : (
+                <p>サムネイル画像なし</p>
               )}
+              <button
+                onClick={() =>
+                  fetch(`/api/books`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(bookInfo),
+                  })
+                }
+              >
+                この本を登録
+              </button>
             </>
           ) : (
             <p>本の情報が見つかりませんでした。ISBNを確認してください。</p>

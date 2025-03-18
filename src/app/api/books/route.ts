@@ -2,28 +2,29 @@
 import { NextResponse } from 'next/server';
 import { db, auth } from '@/src/lib/firebaseAdmin'; // Firebase設定
 import { DocumentSnapshot } from 'firebase-admin/firestore';
+import type { Book } from "@/src/types/book";
 
 // 管理者権限をチェックするヘルパー関数
 async function checkAdmin(request: Request) {
-  const authHeader = request.headers.get('Authorization');
+  const authHeader = request.headers.get("Authorization");
   if (!authHeader) {
-    throw new Error('Authorization header is missing');
+    throw new Error("Authorization header is missing");
   }
 
-  const token = authHeader.split(' ')[1];
+  const token = authHeader.split(" ")[1];
   const decodedToken = await auth.verifyIdToken(token);
   if (!decodedToken.admin) {
-    throw new Error('User is not an admin');
+    throw new Error("User is not an admin");
   }
 }
 
 // GET: 本のリストを取得する
 export async function GET() {
   try {
-    const snapshot = await db.collection('books').get();
+    const snapshot = await db.collection("books").get();
     const books = snapshot.docs.map((doc: DocumentSnapshot) => ({
       id: doc.id,
-      ...doc.data()
+      ...doc.data(),
     }));
     return NextResponse.json(books);
   } catch (error) {
@@ -35,16 +36,19 @@ export async function GET() {
 // POST: 新しい本を登録する
 export async function POST(request: Request) {
   try {
-    await checkAdmin(request);
-    const { title, author, publisher, genre } = await request.json();
-    const newBook = await db.collection('books').add({
-      title,
-      author,
-      publisher,
-      genre,
-      createdAt: new Date(),
-    });
-    return NextResponse.json({ id: newBook.id });
+    // await checkAdmin(request);
+    const book: Book = await request.json();
+
+    if (!book.title || !book.author || !book.id) {
+      return NextResponse.json(
+        { message: "Missing required fields" },
+        { status: 400 }
+      );
+    }
+
+    await db.collection("books").doc(book.id).set(book);
+
+    return NextResponse.json({ id: book.id }, { status: 201 });
   } catch (error) {
     console.error("Error creating book:", error);
     return NextResponse.error();
