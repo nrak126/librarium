@@ -1,7 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import Icon from "../../../public/icon.svg";
+import  Image  from "next/image";
+import Icon from "@/public/icon.svg";
 
 export default function Page() {
   const [signIn, setSignIn] = useState(false);
@@ -22,7 +23,7 @@ export default function Page() {
         flexDirection: "column",
       }}
     >
-      <img
+      {/* <img
         src="/icon.svg"
         alt="icon"
         style={{
@@ -31,7 +32,8 @@ export default function Page() {
           width: "55%",
           height: "25%",
         }}
-      />
+      /> */}
+      <Image src={Icon} alt={'librariumのアイコン'} width={210} height={210} />
       <button
         onClick={SignIn}
         style={{
