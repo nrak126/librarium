@@ -3,17 +3,16 @@
     height: 100vh;
   }
   
-  .main{
+  .main {
     background-color: #FFFBF5;
     display: flex;
     justify-content: center;
-    /* align-items: center; */
-    height: 89vh;
     width: 100%;
-    border-radius: 39px 39px     0 0;
+    border-radius: 39px 39px  0;
   }
   
   .mainContents {
     margin-top: 4vh;
+    width: 100%;
+    min-height:100vh; 
   }
- 
