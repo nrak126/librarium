@@ -6,6 +6,11 @@ import { Icon } from "@iconify/react";
 export const SearchBar: React.FC = () => {
   const [searchName, setSearchName] = useState("");
 
+  const onSearch = () => {
+    console.log("検索ボタンが押されました");
+    // ここに検索処理を書く
+  };
+
   return (
     <div className={style.contents}>
       <div className={style.searchContainer}>
@@ -18,7 +23,11 @@ export const SearchBar: React.FC = () => {
             setSearchName(event.target.value);
           }}
         />
-        <Icon icon="bi:search" className={style.searchIcon} />
+        <Icon
+          icon="bi:search"
+          className={style.searchIcon}
+          onClick={onSearch}
+        />
       </div>
     </div>
   );
