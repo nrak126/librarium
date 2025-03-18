@@ -1,0 +1,23 @@
+/* スライドの下部にページネーションを配置 */
+.swiper-pagination {
+  display: flex;
+  justify-content: center;
+  gap: 3px; /* ドット間の隙間 */
+  position: relative; 
+  padding: 25px 0!important;
+}
+
+/* ページネーションのドットのスタイル */
+.swiper-pagination-bullet {
+  width: 12px; /* ドットの大きさ */
+  height: 12px; /* ドットの高さ */
+  background-color: rgba(0, 0, 0, 0.5); /* ドットの色 */
+  border-radius: 50%; /* 丸くする */
+  transition: background-color 0.3s ease;
+}
+
+/* アクティブなドットの色 */
+.swiper-pagination-bullet-active {
+  background-color: #C7B095; /* アクティブなドットの色 */
+}
+
