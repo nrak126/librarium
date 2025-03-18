@@ -1,64 +1,33 @@
-"use client";
-
-import { useEffect, useState } from "react";
-import { Book } from "@/src/types/book";
+// app/book/[id]/page.tsx
 import Image from "next/image";
-import { useParams } from "next/navigation";
+import { Book } from "@/src/types/book";
 
-export default function Page() {
-  const params = useParams<{ id: string }>();
-  const id = params.id;
+export default async function Page({ params }: { params: { id: string } }) {
+  const { id } = await params;
+  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/books/${id}`, {
+    cache: "no-store",
+  });
 
-  const [bookInfo, setBookInfo] = useState<Book | null>(null);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-
-    const fetchBook = async () => {
-      try {
-        const res = await fetch(`/api/books/${id}`);
-        if (!res.ok) {
-          throw new Error(`HTTP error! status: ${res.status}`);
-        }
-        const book: Book = await res.json();
-        console.log("取得した本:", book);
-        
-        setBookInfo(book);
-      } catch (err: unknown) {
-        console.error("エラー:", err);
-        setError("データの取得に失敗しました。");
-      }
-    };
-
-    fetchBook();
-  }, [id]);
-
-  if (error) {
-    return <div>{error}</div>;
+  if (!res.ok) {
+    // ここでエラーハンドリング（404ページ返すとか）
+    throw new Error(`HTTP error! status: ${res.status}`);
   }
 
-  if (!bookInfo) {
-    return <div>読み込み中...</div>;
-  }
+  const book: Book = await res.json();
 
   return (
     <div>
-      <h1>{bookInfo.title}</h1>
-      <p>著者: {bookInfo.author}</p>
-      <p>説明: {bookInfo.description}</p>
-      <p>ISBN: {bookInfo.id}</p>
-      <p>出版社: {bookInfo.publisher}</p>
-      <p>在庫数: {bookInfo.stock}</p>
-      {bookInfo.thumbnail ? (
-        <Image
-          src={bookInfo.thumbnail}
-          alt={bookInfo.title}
-          width={200}
-          height={300}
-        />
+      <h1>{book.title}</h1>
+      <p>著者: {book.author}</p>
+      <p>説明: {book.description}</p>
+      <p>ISBN: {book.id}</p>
+      <p>出版社: {book.publisher}</p>
+      <p>在庫数: {book.stock}</p>
+      {book.thumbnail ? (
+        <Image src={book.thumbnail} alt={book.title} width={200} height={300} />
       ) : (
         <p>サムネイル画像なし</p>
       )}
     </div>
   );
-};
+}
