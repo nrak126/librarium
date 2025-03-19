@@ -25,6 +25,7 @@
         .bar:nth-child(3) {
             transform: rotate(-45deg) translate(6px, -6px);
         }
+        
     }
 }
 
@@ -45,10 +46,11 @@
 // メニューが開いたときにオーバーレイを表示
 .overlay.show {
     opacity: 1;
-    visibility: visible;
+    visibility: visible;    
 }
 
 .navItems{
+    display: flex;
     list-style: none;
     padding: 0;
     margin: 0;
@@ -56,12 +58,13 @@
     right: -100%; 
     top:-1%;
     z-index: 99;
-    width: 80%; 
+    width: 84%; 
     height: 102%;
     background-color:#BB9C77;
     flex-direction: column;
     transition: right 0.3s ease; /* スライド効果 */
     border-radius: 40px 0 0 40px;
+   
     &.show {
         right: 0 ;
     }
@@ -69,18 +72,62 @@
 
 .navItem {
     margin: 10px 0;
-    text-align: center;
+    text-align: left;
+    margin-top: 10%;
+    
+
 
     a {
-        color:black;
+        color:#FFFBF5;
         text-decoration: none;
-        font-size: 18px;
+        font-size: 25px;
         display: block;
         transition: background-color 0.3s;
+        margin-left: 23vw;
 
         &:hover {
             background-color: #555;
         }
     }
 }
+.specialClass{
+    text-align: center !important;
+    margin-right: 23vw;
+}
 
+.circle{
+    text-align: center;
+    margin-left: 11vw;
+    margin-top: 5vh;
+}
+.circle1{//円
+    width: 220px;
+    height: 220px;
+    border-radius: 50%;
+    background:#FFFBF5;/*背景色*/
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.circle2{
+    width: 190px;
+    height: 190px;
+    text-align:center;
+    border-radius: 50%;
+    border: solid 3px #BB9C77;
+    position: relative;
+    left:15px;
+    top:7%;
+  }
+
+.navOll{
+    margin-top: 5vh;//文字と円の間
+}
+
+.icon{
+    position: relative;
+    top:1vh;
+    right:9vw;
+}
+.specialIcon{
+    right: 16vw !important;
+}
