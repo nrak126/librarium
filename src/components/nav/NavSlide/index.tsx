@@ -19,7 +19,7 @@ import Icon5 from "@/src/components/nav/NavIcon/Img/add.svg";
 const iconData = [
   { id: 1, name: "貸出", iconUrl: Icon1, link: "/books/rental" },
   { id: 2, name: "返却", iconUrl: Icon2, link: "/books/return" },
-  { id: 3, name: "利用者一覧", iconUrl: Icon3, link: "/user" },
+  { id: 3, name: "利用者一覧", iconUrl: Icon3, link: "/users" },
   { id: 4, name: "書籍一覧", iconUrl: Icon4, link: "/books" },
   { id: 5, name: "新しい本の追加", iconUrl: Icon5, link: "/books/add" },
 ];

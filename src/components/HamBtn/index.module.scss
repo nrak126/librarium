@@ -5,8 +5,7 @@
     position: relative;
     z-index: 100;
     margin-top: 16%;
-    margin-left: 38vw
-;
+    margin-left: 38vw;
     .bar {
         width: 30px;
         height: 3px;
@@ -50,6 +49,7 @@
 }
 
 .navItems{
+    overflow: hidden; /* はみ出さないようにする */
     display: flex;
     list-style: none;
     padding: 0;
@@ -68,7 +68,9 @@
     &.show {
         right: 0 ;
     }
+   
 }
+
 
 .navItem {
     margin: 10px 0;
@@ -77,17 +79,36 @@
     
 
 
-    a {
+    span {
         color:#FFFBF5;
         text-decoration: none;
         font-size: 25px;
         display: block;
-        transition: background-color 0.3s;
+        position: relative;
+        transition: color 0.3s;
+        border-radius: 100px;
         margin-left: 23vw;
+        transition: color 0.3s, margin-left 0.3s;
+    }
+    
+    &:active span {
+       margin-left: 1px;
+    }
+     span::after {
+        content: "";
+        position: absolute;
+        bottom: -16%;
+        left: -24%;//線の位置
+        width: 0;
+        height: 3px; /* 線の太さ */
+        background-color: #FFFBF5;
+        transition: width 0.3s ease, left 0.3s ease; 
+        
+    }
 
-        &:hover {
-            background-color: #555;
-        }
+    &:active span::after {
+        width: 100%; /* クリック時に線を半分に縮める */
+        left: 7%; /* 線が中央に配置されるように調整 */
     }
 }
 .specialClass{
