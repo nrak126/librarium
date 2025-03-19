@@ -3,7 +3,11 @@ import React, { useState } from "react";
 import style from "./index.module.scss";
 import { Icon } from "@iconify/react";
 
-export const SearchBar: React.FC = () => {
+interface SearchBarProps {
+  func?: string;
+}
+
+export const SearchBar: React.FC<SearchBarProps> = ({ func = "書籍検索" }) => {
   const [searchName, setSearchName] = useState("");
 
   const onSearch = () => {
@@ -16,7 +20,7 @@ export const SearchBar: React.FC = () => {
       <div className={style.searchContainer}>
         <input
           type="text"
-          placeholder="書籍検索"
+          placeholder={func}
           value={searchName}
           className={style.searchBar}
           onChange={(event) => {
