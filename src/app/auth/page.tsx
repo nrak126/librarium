@@ -7,12 +7,16 @@ import styles from "./auth.module.scss";
 import { useRouter } from "next/navigation";
 
 export default function Page() {
-  const [signIn, setSignIn] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [login, setLogin] = useState(false);
   const router = useRouter();
 
-  const handleSignIn = () => {
-    setSignIn(true);
-    console.log("SignInボタンが押されました", signIn);
+  const handleLogin = () => {
+    setLoading(true);
+    //ログイン完了
+    setLogin(true);
+    setLoading(false);
+    console.log("loginボタンが押されました", login);
     router.push("/");
   };
 
@@ -25,10 +29,15 @@ export default function Page() {
         width={230}
         height={230}
         className={styles.icon}
+        priority
       />
 
-      <button onClick={handleSignIn} className={styles.signInBtn}>
-        ログイン
+      <button
+        onClick={handleLogin}
+        className={styles.loginBtn}
+        disabled={loading}
+      >
+        {loading ? "ログイン中..." : "ログイン"}
       </button>
     </div>
   );
