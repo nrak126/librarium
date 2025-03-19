@@ -2,6 +2,7 @@
     display: flex;
     flex-direction: column;
     cursor: pointer;
+    position: relative;
     z-index: 100;
     margin-top: 16%;
     margin-left: 38vw
@@ -27,23 +28,45 @@
     }
 }
 
+// メニューオーバーレイ（背景を暗くする）
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* 半透明の黒 */
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    z-index: 99; /* メニューの下に配置 */
+}
+
+// メニューが開いたときにオーバーレイを表示
+.overlay.show {
+    opacity: 1;
+    visibility: visible;
+}
+
 .navItems{
-    display: flex;
     list-style: none;
     padding: 0;
     margin: 0;
     position: fixed;
-    top: 30%;
-    left: 100%;
-    width: 50%; 
-    height: 100%;
-    background-color:#FFFBF5;
+    right: -100%; 
+    top:-1%;
+    z-index: 99;
+    width: 80%; 
+    height: 102%;
+    background-color:#BB9C77;
     flex-direction: column;
-    transition: left 0.3s ease; /* スライド効果 */
+    transition: right 0.3s ease; /* スライド効果 */
+    border-radius: 40px 0 0 40px;
     &.show {
-        left: 0;
+        right: 0 ;
     }
 }
+
 .navItem {
     margin: 10px 0;
     text-align: center;

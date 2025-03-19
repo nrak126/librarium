@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import style from "./index.module.scss";
 
 export const HamBtn: React.FC = () => {
-  const [navOpen, setnavOpen] = useState(false);
-  const toggleMenu = () => setnavOpen(!navOpen);
-
+  const [navOpen, setNavOpen] = useState(false);
+  const toggleMenu = () => setNavOpen(!navOpen);
+  const closeMenu = () => setNavOpen(false);
   const navItems = [
     { href: "#rental", label: "貸出" },
     { href: "#return", label: "返却" },
@@ -23,6 +23,12 @@ export const HamBtn: React.FC = () => {
         <div className={style.bar}></div>
         <div className={style.bar}></div>
       </div>
+
+      {/* オーバーレイ */}
+      <div
+        className={`${style.overlay} ${navOpen ? style.show : ""}`}
+        onClick={closeMenu} // クリックでメニューを閉じる
+      ></div>
 
       {/* メニューアイテムの表示 */}
 
