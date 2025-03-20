@@ -1,0 +1,68 @@
+@import url("https://fonts.googleapis.com/css2?family=Alegreya+Sans+SC:ital,wght@0,100;0,300;0,400;0,500;0,700;0,800;0,900;1,100;1,300;1,400;1,500;1,700;1,800;1,900&family=BIZ+UDPGothic&family=Changa+One:ital@0;1&display=swap");
+
+.all {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .whole {
+    margin: 0.5%;
+    background-color: #f4e9d7;
+    width: 90%;
+    border-radius: 12;
+    padding: 4%;
+
+    .icon {
+      align-items: baseline;
+      float: left;
+      border: 4px solid#bb9c77;
+      border-radius: 50;
+    }
+
+    .sub {
+      display: flex;
+      flex-flow: column;
+      .component {
+        .numname {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          margin-left: 5%;
+          margin-top: 2%;
+          font-size: 11px;
+          font-weight: bold;
+          color: #77634b;
+          border-bottom: 1.5px solid #77634b;
+          float: left;
+          width: 37%;
+          padding-bottom: 1%;
+        }
+
+        .level {
+          color: #77634b;
+          font-size: 23;
+          font-family: "Changa One" !important;
+          float: right;
+          border: 5px #77634b;
+        }
+      }
+
+      .tagComp {
+        display: grid;
+        grid-template-columns: repeat(2, auto); /* 2列 */
+        grid-template-rows: repeat(2, auto); /* 2行 */
+        // gap: 5px; /* タグ間の余白 */
+        margin-top: 5px;
+
+        .tag {
+          text-align: left;
+          margin-left: 6%;
+          padding: 1px 6px;
+          color: #77634b;
+          font-size: 11;
+          // text-align: center;
+        }
+      }
+    }
+  }
+}
