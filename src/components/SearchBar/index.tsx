@@ -5,9 +5,13 @@ import { Icon } from "@iconify/react";
 
 interface SearchBarProps {
   func?: string;
+  searchClick?: () => void;
 }
 
-export const SearchBar: React.FC<SearchBarProps> = ({ func = "書籍検索" }) => {
+export const SearchBar: React.FC<SearchBarProps> = ({
+  func = "書籍検索",
+  searchClick,
+}) => {
   const [searchName, setSearchName] = useState("");
 
   const onSearch = () => {
@@ -30,7 +34,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({ func = "書籍検索" }) =
         <Icon
           icon="bi:search"
           className={style.searchIcon}
-          onClick={onSearch}
+          onClick={searchClick}
         />
       </div>
     </div>
