@@ -12,9 +12,9 @@
   margin-bottom: 10vh;
 }
 
-.signInBtn {
+.loginBtn {
   border: 2px solid #826640;
-  border-radius: 30;
+  border-radius: 30px;
   color: #635038;
   height: 4.5vh;
   width: 31vh;
@@ -23,17 +23,10 @@
   font-weight: bold;
   font-size: 23px;
   margin-top: 13vh;
-}
 
-.signUpBtn {
-  border: 2px solid #826640;
-  border-radius: 30;
-  color: #635038;
-  height: 4.5vh;
-  width: 31vh;
-  background: #fffbf5;
-  box-shadow: 1px 1px 4px gray;
-  font-weight: bold;
-  font-size: 23px;
-  margin-top: 4vh;
+  transition: transform 0.3s;
+
+  &:active {
+    transform: scale(1.03);
+  }
 }

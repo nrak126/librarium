@@ -6,16 +6,26 @@ import Icon from "@/public/icon.svg";
 import styles from "./auth.module.scss";
 import { useRouter } from "next/navigation";
 
+import { auth, provider } from "@/src/lib/firebase";
+import { signInWithPopup } from "firebase/auth";
+
 export default function Page() {
-  const [signIn, setSignIn] = useState(false);
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
 
-  const handleSignIn = () => {
-    setSignIn(true);
-    console.log("SignInボタンが押されました", signIn);
-    router.push("/");
+  // Googleアカウントでログイン
+  const handleLogin = () => {
+    setLoading(true);
+    signInWithPopup(auth, provider)
+      .then((result) => {
+        console.log(result);
+        setLoading(false);
+        router.push("/");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
-
 
   return (
     <div className={styles.whole}>
@@ -25,10 +35,15 @@ export default function Page() {
         width={230}
         height={230}
         className={styles.icon}
+        priority
       />
 
-      <button onClick={handleSignIn} className={styles.signInBtn}>
-        ログイン
+      <button
+        onClick={handleLogin}
+        className={styles.loginBtn}
+        disabled={loading}
+      >
+        {loading ? "ログイン中..." : "ログイン"}
       </button>
     </div>
   );
