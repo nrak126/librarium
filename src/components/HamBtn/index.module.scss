@@ -82,7 +82,7 @@
     span {
         color:#FFFBF5;
         text-decoration: none;
-        font-size: 25px;
+        font-size: 23px;
         display: block;
         position: relative;
         transition: color 0.3s;
@@ -134,7 +134,7 @@
     height: 190px;
     text-align:center;
     border-radius: 50%;
-    border: solid 3px #BB9C77;
+    border: solid 2px #BB9C77;
     position: relative;
     left:15px;
     top:7%;
@@ -147,8 +147,24 @@
 .icon{
     position: relative;
     top:1vh;
-    right:9vw;
+    right:10vw;
 }
 .specialIcon{
     right: 16vw !important;
+}
+
+.user{
+    margin-top: 20%;
+}
+
+.userIcon{
+    border-radius: 50%;
+}
+
+.userName{
+    color: #635038;
+    margin-top: 7%;
+    border-bottom: 1px solid #635038;
+    display: inline-block;
+    font-size: 15px;
 }

@@ -9,6 +9,7 @@ import Icon3 from "@/src/components/HamBtn/Img/user_side.svg";
 import Icon4 from "@/src/components/HamBtn/Img/books_side.svg";
 import Icon5 from "@/src/components/HamBtn/Img/add_side.svg";
 import Image from "next/image";
+import userIcon from "@/src/components/HamBtn/Img/fu_icon.jpg";
 
 export const HamBtn: React.FC = () => {
   const [navOpen, setNavOpen] = useState(false);
@@ -62,7 +63,19 @@ export const HamBtn: React.FC = () => {
       <ul className={`${style.navItems} ${navOpen ? style.show : ""}`}>
         <div className={style.circle}>
           <div className={style.circle1}>
-            <div className={style.circle2}></div>
+            <div className={style.circle2}>
+              <div className={style.user}>
+                <Image
+                  className={style.userIcon}
+                  alt={"user"}
+                  src={userIcon}
+                  width={70}
+                  height={70}
+                />
+                <p className={style.userName}>k24142矢部大地</p>
+                {/* あとでプロップス */}
+              </div>
+            </div>
           </div>
         </div>
         <div className={style.navOll}>
