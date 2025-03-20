@@ -2,6 +2,7 @@
 
 import styles from "./users.module.scss";
 import { SearchBar } from "../../components/SearchBar/index";
+import UsersId from "../../components/Users/index";
 
 export default function Page() {
   return (
@@ -15,6 +16,10 @@ export default function Page() {
       </div>
 
       <div className={styles.myprofile}>MY PROFILE</div>
+
+      <div>
+        <UsersId />
+      </div>
 
       {/* <div className={styles.userProfile}>
         <div className={styles.icon}>アイコン</div>
