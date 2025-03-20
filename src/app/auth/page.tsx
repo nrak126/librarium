@@ -11,25 +11,21 @@ import { signInWithPopup } from "firebase/auth";
 
 export default function Page() {
   const [loading, setLoading] = useState(false);
-  const [login, setLogin] = useState(false);
   const router = useRouter();
 
+  // Googleアカウントでログイン
   const handleLogin = () => {
     setLoading(true);
-    //ログイン完了
-    setLogin(true);
-    setLoading(false);
-    console.log("loginボタンが押されました", login);
     signInWithPopup(auth, provider)
       .then((result) => {
         console.log(result);
+        setLoading(false);
+        router.push("/");
       })
       .catch((error) => {
         console.log(error);
       });
-    // router.push("/");
   };
-
 
   return (
     <div className={styles.whole}>
