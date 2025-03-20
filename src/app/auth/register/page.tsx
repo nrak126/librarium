@@ -1,8 +1,7 @@
 "use client";
-
 import { useState } from "react";
 import Icon from "@/public/icon.svg";
-import styles from "./singup.module.scss";
+import styles from "./register.module.scss";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
