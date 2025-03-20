@@ -6,6 +6,9 @@ import Icon from "@/public/icon.svg";
 import styles from "./auth.module.scss";
 import { useRouter } from "next/navigation";
 
+import { auth, provider } from "@/src/lib/firebase";
+import { signInWithPopup } from "firebase/auth";
+
 export default function Page() {
   const [loading, setLoading] = useState(false);
   const [login, setLogin] = useState(false);
@@ -17,7 +20,14 @@ export default function Page() {
     setLogin(true);
     setLoading(false);
     console.log("loginボタンが押されました", login);
-    router.push("/");
+    signInWithPopup(auth, provider)
+      .then((result) => {
+        console.log(result);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    // router.push("/");
   };
 
 
