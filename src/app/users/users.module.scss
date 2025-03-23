@@ -1,4 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Alegreya+Sans+SC:ital,wght@0,100;0,300;0,400;0,500;0,700;0,800;0,900;1,100;1,300;1,400;1,500;1,700;1,800;1,900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Alegreya+Sans+SC:ital,wght@0,100;0,300;0,400;0,500;0,700;0,800;0,900;1,100;1,300;1,400;1,500;1,700;1,800;1,900&family=BIZ+UDPGothic&family=Changa+One:ital@0;1&display=swap");
 
 .whole {
   display: flex;
@@ -29,6 +30,7 @@
   padding-left: 1.3vh;
   color: #635038;
   margin-top: 1.3vh;
+  margin-bottom: 3%;
   font-size: 1.9vh;
   font-family: "Alegreya Sans SC" !important;
   border-bottom: 1.5px solid #635038;
@@ -40,13 +42,27 @@
   flex-direction: column;
 }
 
-.sabtitle {
+.titleAll {
   color: #635038;
-  font-size: 11px;
-  font-weight: bold;
+  font-size: 15px;
+  font-weight: 500;
+  font-family: "Alegreya Sans SC" !important;
+  margin-top: 3%;
   margin-left: 10%;
   margin-bottom: 3%;
-  padding-bottom: 0.5%;
-  border-bottom: 1.5px solid #635038;
-  width: 10%;
+  letter-spacing: 1px;
+  border-bottom: 1px solid #635038;
+  width: 9%;
+}
+
+.titleSearch {
+  color: #635038;
+  font-size: 15px;
+  font-weight: 500;
+  font-family: "Alegreya Sans SC" !important;
+  margin-top: 3%;
+  margin-left: 10%;
+  margin-bottom: 3%;
+  border-bottom: 1px solid #635038;
+  width: 15%;
 }

@@ -1,4 +1,4 @@
-import sampleData from "./sampleData";
+import { userId } from "./userId";
 import styles from "./userData.module.scss";
 import Image from "next/image";
 import Icon from "@/public/icon.svg";
@@ -7,7 +7,7 @@ function UserDate() {
   return (
     <>
       <div className={styles.all}>
-        {sampleData.map((data, index) => {
+        {userId.map((data, index) => {
           return (
             <div key={index} className={styles.whole}>
               <Image
