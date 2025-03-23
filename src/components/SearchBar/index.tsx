@@ -1,22 +1,37 @@
 "use client";
-import React, { useState } from "react";
+
 import style from "./index.module.scss";
 import { Icon } from "@iconify/react";
+import { useState } from "react";
 
 interface SearchBarProps {
   func?: string;
-  searchClick?: () => void;
+  clickBy?: string;
+  setSearchCilck: (value: boolean) => void;
+  searchCilck: boolean;
 }
 
 export const SearchBar: React.FC<SearchBarProps> = ({
   func = "書籍検索",
-  searchClick,
+  clickBy = "homeSearch",
+  setSearchCilck,
+  searchCilck,
 }) => {
   const [searchName, setSearchName] = useState("");
 
-  const onSearch = () => {
-    console.log("検索ボタンが押されました");
-    // ここに検索処理を書く
+  const handleSearch = () => {
+    setSearchCilck(true);
+    console.log("検索ボタンが押されました。");
+    console.log(`検索ワード：${searchName}`);
+    if (clickBy === "homeSearch") {
+      // 個別の検索処理を実行
+      console.log(`setSearchClick: ${searchCilck}, homeSearch`);
+    }
+
+    if (clickBy === "usersSearch") {
+      // 個別の検索処理を実行
+      console.log(`setSearchClick: ${searchCilck}, usersSearch`);
+    }
   };
 
   return (
@@ -34,7 +49,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({
         <Icon
           icon="bi:search"
           className={style.searchIcon}
-          onClick={searchClick}
+          onClick={handleSearch}
         />
       </div>
     </div>
