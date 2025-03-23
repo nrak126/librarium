@@ -1,0 +1,20 @@
+.BookImg {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
+.Img {
+  background-color: #f4e9d7;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px;
+  border-radius: 10px;
+  font-size: 14px;
+  width: 170px;
+  height: 220px;
+  top: 30px;
+  box-shadow: 0px 3px 8px 1px rgb(27 55 99 / 25%);
+  position: relative;
+}
