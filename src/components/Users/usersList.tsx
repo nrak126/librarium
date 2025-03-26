@@ -1,9 +1,9 @@
 import sampleData from "./sampleData";
-import styles from "./index.module.scss";
+import styles from "./usersList.module.scss";
 import Image from "next/image";
 import Icon from "@/public/icon.svg";
 
-function UsersId() {
+function UsersList() {
   return (
     <>
       <div className={styles.all}>
@@ -44,4 +44,4 @@ function UsersId() {
   );
 }
 
-export default UsersId;
+export default UsersList;
