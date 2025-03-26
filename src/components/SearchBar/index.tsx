@@ -2,13 +2,15 @@
 
 import style from "./index.module.scss";
 import { Icon } from "@iconify/react";
-import { useState } from "react";
+
 
 interface SearchBarProps {
   func?: string;
   clickBy?: string;
   setSearchCilck: (value: boolean) => void;
   searchCilck: boolean;
+  setSearchName: (value: string) => void;
+  searchName: string;
 }
 
 export const SearchBar: React.FC<SearchBarProps> = ({
@@ -16,13 +18,16 @@ export const SearchBar: React.FC<SearchBarProps> = ({
   clickBy = "homeSearch",
   setSearchCilck,
   searchCilck,
+  setSearchName,
+  searchName,
 }) => {
-  const [searchName, setSearchName] = useState("");
 
   const handleSearch = () => {
+
     setSearchCilck(true);
     console.log("検索ボタンが押されました。");
-    console.log(`検索ワード：${searchName}`);
+    // console.log(`検索ワード：${searchName}`);
+
     if (clickBy === "homeSearch") {
       // 個別の検索処理を実行
       console.log(`setSearchClick: ${searchCilck}, homeSearch`);
