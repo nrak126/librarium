@@ -13,7 +13,7 @@ export const GetIsbn = () => {
       // isbn が設定されたら遷移
       router.push(`/books/rental/${isbn}`);
     }
-  }, [isbn]);
+  }, [isbn, router]);
 
   return <>{isbn ? <p>{isbn}</p> : <Barcode setIsbn={setIsbn} />}</>;
 };
