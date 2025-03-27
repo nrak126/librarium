@@ -11,13 +11,15 @@ export default function BooksList() {
 
 console.log("pathname:", pathname);
   useEffect(() => {
-    (async () => {
+    const fetchBooks = async () => {
       const response = await fetch("/api/books");
-      const data = await response.json();
+      const data: Book[] = await response.json();
       setBooks(data);
-    })();
+      console.log("Fetched books:", data);
+    };
+    fetchBooks();
   }, []);
-
+  
   return (
     <ul>
       {books.map((book) => (

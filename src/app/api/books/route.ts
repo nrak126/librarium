@@ -3,6 +3,7 @@ import { NextResponse } from 'next/server';
 import { db, auth } from '@/src/lib/firebaseAdmin'; // Firebase設定
 import { DocumentSnapshot } from 'firebase-admin/firestore';
 import type { Book } from "@/src/types/book";
+import { supabase } from "@/src/lib/supabase";
 
 // 管理者権限をチェックするヘルパー関数
 async function checkAdmin(request: Request) {
@@ -21,12 +22,11 @@ async function checkAdmin(request: Request) {
 // GET: 本のリストを取得する
 export async function GET() {
   try {
-    const snapshot = await db.collection("books").get();
-    const books = snapshot.docs.map((doc: DocumentSnapshot) => ({
-      id: doc.id,
-      ...doc.data(),
-    }));
-    return NextResponse.json(books);
+    const { data, error } = await supabase.from("books").select("*");
+    if (error) {
+      throw error;
+    }
+    return NextResponse.json(data);
   } catch (error) {
     console.error("Error fetching books:", error);
     return NextResponse.error();
