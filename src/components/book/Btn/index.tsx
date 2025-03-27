@@ -6,7 +6,7 @@ import classes from "./index.module.scss";
 interface BtnProps {
   text: string;
   bgColor: string;
-  handleClick: () => void;
+  handleClick?: () => void;
 }
 
 export const Btn: React.FC<BtnProps> = ({

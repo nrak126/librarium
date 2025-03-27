@@ -2,7 +2,6 @@
 
 import React from "react";
 import classes from "./index.module.scss";
-import Image from "next/image";
 import { Book } from "@/src/types/book";
 import { BookCard } from "../BookCard";
 
