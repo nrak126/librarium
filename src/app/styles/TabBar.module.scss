@@ -1,10 +1,10 @@
-:global(.tabs) {
-    width: 100%;
-    margin: auto;
-    padding: 0;
-
+:global {
+    .tabs {
+      width: 100%;
+      margin: auto;
+      padding: 0;
+    }
   }
-  
   .tabList {
     display: flex;
     justify-content: center;
