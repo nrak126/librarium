@@ -9,7 +9,6 @@ import { RentalTime } from "../components/book/RentalTime";
 
 export default function Home() {
   const [searchClick, setSearchClick] = useState(false);
-  const [searchName, setSearchName] = useState("");
 
   return (
     <>

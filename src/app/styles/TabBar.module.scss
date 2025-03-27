@@ -1,8 +1,10 @@
-:global(.tabs) {
+/* TabBar.module.scss */
+
+/* ローカルスタイルでの修正 */
+.tabs {
     width: 100%;
     margin: auto;
     padding: 0;
-
   }
   
   .tabList {
@@ -13,28 +15,29 @@
   }
   
   .tab {
-    padding: 10px 15px; 
-    margin: 0 3%; /* タブ間の間隔を調整 */
+    padding: 10px 15px;
+    margin: 0 3%;
     font-size: 14px;
     font-weight: bold;
     color: #c2ac9d;
     transition: color 0.3s, border-bottom 0.3s;
-    outline: none; 
-  }
-  .tab:focus {
-    outline: none; /* キーボード操作時の青枠をなくす */
+    outline: none;
   }
   
-
+  .tab:focus {
+    outline: none;
+  }
+  
   .tabSelected {
     color: #635038;
     position: relative;
   }
-  .tabSelected::after{
+  
+  .tabSelected::after {
     content: "";
     width: 76%;
     height: 7%;
-    background-color: #BB9C77;
+    background-color: #bb9c77;
     border-radius: 16px;
     position: absolute;
     top: 28px;
