@@ -20,25 +20,25 @@ type User = {
 export function SearchState() {
   const [searchClick, setSearchClick] = useState(false);
   const [searchName, setSearchName] = useState("");
-  const [result, setResult] = useState<User[]>([]);
+  // const [result, setResult] = useState<User[]>([]);
+  let result: User[] = [];
   const [searchWordClick, setSearchWordClick] = useState(false);
+  // let searchWordClick: Boolean | undefined = false;
 
   useEffect(() => {
     if (searchWordClick === true) {
       const filteredUsers = sampleData.filter((user) =>
         user.tag.includes(searchName)
       );
-      setResult(filteredUsers);
+      result = filteredUsers;
 
       console.log(`検索ワード：${searchName}`);
       console.log(result);
-
-      setSearchWordClick(false);
     }
-  }, [searchWordClick]);
+  }, [searchWordClick, searchName]);
   return (
     <>
-     <div className={styles.whole}>
+      <div className={styles.whole}>
         <div className={styles.title}>利用者一覧</div>
         <div className={styles.bar}>
           <SearchBar
@@ -48,7 +48,7 @@ export function SearchState() {
             setSearchClick={setSearchClick}
             searchName={searchName}
             setSearchName={setSearchName}
-            setSearchWordClick={setSearchClick}
+            setSearchWordClick={setSearchWordClick}
             searchWordClick={searchWordClick}
           />
         </div>
