@@ -7,6 +7,7 @@ import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import styles from "./styles/TabBar.module.scss";
 import { RentalTime } from "../components/book/RentalTime";
 import { BookRec } from "../components/book/BookRec";
+import { BookRanking } from "../components/book/BookRanking";
 
 export default function Home() {
   const [searchClick, setSearchClick] = useState(false);
@@ -30,7 +31,7 @@ export default function Home() {
         </TabList>
 
         <TabPanel>
-          <h2>Any content 1</h2>
+          <BookRanking />
         </TabPanel>
         <TabPanel>
           <RentalTime />
