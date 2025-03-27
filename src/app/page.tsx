@@ -6,6 +6,7 @@ import { NavSlide } from "../components/nav/NavSlide";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import styles from "./styles/TabBar.module.scss";
 import { RentalTime } from "../components/book/RentalTime";
+import { BookRec } from "../components/book/BookRec";
 
 export default function Home() {
   const [searchClick, setSearchClick] = useState(false);
@@ -35,7 +36,7 @@ export default function Home() {
           <RentalTime />
         </TabPanel>
         <TabPanel>
-          <h2>Any content 2</h2>
+          <BookRec />
         </TabPanel>
       </Tabs>
     </>
