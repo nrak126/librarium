@@ -2,40 +2,51 @@
 
 import style from "./index.module.scss";
 import { Icon } from "@iconify/react";
-
+import sampleData from "../Users/sampleData";
 
 interface SearchBarProps {
   func?: string;
   clickBy?: string;
-  setSearchCilck: (value: boolean) => void;
-  searchCilck: boolean;
-  setSearchName: (value: string) => void;
-  searchName: string;
+  setSearchClick?: (value: boolean) => void;
+  searchClick?: boolean;
+  setSearchName?: (value: string) => void;
+  searchName?: string;
+  setSearchWordClick?: (value: boolean) => void;
+  searchWordClick?: boolean;
 }
 
 export const SearchBar: React.FC<SearchBarProps> = ({
   func = "書籍検索",
   clickBy = "homeSearch",
-  setSearchCilck,
-  searchCilck,
+  setSearchClick,
+  searchClick,
   setSearchName,
   searchName,
+  setSearchWordClick,
+  searchWordClick,
 }) => {
-
   const handleSearch = () => {
-
-    setSearchCilck(true);
+    if (setSearchClick) {
+      setSearchClick(true);
+    }
+    if (setSearchWordClick) {
+      setSearchWordClick(true);
+    }
     console.log("検索ボタンが押されました。");
     // console.log(`検索ワード：${searchName}`);
 
     if (clickBy === "homeSearch") {
       // 個別の検索処理を実行
-      console.log(`setSearchClick: ${searchCilck}, homeSearch`);
+      console.log(
+        `SearchClick: ${searchClick},SearchWordClick: ${searchWordClick}, homeSearch`
+      );
     }
 
     if (clickBy === "usersSearch") {
       // 個別の検索処理を実行
-      console.log(`setSearchClick: ${searchCilck}, usersSearch`);
+      console.log(
+        `setSearchClick: ${searchClick}, SearchWordClick: ${searchWordClick}, usersSearch`
+      );
     }
   };
 
@@ -48,7 +59,9 @@ export const SearchBar: React.FC<SearchBarProps> = ({
           value={searchName}
           className={style.searchBar}
           onChange={(event) => {
-            setSearchName(event.target.value);
+            if (setSearchName) {
+              setSearchName(event.target.value);
+            }
           }}
         />
         <Icon
