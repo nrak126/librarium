@@ -1,21 +1,41 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styles from "./users.module.scss";
-import { SearchBar } from "../../components/SearchBar/index";
+import { SearchBar } from "../../components/SearchBar";
 import UsersList from "../../components/Users/usersList";
 import UserDate from "@/src/components/Users/userData";
 import { TagSearch } from "@/src/components/Users/TagSearch";
 import sampleData from "@/src/components/Users/sampleData";
 
+type User = {
+  usernum: number;
+  icon: string;
+  num: string;
+  name: string;
+  level: number;
+  tag: string[];
+};
+
 export default function Page() {
-  const [searchCilck, setSearchCilck] = useState(false);
+  const [searchClick, setSearchClick] = useState(false);
   const [searchName, setSearchName] = useState("");
+  const [result, setResult] = useState<User[]>([]);
+  const [searchWordClick, setSearchWordClick] = useState(false);
 
-  const result = sampleData.filter((user) => user.tag.includes(searchName));
-  console.log(result);
+  useEffect(() => {
+    if (searchWordClick === true) {
+      const filteredUsers = sampleData.filter((user) =>
+        user.tag.includes(searchName)
+      );
+      setResult(filteredUsers);
 
-  console.log(`検索ワード：${searchName}`);
+      console.log(`検索ワード：${searchName}`);
+      console.log(result);
+
+      setSearchWordClick(false);
+    }
+  }, [searchWordClick]);
 
   return (
     <>
@@ -25,19 +45,18 @@ export default function Page() {
           <SearchBar
             func={"ユーザー検索"}
             clickBy="usersSearch"
-            searchCilck={searchCilck}
-            setSearchCilck={setSearchCilck}
+            searchClick={searchClick}
+            setSearchClick={setSearchClick}
             searchName={searchName}
             setSearchName={setSearchName}
+            setSearchWordClick={setSearchWordClick}
+            searchWordClick={searchWordClick}
           />
         </div>
       </div>
-
       <div className={styles.myprofile}>MY PROFILE</div>
-
       <UserDate />
-
-      {searchCilck ? (
+      {searchClick ? (
         <>
           <div className={styles.titleSearch}>SEARCH</div>
           <div>
