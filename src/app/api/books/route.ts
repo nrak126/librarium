@@ -39,16 +39,16 @@ export async function POST(request: Request) {
     // await checkAdmin(request);
     const book: Book = await request.json();
 
-    if (!book.title || !book.author || !book.id) {
+    if (!book.title || !book.author || !book.isbn) {
       return NextResponse.json(
         { message: "Missing required fields" },
         { status: 400 }
       );
     }
 
-    await db.collection("books").doc(book.id).set(book);
+    await db.collection("books").doc(book.isbn).set(book);
 
-    return NextResponse.json({ id: book.id }, { status: 201 });
+    return NextResponse.json({ id: book.isbn }, { status: 201 });
   } catch (error) {
     console.error("Error creating book:", error);
     return NextResponse.error();

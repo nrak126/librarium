@@ -21,10 +21,10 @@ console.log("pathname:", pathname);
   return (
     <ul>
       {books.map((book) => (
-        <li key={book.id}>
+        <li key={book.isbn}>
           <h3>{book.title}</h3>
           <p>{book.author}</p>
-          <Link href={`${pathname}/${book.id}`}>
+          <Link href={`${pathname}/${book.isbn}`}>
             <button>詳細GO</button>
           </Link>
         </li>
