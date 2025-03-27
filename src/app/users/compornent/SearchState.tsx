@@ -20,8 +20,8 @@ type User = {
 export function SearchState() {
   const [searchClick, setSearchClick] = useState(false);
   const [searchName, setSearchName] = useState("");
-  // const [result, setResult] = useState<User[]>([]);
-  let result: User[] = [];
+  const [result, setResult] = useState<User[]>([]);
+
   const [searchWordClick, setSearchWordClick] = useState(false);
   // let searchWordClick: Boolean | undefined = false;
 
@@ -30,10 +30,9 @@ export function SearchState() {
       const filteredUsers = sampleData.filter((user) =>
         user.tag.includes(searchName)
       );
-      result = filteredUsers;
+      setResult(filteredUsers);
 
       console.log(`検索ワード：${searchName}`);
-      console.log(result);
     }
   }, [searchWordClick, searchName]);
   return (

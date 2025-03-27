@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import classes from "./rental.module.scss";
 
 export function Btns() {
-  const isbn = "9784815618599";
+  // onst isbn = "9784815618599";
   const router = useRouter();
 
   return (
