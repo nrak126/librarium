@@ -31,8 +31,8 @@ const Page = () => {
             publisher: volumeInfo.publisherName || "出版会社情報がありません",
             stock: 1, // 数量のデフォルト値
             available: 1, // 数量のデフォルト値
-            tags: volumeInfo.tags, // タグのデフォルト値
-            created_at: volumeInfo.createdAt, // 作成日時
+            tags: [], // タグのデフォルト値
+            created_at: new Date().toISOString(), // 作成日時のデフォルト値
           };
           setBookInfo(fetchedBook); // 本の情報をセット
         } else {
