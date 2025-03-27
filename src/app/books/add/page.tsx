@@ -23,7 +23,7 @@ const Page = () => {
         if (response.data.Items) {
           const volumeInfo = response.data.Items[0].Item;
           const fetchedBook: Book = {
-            id: isbn, // ISBN
+            isbn: isbn, // ISBN
             title: volumeInfo.title || "タイトルが見つかりません",
             author: volumeInfo.author || "著者情報がありません",
             description: volumeInfo.itemCaption || "説明がありません",
@@ -31,11 +31,13 @@ const Page = () => {
             publisher: volumeInfo.publisherName || "出版会社情報がありません",
             stock: 1, // 数量のデフォルト値
             available: 1, // 数量のデフォルト値
+            tags: volumeInfo.tags, // タグのデフォルト値
+            created_at: volumeInfo.createdAt, // 作成日時
           };
           setBookInfo(fetchedBook); // 本の情報をセット
         } else {
           setBookInfo({
-            id: isbn,
+            isbn: isbn,
             title: "タイトルが見つかりません",
             author: "著者情報がありません",
             description: "説明がありません",
@@ -43,6 +45,8 @@ const Page = () => {
             publisher: "出版会社情報がありません",
             stock: 0,
             available: 0,
+            tags: [],
+            created_at: "",
           });
         }
       } catch (error) {
