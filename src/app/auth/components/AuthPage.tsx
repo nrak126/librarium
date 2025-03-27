@@ -6,8 +6,8 @@ import Icon from "@/public/icon.svg";
 import styles from "./AuthPage.module.scss";
 import { useRouter } from "next/navigation";
 
-import { auth, provider } from "@/src/lib/firebase";
-import { signInWithPopup } from "firebase/auth";
+// import { auth, provider } from "@/src/lib/firebase";
+// import { signInWithPopup } from "firebase/auth";
 
 export function AuthPage() {
   const [loading, setLoading] = useState(false);
@@ -16,15 +16,15 @@ export function AuthPage() {
   // Googleアカウントでログイン
   const handleLogin = () => {
     setLoading(true);
-    signInWithPopup(auth, provider)
-      .then((result) => {
-        console.log(result);
+    // signInWithPopup(auth, provider)
+    //   .then((result) => {
+    //     console.log(result);
         setLoading(false);
         router.push("/");
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    //   })
+    //   .catch((error) => {
+    //     console.log(error);
+    //   });
   };
 
   return (
