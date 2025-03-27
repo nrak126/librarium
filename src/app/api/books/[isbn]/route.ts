@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { db } from '@/src/lib/firebaseAdmin';
+import { supabase } from "@/src/lib/supabase";
 
 export async function GET(
   request: Request,
@@ -8,23 +8,18 @@ export async function GET(
   try {
     const { isbn } = await params;
 
-    const docRef = db.collection('books').doc(isbn);
-    const docSnap = await docRef.get();
-
-    if (!docSnap.exists) {
-      return NextResponse.json({ message: 'Book not found' }, { status: 404 });
+    const { data, error } = await supabase
+      .from("books")
+      .select("*")
+      .eq("isbn", isbn);
+    if (error) {
+      throw error;
     }
-
-    const book = {
-      id: docSnap.id,
-      ...docSnap.data(),
-    };
-
-    return NextResponse.json(book);
+    return NextResponse.json(data[0], { status: 200 });
   } catch (error) {
-    console.error('Error fetching book:', error);
+    console.error("Error fetching book:", error);
     return NextResponse.json(
-      { message: 'Internal Server Error' },
+      { message: "Internal Server Error" },
       { status: 500 }
     );
   }
