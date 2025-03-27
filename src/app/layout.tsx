@@ -11,7 +11,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   const pathname = usePathname();
-  const isBookCheck = pathname === "/book/add" || pathname === "/book/rental";
+  const isBookCheck =
+    pathname === "/books/add/barcode" || pathname === "/books/rental/barcode";
   const isAuth = pathname === "/auth" || pathname.startsWith("/auth/");
 
   return (
