@@ -2,6 +2,9 @@
 
 import React, { useEffect, useRef } from "react";
 import Quagga from "quagga";
+import classes from "./index.module.scss";
+
+
 
 type BarcodeProps = {
   setIsbn: (isbn: string) => void;
@@ -72,7 +75,7 @@ export const Barcode: React.FC<BarcodeProps> = ({ setIsbn }) => {
           color: "black",
         }}
       >
-        バーコードスキャーンしてください。
+        バーコードスキャンしてください。
       </p>
     </div>
   );

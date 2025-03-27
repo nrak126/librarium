@@ -9,20 +9,23 @@ export function Btns() {
   // onst isbn = "9784815618599";
   const router = useRouter();
 
+  const handleBack = () => {
+    router.back();
+  };
+
+    const handleRental = () => {
+      router.push("/books/rental");
+    };
+
+
+  
   return (
     <div>
       <div className={classes.BtnRight}>
-        <button onClick={() => router.back()} style={{ all: "unset" }}>
-          <Btn text="戻る" bgColor="#99C6E2" />
-        </button>
+        <Btn text="戻る" bgColor="#99C6E2" onClick={handleBack} />
       </div>
       <div className={classes.BtnLeft}>
-        <button
-          onClick={() => router.push("/books/rental")}
-          style={{ all: "unset" }}
-        >
-          <Btn text="借りる" bgColor="#E2999B" />
-        </button>
+        <Btn text="借りる" bgColor="#E2999B" onClick={handleRental} />
       </div>
     </div>
   );
