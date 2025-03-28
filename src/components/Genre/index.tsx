@@ -1,7 +1,11 @@
 import { useState } from "react";
 import style from "./index.module.scss";
 
-export const Genre = () => {
+interface GenreProps {
+  onGenreChange: (genres: string[]) => void;
+}
+
+export const Genre = ({ onGenreChange }: GenreProps) => {
   const [selectedGenres, setSelectedGenres] = useState<string[]>([]);
   const genreList = [
     "モバイル",
@@ -27,16 +31,18 @@ export const Genre = () => {
   const handleCheckboxChange =
     (genre: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
       const isChecked = e.target.checked;
+      let updatedGenres;
 
       // チェックされた場合、選択したジャンルを配列に追加
       if (isChecked) {
-        setSelectedGenres((prevGenres) => [...prevGenres, genre]);
+        updatedGenres = [...selectedGenres, genre];
         // チェックが外れた場合、選択したジャンルを配列から削除
       } else {
-        setSelectedGenres((prevGenres) =>
-          prevGenres.filter((item) => item !== genre)
-        );
+        updatedGenres = selectedGenres.filter((item) => item !== genre);
       }
+
+      setSelectedGenres(updatedGenres);
+      onGenreChange(updatedGenres);
     };
   console.log(selectedGenres);
 
