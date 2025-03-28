@@ -1,5 +1,9 @@
-"use client";
+import { Return } from "./components/Return";
 
 export default function Page() {
-  return <></>;
+  return (
+    <>
+      <Return />
+    </>
+  );
 }
