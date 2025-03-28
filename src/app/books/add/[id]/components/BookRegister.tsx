@@ -58,7 +58,7 @@ export const BookRegister = ({ isbn }: { isbn: string }) => {
     if (isbn) {
       fetchBookData();
     }
-  }, [isbn]);
+  }, [isbn, selectedGenres]);
 
   const BookAdd = () => {
     fetch(`/api/books`, {

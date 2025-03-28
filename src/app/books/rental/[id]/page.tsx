@@ -1,6 +1,8 @@
 import { Book } from "@/src/types/book";
 import { BookInfo } from "@/src/components/book/BookInfo";
 
+import { RentBtn } from "./components/RentBtn";
+
 export default async function Page({
   params,
 }: {
@@ -21,5 +23,10 @@ export default async function Page({
 
   const book: Book = await res.json();
 
-  return <BookInfo book={book} />;
+  return (
+    <>
+      <BookInfo book={book} />
+      <RentBtn isbn={id} />
+    </>
+  );
 }
