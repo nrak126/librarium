@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { SearchBar } from "../components/SearchBar";
 import { NavSlide } from "../components/nav/NavSlide";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
@@ -8,9 +8,22 @@ import styles from "./styles/TabBar.module.scss";
 import { RentalTime } from "../components/book/RentalTime";
 import { BookRec } from "../components/book/BookRec";
 import { BookRanking } from "../components/book/BookRanking";
+import { useRouter } from "next/navigation";
+import { supabase } from "@/src/lib/supabase";
 
 export default function Home() {
   const [searchClick, setSearchClick] = useState(false);
+  const router = useRouter();
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      const { error } = await supabase.auth.getUser();
+      if (error) {
+        await router.push("/auth");
+      }
+    };
+    fetchUser();
+  }, [router]);
 
   return (
     <>
