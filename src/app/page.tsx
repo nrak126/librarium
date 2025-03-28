@@ -6,7 +6,6 @@ import { NavSlide } from "../components/nav/NavSlide";
 
 export default function Home() {
   const [searchClick, setSearchClick] = useState(false);
-  const [searchName, setSearchName] = useState("");
 
   return (
     <>

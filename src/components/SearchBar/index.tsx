@@ -2,7 +2,6 @@
 
 import style from "./index.module.scss";
 import { Icon } from "@iconify/react";
-import sampleData from "../Users/sampleData";
 
 interface SearchBarProps {
   func?: string;

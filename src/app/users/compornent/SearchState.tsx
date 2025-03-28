@@ -35,7 +35,7 @@ export function SearchState() {
 
       setSearchWordClick(false);
     }
-  }, [searchWordClick]);
+  }, [searchWordClick, result, searchName]);
 
   return (
     <>
