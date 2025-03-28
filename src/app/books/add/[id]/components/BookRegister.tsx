@@ -9,6 +9,7 @@ import { Btns } from "../../components/Btns";
 
 export const BookRegister = ({ isbn }: { isbn: string }) => {
   const [book, setBook] = useState<Book | null>(null); // Book 型で本のすべての情報を管理する状態
+  const [selectedGenres, setSelectedGenres] = useState<string[]>([]); // 選択されたジャンルを管理
 
   useEffect(() => {
     const fetchBookData = async () => {
@@ -30,7 +31,7 @@ export const BookRegister = ({ isbn }: { isbn: string }) => {
             publisher: volumeInfo.publisherName || "出版会社情報がありません",
             stock: 1, // 数量のデフォルト値
             available: 1, // 数量のデフォルト値
-            tags: [], // タグのデフォルト値
+            tags: selectedGenres,
             created_at: new Date().toISOString(), // 作成日時
           };
           setBook(fetchedBook); // 本の情報をセット
@@ -44,7 +45,7 @@ export const BookRegister = ({ isbn }: { isbn: string }) => {
             publisher: "出版会社情報がありません",
             stock: 0,
             available: 0,
-            tags: [],
+            tags: selectedGenres,
             created_at: "",
           });
         }
@@ -67,6 +68,16 @@ export const BookRegister = ({ isbn }: { isbn: string }) => {
     });
   };
 
+  const handleGenreChange = (genres: string[]) => {
+    setSelectedGenres(genres);
+    if (book) {
+      setBook((prevBook) => ({
+        ...prevBook!,
+        tags: genres,
+      }));
+    }
+  };
+
   return (
     <div>
       {/* ISBNが空ならBarcodeコンポーネントを表示 */}
@@ -75,7 +86,7 @@ export const BookRegister = ({ isbn }: { isbn: string }) => {
         {book ? (
           <>
             <BookInfo book={book} />
-            <Genre />
+            <Genre onGenreChange={handleGenreChange} />
             <Btns BookAdd={BookAdd} />
           </>
         ) : (
