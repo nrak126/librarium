@@ -6,4 +6,6 @@ export type User = {
   tags: string[]; // タグ（配列形式、nullの場合もあり）
   email: string; // メールアドレス
   uid: string; // Firebase AuthのユーザーID (UUID)
+  icon: string; // アイコン画像のURL
+  studentId: string; // 学籍番号
 };

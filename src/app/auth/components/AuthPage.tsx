@@ -1,16 +1,12 @@
 "use client";
 
-import { useState } from "react";
 import Image from "next/image";
 import Icon from "@/public/icon.svg";
 import styles from "./AuthPage.module.scss";
-import { useRouter } from "next/navigation";
 
 import { supabase } from "@/src/lib/supabase";
 
 export function AuthPage() {
-  const [loading, setLoading] = useState(false);
-  const router = useRouter();
 
   // Googleアカウントでログイン
   const handleLogin = async () => {
@@ -41,9 +37,8 @@ export function AuthPage() {
       <button
         onClick={handleLogin}
         className={styles.loginBtn}
-        disabled={loading}
       >
-        {loading ? "ログイン中..." : "ログイン"}
+        {"ログイン"}
       </button>
     </div>
   );
