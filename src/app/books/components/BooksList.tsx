@@ -4,12 +4,15 @@ import { useEffect, useState } from "react";
 import type { Book } from "@/src/types/book";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import styles from "./BooksList.module.scss";
+import { BookCardList } from "./BookListCard";
+import { StockState } from "@/src/components/book/StockState";
 
 export default function BooksList() {
   const [books, setBooks] = useState<Book[]>([]);
   const pathname = usePathname();
 
-console.log("pathname:", pathname);
+  console.log("pathname:", pathname);
   useEffect(() => {
     const fetchBooks = async () => {
       const response = await fetch("/api/books");
@@ -19,16 +22,21 @@ console.log("pathname:", pathname);
     };
     fetchBooks();
   }, []);
-  
+
+  const isBorrowed = false;
+
   return (
-    <ul>
+    <ul className={styles.booklist}>
       {books.map((book) => (
         <li key={book.isbn}>
-          <h3>{book.title}</h3>
-          <p>{book.author}</p>
-          <Link href={`${pathname}/${book.isbn}`}>
-            <button>詳細GO</button>
-          </Link>
+          <div className={styles.layout}>
+            <Link href={`${pathname}/${book.isbn}`}>
+              <BookCardList book={book} />
+            </Link>
+            <div className={styles.stock}>
+              <StockState isBorrowed={isBorrowed} />
+            </div>
+          </div>
         </li>
       ))}
     </ul>

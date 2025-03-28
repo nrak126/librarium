@@ -1,0 +1,30 @@
+.booklist {
+  display: grid;
+	height: 2vw;
+  grid-template-columns: repeat(3, 1fr); /* 3列レイアウト */
+  padding: 19;
+	gap: 3%;
+  list-style: none;
+  justify-content: center;
+	position: relative;
+	left: 1%;
+	margin-bottom: -30vh;
+
+}
+.card {
+  width: 100%; /* 親要素のグリッドサイズに合わせる */
+  display: flex;
+  justify-content: center;
+	position: relative;
+}
+
+.stock {
+	position: relative;
+	top: -4.2vh;
+	right: -2vw;
+	font-size: 10px;
+}
+
+
+
+

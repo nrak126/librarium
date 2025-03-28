@@ -12,7 +12,7 @@ export const BookInfo = ({ book }: { book: Book }) => {
     <div className={classes.BookInfo}>
       <p className={classes.Title}>{book.title}</p>
       <hr className={classes.hr} />
-      <BookCard book={book} />
+      <BookCard book={book} className={classes.card} width={150} height={200}/>
 
       {/* 著者情報 */}
       <div className={classes.InfoBox}>

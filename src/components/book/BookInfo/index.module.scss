@@ -28,6 +28,7 @@
   font-size: 15px;
   font-weight: bold;
   position: relative;
+  right: -3%;
   top: 6vh;
   color: #635038;
 }
@@ -82,20 +83,21 @@
 
 .Description {
   height: 28vw;
-  width: 65vw;
+  width: 70vw;
   font-size: 13px;
   margin-top: 9%;
   font-weight: bold;
   color: #635038;
   position: relative;
   top: 5vh;
-  right: -10%;
+  right: -6%;
   word-break: normal;
   line-height: 3.5vh;
 }
 
 .ReadMore {
   position: relative;
+  right: -4%;
 }
 
 .Input {
@@ -122,7 +124,7 @@
 .ReadMoreLabel {
   display: flex;
   align-items: center;
-  margin-top: 17%;
+  margin-top: 13%;
   margin-left: 56%;
   transform: translateX(-50%);
   color: #bfbfbf;
@@ -147,6 +149,7 @@
 }
 
 .ReadCloseLabel:hover {
+    color: #635038;
   text-decoration: underline;
 }
 
@@ -156,4 +159,9 @@
 
 .ReadMore:has(Input:checked) .ReadCloseLabel {
   display: flex;
+}
+
+.card {
+  position: relative;
+  right: -26%;
 }
