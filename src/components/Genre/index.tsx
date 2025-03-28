@@ -38,6 +38,9 @@ export const Genre = () => {
   return (
     <div className={style.contents}>
       <h2 className={style.title}>ジャンル選択</h2>
+      <p className={style.description}>
+        本のジャンルを選択してください。複数選択可能です。
+      </p>
       <div className={style.genreList}>
         {genreList.map((genre, index) => (
           <div className={style.genre} key={index}>

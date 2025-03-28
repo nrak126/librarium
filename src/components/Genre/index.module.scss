@@ -18,6 +18,15 @@
   color: #635038;
 }
 
+.description {
+  margin-top: 10%;
+  margin-bottom: 10%;
+  text-align: center;
+  color: #635038;
+  font-size: 13px;
+  font-weight: bold;
+}
+
 .genre {
   margin-top: 5%;
   align-items: center;
@@ -33,4 +42,6 @@
 .label {
   display: flex;
   align-items: center;
+  color: #635038;
+  font-weight: bold;
 }
