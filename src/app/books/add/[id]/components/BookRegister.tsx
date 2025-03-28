@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { BookInfo } from "@/src/components/book/BookInfo";
 import { Genre } from "@/src/components/Genre";
+import { Btns } from "../../components/Btns";
 
 export const BookRegister = ({ isbn }: { isbn: string }) => {
   const [book, setBook] = useState<Book | null>(null); // Book 型で本のすべての情報を管理する状態
@@ -58,6 +59,14 @@ export const BookRegister = ({ isbn }: { isbn: string }) => {
     }
   }, [isbn]);
 
+  const BookAdd = () => {
+    fetch(`/api/books`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(book),
+    });
+  };
+
   return (
     <div>
       {/* ISBNが空ならBarcodeコンポーネントを表示 */}
@@ -67,17 +76,7 @@ export const BookRegister = ({ isbn }: { isbn: string }) => {
           <>
             <BookInfo book={book} />
             <Genre />
-            <button
-              onClick={() =>
-                fetch(`/api/books`, {
-                  method: "POST",
-                  headers: { "Content-Type": "application/json" },
-                  body: JSON.stringify(book),
-                })
-              }
-            >
-              この本を登録
-            </button>
+            <Btns BookAdd={BookAdd} />
           </>
         ) : (
           <p>本の情報が見つかりませんでした。ISBNを確認してください。</p>

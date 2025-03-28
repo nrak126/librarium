@@ -5,9 +5,11 @@ export const Genre = () => {
   const [selectedGenres, setSelectedGenres] = useState<string[]>([]);
   const genreList = [
     "モバイル",
+    "ios",
+    "Android",
     "Web",
-    "フロント",
-    "バック",
+    "フロントエンド",
+    "バックエンド",
     "データーベース",
     "組み込み",
     "インフラ",
@@ -17,6 +19,9 @@ export const Genre = () => {
     "教科書",
     "啓発本",
     "単行本",
+    "ライトノベル",
+    "文庫",
+    "エッセイ",
   ];
 
   const handleCheckboxChange =
