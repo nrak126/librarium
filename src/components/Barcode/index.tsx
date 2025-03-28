@@ -2,6 +2,7 @@
 
 import React, { useEffect, useRef } from "react";
 import Quagga from "quagga";
+import styles from "./index.module.scss";
 
 type BarcodeProps = {
   setIsbn: (isbn: string) => void;
@@ -49,31 +50,15 @@ export const Barcode: React.FC<BarcodeProps> = ({ setIsbn }) => {
   }, [setIsbn]);
 
   return (
-    <div>
-      <h2 style={{ textAlign: "center", color: "black", fontSize: "30px" }}>
-        書籍登録
-      </h2>
-      <div
-        ref={scannerRef}
-        style={{
-          position: "absolute",
-          left: "34%",
-          top: "10%",
-          width: "100%",
-          height: "200px",
-        }}
-      />
-      <p
-        style={{
-          position: "absolute",
-          top: "65%",
-          left: "43%",
-          fontSize: "18px",
-          color: "black",
-        }}
-      >
-        バーコードスキャンしてください。
-      </p>
+    <div className={styles.container}>
+      <div ref={scannerRef} className={styles.scanner} />
+
+      <div className={styles.under}>
+        <div className={styles.circle}></div>
+        <p className={styles.message}>
+          借りたい本の裏表紙のバーコードを カメラにかざしてください
+        </p>
+      </div>
     </div>
   );
 };
