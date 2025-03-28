@@ -45,13 +45,25 @@
     }
   }
 
-  .exp {
+  .trueexp {
+    position: relative;
     color: #77634b;
     font-weight: 700;
     border-bottom: 1px solid #635038;
     margin-top: 13%;
     margin-left: 10%;
     padding-bottom: 0.5%;
+    width: 25%;
+  }
+
+  .falseexp {
+    position: relative;
+    color: #77634b;
+    font-weight: 700;
+    border-bottom: 1px solid #635038;
+    margin-top: 5.5%;
+    margin-left: 10%;
+    padding-bottom: 0.7%;
     width: 25%;
   }
 }
