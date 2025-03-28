@@ -4,9 +4,10 @@ import { Book } from "@/src/types/book"; // Book 型をインポート
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { BookInfo } from "@/src/components/book/BookInfo";
+import { Genre } from "@/src/components/Genre";
 
 export const BookRegister = ({ isbn }: { isbn: string }) => {
-  const [book, setbook] = useState<Book | null>(null); // Book 型で本のすべての情報を管理する状態
+  const [book, setBook] = useState<Book | null>(null); // Book 型で本のすべての情報を管理する状態
 
   useEffect(() => {
     const fetchBookData = async () => {
@@ -31,9 +32,9 @@ export const BookRegister = ({ isbn }: { isbn: string }) => {
             tags: [], // タグのデフォルト値
             created_at: new Date().toISOString(), // 作成日時
           };
-          setbook(fetchedBook); // 本の情報をセット
+          setBook(fetchedBook); // 本の情報をセット
         } else {
-          setbook({
+          setBook({
             isbn: isbn,
             title: "タイトルが見つかりません",
             author: "著者情報がありません",
@@ -48,7 +49,7 @@ export const BookRegister = ({ isbn }: { isbn: string }) => {
         }
       } catch (error) {
         console.error("エラー:", error);
-        setbook(null); // エラーが発生した場合、nullにセット
+        setBook(null); // エラーが発生した場合、nullにセット
       }
     };
 
@@ -65,6 +66,7 @@ export const BookRegister = ({ isbn }: { isbn: string }) => {
         {book ? (
           <>
             <BookInfo book={book} />
+            <Genre />
             <button
               onClick={() =>
                 fetch(`/api/books`, {
