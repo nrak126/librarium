@@ -14,7 +14,7 @@ export function Btns() {
   };
 
     const handleRental = () => {
-      router.push("/books/rental");
+      router.push("/books/rental/check");
     };
 
 
