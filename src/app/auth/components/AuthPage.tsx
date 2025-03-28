@@ -6,25 +6,25 @@ import Icon from "@/public/icon.svg";
 import styles from "./AuthPage.module.scss";
 import { useRouter } from "next/navigation";
 
-// import { auth, provider } from "@/src/lib/firebase";
-// import { signInWithPopup } from "firebase/auth";
+import { supabase } from "@/src/lib/supabase";
 
 export function AuthPage() {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
   // Googleアカウントでログイン
-  const handleLogin = () => {
-    setLoading(true);
-    // signInWithPopup(auth, provider)
-    //   .then((result) => {
-    //     console.log(result);
-        setLoading(false);
-        router.push("/");
-    //   })
-    //   .catch((error) => {
-    //     console.log(error);
-    //   });
+  const handleLogin = async () => {
+    const { data, error } = await supabase.auth.signInWithOAuth({
+      provider: "google",
+      options: {
+        redirectTo: `${process.env.NEXT_PUBLIC_BASE_URL}/auth/register`,
+      },
+    });
+    if (error) {
+      console.error("Error logging in:", error);
+    } else {
+      console.log("User logged in:", data);
+    }
   };
 
   return (
