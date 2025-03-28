@@ -45,6 +45,9 @@
     border-bottom: 1px solid #635038;
     background-color: #fffbf5;
   }
+  ::placeholder {
+    color: rgba(0, 0, 0, 0.2);
+  }
 }
 
 .btn {
