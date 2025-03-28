@@ -1,0 +1,20 @@
+.taglist {
+  display: grid;
+  grid-template-columns: repeat(2, auto); /* 2列 */
+  grid-template-rows: repeat(2, auto); /* 2行 */
+  background-color: #f4e9d7;
+  border: 1px solid #18140f;
+  border-radius: 12;
+  padding: 4% 5% 4% 4%;
+  text-align: left;
+  width: 90%;
+  margin-top: 3%;
+  margin-left: 5%;
+
+  .tag {
+    color: #77634b;
+    font-size: 1.3vh;
+    padding: 2%;
+    margin-left: 7%;
+  }
+}

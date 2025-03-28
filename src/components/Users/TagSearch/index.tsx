@@ -1,4 +1,4 @@
-import styles from "./userData.module.scss";
+import styles from "../UsersList/index.module.scss";
 import Image from "next/image";
 import Icon from "@/public/icon.svg";
 

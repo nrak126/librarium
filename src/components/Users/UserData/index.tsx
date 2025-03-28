@@ -1,13 +1,13 @@
-import sampleData from "./sampleData";
-import styles from "./usersList.module.scss";
+import { userId } from "../userId";
+import styles from "./index.module.scss";
 import Image from "next/image";
 import Icon from "@/public/icon.svg";
 
-function UsersList() {
+function UserDate() {
   return (
     <>
       <div className={styles.all}>
-        {sampleData.map((data, index) => {
+        {userId.map((data, index) => {
           return (
             <div key={index} className={styles.whole}>
               <Image
@@ -44,4 +44,4 @@ function UsersList() {
   );
 }
 
-export default UsersList;
+export default UserDate;

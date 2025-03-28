@@ -5,8 +5,8 @@ import sampleData from "@/src/components/Users/sampleData";
 import { SearchBar } from "@/src/components/SearchBar";
 import styles from "./SearchState.module.scss";
 import { TagSearch } from "@/src/components/Users/TagSearch";
-import UsersList from "@/src/components/Users/usersList";
-import UserDate from "@/src/components/Users/userData";
+import UsersList from "@/src/components/Users/UsersList";
+import UserDate from "@/src/components/Users/UserData";
 
 type User = {
   usernum: number;
