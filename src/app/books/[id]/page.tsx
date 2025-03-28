@@ -1,6 +1,8 @@
 // app/book/[id]/page.tsx
 import Image from "next/image";
 import { Book } from "@/src/types/book";
+import { BookInfo } from "@/src/components/book/BookInfo";
+import { BackBtn } from "./components/BackBtn";
 
 export default async function Page({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -17,17 +19,8 @@ export default async function Page({ params }: { params: Promise<{ id: string }>
 
   return (
     <div>
-      <h1>{book.title}</h1>
-      <p>著者: {book.author}</p>
-      <p>説明: {book.description}</p>
-      <p>ISBN: {book.isbn}</p>
-      <p>出版社: {book.publisher}</p>
-      <p>在庫数: {book.stock}</p>
-      {book.thumbnail ? (
-        <Image src={book.thumbnail} alt={book.title} width={200} height={300} />
-      ) : (
-        <p>サムネイル画像なし</p>
-      )}
+      <BookInfo book={book} />
+      <BackBtn />
     </div>
   );
 }
