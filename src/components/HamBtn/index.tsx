@@ -50,7 +50,7 @@ export const HamBtn: React.FC = () => {
 
       <ul className={`${style.navItems} ${navOpen ? style.show : ""}`}>
         {/* // ユーザープロフィールコンポーネントの表示 */}
-        <NavUser />
+        <NavUser setNavOpen={setNavOpen} />
         <div className={style.navOll}>
           {navItems.map((item) => (
             <NavMenu key={item.id} item={item} onLink={onLink} />
