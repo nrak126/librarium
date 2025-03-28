@@ -1,3 +1,4 @@
+
 import { BookRegister } from "./components/BookRegister";
 
 export default async function Page({
@@ -9,6 +10,7 @@ export default async function Page({
   return (
     <div>
       <BookRegister isbn={id} />
+      
     </div>
   );
 }
