@@ -13,7 +13,6 @@ export default function Page() {
   const [enter, setEnter] = useState(false);
   const router = useRouter();
 
-  const [supaUser, setSupaUser] = useState<SupaUser | null>(null);
   const [user, setUser] = useState<User | null>({
     id: "",
     created_at: new Date().toISOString(),
@@ -26,13 +25,22 @@ export default function Page() {
     icon: "",
   });
 
+  const [isExistUser, setIsExistUser] = useState<Response | null>(null);
+
   useEffect(() => {
     const fetchUser = async () => {
       const { data, error } = await supabase.auth.getUser();
       if (error) {
         console.error("Error fetching user:", error);
       } else {
-        setSupaUser(data.user); // ユーザー情報をセット
+        //もしユーザーがすでに存在（登録済み）していたら、ホームにリダイレクト
+        const response = await fetch(`/api/users/${data.user.id}`);
+        setIsExistUser(response);
+        if (response.status === 200) {
+          await router.push("/");
+          return;
+        }
+
         setUser((prev) => ({
           ...prev,
           id: data.user.id,
@@ -68,7 +76,9 @@ export default function Page() {
     await router.push("/");
   };
 
-  return (
+  return isExistUser ? (
+    <h1>すでに登録済みです</h1>
+  ) : (
     <div className={styles.whole}>
       <Image
         src={Icon}
