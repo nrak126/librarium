@@ -5,15 +5,22 @@ import classes from "./index.module.scss";
 import Image from "next/image";
 import { Book } from "@/src/types/book";
 
-export const BookCard = ({ book }: { book: Book }) => {
+interface BookCardProps {
+  book: Book;
+  width?: number;
+  height?: number;
+  className?: string;
+}
+
+export const BookCard: React.FC<BookCardProps> = ({ book, width, height,  className }) => {
 	return (
-		<div className={classes.BookImg}>
+		<div className={`${classes.BookImg} ${className || ""}`} style={{ width: `${width}px`, height: `${height}px` }}>
         <Image
           className={classes.Img}
           src={book.thumbnail}
           alt="本の表紙画像"
-          width={100}
-          height={100}
+          width={width}
+          height={height}
         />
       </div>
 	);
