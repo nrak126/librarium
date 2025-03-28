@@ -6,7 +6,6 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 
 import { supabase } from "@/src/lib/supabase";
-import { User as SupaUser } from "@supabase/supabase-js";
 import { User } from "@/src/types";
 
 export default function Page() {
@@ -57,7 +56,7 @@ export default function Page() {
       }
     };
     fetchUser();
-  }, []);
+  }, [router]);
 
   const handleEnter = async () => {
     setEnter(true);
