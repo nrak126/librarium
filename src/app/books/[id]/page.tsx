@@ -1,5 +1,4 @@
 // app/book/[id]/page.tsx
-import Image from "next/image";
 import { Book } from "@/src/types/book";
 import { BookInfo } from "@/src/components/book/BookInfo";
 import { BackBtn } from "./components/BackBtn";
