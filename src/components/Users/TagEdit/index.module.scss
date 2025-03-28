@@ -1,0 +1,69 @@
+.taglist {
+  display: grid;
+  grid-template-columns: repeat(2, auto); /* 2列 */
+  grid-template-rows: repeat(2, auto); /* 2行 */
+  // background-color: #f4e9d7;
+  border: 1px solid #18140f;
+  border-radius: 12;
+  padding: 4% 5% 4% 4%;
+  text-align: left;
+  width: 90%;
+  margin-top: 3%;
+  margin-left: 5%;
+
+  .tag {
+    display: flex;
+    justify-content: space-between;
+    color: #77634b;
+    font-size: 1.3vh;
+    align-items: center;
+    padding: 2% 0;
+    margin-left: 7%;
+
+    .delete {
+      color: #635038;
+      font-size: 1vh;
+      font-weight: 700;
+      background-color: #fffbf5;
+      border: 1px solid #635038;
+      border-radius: 8;
+      width: 5vh;
+      height: 2vh;
+    }
+  }
+}
+
+.tagselectbox {
+  margin-top: 2%;
+  align-items: center;
+  .genreselect {
+    float: left;
+    margin-left: 7%;
+    background-color: #f0eded;
+    border: none;
+    border-radius: 9;
+    width: 35%;
+    height: 2.5vh;
+  }
+
+  .levelselect {
+    float: left;
+    margin-left: 1%;
+    background-color: #f0eded;
+    border: none;
+    border-radius: 9;
+    width: 35%;
+    height: 2.5vh;
+  }
+}
+
+.tagadd {
+  color: #635038;
+  font-size: 1.2vh;
+  font-weight: 700;
+  background-color: #fffbf5;
+  border: 1px solid #635038;
+  border-radius: 8;
+  width: 5.3vh;
+  height: 2.5vh;
+}
