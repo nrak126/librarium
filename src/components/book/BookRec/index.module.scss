@@ -18,8 +18,8 @@
 .card {
   background-color: #f4e9d7;
   padding: 20px;
-  width: 40vw;
-  height: 17vh;
+  width: 41vw;
+  height: 18vh;
   border-radius: 20px;
   display: flex;
   align-items: center;
@@ -35,9 +35,12 @@
 }
 
 .text {
-  margin-top: 10px;
-  font-size: 13px;
+  margin-top: 9px;
+  font-size: 10px;
   color: #635038;
   position: relative;
   bottom: 28%;
+  width: 20ch; /* 12文字分の幅 */
+  white-space: normal; /* 折り返しを許可 */
+  overflow-wrap: break-word;
 }

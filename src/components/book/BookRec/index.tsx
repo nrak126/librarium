@@ -1,31 +1,34 @@
-import React from "react";
+import { useEffect, useState } from "react";
 import style from "./index.module.scss";
+import type { Book } from "@/src/types/book";
 import Image from "next/image";
-import iphone from "./img.jpg";
-const iphoneApps = [
-  "iPhoneアプリ開発",
-  "iPhoneアプリ開発",
-  "iPhoneアプリ開発",
-  "iPhoneアプリ開発",
-  "iPhoneアプリ開発",
-  "iPhoneアプリ開発",
-];
 
 export const BookRec = () => {
+  const [books, setBooks] = useState<Book[]>([]);
+
+  useEffect(() => {
+    const fetchBooks = async () => {
+      const response = await fetch("/api/books");
+      const data: Book[] = await response.json();
+      setBooks(data);
+    };
+    fetchBooks();
+  }, []);
+
   return (
     <div className={style.contents}>
-      {iphoneApps.map((appName, index) => (
+      {books.map((appName, index) => (
         <div key={index} className={style.content}>
           <div className={style.card}>
             <Image
               className={style.image}
-              src={iphone}
-              alt={appName}
+              src={appName.thumbnail}
+              alt={appName.title}
               width={100}
               height={128}
             />
           </div>
-          <p className={style.text}>{appName}</p>
+          <p className={style.text}>{appName.title}</p>
         </div>
       ))}
     </div>
