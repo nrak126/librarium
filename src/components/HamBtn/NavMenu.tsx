@@ -16,14 +16,10 @@ type MenuProps = {
 
 export const NavMenu: React.FC<MenuProps> = ({ item, onLink }) => {
   return (
-    <li
-      onClick={() => onLink(item.link)}
-      key={item.id}
-      className={`${style.navItem} ${item.id <= 2 ? style.specialClass : ""}`}
-    >
+    <div className={style.navItem} onClick={() => onLink(item.link)}>
       <span>
         <Image
-          className={`${style.icon} ${item.id <= 2 ? style.specialIcon : ""}`}
+          className={style.icon}
           alt={item.label}
           src={item.iconUrl}
           width={55}
@@ -31,6 +27,6 @@ export const NavMenu: React.FC<MenuProps> = ({ item, onLink }) => {
         />
         {item.label}
       </span>
-    </li>
+    </div>
   );
 };

@@ -70,7 +70,9 @@
 }
 
 .navItem {
-  text-align: left;
+  align-items: center;
+  gap: 10px; // アイコンとテキストの間隔
+  transition: color 0.3s ease;
   margin-top: 10%;
 
   span {
@@ -86,27 +88,24 @@
   }
 
   &:active span {
-    margin-left: 1px;
+    margin-left: 0.1px;
   }
   span::after {
     content: "";
     position: absolute;
     bottom: -16%;
-    left: -24%; //線の位置
+    left: 91%; //線の位置
     width: 0;
-    height: 3px; /* 線の太さ */
+    height: 2px; /* 線の太さ */
     background-color: #fffbf5;
     transition: width 0.3s ease, left 0.3s ease;
+    border-radius: 8px;
   }
 
   &:active span::after {
-    width: 100%; /* クリック時に線を半分に縮める */
+    width: 50%; /* クリック時に線を半分に縮める */
     left: 7%; /* 線が中央に配置されるように調整 */
   }
-}
-.specialClass {
-  text-align: center !important;
-  margin-right: 23vw;
 }
 
 .circle {
@@ -138,9 +137,6 @@
   position: relative;
   top: 1vh;
   right: 10vw;
-}
-.specialIcon {
-  right: 16vw !important;
 }
 
 .user {
