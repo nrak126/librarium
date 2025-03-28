@@ -17,3 +17,11 @@
 	left: 51%;
 	
 }
+
+.BtnCenter {
+	display: flex;
+  flex-direction: column;
+  align-items: center; /* 中央揃え */
+  position: fixed;
+	bottom: 10;
+}
