@@ -4,13 +4,15 @@ import { tagData } from "../tagData";
 export function TagList() {
   return (
     <>
-      {tagData.map((data, index) => {
-        return (
-          <div key={index} className={styles.tag}>
-            #{data}
-          </div>
-        );
-      })}
+      <div className={styles.taglist}>
+        {tagData.map((data, index) => {
+          return (
+            <div key={index} className={styles.tag}>
+              #{data}
+            </div>
+          );
+        })}
+      </div>
     </>
   );
 }

@@ -30,9 +30,9 @@ export default function Page() {
         </button>
       </div>
 
-      <div className={styles.taglist}>
-        <TagList />
-      </div>
+      <TagList />
+
+      <div className={styles.exp}>現在の経験値</div>
     </div>
   );
 }
