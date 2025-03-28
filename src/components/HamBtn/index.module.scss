@@ -1,170 +1,158 @@
 .menuToggle {
-    display: flex;
-    flex-direction: column;
-    cursor: pointer;
-    position: relative;
-    z-index: 100;
-    margin-top: 16%;
-    margin-left: 38vw;
-    .bar {
-        width: 30px;
-        height: 3px;
-        background-color: #FFFBF5;
-        margin: 2.5px 0;
-        transition: 0.4s;
-    }
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+  position: relative;
+  z-index: 100;
+  margin-top: 16%;
+  margin-left: 38vw;
+  .bar {
+    width: 30px;
+    height: 3px;
+    background-color: #fffbf5;
+    margin: 2.5px 0;
+    transition: 0.4s;
+  }
 
-    &.active {
-        .bar:nth-child(1) {
-            transform: rotate(45deg) translate(6px, 6px);
-        }
-        .bar:nth-child(2) {
-            opacity: 0;
-        }
-        .bar:nth-child(3) {
-            transform: rotate(-45deg) translate(6px, -6px);
-        }
-        
+  &.active {
+    .bar:nth-child(1) {
+      transform: rotate(45deg) translate(6px, 6px);
     }
+    .bar:nth-child(2) {
+      opacity: 0;
+    }
+    .bar:nth-child(3) {
+      transform: rotate(-45deg) translate(6px, -6px);
+    }
+  }
 }
 
 // メニューオーバーレイ（背景を暗くする）
 .overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5); /* 半透明の黒 */
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.3s ease, visibility 0.3s ease;
-    z-index: 99; /* メニューの下に配置 */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5); /* 半透明の黒 */
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  z-index: 99; /* メニューの下に配置 */
 }
 
 // メニューが開いたときにオーバーレイを表示
 .overlay.show {
-    opacity: 1;
-    visibility: visible;    
+  opacity: 1;
+  visibility: visible;
 }
 
-.navItems{
-    overflow: hidden; /* はみ出さないようにする */
-    display: flex;
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    position: fixed;
-    right: -100%; 
-    top:-1%;
-    z-index: 99;
-    width: 84%; 
-    height: 102%;
-    background-color:#BB9C77;
-    flex-direction: column;
-    transition: right 0.3s ease; /* スライド効果 */
-    border-radius: 40px 0 0 40px;
-   
-    &.show {
-        right: 0 ;
-    }
-   
-}
+.navItems {
+  overflow: hidden; /* はみ出さないようにする */
+  display: flex;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  position: fixed;
+  right: -100%;
+  top: -1%;
+  z-index: 99;
+  width: 84%;
+  height: 102%;
+  background-color: #bb9c77;
+  flex-direction: column;
+  transition: right 0.3s ease; /* スライド効果 */
+  border-radius: 40px 0 0 40px;
 
+  &.show {
+    right: 0;
+  }
+}
 
 .navItem {
-    margin: 10px 0;
-    text-align: left;
-    margin-top: 10%;
-    
+  align-items: center;
+  gap: 10px; // アイコンとテキストの間隔
+  transition: color 0.3s ease;
+  margin-top: 10%;
 
-
-    span {
-        color:#FFFBF5;
-        text-decoration: none;
-        font-size: 23px;
-        display: block;
-        position: relative;
-        transition: color 0.3s;
-        border-radius: 100px;
-        margin-left: 23vw;
-        transition: color 0.3s, margin-left 0.3s;
-    }
-    
-    &:active span {
-       margin-left: 1px;
-    }
-     span::after {
-        content: "";
-        position: absolute;
-        bottom: -16%;
-        left: -24%;//線の位置
-        width: 0;
-        height: 3px; /* 線の太さ */
-        background-color: #FFFBF5;
-        transition: width 0.3s ease, left 0.3s ease; 
-        
-    }
-
-    &:active span::after {
-        width: 100%; /* クリック時に線を半分に縮める */
-        left: 7%; /* 線が中央に配置されるように調整 */
-    }
-}
-.specialClass{
-    text-align: center !important;
-    margin-right: 23vw;
-}
-
-.circle{
-    text-align: center;
-    margin-left: 11vw;
-    margin-top: 5vh;
-}
-.circle1{//円
-    width: 220px;
-    height: 220px;
-    border-radius: 50%;
-    background:#FFFBF5;/*背景色*/
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-}
-
-.circle2{
-    width: 190px;
-    height: 190px;
-    text-align:center;
-    border-radius: 50%;
-    border: solid 2px #BB9C77;
+  span {
+    color: #fffbf5;
+    text-decoration: none;
+    font-size: 23px;
+    display: block;
     position: relative;
-    left:15px;
-    top:7%;
+    transition: color 0.3s;
+    border-radius: 100px;
+    margin-left: 23vw;
+    transition: color 0.3s, margin-left 0.3s;
   }
 
-.navOll{
-    margin-top: 5vh;//文字と円の間
+  &:active span {
+    margin-left: 0.1px;
+  }
+  span::after {
+    content: "";
+    position: absolute;
+    bottom: -16%;
+    left: 91%; //線の位置
+    width: 0;
+    height: 2px; /* 線の太さ */
+    background-color: #fffbf5;
+    transition: width 0.3s ease, left 0.3s ease;
+    border-radius: 8px;
+  }
+
+  &:active span::after {
+    width: 50%; /* クリック時に線を半分に縮める */
+    left: 7%; /* 線が中央に配置されるように調整 */
+  }
 }
 
-.icon{
-    position: relative;
-    top:1vh;
-    right:10vw;
+.circle {
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  margin-left: 13vw;
+  margin-top: 5vh;
 }
-.specialIcon{
-    right: 16vw !important;
+.circle1 {
+  //円
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  background: #fffbf5; /*背景色*/
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
 
-.user{
-    margin-top: 20%;
+.circle2 {
+  width: 170px;
+  height: 170px;
+  text-align: center;
+  border-radius: 50%;
+  border: solid 2px #bb9c77;
+  position: relative;
+  left: 15px;
+  top: 7%;
 }
 
-.userIcon{
-    border-radius: 50%;
+.icon {
+  position: relative;
+  top: 1vh;
+  right: 10vw;
 }
 
-.userName{
-    color: #635038;
-    margin-top: 7%;
-    border-bottom: 1px solid #635038;
-    display: inline-block;
-    font-size: 15px;
+.user {
+  margin-top: 20%;
+}
+
+.userIcon {
+  border-radius: 50%;
+}
+
+.userName {
+  color: #635038;
+  margin-top: 7%;
+  border-bottom: 1px solid #635038;
+  display: inline-block;
+  font-size: 15px;
 }

@@ -1,0 +1,54 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 80vh;
+  
+}
+
+.scanner {
+  width: 82%; 
+  height: 60%; 
+  border: 4px solid #fffbf5; /* 赤い枠をつける */
+  border-radius: 15%; /* 角を少し丸める */
+  overflow: hidden;
+  //display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 3%;
+  box-shadow: 0vh 1.2vw 1.3vw 0.5vw rgb(27 55 99 / 25%);
+}
+
+.under {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 30vh; /* 下の高さを調整 */
+}
+
+.circle {
+  width: 120vw;
+  height: 60vh; /* 丸の高さを小さくする */
+  background-color: white;
+  border-radius: 50%;
+  position: fixed;
+  bottom: -27vh; /* 丸の見える量を調整 */
+  z-index: 1;
+  border: 1px solid #635038;
+}
+
+.message {
+  font-size: 12px;
+  font-weight: bold;
+  color: #635038;
+  line-height: 1.5;
+  text-align: center;
+  z-index: 2;
+  position: relative;
+  top: 6vh; /* 位置を調整 */
+  max-width: 50vw;
+}

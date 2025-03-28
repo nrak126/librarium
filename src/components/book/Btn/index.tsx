@@ -6,13 +6,13 @@ import classes from "./index.module.scss";
 interface BtnProps {
   text: string;
   bgColor: string;
-  handleClick: () => void;
+  onClick?: () => void;
 }
 
 export const Btn: React.FC<BtnProps> = ({
   text,
   bgColor,
-  handleClick,
+  onClick,
 }) => {
   return (
     <button
@@ -20,7 +20,7 @@ export const Btn: React.FC<BtnProps> = ({
       style={{
         backgroundColor: bgColor,
       }}
-      onClick={handleClick}
+      onClick={onClick}
     >
       {text}
     </button>

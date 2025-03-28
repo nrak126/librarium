@@ -20,7 +20,7 @@ export default async function Page({ params }: { params: Promise<{ id: string }>
       <h1>{book.title}</h1>
       <p>著者: {book.author}</p>
       <p>説明: {book.description}</p>
-      <p>ISBN: {book.id}</p>
+      <p>ISBN: {book.isbn}</p>
       <p>出版社: {book.publisher}</p>
       <p>在庫数: {book.stock}</p>
       {book.thumbnail ? (

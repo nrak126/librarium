@@ -21,7 +21,9 @@ export function SearchState() {
   const [searchClick, setSearchClick] = useState(false);
   const [searchName, setSearchName] = useState("");
   const [result, setResult] = useState<User[]>([]);
+
   const [searchWordClick, setSearchWordClick] = useState(false);
+  // let searchWordClick: Boolean | undefined = false;
 
   useEffect(() => {
     if (searchWordClick === true) {
@@ -31,12 +33,8 @@ export function SearchState() {
       setResult(filteredUsers);
 
       console.log(`検索ワード：${searchName}`);
-      console.log(result);
-
-      setSearchWordClick(false);
     }
-  }, [searchWordClick, result, searchName]);
-
+  }, [searchWordClick, searchName]);
   return (
     <>
       <div className={styles.whole}>
