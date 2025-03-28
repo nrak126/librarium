@@ -75,7 +75,7 @@ export default function Page() {
     await router.push("/");
   };
 
-  return isExistUser ? (
+  return isExistUser?.status === 201 ? (
     <h1>すでに登録済みです</h1>
   ) : (
     <div className={styles.whole}>
