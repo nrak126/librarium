@@ -10,7 +10,6 @@ export default async function Page({
   return (
     <div>
       <BookRegister isbn={id} />
-      
     </div>
   );
 }

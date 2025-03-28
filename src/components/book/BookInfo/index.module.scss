@@ -92,12 +92,10 @@
   right: -10%;
   word-break: normal;
   line-height: 3.5vh;
-  
 }
 
 .ReadMore {
   position: relative;
-  padding-bottom: 150px;
 }
 
 .Input {
@@ -113,39 +111,19 @@
 }
 
 .ReadMore:has(Input:checked) p {
-    height: auto; 
+  height: auto;
   padding-bottom: 1%;
-}
-
-.ReadMore p::after {
-  display: block;
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  width: 100%;
-  height: 60px;
-  background: linear-gradient(
-    180deg,
-    hsla(0, 0%, 100%, 0) 0,
-    hsla(0, 0%, 100%, 0.9) 50%,
-    hsla(0, 0%, 100%, 0.9) 100%,
-    #fff
-  );
-  content: "";
 }
 
 .ReadMore:has(Input:checked) p::after {
   content: none;
 }
 
-
 .ReadMoreLabel {
   display: flex;
   align-items: center;
-  gap: 4%;
-  position: absolute;
-  bottom: 18vh;
-  left: 50%;
+  margin-top: 17%;
+  margin-left: 56%;
   transform: translateX(-50%);
   color: #bfbfbf;
   font-size: 0.8em;
@@ -159,9 +137,8 @@
 
 .ReadCloseLabel {
   display: none;
-  position: absolute;
-  bottom: 13vh;
-  left: 50%;
+  margin-top: 14%;
+  margin-left: 61%;
   transform: translateX(-50%);
   color: #bfbfbf;
   font-size: 0.8em;
