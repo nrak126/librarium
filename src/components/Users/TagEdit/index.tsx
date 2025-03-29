@@ -26,31 +26,39 @@ export function TagEdit() {
         })}
       </div>
 
-      <div className={styles.tagselectbox}>
-        <select className={styles.genreselect}>
-          <option value=""></option>
-          <option value="front">front</option>
-          <option value="Next.js">Next.js</option>
-          <option value="React">React</option>
-          <option value="Python">Python</option>
-          <option value="Unity">Unity</option>
-          <option value="CSS">CSS</option>
-        </select>
+      <div className={styles.selectbox} id="selectbox">
+        <div className={styles.tagselect}>
+          <div className={styles.tagafter}>
+            <select name="" id="" className={styles.tagbox}>
+              <option value=""></option>
+              <option value="front">front</option>
+              <option value="Next.js">Next.js</option>
+              <option value="React">React</option>
+              <option value="Python">Python</option>
+              <option value="Unity">Unity</option>
+              <option value="CSS">CSS</option>
+            </select>
+          </div>
+        </div>
 
-        <select className={styles.levelselect}>
-          <option value=""></option>
-          <option value="初心者">初心者</option>
-          <option value="上級者">上級者</option>
-          <option value="チョットデキテル">チョットデキテル</option>
-          <option value="エキスパート">エキスパート</option>
-          <option value="中級者">中級者</option>
-          <option value="Hello Worldの住人">Hello Worldの住人</option>
-        </select>
+        <div className={styles.levelselect}>
+          <div className={styles.levelafter}>
+            <select name="" id="">
+              <option value=""></option>
+              <option value="初心者">初心者</option>
+              <option value="上級者">上級者</option>
+              <option value="チョットデキテル">チョットデキテル</option>
+              <option value="エキスパート">エキスパート</option>
+              <option value="中級者">中級者</option>
+              <option value="Hello Worldの住人">Hello Worldの住人</option>
+            </select>
+          </div>
+        </div>
+
+        <button onClick={handleAdd} className={styles.tagadd}>
+          追加
+        </button>
       </div>
-
-      <button onClick={handleAdd} className={styles.tagadd}>
-        追加
-      </button>
     </>
   );
 }
