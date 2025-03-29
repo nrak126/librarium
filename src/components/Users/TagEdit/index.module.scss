@@ -33,37 +33,65 @@
   }
 }
 
-.tagselectbox {
+.selectbox {
+  display: flex;
+  position: relative;
   margin-top: 2%;
   align-items: center;
-  .genreselect {
-    float: left;
-    margin-left: 7%;
-    background-color: #f0eded;
-    border: none;
-    border-radius: 9;
+
+  .tagselect {
     width: 35%;
-    height: 2.5vh;
+    margin-left: 7%;
+    position: relative;
+  }
+
+  .tagafter::after {
+    position: absolute;
+    content: "\25bc";
+    color: #ffffff;
+    font-size: 0.7rem;
+    top: 25%;
+    right: 0.5rem;
+    pointer-events: none;
   }
 
   .levelselect {
-    float: left;
+    width: 35%;
     margin-left: 1%;
+    position: relative;
+  }
+
+  .levelafter::after {
+    position: absolute;
+    content: "\25bc";
+    color: #ffffff;
+    font-size: 0.7rem;
+    top: 25%;
+    right: 0.5rem;
+    pointer-events: none;
+  }
+
+  select {
+    appearance: none;
+    -webkit-appearance: none;
+    outline: none;
+
     background-color: #f0eded;
     border: none;
     border-radius: 9;
-    width: 35%;
+    width: 100%;
+    height: 2.3vh;
+  }
+
+  .tagadd {
+    color: #635038;
+    font-size: 1.2vh;
+    font-weight: 700;
+    background-color: #fffbf5;
+    border: 1px solid #635038;
+    border-radius: 8;
+    margin-left: 3%;
+    width: 5.3vh;
     height: 2.5vh;
   }
-}
-
-.tagadd {
-  color: #635038;
-  font-size: 1.2vh;
-  font-weight: 700;
-  background-color: #fffbf5;
-  border: 1px solid #635038;
-  border-radius: 8;
-  width: 5.3vh;
-  height: 2.5vh;
 }
