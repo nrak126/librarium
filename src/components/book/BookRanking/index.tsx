@@ -1,20 +1,18 @@
 import React from "react";
 import style from "./index.module.scss";
 import Image from "next/image";
-import iphone from "./img.jpg";
-const iphoneApps = [
-  "iPhoneアプリ開発",
-  "iPhoneアプリ開発",
-  "iPhoneアプリ開発",
-  "iPhoneアプリ開発",
-  "iPhoneアプリ開発",
-  "iPhoneアプリ開発",
-];
 
-export const BookRanking = () => {
+import { Book } from "@/src/types";
+
+type BookRecProps = {
+  books: Book[];
+};
+
+export const BookRanking: React.FC<BookRecProps> = (props) => {
+  const { books } = props;
   return (
     <div className={style.contents}>
-      {iphoneApps.map((appName, index) => {
+      {books.map((appName, index) => {
         // 順位ごとに背景色のクラスを設定
         const rankClass =
           index === 0
@@ -33,13 +31,13 @@ export const BookRanking = () => {
               </div>
               <Image
                 className={style.image}
-                src={iphone}
-                alt={appName}
+                src={appName.thumbnail}
+                alt={appName.title}
                 width={100}
                 height={128}
               />
             </div>
-            <p className={style.text}>{appName}</p>
+            <p className={style.text}>{appName.title}</p>
           </div>
         );
       })}
