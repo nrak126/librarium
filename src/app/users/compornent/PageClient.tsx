@@ -16,26 +16,39 @@ import { User } from "@/src/types";
 //   tag: string[];
 // };
 
-export function PageClient({ users }: { users: User[] }) {
+export function PageClient() {
   const [searchClick, setSearchClick] = useState(false);
   const [searchName, setSearchName] = useState("");
   const [result, setResult] = useState<User[]>([]);
+  const [users, setUsers] = useState<User[]>([]);
 
   const [searchWordClick, setSearchWordClick] = useState(false);
   // let searchWordClick: Boolean | undefined = false;
 
   useEffect(() => {
+    (async () => {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/users`);
+      const users: User[] = await res.json();
+      setUsers(users);
+    })();
     if (searchWordClick === true) {
-      const filteredUsers = users.filter((user) =>
+      const filteredUsers = result.filter((user) =>
         user.tags.includes(searchName)
       );
       setResult(filteredUsers);
 
-      console.log(`検索ワード：${searchName}`);
-    } else {
-      setResult(users);
+      if (searchWordClick === true) {
+        const filteredUsers = users.filter((user) =>
+          user.tags.includes(searchName)
+        );
+        setResult(filteredUsers);
+
+        console.log(`検索ワード：${searchName}`);
+      } else {
+        setResult(users);
+      }
     }
-  }, [searchWordClick, searchName]);
+  }, [searchWordClick, searchName, users]);
   return (
     <>
       <div className={styles.whole}>
