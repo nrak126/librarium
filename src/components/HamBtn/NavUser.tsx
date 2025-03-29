@@ -15,11 +15,6 @@ type Props = {
 export const NavUser: React.FC<Props> = ({ setNavOpen }) => {
   const router = useRouter();
 
-  const onLink = () => {
-    router.push("/users");
-    setNavOpen(false);
-  };
-
   const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
@@ -37,6 +32,11 @@ export const NavUser: React.FC<Props> = ({ setNavOpen }) => {
     };
     fetchUser();
   }, [router]);
+
+  const onLink = () => {
+    router.push(`/users/${user?.id}`);
+    setNavOpen(false);
+  };
 
   return (
     <div className={style.circle}>
