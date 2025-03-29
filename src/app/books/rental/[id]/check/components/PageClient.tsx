@@ -23,7 +23,7 @@ export default function PageClient() {
       setBook(data);
     };
     fetchBook();
-  }, []);
+  }, [isbn]);
 
   return (
     <div>
