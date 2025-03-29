@@ -18,8 +18,8 @@
 .card {
   background-color: #f4e9d7;
   padding: 20px;
-  width: 40vw;
-  height: 17vh;
+  width: 41vw;
+  height: 18vh;
   border-radius: 20px;
   display: flex;
   align-items: center;
@@ -35,11 +35,14 @@
 }
 
 .text {
-  margin-top: 10px;
-  font-size: 13px;
+  margin-top: 9px;
+  font-size: 10px;
   color: #635038;
   position: relative;
   bottom: 28%;
+  width: 20ch; /* 12文字分の幅 */
+  white-space: normal; /* 折り返しを許可 */
+  overflow-wrap: break-word;
 }
 
 .number {
@@ -57,12 +60,13 @@
   justify-content: center;
   align-items: center;
   width: 5vw;
-  height: vw;
+  height: 3vh;
   font-size: 5vw;
   font-weight: bold;
   color: white;
   position: relative;
-  bottom: 55%;
+  bottom: 58%;
+  right: 2%;
   clip-path: polygon(
     0% 0%,
     100% 0%,
@@ -77,17 +81,17 @@
 }
 
 .gold {
-  background-color: gold;
+  background-color: #f8d612;
 }
 
 .silver {
-  background-color: silver;
+  background-color: #a3a3a3;
 }
 
 .bronze {
-  background-color: #cd7f32; /* 銅色 */
+  background-color: #ba5d10; /* 銅色 */
 }
 
 .default {
-  background-color: #ccc; /* 4位以降はグレー */
+  background-color: #e2e2e2; /* 4位以降はグレー */
 }
