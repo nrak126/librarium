@@ -1,4 +1,4 @@
-import { PageClient } from "./pageClient";
+import { PageClient } from "./components/pageClient";
 import { Book } from "../types";
 
 export default async function Home() {

@@ -6,6 +6,7 @@ import axios from "axios";
 import { BookInfo } from "@/src/components/book/BookInfo";
 import { Genre } from "@/src/components/Genre";
 import { Btns } from "../../components/Btns";
+import Icon from "@/public/icon.svg";
 
 export const BookRegister = ({ isbn }: { isbn: string }) => {
   const [book, setBook] = useState<Book | null>(null); // Book 型で本のすべての情報を管理する状態
@@ -20,7 +21,7 @@ export const BookRegister = ({ isbn }: { isbn: string }) => {
 
         console.log("取得したデータ:", response.data.Items);
 
-        if (response.data.Items) {
+        if (response.data.Items.length > 0) {
           const volumeInfo = response.data.Items[0].Item;
           const fetchedBook: Book = {
             isbn: isbn, // ISBN
@@ -41,7 +42,7 @@ export const BookRegister = ({ isbn }: { isbn: string }) => {
             title: "タイトルが見つかりません",
             author: "著者情報がありません",
             description: "説明がありません",
-            thumbnail: "",
+            thumbnail: Icon,
             publisher: "出版会社情報がありません",
             stock: 0,
             available: 0,
@@ -61,7 +62,7 @@ export const BookRegister = ({ isbn }: { isbn: string }) => {
   }, [isbn, selectedGenres]);
 
   const BookAdd = () => {
-    fetch(`/api/books`, {
+    fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/books`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(book),

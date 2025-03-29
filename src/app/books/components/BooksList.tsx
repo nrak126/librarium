@@ -15,7 +15,7 @@ export default function BooksList() {
   console.log("pathname:", pathname);
   useEffect(() => {
     const fetchBooks = async () => {
-      const response = await fetch("/api/books");
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/books`);
       const data: Book[] = await response.json();
       setBooks(data);
       console.log("Fetched books:", data);

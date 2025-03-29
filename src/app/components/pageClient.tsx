@@ -1,15 +1,16 @@
 "use client";
 
-import { SearchBar } from "../components/SearchBar";
-import { NavSlide } from "../components/nav/NavSlide";
+import { SearchBar } from "../../components/SearchBar";
+import { NavSlide } from "../../components/nav/NavSlide";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
-import styles from "./styles/TabBar.module.scss";
-import { RentalTime } from "../components/book/RentalTime";
-import { BookRec } from "../components/book/BookRec";
-import { BookRanking } from "../components/book/BookRanking";
+import styles from "../styles/TabBar.module.scss";
+import { RentalTime } from "../../components/book/RentalTime";
+import { BookRec } from "../../components/book/BookRec";
+import { BookRanking } from "../../components/book/BookRanking";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/src/lib/supabase";
-import { Book } from "../types";
+import { Book } from "../../types";
+import { useEffect } from "react";
 
 type BookRecProps = {
   books: Book[];
@@ -20,13 +21,15 @@ export const PageClient: React.FC<BookRecProps> = (props) => {
 
   const router = useRouter();
 
-  const fetchUser = async () => {
-    const { error } = await supabase.auth.getUser();
-    if (error) {
-      await router.push("/auth");
-    }
-  };
-  fetchUser();
+  useEffect(() => {
+    const fetchUser = async () => {
+      const { error } = await supabase.auth.getUser();
+      if (error) {
+        await router.push("/auth");
+      }
+    };
+    fetchUser();
+  },[]);
 
   return (
     <>
@@ -48,7 +51,7 @@ export const PageClient: React.FC<BookRecProps> = (props) => {
         </TabList>
 
         <TabPanel>
-          <BookRanking books={books}/>
+          <BookRanking books={books} />
         </TabPanel>
         <TabPanel>
           <RentalTime />
