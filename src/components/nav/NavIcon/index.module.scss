@@ -1,24 +1,23 @@
 .content {
-    margin: 5% auto; 
-    background-color: #FAFAFA; 
+    margin: 5% auto;
+    background-color: #fafafa;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-    width: 145px; 
+    width: 145px;
     height: 165px;
-    padding: 20px; 
-    border-radius: 12px; 
-    justify-content: center; 
-    align-items: center; 
+    padding: 20px;
+    border-radius: 12px;
+    justify-content: center;
+    align-items: center;
     transition: transform 0.2s ease-out;
-   
+    font-family: "Yaldevi", sans-serif;
+    font-weight: 656;
 }
 .content:active {
-    transform: scale(0.9); 
+    transform: scale(0.9);
 }
 
-
-.name{
-    margin-top: 10px;
-    color: #635038;
-    font-size: 14px;
+.name {
+  margin-top: 10px;
+  color: #8D7659;
+  font-size: 14px;
 }
-
