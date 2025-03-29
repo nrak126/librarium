@@ -23,7 +23,7 @@ export default function BooksList() {
     fetchBooks();
   }, []);
 
-  const isBorrowed = false;
+
 
   return (
     <ul className={styles.booklist}>

@@ -18,7 +18,8 @@ export default async function Page({
 
   if (!res.ok) {
     // ここでエラーハンドリング（404ページ返すとか）
-    throw new Error(`HTTP error! status: ${res.status}`);
+    // throw new Error(`HTTP error! status: ${res.status}`);
+		return <h1>本の情報を取得できませんでした</h1>
   }
 
   const book: Book = await res.json();
@@ -26,7 +27,7 @@ export default async function Page({
   return (
     <>
       <BookInfo book={book} />
-      <RentBtn isbn={id} />
+      <RentBtn book={book} />
     </>
   );
 }

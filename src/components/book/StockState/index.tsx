@@ -10,27 +10,7 @@ interface StockStateProps {
 }
 
 export const StockState: React.FC<StockStateProps> = ({ initialBook }) => {
-  const [book, setBook] = useState(initialBook);
-
-  const handleIncreaseAvailable = () => {
-    setBook((prev) => ({
-      ...prev,
-      available: prev.available + 1,
-      stock: prev.stock - 1,
-    }));
-  };
-
-  const handleDecreaseAvailable = () => {
-    if (book.available > 0) {
-      setBook((prev) => ({
-        ...prev,
-        available: prev.available - 1,
-        stock: prev.stock + 1,
-      }));
-    }
-  };
-
-  const isBorrowed = book.available === 0;
+  const isBorrowed = initialBook.available > 0;
 
   return (
     <div className={classes.StockStateContainer}>
@@ -41,10 +21,10 @@ export const StockState: React.FC<StockStateProps> = ({ initialBook }) => {
       >
         <span
           className={`${classes.StockStateIcon} ${
-            isBorrowed ? classes.red : classes.green
+            isBorrowed ? classes.green : classes.red
           }`}
         />
-        {isBorrowed ? "貸出中" : "貸出可"}
+        {isBorrowed ? "貸出可" : "貸出中"}
       </div>
     </div>
   );
