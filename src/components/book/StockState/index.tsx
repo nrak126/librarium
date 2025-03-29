@@ -3,7 +3,6 @@
 import React from "react";
 import classes from "./index.module.scss";
 import { Book } from "@/src/types";
-import { useState } from "react";
 
 interface StockStateProps {
   initialBook: Book;

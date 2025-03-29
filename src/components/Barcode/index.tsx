@@ -62,7 +62,7 @@ export const Barcode: React.FC<BarcodeProps> = ({ setIsbn }) => {
     return () => {
       Quagga.stop();
     };
-  }, [setIsbn]);
+  }, [setIsbn, isClient]);
 
   return (
     <div className={styles.container}>

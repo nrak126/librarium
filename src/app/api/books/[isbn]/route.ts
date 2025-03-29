@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
 import { supabase } from "@/src/lib/supabase";
-import { Book } from "@/src/types";
 
 export async function GET(
   request: Request,
