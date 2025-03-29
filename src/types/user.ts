@@ -8,4 +8,6 @@ export type User = {
   uid: string; // Firebase AuthのユーザーID (UUID)
   icon: string; // アイコン画像のURL
   studentId: string; // 学籍番号
+  level: number;
+  exp: number;
 };
