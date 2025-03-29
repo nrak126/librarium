@@ -48,7 +48,7 @@ export function PageClient() {
         setResult(users);
       }
     }
-  }, [searchWordClick, searchName, users]);
+  }, [searchWordClick, searchName, users, result]);
   return (
     <>
       <div className={styles.whole}>
