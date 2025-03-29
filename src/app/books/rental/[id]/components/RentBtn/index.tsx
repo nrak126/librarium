@@ -1,36 +1,53 @@
-'use client';
+"use client";
 
 import { Btn } from "@/src/components/book/Btn";
-
+import { Book } from "@/src/types";
 import { supabase } from "@/src/lib/supabase";
+import styles from "./index.module.scss";
 
-export function RentBtn({isbn}: {isbn: string}) {
-	const handleRent = async () => {
-    const { data, error } = await supabase.auth.getUser();
-    if (error) {
-      // ここでエラーハンドリング（エラーメッセージ表示とか）
-      throw error;
-    }
-    
-    const { user } = data;
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/api/books/rental`,
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ isbn: isbn, uid: user.id }),
-      }
-    );
+import Link from "next/link";
 
-    if (!res.ok) {
-      // ここでエラーハンドリング（エラーメッセージ表示とか）
-      throw new Error(`HTTP error! status: ${res.status}`);
-    }
+export function RentBtn({ book }: { book: Book }) {
+  const isAvailableRental = book.available > 0;
+
+  const handleRent = async () => {
+    await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/books/${book.isbn}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(book),
+    });
+
+    const logedInUserData = await supabase.auth.getUser();
+
+    await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/books/rental`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        isbn: book.isbn,
+        uid: logedInUserData.data.user?.id,
+      }),
+    });
   };
 
-	return (
-		<div>
-			<Btn text="借りる" bgColor="#99C6E2" onClick={handleRent} />
-		</div>
-	);
+  const handleBack = () => {
+    window.history.back();
+  };
+  return (
+    <div>
+      <div className={styles.back}>
+        <Btn text="戻る" bgColor="#99C6E2" onClick={handleBack} />
+      </div>
+      {isAvailableRental ? (
+        <div className={styles.rental}>
+          <Link href={`/books/rental/${book.isbn}/check`}>
+            <Btn text="借りる" bgColor="#E2999B" onClick={handleRent} />
+          </Link>
+        </div>
+      ) : (
+        <div className={styles.available}>
+          <Btn text="貸出中" bgColor="#aaaaaa" />
+        </div>
+      )}
+    </div>
+  );
 }

@@ -1,27 +1,23 @@
-.BtnRight {
-	display: flex;
+.back {
+  display: flex;
   flex-direction: column;
   align-items: center; /* 中央揃え */
   position: fixed;
-	bottom: 10;
-	right:51%;
-	
+  bottom: 10;
+  right: 55%;
 }
-
-.BtnLeft {
-	display: flex;
+.rental {
+  display: flex;
   flex-direction: column;
   align-items: center; /* 中央揃え */
   position: fixed;
-	bottom: 10;
-	left: 51%;
-	
+  bottom: 10;
+  left: 50%;
 }
-
-.BtnCenter {
-	display: flex;
+.available {
+  display: flex;
   flex-direction: column;
   align-items: center; /* 中央揃え */
   position: fixed;
-	bottom: 10;
+  bottom: 10;
 }
