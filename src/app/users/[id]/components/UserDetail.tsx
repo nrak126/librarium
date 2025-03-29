@@ -1,6 +1,6 @@
 "use client";
 
-import styles from "./UsersDtile.module.scss";
+import styles from "./UsersDetail.module.scss";
 import Image from "next/image";
 import Icon from "@/public/icon.svg";
 import { TagList } from "@/src/components/Users/TagList";
@@ -9,7 +9,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Btn } from "@/src/components/book/Btn";
 
-export default function UserDtile() {
+export default function UserDetail() {
   const [clickEditer, setClickEditer] = useState(false);
   const router = useRouter();
 

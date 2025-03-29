@@ -1,23 +1,22 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import sampleData from "@/src/components/Users/sampleData";
 import { SearchBar } from "@/src/components/SearchBar";
-import styles from "./SearchState.module.scss";
-import { TagSearch } from "@/src/components/Users/TagSearch";
+import styles from "./PageClient.module.scss";
 import UsersList from "@/src/components/Users/UsersList";
 import UserDate from "@/src/components/Users/UserData";
+import { User } from "@/src/types";
 
-type User = {
-  usernum: number;
-  icon: string;
-  num: string;
-  name: string;
-  level: number;
-  tag: string[];
-};
+// type User = {
+//   usernum: number;
+//   icon: string;
+//   num: string;
+//   name: string;
+//   level: number;
+//   tag: string[];
+// };
 
-export function SearchState() {
+export function PageClient({ users }: { users: User[] }) {
   const [searchClick, setSearchClick] = useState(false);
   const [searchName, setSearchName] = useState("");
   const [result, setResult] = useState<User[]>([]);
@@ -27,12 +26,14 @@ export function SearchState() {
 
   useEffect(() => {
     if (searchWordClick === true) {
-      const filteredUsers = sampleData.filter((user) =>
-        user.tag.includes(searchName)
+      const filteredUsers = users.filter((user) =>
+        user.tags.includes(searchName)
       );
       setResult(filteredUsers);
 
       console.log(`検索ワード：${searchName}`);
+    } else {
+      setResult(users);
     }
   }, [searchWordClick, searchName]);
   return (
@@ -55,20 +56,11 @@ export function SearchState() {
       <div className={styles.myprofile}>MY PROFILE</div>
       <UserDate />
       {searchClick ? (
-        <>
-          <div className={styles.titleSearch}>SEARCH</div>
-          <div>
-            <TagSearch result={result} />
-          </div>
-        </>
+        <div className={styles.titleSearch}>SEARCH</div>
       ) : (
-        <>
-          <div className={styles.titleAll}>ALL</div>
-          <div>
-            <UsersList />
-          </div>
-        </>
+        <div className={styles.titleAll}>ALL</div>
       )}
+      <UsersList users={result} />
     </>
   );
 }

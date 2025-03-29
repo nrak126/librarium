@@ -1,9 +1,13 @@
-import { SearchState } from "./compornent/SearchState";
+import { User } from "@/src/types";
+import { PageClient } from "./compornent/PageClient";
 
-export default function Page() {
+export default async function Page() {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/users`);
+  const users: User[] = await res.json();
+
   return (
     <>
-      <SearchState />
+      <PageClient users={users} />
     </>
   );
 }
