@@ -47,6 +47,12 @@ export default function UserDtile() {
       <div className={clickEditer ? styles.trueexp : styles.falseexp}>
         現在の経験値
       </div>
+
+      <div className={styles.progressbar}>
+        <progress max="97" value="50">
+          <p>50%</p>
+        </progress>
+      </div>
     </div>
   );
 }
