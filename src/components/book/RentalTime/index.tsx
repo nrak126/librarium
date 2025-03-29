@@ -3,7 +3,7 @@ import style from "./index.module.scss";
 import Image from "next/image";
 import ipone from "./img.jpg";
 
-export const RentalTime = () => {
+export const  RentalTime = () => {
   return (
     <div className={style.content}>
       <div className={style.main}>
