@@ -29,7 +29,7 @@ export const PageClient: React.FC<BookRecProps> = (props) => {
       }
     };
     fetchUser();
-  },[]);
+  },[router]);
 
   return (
     <>
