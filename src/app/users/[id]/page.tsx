@@ -1,5 +1,5 @@
-import UserDtile from "./components/UserDtile";
+import UserDetail from "./components/UserDetail";
 
 export default function Page() {
-  return <UserDtile />;
+  return <UserDetail />;
 }
