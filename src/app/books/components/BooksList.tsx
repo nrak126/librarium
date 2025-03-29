@@ -34,7 +34,7 @@ export default function BooksList() {
               <BookCardList book={book} />
             </Link>
             <div className={styles.stock}>
-              <StockState isBorrowed={isBorrowed} />
+              <StockState initialBook={book} />
             </div>
           </div>
         </li>
