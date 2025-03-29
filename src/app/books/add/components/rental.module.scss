@@ -1,19 +1,19 @@
 .BtnRight {
-	display: flex;
+  display: flex;
   flex-direction: column;
   align-items: center; /* 中央揃え */
   position: fixed;
-	bottom: 10;
-	right:51%;
-	
+  bottom: 10;
+  right: 51%;
+  margin: 5%;
 }
 
 .BtnLeft {
-	display: flex;
+  display: flex;
   flex-direction: column;
   align-items: center; /* 中央揃え */
   position: fixed;
-	bottom: 10;
-	left: 51%;
-	
+  bottom: 10;
+  left: 51%;
+  margin: 5%;
 }
