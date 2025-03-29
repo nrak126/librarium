@@ -3,7 +3,7 @@
 import React from "react";
 import { Btn } from "@/src/components/book/Btn";
 import { useRouter } from "next/navigation";
-import classes from "./rental.module.scss";
+import style from "./rental.module.scss";
 
 interface BtnsProps {
   BookAdd: () => void;
@@ -20,11 +20,11 @@ export const Btns: React.FC<BtnsProps> = (props) => {
   };
 
   return (
-    <div>
-      <div className={classes.BtnRight}>
+    <div className={style.contents}>
+      <div className={style.BtnRight}>
         <Btn text="戻る" bgColor="#99C6E2" onClick={handleBack} />
       </div>
-      <div className={classes.BtnLeft}>
+      <div className={style.BtnLeft}>
         <Btn text="登録" bgColor="#E2999B" onClick={BookAdd} />
       </div>
     </div>
