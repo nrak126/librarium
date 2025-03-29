@@ -28,12 +28,14 @@ export function PageClient({ users }: { users: User[] }) {
 
   useEffect(() => {
     if (searchWordClick === true) {
-      const filteredUsers = sampleData.filter((user) =>
-        user.tag.includes(searchName)
+      const filteredUsers = users.filter((user) =>
+        user.tags.includes(searchName)
       );
       setResult(filteredUsers);
 
       console.log(`検索ワード：${searchName}`);
+    } else {
+      setResult(users);
     }
   }, [searchWordClick, searchName]);
   return (
@@ -60,7 +62,7 @@ export function PageClient({ users }: { users: User[] }) {
       ) : (
         <div className={styles.titleAll}>ALL</div>
       )}
-      <UsersList users={users} />
+      <UsersList users={result} />
     </>
   );
 }
