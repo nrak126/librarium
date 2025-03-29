@@ -1,10 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import sampleData from "@/src/components/Users/sampleData";
 import { SearchBar } from "@/src/components/SearchBar";
 import styles from "./PageClient.module.scss";
-import { TagSearch } from "@/src/components/Users/TagSearch";
 import UsersList from "@/src/components/Users/UsersList";
 import UserDate from "@/src/components/Users/UserData";
 import { User } from "@/src/types";

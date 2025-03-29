@@ -22,6 +22,8 @@ export default function Page() {
     studentId: "",
     email: "",
     icon: "",
+    level: 1,
+    exp: 0,
   });
 
   const [isExistUser, setIsExistUser] = useState<Response | null>(null);
@@ -51,6 +53,8 @@ export default function Page() {
           studentId: "",
           email: data.user.email || "",
           icon: data.user.user_metadata?.avatar_url || "",
+          level: 1,
+          exp: 0,
         }));
         console.log("Logged-in user:", data.user);
       }

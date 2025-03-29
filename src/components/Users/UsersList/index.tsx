@@ -1,10 +1,9 @@
-import sampleData from "../sampleData";
 import styles from "./index.module.scss";
 import Image from "next/image";
 import Icon from "@/public/icon.svg";
 import { User } from "@/src/types";
 
-function UsersList({users} : {users: User[]}) {
+function UsersList({ users }: { users: User[] }) {
   return (
     <>
       <div className={styles.all}>
