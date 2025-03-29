@@ -27,7 +27,7 @@ export default function Page() {
   const [isExistUser, setIsExistUser] = useState<Response | null>(null);
 
   useEffect(() => {
-    const fetchUser = async () => {
+    (async () => {
       const { data, error } = await supabase.auth.getUser();
       if (error) {
         console.error("Error fetching user:", error);
@@ -54,8 +54,7 @@ export default function Page() {
         }));
         console.log("Logged-in user:", data.user);
       }
-    };
-    fetchUser();
+    })();
   }, [router]);
 
   const handleEnter = async () => {

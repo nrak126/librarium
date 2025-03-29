@@ -15,14 +15,13 @@ export default function PageClient() {
   useEffect(() => {
     console.log(isbn);
 
-    const fetchBook = async () => {
+    ( async () => {
       const res = await fetch(
         `${process.env.NEXT_PUBLIC_BASE_URL}/api/books/${isbn}`
       );
       const data: Book = await res.json();
       setBook(data);
-    };
-    fetchBook();
+    })();
   }, [isbn]);
 
   return (

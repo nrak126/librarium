@@ -13,51 +13,49 @@ export const BookRegister = ({ isbn }: { isbn: string }) => {
   const [selectedGenres, setSelectedGenres] = useState<string[]>([]); // 選択されたジャンルを管理
 
   useEffect(() => {
-    const fetchBookData = async () => {
-      try {
-        const response = await axios.get(
-          `https://app.rakuten.co.jp/services/api/BooksBook/Search/20170404?format=json&isbn=${isbn}&applicationId=${process.env.NEXT_PUBLIC_RAKUTEN_BOOKS_APP_ID}`
-        );
-
-        console.log("取得したデータ:", response.data.Items);
-
-        if (response.data.Items.length > 0) {
-          const volumeInfo = response.data.Items[0].Item;
-          const fetchedBook: Book = {
-            isbn: isbn, // ISBN
-            title: volumeInfo.title || "タイトルが見つかりません",
-            author: volumeInfo.author || "著者情報がありません",
-            description: volumeInfo.itemCaption || "説明がありません",
-            thumbnail: volumeInfo.largeImageUrl || "",
-            publisher: volumeInfo.publisherName || "出版会社情報がありません",
-            stock: 1, // 数量のデフォルト値
-            available: 1, // 数量のデフォルト値
-            tags: selectedGenres,
-            created_at: new Date().toISOString(), // 作成日時
-          };
-          setBook(fetchedBook); // 本の情報をセット
-        } else {
-          setBook({
-            isbn: isbn,
-            title: "タイトルが見つかりません",
-            author: "著者情報がありません",
-            description: "説明がありません",
-            thumbnail: Icon,
-            publisher: "出版会社情報がありません",
-            stock: 0,
-            available: 0,
-            tags: selectedGenres,
-            created_at: "",
-          });
-        }
-      } catch (error) {
-        console.error("エラー:", error);
-        setBook(null); // エラーが発生した場合、nullにセット
-      }
-    };
-
     if (isbn) {
-      fetchBookData();
+      (async () => {
+        try {
+          const response = await axios.get(
+            `https://app.rakuten.co.jp/services/api/BooksBook/Search/20170404?format=json&isbn=${isbn}&applicationId=${process.env.NEXT_PUBLIC_RAKUTEN_BOOKS_APP_ID}`
+          );
+
+          console.log("取得したデータ:", response.data.Items);
+
+          if (response.data.Items.length > 0) {
+            const volumeInfo = response.data.Items[0].Item;
+            const fetchedBook: Book = {
+              isbn: isbn, // ISBN
+              title: volumeInfo.title || "タイトルが見つかりません",
+              author: volumeInfo.author || "著者情報がありません",
+              description: volumeInfo.itemCaption || "説明がありません",
+              thumbnail: volumeInfo.largeImageUrl || "",
+              publisher: volumeInfo.publisherName || "出版会社情報がありません",
+              stock: 1, // 数量のデフォルト値
+              available: 1, // 数量のデフォルト値
+              tags: selectedGenres,
+              created_at: new Date().toISOString(), // 作成日時
+            };
+            setBook(fetchedBook); // 本の情報をセット
+          } else {
+            setBook({
+              isbn: isbn,
+              title: "タイトルが見つかりません",
+              author: "著者情報がありません",
+              description: "説明がありません",
+              thumbnail: Icon,
+              publisher: "出版会社情報がありません",
+              stock: 0,
+              available: 0,
+              tags: selectedGenres,
+              created_at: "",
+            });
+          }
+        } catch (error) {
+          console.error("エラー:", error);
+          setBook(null); // エラーが発生した場合、nullにセット
+        }
+      })();
     }
   }, [isbn, selectedGenres]);
 

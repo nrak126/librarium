@@ -18,7 +18,7 @@ export const NavUser: React.FC<Props> = ({ setNavOpen }) => {
   const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
-    const fetchUser = async () => {
+    (async () => {
       const { data, error } = await supabase.auth.getUser();
       if (error) {
         console.error("Error fetching user:", error);
@@ -29,8 +29,7 @@ export const NavUser: React.FC<Props> = ({ setNavOpen }) => {
         const fetchedUser: User = await response.json();
         setUser(fetchedUser);
       }
-    };
-    fetchUser();
+    })();
   }, [router]);
 
   const onLink = () => {
