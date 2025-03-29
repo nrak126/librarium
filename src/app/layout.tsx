@@ -1,33 +1,14 @@
-"use client";
-
-import { Header } from "../components/Header";
+import { LayoutClient } from "./components/LayoutClient"; // 別ファイルからインポート
 import "./styles/globals.css";
-import style from "./styles/layout.module.scss";
-import { usePathname } from "next/navigation";
+import React from "react";
 
 export default function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
-  const pathname = usePathname();
-  const isBookCheck =
-    pathname === "/books/add/barcode" || pathname === "/books/rental/barcode";
-  const isAuth = pathname === "/auth" || pathname.startsWith("/auth/");
-
+}: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="ja">
       <body>
-        <div className={isAuth ? undefined : style.background}>
-          {!isAuth && <Header />}
-          <div className={isAuth || isBookCheck ? undefined : style.main}>
-            <main
-              className={isAuth || isBookCheck ? undefined : style.mainContents}
-            >
-              {children}
-            </main>
-          </div>
-        </div>
+        <LayoutClient>{children}</LayoutClient>
       </body>
     </html>
   );
