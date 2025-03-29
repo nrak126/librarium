@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Quagga from "quagga";
 import styles from "./index.module.scss";
 
@@ -11,8 +11,18 @@ type BarcodeProps = {
 export const Barcode: React.FC<BarcodeProps> = ({ setIsbn }) => {
   // カメラ映像を表示するためのRef
   const scannerRef = useRef<HTMLDivElement>(null);
+  const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
+    // クライアントサイドのみでQuaggaを実行
+    setIsClient(true);
+  }, []);
+
+  useEffect(() => {
+    // クライアントサイドでのみ実行
+    if (!isClient || typeof window === "undefined" || !scannerRef.current)
+      return;
+
     // QuaggaJSの初期化
     Quagga.init(
       {
@@ -47,6 +57,11 @@ export const Barcode: React.FC<BarcodeProps> = ({ setIsbn }) => {
         Quagga.start();
       }
     });
+
+    // クリーンアップ（コンポーネントのアンマウント時にQuaggaを停止）
+    return () => {
+      Quagga.stop();
+    };
   }, [setIsbn]);
 
   return (
