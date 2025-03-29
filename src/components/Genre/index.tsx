@@ -1,3 +1,4 @@
+`use client`;
 import { useState } from "react";
 import style from "./index.module.scss";
 

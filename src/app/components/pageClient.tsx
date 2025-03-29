@@ -1,7 +1,6 @@
 "use client";
 
-import { SearchBar } from "../../components/SearchBar";
-import { NavSlide } from "../../components/nav/NavSlide";
+
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import styles from "../styles/TabBar.module.scss";
 import { RentalTime } from "../../components/book/RentalTime";
@@ -33,9 +32,7 @@ export const PageClient: React.FC = () => {
 
   return (
     <>
-      <SearchBar />
-
-      <NavSlide />
+      
 
       <Tabs className={styles.tabs}>
         <TabList className={styles.tabList}>
