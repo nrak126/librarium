@@ -28,27 +28,21 @@ export function PageClient() {
   useEffect(() => {
     (async () => {
       const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/users`);
-      const users: User[] = await res.json();
-      setUsers(users);
+      const data: User[] = await res.json();
+      setUsers(data);
     })();
+  }, []);
+  
+  useEffect(() => {
     if (searchWordClick === true) {
       const filteredUsers = result.filter((user) =>
         user.tags.includes(searchName)
       );
       setResult(filteredUsers);
-
-      if (searchWordClick === true) {
-        const filteredUsers = users.filter((user) =>
-          user.tags.includes(searchName)
-        );
-        setResult(filteredUsers);
-
-        console.log(`検索ワード：${searchName}`);
-      } else {
-        setResult(users);
-      }
+    } else {
+      setResult(users);
     }
-  }, [searchWordClick, searchName, users]);
+  }, [searchWordClick, users]);
   return (
     <>
       <div className={styles.whole}>

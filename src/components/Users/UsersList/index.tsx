@@ -1,6 +1,5 @@
 import styles from "./index.module.scss";
 import Image from "next/image";
-import Icon from "@/public/icon.svg";
 import { User } from "@/src/types";
 
 function UsersList({ users }: { users: User[] }) {
@@ -11,7 +10,7 @@ function UsersList({ users }: { users: User[] }) {
           return (
             <div key={index} className={styles.whole}>
               <Image
-                src={Icon}
+                src={data.icon}
                 alt={"librariumのアイコン"}
                 width={57}
                 height={57}
