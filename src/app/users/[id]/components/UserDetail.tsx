@@ -2,7 +2,6 @@
 
 import styles from "./UsersDetail.module.scss";
 import Image from "next/image";
-import Icon from "@/public/icon.svg";
 import { TagList } from "@/src/components/Users/TagList";
 import { TagEdit } from "@/src/components/Users/TagEdit";
 import { useState, useEffect } from "react";

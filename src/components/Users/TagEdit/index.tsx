@@ -1,5 +1,4 @@
 import styles from "./index.module.scss";
-import { tagData } from "../tagData";
 import { User } from "@/src/types";
 
 export function TagEdit({ user }: { user: User | null }) {

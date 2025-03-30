@@ -50,7 +50,7 @@ export function PageClient() {
     } else {
       setResult(users);
     }
-  }, [searchWordClick, users]);
+  }, [searchWordClick, users, result,searchName]);
 
   return (
     <>
