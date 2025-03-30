@@ -1,4 +1,3 @@
-import styles from "./index.module.scss";
 import { User } from "@/src/types";
 import UserData from "../UserData";
 
