@@ -28,6 +28,7 @@ export function ReturnBtn() {
 
   const handleReturn = () => {
     window.history.back();
+    //この中に返却すると返せるようにする
   };
   const handleBack = () => {
     window.history.back();
