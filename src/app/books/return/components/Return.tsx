@@ -1,6 +1,7 @@
 import { SearchBar } from "@/src/components/SearchBar";
 import style from "../style/return.module.scss";
 import { MyData } from "./MyData";
+import { AllData } from "./AllData";
 
 export const Return: React.FC = () => {
   return (
@@ -12,6 +13,7 @@ export const Return: React.FC = () => {
       <p className={style.myProfile}>MY RENTAL BOOK</p>
       <MyData />
       <p className={style.allProfile}>ALL RENTAL BOOK</p>
+      <AllData />
     </>
   );
 };
