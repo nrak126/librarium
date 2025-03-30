@@ -5,7 +5,7 @@ import styles from "./return.module.scss";
 import { useSearchParams } from "next/navigation";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { Book, Loan, User } from "@/src/types";
+import { Book } from "@/src/types";
 import { ReturnBtn } from "./ReturnBtn";
 import LoadingBrown from "@/src/components/LoadingBrown";
 import { supabase } from "@/src/lib/supabase";
