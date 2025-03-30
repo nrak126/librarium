@@ -51,6 +51,7 @@ export function PageClient() {
       setResult(users);
     }
   }, [searchWordClick, users]);
+
   return (
     <>
       <div className={styles.whole}>

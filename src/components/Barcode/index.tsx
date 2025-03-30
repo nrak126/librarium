@@ -6,9 +6,10 @@ import styles from "./index.module.scss";
 
 type BarcodeProps = {
   setIsbn: (isbn: string) => void;
+  text: string;
 };
 
-export const Barcode: React.FC<BarcodeProps> = ({ setIsbn }) => {
+export const Barcode: React.FC<BarcodeProps> = ({ setIsbn, text }) => {
   // カメラ映像を表示するためのRef
   const scannerRef = useRef<HTMLDivElement>(null);
 
@@ -61,7 +62,7 @@ export const Barcode: React.FC<BarcodeProps> = ({ setIsbn }) => {
       <div className={styles.under}>
         <div className={styles.circle}></div>
         <p className={styles.message}>
-          借りたい本の裏表紙のバーコードを カメラにかざしてください
+          {text}
         </p>
       </div>
     </div>

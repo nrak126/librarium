@@ -9,9 +9,11 @@ export const Return: React.FC = () => {
         <h2 className={style.title}>返却</h2>
         <SearchBar func={"検索"} />
       </div>
-      <p className={style.myProfile}>MY RENTAL BOOK</p>
-      <MyData />
-      <p className={style.allProfile}>ALL RENTAL BOOK</p>
+      <div className={style.under}>
+        <p className={style.myProfile}>MY RENTAL BOOK</p>
+        <MyData />
+        <p className={style.allProfile}>ALL RENTAL BOOK</p>
+      </div>
     </>
   );
 };

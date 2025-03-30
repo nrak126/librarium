@@ -3,15 +3,15 @@ import style from "./index.module.scss";
 import Image from "next/image";
 import ipone from "./img.jpg";
 
-export const RentalTime = () => {
+export const  RentalTime = () => {
   return (
     <div className={style.content}>
       <div className={style.main}>
         <Image
           className={style.img}
           src={ipone}
-          width={100}
-          height={150}
+          width={90}
+          height={130}
           alt={"aaa"}
         />
       </div>

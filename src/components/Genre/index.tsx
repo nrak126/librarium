@@ -1,3 +1,5 @@
+"use client";
+
 import { useState } from "react";
 import style from "./index.module.scss";
 
@@ -31,19 +33,22 @@ export const Genre = ({ onGenreChange }: GenreProps) => {
   const handleCheckboxChange =
     (genre: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
       const isChecked = e.target.checked;
-      let updatedGenres;
+      let updatedGenres: string[];
 
       // チェックされた場合、選択したジャンルを配列に追加
       if (isChecked) {
         updatedGenres = [...selectedGenres, genre];
-        // チェックが外れた場合、選択したジャンルを配列から削除
-      } else {
+      }
+      // チェックが外れた場合、選択したジャンルを配列から削除
+      else {
         updatedGenres = selectedGenres.filter((item) => item !== genre);
       }
 
+      // 更新されたジャンルをセットし、親コンポーネントに通知
       setSelectedGenres(updatedGenres);
-      onGenreChange(updatedGenres);
+      onGenreChange(updatedGenres); // ここは式ではなく、関数呼び出しとして実行
     };
+
   console.log(selectedGenres);
 
   return (
@@ -56,7 +61,7 @@ export const Genre = ({ onGenreChange }: GenreProps) => {
         {genreList.map((genre, index) => (
           <div className={style.genre} key={index}>
             <input
-              onChange={handleCheckboxChange(genre)}
+              onChange={handleCheckboxChange(genre)} // 関数呼び出し
               className={style.input}
               type="checkbox"
               id={`genre-${index}`}

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="_レイヤー_1" data-name="レイヤー 1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 753.84 45.12">
+  <defs>
+    <style>
+      .cls-1 {
+        filter: url(#drop-shadow-3);
+      }
+
+      .cls-1, .cls-2, .cls-3 {
+        fill: #b89a76;
+      }
+
+      .cls-2 {
+        filter: url(#drop-shadow-2);
+      }
+
+      .cls-3 {
+        filter: url(#drop-shadow-1);
+      }
+    </style>
+    <filter id="drop-shadow-1" x="7.44" y="6.48" width="738.96" height="32.88" filterUnits="userSpaceOnUse">
+      <feOffset dx="2.83" dy="14.17"/>
+      <feGaussianBlur result="blur" stdDeviation="5"/>
+      <feFlood flood-color="#173560" flood-opacity=".25"/>
+      <feComposite in2="blur" operator="in"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+    <filter id="drop-shadow-2" x="0" y="0" width="45.12" height="45.12" filterUnits="userSpaceOnUse">
+      <feOffset dx="2.83" dy="14.17"/>
+      <feGaussianBlur result="blur-2" stdDeviation="5"/>
+      <feFlood flood-color="#173560" flood-opacity=".25"/>
+      <feComposite in2="blur-2" operator="in"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+    <filter id="drop-shadow-3" x="708.72" y="0" width="45.12" height="45.12" filterUnits="userSpaceOnUse">
+      <feOffset dx="2.83" dy="14.17"/>
+      <feGaussianBlur result="blur-3" stdDeviation="5"/>
+      <feFlood flood-color="#173560" flood-opacity=".25"/>
+      <feComposite in2="blur-3" operator="in"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+  </defs>
+  <rect class="cls-3" x="19.76" y="7.32" width="708.66" height="2.69"/>
+  <circle class="cls-2" cx="19.76" cy="8.44" r="7.44"/>
+  <circle class="cls-1" cx="728.42" cy="8.43" r="7.44"/>
+</svg>
