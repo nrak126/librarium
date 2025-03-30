@@ -2,10 +2,12 @@
   flex-direction: column;
   align-items: center;
   display: flex;
+
 }
 
 .title {
   display: flex;
+  font-size: 13px;
   flex-direction: column;
   text-align: center;
   align-items: center;
@@ -27,7 +29,7 @@
   margin-bottom: 3%;
   font-size: 1.9vh;
   font-family: "Alegreya Sans SC" !important;
-  border-bottom: 1.5px solid #635038;
+  border-bottom: 1.25px solid #635038;
   width: 15vh;
 }
 
@@ -37,17 +39,18 @@
   align-items: center;
   justify-content: center;
   width: 100%;
+  position: relative;
 }
 
 .content {
   background-color: #f4e9d7;
   width: 90%;
   padding: 6%;
-  border-radius: 16px;
+  border-radius: 22px;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0vh 1.5vw 1.3vw 0.5vw rgb(27 55 99 / 25%);
+    box-shadow: 0px 3px 8px 1px rgb(27 55 99 / 35%);
 }
 
 .icon {
@@ -56,6 +59,9 @@
   justify-content: center;
   border: 1px solid #bb9c77;
   border-radius: 50px;
+  box-shadow: 0vh 0.2vw 0.8vw 0.6vw rgb(27 55 99 / 30%);
+
+
 }
 
 /* テキスト関連の中央揃え */
@@ -67,6 +73,8 @@
   text-align: center;
   width: 100%;
   height: 100%;
+  color: #635038;
+  font-weight: 599;
 }
 
 .bookName {
@@ -81,24 +89,27 @@
   display: flex;
   font-weight: bold;
   font-size: 13px;
-  font-family: "Yaldevi", sans-serif !important;
   justify-content: center;
+}
+.returnTime {
+  font-family: "Jua", sans-serif !important;
+  position: relative;
+  top: 0.15vh;
 }
 
 .userName {
   color: #77634b;
-  font-size: 12px;
-  font-family: "Sumana", serif !important;
+  font-size: 10px;
   position: relative;
   top: 1vh;
   border: #77634b solid 1px;
   border-radius: 32px;
   background-color: #fffbf5;
   width: 90%;
-  height: 3vh;
+  height: 2.6vh;
   text-align: center;
   line-height: 2.5vh;
-  font-weight: bold;
+  font-weight: 500;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -106,7 +117,7 @@
 
 .BookIcon {
   margin-left: 2%;
-  box-shadow: 0vh 1.5vw 1.3vw 0.5vw rgb(27 55 99 / 25%);
+  box-shadow: 0vh 1.5vw 1.3vw 0.5vw rgb(27 55 99 / 20%);
 }
 
 .allProfile {
@@ -117,6 +128,11 @@
   margin-bottom: 3%;
   font-size: 1.9vh;
   font-family: "Alegreya Sans SC" !important;
-  border-bottom: 1.5px solid #635038;
+  border-bottom: 1.25px solid #635038;
   width: 16vh;
+}
+
+.under {
+  position: relative;
+  top: 2vh;
 }

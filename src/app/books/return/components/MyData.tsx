@@ -22,7 +22,7 @@ export const MyData = () => {
             <p className={style.return}>
               返却期限：<span className={style.returnTime}>2025/99/99</span>
             </p>
-            <p className={style.userName}>あと3日</p>
+            <p className={style.userName}>k24142 矢部大智</p>
           </div>
           <Image
             src={BookIcon}

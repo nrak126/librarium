@@ -10,8 +10,8 @@ export const  RentalTime = () => {
         <Image
           className={style.img}
           src={ipone}
-          width={100}
-          height={150}
+          width={90}
+          height={130}
           alt={"aaa"}
         />
       </div>
