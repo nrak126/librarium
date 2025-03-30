@@ -8,22 +8,18 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Btn } from "@/src/components/book/Btn";
 import { User } from "@/src/types";
-import { supabase } from "@/src/lib/supabase";
+import { usePathname } from "next/navigation";
 
 export default function UserDetail() {
   const [clickEditer, setClickEditer] = useState(false);
   const router = useRouter();
   const [User, setUser] = useState<User | null>(null);
+  const pathname = usePathname();
+  const pathArr = pathname.split("/");
+  const uid = pathArr[pathArr.length - 1];
 
   useEffect(() => {
     (async () => {
-      const logedInUserSupa = await supabase.auth.getUser();
-      const { data, error } = logedInUserSupa;
-      if (error) {
-        console.log("ユーザのデータを取得できませんでした。");
-        return;
-      }
-      const uid = data.user.id;
       const UserDataRes = await fetch(
         `${process.env.NEXT_PUBLIC_BASE_URL}/api/users/${uid}`
       );
