@@ -11,7 +11,7 @@ export const GetIsbn = () => {
   useEffect(() => {
     if (isbn) {
       // isbn が設定されたら遷移
-      router.push(`${process.env.NEXT_PUBLIC_BASE_URL}/api/books/add/${isbn}`);
+      router.push(`${process.env.NEXT_PUBLIC_BASE_URL}/books/add/${isbn}`);
     }
   }, [isbn, router]);
 
