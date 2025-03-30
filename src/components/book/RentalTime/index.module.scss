@@ -1,20 +1,29 @@
-@import url('https://fonts.googleapis.com/css2?family=Yaldevi:wght@200..700&family=Yuji+Mai&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Jua&family=Yaldevi:wght@200..700&family=Yuji+Mai&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Jua&family=Sumana:wght@400;700&family=Yaldevi:wght@200..700&family=Yuji+Mai&display=swap');
-
+@import url("https://fonts.googleapis.com/css2?family=Sawarabi+Gothic&display=swap");
 
 .content{
     background-color: #F4E9D7;
-    margin: 5%;
+    position: relative;
+    right: -5%;
+    width: 90vw;
+    height: 20vh;
+    //margin: 9%;
     border-radius: 20px;
     display: flex;
     justify-content: center;
     align-items: center;
+    box-shadow: 0px 3px 8px 1px rgb(27 55 99 / 35%);
+
 }   
 
 .img{
     margin: 16px;
-    border-radius: 16px;
+    border-radius: 10px;
+    position: relative;
+    right: 20%;
+    box-shadow: 0vh 0.2vw 0.8vw 0.6vw rgb(27 55 99 / 25%);
+
 }
 
 .text{
@@ -23,12 +32,16 @@
     justify-content: center;
     align-items: center;
     height: 100%;
+    color: #635038;
+    font-weight: 599;
+
 }
 
 .bookName{
     font-size: 12px;
     position: relative;
-    bottom: 3vh;
+    bottom: 2vh;
+    right: 5%;
 }
 
 .return{
@@ -36,24 +49,29 @@
     display: flex;
     font-weight: bold;
     font-size: 13px;
-    font-family: "Yaldevi", sans-serif !important;
+    position: relative;
+    right: 7%;
+    top: 1.5%;
 }
 
-.return{
+.returnTime{
     font-family: "Jua", sans-serif !important;
+    position: relative;
+    top: 0.25vh;
 }
 
 .day{
     color: #77634B;
-    font-size: 12px;
-    font-family: "Sumana", serif !important;
+    font-size: 10.3px;
     position: relative;
-    top: 3vh;
-    border: #77634B solid 1px;
+    top: 2.5vh;
+    right: 11%;
+    border: #77634B solid 1.5px;
     border-radius: 32px;
     background-color: #FFFBF5;
     width: 50%;
     height: 3vh;
+    padding: 0.8%;
     text-align: center;
     line-height: 2.5vh;
     font-weight: bold;
