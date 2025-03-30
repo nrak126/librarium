@@ -1,7 +1,9 @@
+"use client";
+
 import React from "react";
 import style from "./index.module.scss";
 import Image from "next/image";
-
+import { useRouter } from "next/navigation";
 import { Book } from "@/src/types";
 
 type BookRecProps = {
@@ -10,6 +12,12 @@ type BookRecProps = {
 
 export const BookRanking: React.FC<BookRecProps> = (props) => {
   const { books } = props;
+
+  const router = useRouter();
+
+  const handleClickDetail = (link: string) => {
+    router.push(`books/${link}`);
+  };
   return (
     <div className={style.contents}>
       {books.map((appName, index) => {
@@ -25,7 +33,10 @@ export const BookRanking: React.FC<BookRecProps> = (props) => {
 
         return (
           <div key={index} className={style.content}>
-            <div className={style.card}>
+            <div
+              onClick={() => handleClickDetail(appName.isbn)}
+              className={style.card}
+            >
               <div className={`${style.ranking} ${rankClass}`}>
                 <div className={style.number}>{index + 1}</div>
               </div>
