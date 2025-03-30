@@ -10,7 +10,7 @@
   font-weight: bold;
   margin-bottom: 5%;
   color: #635038;
-  word-break: keep-all;
+  white-space: normal;
 }
 
 .hr {
@@ -25,11 +25,11 @@
 }
 .Author,
 .Publisher {
-  font-size: 15px;
+  font-size: 13px;
   font-weight: bold;
   position: relative;
   right: -3%;
-  top: 5.2vh;
+  top: 5vh;
   color: #635038;
 }
 
