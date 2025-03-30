@@ -6,6 +6,7 @@ import styles from "./PageClient.module.scss";
 import UsersList from "@/src/components/Users/UsersList";
 import UserData from "@/src/components/Users/UserData";
 import { User } from "@/src/types";
+import { supabase } from "@/src/lib/supabase";
 
 export function PageClient() {
   const [searchClick, setSearchClick] = useState(false);
@@ -15,12 +16,28 @@ export function PageClient() {
 
   const [searchWordClick, setSearchWordClick] = useState(false);
   // let searchWordClick: Boolean | undefined = false;
+  const [logedInUser, setLogedInUser] = useState<User | null>(null);
 
   useEffect(() => {
     (async () => {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/users`);
-      const data: User[] = await res.json();
-      setUsers(data);
+      const usersRes = await fetch(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/users`
+      );
+      const usersData: User[] = await usersRes.json();
+      setUsers(usersData);
+
+      const logedInUserSupa = await supabase.auth.getUser();
+      const { data, error } = logedInUserSupa;
+      if (error) {
+        console.log("ログイン中のユーザのデータを取得できませんでした。");
+        return;
+      }
+      const uid = data.user.id;
+      const logedInUserRes = await fetch(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/users/${uid}`
+      );
+      const logedInUserData: User = await logedInUserRes.json();
+      setLogedInUser(logedInUserData);
     })();
   }, []);
 
@@ -52,7 +69,7 @@ export function PageClient() {
         </div>
       </div>
       <div className={styles.myprofile}>MY PROFILE</div>
-      <UserData user={users[0]} />
+      <UserData user={logedInUser} />
       {searchClick ? (
         <div className={styles.titleSearch}>SEARCH</div>
       ) : (

@@ -2,7 +2,7 @@ import styles from "./index.module.scss";
 import Image from "next/image";
 import { User } from "@/src/types";
 
-function UserData({ user }: { user: User }) {
+function UserData({ user }: { user: User | null }) {
   if (!user) {
     return <h1>Loading...</h1>;
   }
