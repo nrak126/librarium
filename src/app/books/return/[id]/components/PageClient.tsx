@@ -7,7 +7,6 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Book } from "@/src/types";
 import { ReturnBtn } from "./ReturnBtn";
-import Loading from "@/src/components/Loading";
 import LoadingBrown from "@/src/components/LoadingBrown";
 
 export const PageClient = () => {
