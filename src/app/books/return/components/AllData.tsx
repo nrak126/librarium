@@ -93,9 +93,7 @@ export const AllData = () => {
                         {getReturnDay(book.return_date)}
                       </span>
                     </p>
-                    <p className={style.userName}>
-                      {getRemainingDays(book.return_date)}
-                    </p>
+                    <p className={style.usersName}>{book.users.name}</p>
                   </div>
                   <Image
                     src={book.books.thumbnail}
