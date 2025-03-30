@@ -26,7 +26,7 @@ export default function UserDetail() {
       const UserData: User = await UserDataRes.json();
       setUser(UserData);
     })();
-  }, []);
+  }, [uid]);
 
   if (!User) {
     return;

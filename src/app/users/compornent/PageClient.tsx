@@ -43,14 +43,14 @@ export function PageClient() {
 
   useEffect(() => {
     if (searchWordClick === true) {
-      const filteredUsers = result.filter((user) =>
+      const filteredUsers = users.filter((user) =>
         user.tags.includes(searchName)
       );
       setResult(filteredUsers);
     } else {
       setResult(users);
     }
-  }, [searchWordClick, users, searchName]);
+  }, [searchWordClick, users, searchName]); // result は依存関係に追加しない
 
   return (
     <>
