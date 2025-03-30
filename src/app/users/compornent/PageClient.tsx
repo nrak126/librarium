@@ -4,17 +4,9 @@ import { useState, useEffect } from "react";
 import { SearchBar } from "@/src/components/SearchBar";
 import styles from "./PageClient.module.scss";
 import UsersList from "@/src/components/Users/UsersList";
-import UserDate from "@/src/components/Users/UserData";
+import UserData from "@/src/components/Users/UserData";
 import { User } from "@/src/types";
-
-// type User = {
-//   usernum: number;
-//   icon: string;
-//   num: string;
-//   name: string;
-//   level: number;
-//   tag: string[];
-// };
+import { supabase } from "@/src/lib/supabase";
 
 export function PageClient() {
   const [searchClick, setSearchClick] = useState(false);
@@ -24,31 +16,42 @@ export function PageClient() {
 
   const [searchWordClick, setSearchWordClick] = useState(false);
   // let searchWordClick: Boolean | undefined = false;
+  const [logedInUser, setLogedInUser] = useState<User | null>(null);
 
   useEffect(() => {
     (async () => {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/users`);
-      const users: User[] = await res.json();
-      setUsers(users);
+      const usersRes = await fetch(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/users`
+      );
+      const usersData: User[] = await usersRes.json();
+      setUsers(usersData);
+
+      const logedInUserSupa = await supabase.auth.getUser();
+      const { data, error } = logedInUserSupa;
+      if (error) {
+        console.log("ログイン中のユーザのデータを取得できませんでした。");
+        return;
+      }
+      const uid = data.user.id;
+      const logedInUserRes = await fetch(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/users/${uid}`
+      );
+      const logedInUserData: User = await logedInUserRes.json();
+      setLogedInUser(logedInUserData);
     })();
+  }, []);
+
+  useEffect(() => {
     if (searchWordClick === true) {
       const filteredUsers = result.filter((user) =>
         user.tags.includes(searchName)
       );
       setResult(filteredUsers);
-
-      if (searchWordClick === true) {
-        const filteredUsers = users.filter((user) =>
-          user.tags.includes(searchName)
-        );
-        setResult(filteredUsers);
-
-        console.log(`検索ワード：${searchName}`);
-      } else {
-        setResult(users);
-      }
+    } else {
+      setResult(users);
     }
-  }, [searchWordClick, searchName, users, result]);
+  }, [searchWordClick, users]);
+
   return (
     <>
       <div className={styles.whole}>
@@ -67,7 +70,7 @@ export function PageClient() {
         </div>
       </div>
       <div className={styles.myprofile}>MY PROFILE</div>
-      <UserDate />
+      <UserData user={logedInUser} />
       {searchClick ? (
         <div className={styles.titleSearch}>SEARCH</div>
       ) : (

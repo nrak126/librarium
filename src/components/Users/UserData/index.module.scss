@@ -5,6 +5,11 @@
   flex-direction: column;
   align-items: center;
 
+  .link {
+    text-decoration: none;
+    border: none;
+   }
+
   .whole {
     margin: 0.5%;
     background-color: #f4e9d7;

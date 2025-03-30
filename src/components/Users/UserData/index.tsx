@@ -1,47 +1,48 @@
-import { userId } from "../userId";
 import styles from "./index.module.scss";
 import Image from "next/image";
-import Icon from "@/public/icon.svg";
+import { User } from "@/src/types";
+import Link from "next/link";
 
-function UserDate() {
+function UserData({ user }: { user: User | null }) {
+  if (!user) {
+    return <h1>Loading...</h1>;
+  }
   return (
     <>
-      <div className={styles.all}>
-        {userId.map((data, index) => {
-          return (
-            <div key={index} className={styles.whole}>
-              <Image
-                src={Icon}
-                alt={"librariumのアイコン"}
-                width={57}
-                height={57}
-                className={styles.icon}
-              />
+      <Link legacyBehavior href={`users/${user.uid}`} className={styles.link}>
+        <div className={styles.all}>
+          <div className={styles.whole}>
+            <Image
+              src={user.icon}
+              alt={"ユーザーアイコン"}
+              width={57}
+              height={57}
+              className={styles.icon}
+            />
 
-              <div className={styles.sub}>
-                <div className={styles.component}>
-                  <div className={styles.numname}>
-                    {data.num + " " + data.name}
-                  </div>
-                  <div className={styles.level}>Lv.{data.level}</div>
+            <div className={styles.sub}>
+              <div className={styles.component}>
+                <div className={styles.numname}>
+                  {user.studentId + " " + user.name}
                 </div>
+                <div className={styles.level}>Lv.{user.level}</div>
+              </div>
 
-                <div className={styles.tagComp}>
-                  {data.tag.slice(0, 4).map((tagdata, index) => {
-                    return (
-                      <div key={index} className={styles.tag}>
-                        #{tagdata}
-                      </div>
-                    );
-                  })}
-                </div>
+              <div className={styles.tagComp}>
+                {user.tags.slice(0, 4).map((tagdata, index) => {
+                  return (
+                    <div key={index} className={styles.tag}>
+                      #{tagdata}
+                    </div>
+                  );
+                })}
               </div>
             </div>
-          );
-        })}
-      </div>
+          </div>
+        </div>
+      </Link>
     </>
   );
 }
 
-export default UserDate;
+export default UserData;
