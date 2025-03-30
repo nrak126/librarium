@@ -13,10 +13,11 @@ export async function POST(request: Request) {
 
     const { data, error } = await supabase
       .from("loans")
-      .insert({
+      .update({
         isReturned: true,
       })
-      .select("*");
+      .eq("isbn", isbn)
+      .eq("uid", uid);
     if (error) {
       throw error;
     }

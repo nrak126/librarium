@@ -5,9 +5,10 @@ import styles from "./return.module.scss";
 import { useSearchParams } from "next/navigation";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { Book } from "@/src/types";
+import { Book, Loan, User } from "@/src/types";
 import { ReturnBtn } from "./ReturnBtn";
 import LoadingBrown from "@/src/components/LoadingBrown";
+import { supabase } from "@/src/lib/supabase";
 
 export const PageClient = () => {
   const searchParams = useSearchParams();
@@ -17,6 +18,7 @@ export const PageClient = () => {
   const isbn = pathArr[pathArr.length - 1];
 
   const [book, setBook] = useState<Book | null>(null);
+  const [uid, setUid] = useState<string>("");
 
   useEffect(() => {
     (async () => {
@@ -24,8 +26,15 @@ export const PageClient = () => {
         const renBooks = await fetch(
           `${process.env.NEXT_PUBLIC_BASE_URL}/api/books/${isbn}`
         );
-        const data: Book = await renBooks.json();
-        setBook(data);
+        const book: Book = await renBooks.json();
+        setBook(book);
+
+        const logedInUser = await supabase.auth.getUser();
+        const { data, error } = logedInUser;
+        if (error) {
+          return <h1>ログイン中のユーザ情報を取得できませんでした。</h1>;
+        }
+        setUid(data.user.id);
       } catch (error) {
         console.error("レンタルデータの取得エラー:", error);
       }
@@ -40,7 +49,7 @@ export const PageClient = () => {
         <div className={styles.contents}>
           {book && <BookInfo book={book} />}
           <p className={styles.Day}>返却期限：{returnDate ?? "不明"}</p>
-          <ReturnBtn />
+          <ReturnBtn isbn={isbn} uid={uid} />
         </div>
       )}
     </>

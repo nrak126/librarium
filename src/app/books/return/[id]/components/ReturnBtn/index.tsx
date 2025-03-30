@@ -4,29 +4,22 @@ import { Btn } from "@/src/components/book/Btn";
 
 import styles from "../return.module.scss";
 
-export function ReturnBtn() {
-  // const isAvailableReturn = book.available > 0;
+type Props = {
+  isbn: string;
+  uid: string;
+};
 
-  // const handleReturn = async () => {
-  //   await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/books/${book.isbn}`, {
-  //     method: "POST",
-  //     headers: { "Content-Type": "application/json" },
-  //     body: JSON.stringify(book),
-  //   });
+export function ReturnBtn(props: Props) {
+  const { isbn, uid } = props;
 
-  //   const logedInUserData = await supabase.auth.getUser();
-
-  //   await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/books/rental`, {
-  //     method: "POST",
-  //     headers: { "Content-Type": "application/json" },
-  //     body: JSON.stringify({
-  //       isbn: book.isbn,
-  //       uid: logedInUserData.data.user?.id,
-  //     }),
-  //   });
-  // };
-
-  const handleReturn = () => {
+  const handleReturn = async () => {
+    await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/books/return`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ isbn: isbn, uid: uid }),
+    });
     window.history.back();
     //この中に返却すると返せるようにする
   };
