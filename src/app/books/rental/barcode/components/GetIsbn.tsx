@@ -15,5 +15,16 @@ export const GetIsbn = () => {
     }
   }, [isbn, router]);
 
-  return <>{isbn ? <p>{isbn}</p> : <Barcode setIsbn={setIsbn} />}</>;
+  return (
+    <>
+      {isbn ? (
+        <p>{isbn}</p>
+      ) : (
+        <Barcode
+          setIsbn={setIsbn}
+          text="借りたい本のバーコードをカメラにかざしてください"
+        />
+      )}
+    </>
+  );
 };
