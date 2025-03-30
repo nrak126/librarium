@@ -1,0 +1,39 @@
+.back {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* 中央揃え */
+  position: fixed;
+  bottom: 30;
+  right: 57%;
+  width: 22vw;
+}
+.return {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* 中央揃え */
+  position: fixed;
+  bottom: 30;
+  left: 55%;
+  width: 22vw;
+}
+.Deadline {
+	font-size: 18px;
+  font-weight: bold;
+	color: #635038;
+  position: relative;
+  top: 25vh;
+  right:-1%;
+}
+.Day {
+	color: #77634B;
+    font-size: 31px;
+    font-family: "Jua", sans-serif !important;
+    position: relative;
+    top: 28vh;
+    right: -24%;
+    width: 50%;
+    height: 9%;
+    text-align: center;
+    line-height: 2.5vh;
+    font-weight: bold;
+}
