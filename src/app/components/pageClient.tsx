@@ -1,6 +1,5 @@
 "use client";
 
-
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import styles from "../styles/TabBar.module.scss";
 import { RentalTime } from "../../components/book/RentalTime";
@@ -32,8 +31,6 @@ export const PageClient: React.FC = () => {
 
   return (
     <>
-      
-
       <Tabs className={styles.tabs}>
         <TabList className={styles.tabList}>
           <Tab className={styles.tab} selectedClassName={styles.tabSelected}>

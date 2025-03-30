@@ -1,4 +1,4 @@
-export type Loan = {
+export interface Loan  {
   id: string; // ローンID (UUID)
   created_at: string; // 作成日時 (ISO 8601形式)
   uid: string; // ユーザーID (Firebase AuthのユーザーID, UUID)
