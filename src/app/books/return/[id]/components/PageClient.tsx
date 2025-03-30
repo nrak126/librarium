@@ -7,6 +7,8 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Book } from "@/src/types";
 import { ReturnBtn } from "./ReturnBtn";
+import Loading from "@/src/components/Loading";
+import LoadingBrown from "@/src/components/LoadingBrown";
 
 export const PageClient = () => {
   const searchParams = useSearchParams();
@@ -33,11 +35,15 @@ export const PageClient = () => {
 
   return (
     <>
-      <div className={styles.contents}>
-        {book && <BookInfo book={book} />}
-        <p className={styles.Day}>返却期限：{returnDate ?? "不明"}</p>
-        <ReturnBtn />
-      </div>
+      {!book ? (
+        <LoadingBrown />
+      ) : (
+        <div className={styles.contents}>
+          {book && <BookInfo book={book} />}
+          <p className={styles.Day}>返却期限：{returnDate ?? "不明"}</p>
+          <ReturnBtn />
+        </div>
+      )}
     </>
   );
 };
