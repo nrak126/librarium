@@ -95,13 +95,25 @@ export const RentalTime = () => {
 
                 <div className={style.text}>
                   <p className={style.bookName}>{book.books.title}</p>
-                  <p className={style.return}>
+                  <p
+                    className={`${style.return} ${
+                      getRemainingDays(book.return_date).includes("期限切れ")
+                        ? style.expiredDay
+                        : ""
+                    }`}
+                  >
                     返却期限：
                     <span className={style.returnTime}>
                       {getReturnDay(book.return_date)} {/* 返却期限を表示 */}
                     </span>
                   </p>
-                  <p className={style.day}>
+                  <p
+                    className={`${style.day} ${
+                      getRemainingDays(book.return_date).includes("期限切れ")
+                        ? style.expired
+                        : ""
+                    }`}
+                  >
                     {getRemainingDays(book.return_date)} {/* 残り日数を表示 */}
                   </p>
                 </div>
