@@ -2,7 +2,7 @@ import styles from "./index.module.scss";
 import hr from "./hr.svg";
 import Image from "next/image";
 
-export default async function Loading() {
+export default function Loading() {
   return (
     <>
       <div className={styles.loading}>

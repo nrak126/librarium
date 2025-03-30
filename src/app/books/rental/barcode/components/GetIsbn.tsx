@@ -3,6 +3,7 @@
 import { Barcode } from "@/src/components/Barcode";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import Loading from "@/src/components/Loading";
 
 export const GetIsbn = () => {
   const router = useRouter();
@@ -18,7 +19,7 @@ export const GetIsbn = () => {
   return (
     <>
       {isbn ? (
-        <p>{isbn}</p>
+        <Loading />
       ) : (
         <Barcode
           setIsbn={setIsbn}

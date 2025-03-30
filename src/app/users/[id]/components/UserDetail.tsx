@@ -2,16 +2,35 @@
 
 import styles from "./UsersDetail.module.scss";
 import Image from "next/image";
-import Icon from "@/public/icon.svg";
 import { TagList } from "@/src/components/Users/TagList";
 import { TagEdit } from "@/src/components/Users/TagEdit";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Btn } from "@/src/components/book/Btn";
+import { User } from "@/src/types";
+import { usePathname } from "next/navigation";
 
 export default function UserDetail() {
   const [clickEditer, setClickEditer] = useState(false);
   const router = useRouter();
+  const [User, setUser] = useState<User | null>(null);
+  const pathname = usePathname();
+  const pathArr = pathname.split("/");
+  const uid = pathArr[pathArr.length - 1];
+
+  useEffect(() => {
+    (async () => {
+      const UserDataRes = await fetch(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/users/${uid}`
+      );
+      const UserData: User = await UserDataRes.json();
+      setUser(UserData);
+    })();
+  }, []);
+
+  if (!User) {
+    return;
+  }
 
   const handleSample = () => {
     setClickEditer(!clickEditer);
@@ -28,7 +47,7 @@ export default function UserDetail() {
   return (
     <div className={styles.whole}>
       <Image
-        src={Icon}
+        src={User.icon}
         alt={"ユーザーのアイコン"}
         width={180}
         height={180}
@@ -36,7 +55,9 @@ export default function UserDetail() {
         priority
       />
 
-      <div className={styles.username}>k24142 矢部 大智</div>
+      <div className={styles.username}>
+        {User.studentId} {User.name}
+      </div>
 
       <div className={styles.tagediter}>
         <div className={styles.tag}>タグ</div>
@@ -51,14 +72,14 @@ export default function UserDetail() {
         )}
       </div>
 
-      {clickEditer ? <TagList /> : <TagEdit />}
+      {clickEditer ? <TagList user={User} /> : <TagEdit user={User} />}
 
       <div className={clickEditer ? styles.trueexp : styles.falseexp}>
         現在の経験値
       </div>
 
       <div className={styles.progressbar}>
-        <progress max="97" value="50">
+        <progress max="97" value="{User.exp}%10">
           <p>50%</p>
         </progress>
       </div>

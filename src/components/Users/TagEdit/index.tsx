@@ -1,7 +1,8 @@
 import styles from "./index.module.scss";
-import { tagData } from "../tagData";
+import { User } from "@/src/types";
 
-export function TagEdit() {
+export function TagEdit({ user }: { user: User | null }) {
+  if (!user) return;
   const handleDelete = () => {
     console.log("削除ボタンが押されました。");
   };
@@ -12,7 +13,7 @@ export function TagEdit() {
   return (
     <>
       <div className={styles.taglist}>
-        {tagData.map((data, index) => {
+        {user.tags.map((data, index) => {
           return (
             <div key={index}>
               <div className={styles.tag}>
