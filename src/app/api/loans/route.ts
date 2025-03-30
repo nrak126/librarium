@@ -4,9 +4,17 @@ import { supabase } from "@/src/lib/supabase";
 
 
 // GET: loansのリストを取得する
-export async function GET() {
+export async function GET(reqest: Request) {
   try {
-    const { data, error } = await supabase.from("loans").select("*");
+    const { searchParams } = new URL(reqest.url);
+    const uid = searchParams.get("uid") || "";
+    const isbn = searchParams.get("isbn") || "";
+
+    let query = supabase.from("loans").select("*");
+    if (uid) query = query.eq("uid", uid);
+    if (isbn) query = query.eq("isbn", isbn);
+
+    const { data, error } = await query;
     if (error) {
       throw error;
     }
