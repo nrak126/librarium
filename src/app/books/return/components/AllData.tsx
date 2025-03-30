@@ -71,7 +71,7 @@ export const AllData = () => {
     <div>
       {rental ? (
         <div className={style.contents}>
-          {rental.filter((book) => !book.isReturned).length === 0 ? (
+          {rental.filter((book) => !book.isReturned) ? (
             <p className={style.noRental}>貸し出し中の本はありません</p>
           ) : (
             rental.map((book) => (
