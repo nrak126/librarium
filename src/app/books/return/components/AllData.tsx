@@ -25,7 +25,7 @@ export const AllData = () => {
 
     // ログイン中のユーザー情報の取得
     (async () => {
-      const { data, error } = await supabase.auth.getUser();
+      const { error } = await supabase.auth.getUser();
       if (error) {
         return <h1>ユーザ情報を取得できませんでした。</h1>;
       }
