@@ -1,12 +1,10 @@
 "use client";
 
 import { Btn } from "@/src/components/book/Btn";
-import { Book } from "@/src/types";
-import styles from "./components/return.module.scss";
 
-import Link from "next/link";
+import styles from "../return.module.scss";
 
-export function ReturnBtn({ book }: { book: Book }) {
+export function ReturnBtn() {
   // const isAvailableReturn = book.available > 0;
 
   // const handleReturn = async () => {
@@ -30,6 +28,7 @@ export function ReturnBtn({ book }: { book: Book }) {
 
   const handleReturn = () => {
     window.history.back();
+    //この中に返却すると返せるようにする
   };
   const handleBack = () => {
     window.history.back();
@@ -40,9 +39,7 @@ export function ReturnBtn({ book }: { book: Book }) {
         <Btn text="キャンセル" bgColor="#99C6E2" onClick={handleBack} />
       </div>
       <div className={styles.return}>
-        <Link href={`/books/rental/${book.isbn}/check`}>
-          <Btn text="返却" bgColor="#BADE99" onClick={handleReturn} />
-        </Link>
+        <Btn text="返却" bgColor="#BADE99" onClick={handleReturn} />
       </div>
     </div>
   );

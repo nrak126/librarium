@@ -4,13 +4,15 @@ import Image from "next/image";
 import style from "../style/return.module.scss";
 
 import { RentalList } from "../../../../types";
-
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { supabase } from "@/src/lib/supabase";
 
 export const MyData = () => {
   const [rental, setRental] = useState<RentalList[]>([]);
   const [userId, setUserId] = useState<string>("");
+
+  const router = useRouter();
 
   useEffect(() => {
     // レンタルデータの取得
@@ -72,6 +74,13 @@ export const MyData = () => {
     return `${year}/${month}/${day}`;
   };
 
+  const onLink = (isbn: string, returnDate: string) => {
+    const formattedDate = getReturnDay(returnDate); // YYYY/M/D に変換
+    router.push(
+      `./return/${isbn}?returnDate=${encodeURIComponent(formattedDate)}`
+    );
+  };
+
   return (
     <div>
       <div className={style.contents}>
@@ -85,7 +94,11 @@ export const MyData = () => {
               (book) => book.users.id === userId && book.isReturned === false
             )
             .map((book) => (
-              <div key={book.id} className={style.content}>
+              <div
+                key={book.id}
+                className={style.content}
+                onClick={() => onLink(book.books.isbn, book.return_date)} // 返却日も渡す
+              >
                 <Image
                   src={book.users.icon}
                   alt="librariumのアイコン"
