@@ -7,10 +7,12 @@ import { BookInfo } from "@/src/components/book/BookInfo";
 import { Genre } from "@/src/components/Genre";
 import { Btns } from "../../components/Btns";
 import Icon from "@/public/icon.svg";
+import { useRouter } from "next/navigation";
 
 export const BookRegister = ({ isbn }: { isbn: string }) => {
   const [book, setBook] = useState<Book | null>(null); // Book 型で本のすべての情報を管理する状態
   const [selectedGenres, setSelectedGenres] = useState<string[]>([]); // 選択されたジャンルを管理
+  const router = useRouter();
 
   useEffect(() => {
     if (isbn) {
@@ -65,6 +67,7 @@ export const BookRegister = ({ isbn }: { isbn: string }) => {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(book),
     });
+    router.push(`/books/add/${isbn}/check`);
   };
 
   const handleGenreChange = (genres: string[]) => {
