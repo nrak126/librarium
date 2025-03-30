@@ -19,7 +19,7 @@ export default function PageClient() {
   useEffect(() => {
     console.log(isbn);
 
-    ( async () => {
+    (async () => {
       const res = await fetch(
         `${process.env.NEXT_PUBLIC_BASE_URL}/api/books/${isbn}`
       );
@@ -43,14 +43,13 @@ export default function PageClient() {
             height={180}
             className={styles.card}
           />
-          <p className={styles.Deadline}>この本の返却期限は</p>
-          <p className={styles.Day}>2025/03/31</p>
+          <p className={styles.text}>この本を登録しました！</p>
         </>
       ) : (
         <Loading />
       )}
       <div className={styles.Btn}>
-        <Btn text="確認した" bgColor="#E2999B" onClick={handleConfirm} />
+        <Btn text="ホームに戻る" bgColor="#E2999B" onClick={handleConfirm} />
       </div>
     </div>
   );

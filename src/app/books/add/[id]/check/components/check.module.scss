@@ -1,11 +1,12 @@
+@import url('https://fonts.googleapis.com/css2?family=Jua&family=Sumana:wght@400;700&family=Yaldevi:wght@200..700&family=Yuji+Mai&display=swap');
+
 .title {
-  font-size: 12px;
+  font-size: 13px;
   font-weight: bold;
   color: #635038;
   word-break: break-all;
   position: relative;
   top: 10vh;
-  
 }
 
 .card {
@@ -15,34 +16,15 @@
 }
 
 .text {
-  font-size: 12px;
+  font-size: 22px;
   font-weight: bold;
   color: #635038;
   word-break: break-all;
   position: relative;
   top: 30vh;
 }
-.Deadline {
-  font-size: 18px;
-  font-weight: bold;
-  color: #635038;
-  position: relative;
-  top: 25vh;
-  right: -1%;
-}
-.Day {
-	color: #77634B;
-    font-size: 31px;
-    font-family: "Jua", sans-serif !important;
-    position: relative;
-    top: 28vh;
-    right: -24%;
-    width: 50%;
-    height: 9%;
-    text-align: center;
-    line-height: 2.5vh;
-    font-weight: bold;
-}
+
+
 
 .Btn {
   display: flex;
