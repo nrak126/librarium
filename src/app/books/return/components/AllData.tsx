@@ -8,7 +8,6 @@ import { supabase } from "@/src/lib/supabase";
 
 export const AllData = () => {
   const [rental, setRental] = useState<RentalList[]>([]);
-  const [userId, setUserId] = useState<string>("");
 
   useEffect(() => {
     // レンタルデータの取得
@@ -29,9 +28,6 @@ export const AllData = () => {
       const { data, error } = await supabase.auth.getUser();
       if (error) {
         return <h1>ユーザ情報を取得できませんでした。</h1>;
-      }
-      if (data) {
-        setUserId(data.user.id); // 現在のユーザーIDをセット
       }
     })();
   }, []);
