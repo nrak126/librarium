@@ -1,7 +1,7 @@
 .back {
   display: flex;
   flex-direction: column;
-  align-items: center; /* 中央揃え */
+  align-items: center;
   position: fixed;
   bottom: 30;
   right: 57%;
@@ -10,30 +10,30 @@
 .return {
   display: flex;
   flex-direction: column;
-  align-items: center; /* 中央揃え */
+  align-items: center;
   position: fixed;
   bottom: 30;
   left: 55%;
+  right: 57%;
   width: 22vw;
 }
-.Deadline {
-	font-size: 18px;
-  font-weight: bold;
-	color: #635038;
-  position: relative;
-  top: 25vh;
-  right:-1%;
+
+.contents {
+  width: 100%;
+  height: auto; /* 高さを内容に応じて可変にする */
+  min-height: 100vh; /* これが固定されてると飛び出す可能性あり */
 }
+
 .Day {
-	color: #77634B;
-    font-size: 31px;
-    font-family: "Jua", sans-serif !important;
-    position: relative;
-    top: 28vh;
-    right: -24%;
-    width: 50%;
-    height: 9%;
-    text-align: center;
-    line-height: 2.5vh;
-    font-weight: bold;
+  color: #77634b;
+  font-size: 23px;
+  font-weight: bold;
+  font-family: "Jua", sans-serif !important;
+  width: 90%;
+  height: auto;
+  text-align: center;
+  line-height: 2.5vh;
+  font-weight: bold;
+  margin-left: 5%;
+  margin-bottom: 30%;
 }
