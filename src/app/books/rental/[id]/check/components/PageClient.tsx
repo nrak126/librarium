@@ -19,7 +19,7 @@ export default function PageClient() {
   useEffect(() => {
     console.log(isbn);
 
-    ( async () => {
+    (async () => {
       const res = await fetch(
         `${process.env.NEXT_PUBLIC_BASE_URL}/api/books/${isbn}`
       );
@@ -32,6 +32,16 @@ export default function PageClient() {
     router.push("/");
   };
 
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  today.setDate(today.getDate() + 7);
+
+  const year = today.getFullYear();
+  const month = today.getMonth() + 1;
+  const day = today.getDate();
+  const date = `${year}/${month}/${day}`;
+
   return (
     <div>
       {book ? (
@@ -43,8 +53,7 @@ export default function PageClient() {
             height={180}
             className={styles.card}
           />
-          <p className={styles.Deadline}>この本の返却期限は</p>
-          <p className={styles.Day}>2025/03/31</p>
+          <p className={styles.Day}>返却期限：{date}</p>
         </>
       ) : (
         <LoadingBrown />
