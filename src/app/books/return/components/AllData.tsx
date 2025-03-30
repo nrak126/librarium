@@ -2,24 +2,36 @@
 
 import Image from "next/image";
 import style from "../style/return.module.scss";
-import Icon from "../icon/fu_icon.jpg";
-import BookIcon from "../icon/img.jpg";
 import { useEffect, useState } from "react";
-import { Loan } from "../../../../types";
+import { RentalList } from "../../../../types";
+import { supabase } from "@/src/lib/supabase";
 
 export const AllData = () => {
-  const [rental, setRental] = useState<Loan[]>([]);
+  const [rental, setRental] = useState<RentalList[]>([]);
+  const [userId, setUserId] = useState<string>("");
 
   useEffect(() => {
+    // レンタルデータの取得
     (async () => {
       try {
         const renBooks = await fetch(
-          `${process.env.NEXT_PUBLIC_BASE_URL}/api/loans`
+          `${process.env.NEXT_PUBLIC_BASE_URL}/api/loans/rentalList`
         );
-        const data: Loan[] = await renBooks.json();
+        const data: RentalList[] = await renBooks.json();
         setRental(data);
       } catch (error) {
         console.error("レンタルデータの取得エラー:", error);
+      }
+    })();
+
+    // ログイン中のユーザー情報の取得
+    (async () => {
+      const { data, error } = await supabase.auth.getUser();
+      if (error) {
+        return <h1>ユーザ情報を取得できませんでした。</h1>;
+      }
+      if (data) {
+        setUserId(data.user.id); // 現在のユーザーIDをセット
       }
     })();
   }, []);
@@ -28,7 +40,7 @@ export const AllData = () => {
   const getRemainingDays = (returnDate: string) => {
     if (!returnDate) return "不明";
 
-    const returnDateObj = new Date(returnDate); //返却日の日付
+    const returnDateObj = new Date(returnDate); // 返却日の日付
     const today = new Date();
     today.setHours(0, 0, 0, 0); // 時間をリセット
     returnDateObj.setHours(0, 0, 0, 0);
@@ -47,7 +59,7 @@ export const AllData = () => {
   };
 
   const getReturnDay = (returnDate: string) => {
-    const returnDateObj = new Date(returnDate); //返却日の日付
+    const returnDateObj = new Date(returnDate); // 返却日の日付
     returnDateObj.setHours(0, 0, 0, 0);
 
     // YYYY/M/D の形式に整形
@@ -61,36 +73,46 @@ export const AllData = () => {
   return (
     <div>
       <div className={style.contents}>
-        {rental.map((book) => (
-          <div key={book.id} className={style.content}>
-            <Image
-              src={Icon}
-              alt="librariumのアイコン"
-              width={57}
-              height={57}
-              className={style.icon}
-            />
-            <div className={style.text}>
-              <p className={style.bookName}>例です</p>
-              <p className={style.return}>
-                返却期限：
-                <span className={style.returnTime}>
-                  {getReturnDay(book.return_date)}
-                </span>
-              </p>
-              <p className={style.userName}>
-                {getRemainingDays(book.return_date)}
-              </p>
-            </div>
-            <Image
-              src={BookIcon}
-              alt="librariumの本のアイコン"
-              width={60}
-              height={90}
-              className={style.BookIcon}
-            />
-          </div>
-        ))}
+        {rental.filter(
+          (book) => book.users.id !== userId && book.isReturned === false
+        ).length === 0 ? ( // user.idが一致しないアイテムをフィルタリング
+          <p className={style.noRental}>貸し出し中の本はありません</p> // フィルタ結果が空の場合にメッセージ表示
+        ) : (
+          rental
+            .filter(
+              (book) => book.users.id !== userId && book.isReturned === false
+            )
+            .map((book) => (
+              <div key={book.id} className={style.content}>
+                <Image
+                  src={book.users.icon}
+                  alt="librariumのアイコン"
+                  width={57}
+                  height={57}
+                  className={style.icon}
+                />
+                <div className={style.text}>
+                  <p className={style.bookName}>{book.books.title}</p>
+                  <p className={style.return}>
+                    返却期限：
+                    <span className={style.returnTime}>
+                      {getReturnDay(book.return_date)}
+                    </span>
+                  </p>
+                  <p className={style.userName}>
+                    {getRemainingDays(book.return_date)}
+                  </p>
+                </div>
+                <Image
+                  src={book.books.thumbnail}
+                  alt="librariumの本のアイコン"
+                  width={60}
+                  height={90}
+                  className={style.BookIcon}
+                />
+              </div>
+            ))
+        )}
       </div>
     </div>
   );
