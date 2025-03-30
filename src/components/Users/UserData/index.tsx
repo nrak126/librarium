@@ -2,10 +2,11 @@ import styles from "./index.module.scss";
 import Image from "next/image";
 import { User } from "@/src/types";
 import Link from "next/link";
+import Loading from "../../Loading";
 
 function UserData({ user }: { user: User | null }) {
   if (!user) {
-    return <h1>Loading...</h1>;
+    return <Loading />;
   }
   return (
     <>
