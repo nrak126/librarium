@@ -2,11 +2,11 @@ import styles from "./index.module.scss";
 import Image from "next/image";
 import { User } from "@/src/types";
 import Link from "next/link";
-import Loading from "../../Loading";
+import LoadingBrown from "../../LoadingBrown";
 
 function UserData({ user }: { user: User | null }) {
   if (!user) {
-    return <Loading />;
+    return <LoadingBrown />;
   }
   return (
     <>

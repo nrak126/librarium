@@ -7,7 +7,7 @@ import { usePathname } from "next/navigation";
 import { BookCard } from "@/src/components/book/BookCard";
 import { Btn } from "@/src/components/book/Btn";
 import { useRouter } from "next/navigation";
-import Loading from "@/src/components/Loading";
+import LoadingBrown from "@/src/components/LoadingBrown";
 
 export default function PageClient() {
   const [book, setBook] = useState<Book | null>();
@@ -47,7 +47,7 @@ export default function PageClient() {
           <p className={styles.Day}>2025/03/31</p>
         </>
       ) : (
-        <Loading />
+        <LoadingBrown />
       )}
       <div className={styles.Btn}>
         <Btn text="確認した" bgColor="#E2999B" onClick={handleConfirm} />
