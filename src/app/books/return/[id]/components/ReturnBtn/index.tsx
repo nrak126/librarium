@@ -2,7 +2,6 @@
 
 import { Btn } from "@/src/components/book/Btn";
 import { Book } from "@/src/types";
-import { supabase } from "@/src/lib/supabase";
 import styles from "./components/return.module.scss";
 
 import Link from "next/link";
