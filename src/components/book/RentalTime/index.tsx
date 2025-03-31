@@ -52,7 +52,7 @@ export const RentalTime = () => {
     if (diffDays > 0) {
       return `あと${diffDays}日`;
     } else if (diffDays === 0) {
-      return "今日が返却日";
+      return "本日";
     } else {
       return `期限切れ`;
     }
@@ -111,6 +111,10 @@ export const RentalTime = () => {
                     className={`${style.day} ${
                       getRemainingDays(book.return_date).includes("期限切れ")
                         ? style.expired
+                        : getRemainingDays(book.return_date).includes(
+                            "今日が返却日"
+                          )
+                        ? style.dueToday
                         : ""
                     }`}
                   >
