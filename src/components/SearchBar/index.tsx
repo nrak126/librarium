@@ -32,7 +32,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({
       setSearchWordClick(true);
     }
     console.log("検索ボタンが押されました。");
-    // console.log(`検索ワード：${searchName}`);
+    console.log(`検索ワード：${searchName}`);
 
     if (clickBy === "homeSearch") {
       // 個別の検索処理を実行
