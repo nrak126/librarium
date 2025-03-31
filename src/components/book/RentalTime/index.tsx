@@ -111,9 +111,7 @@ export const RentalTime = () => {
                     className={`${style.day} ${
                       getRemainingDays(book.return_date).includes("期限切れ")
                         ? style.expired
-                        : getRemainingDays(book.return_date).includes(
-                            "今日が返却日"
-                          )
+                        : getRemainingDays(book.return_date).includes("本日")
                         ? style.dueToday
                         : ""
                     }`}
