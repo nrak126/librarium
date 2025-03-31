@@ -7,6 +7,7 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="ja">
+      <title>Librarium</title>
       <body>
         <LayoutClient>{children}</LayoutClient>
       </body>
