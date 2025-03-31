@@ -49,7 +49,7 @@ export const AllData = () => {
     if (diffDays > 0) {
       return `あと${diffDays}日`;
     } else if (diffDays === 0) {
-      return "今日が返却日";
+      return "本日";
     } else {
       return `期限切れ`;
     }
@@ -93,9 +93,9 @@ export const AllData = () => {
                         {getReturnDay(book.return_date)}
                       </span>
                     </p>
-                    <p className={style.userName}>
-                      {getRemainingDays(book.return_date)}
-                    </p>
+                    <p
+                      className={style.usersName}
+                    >{`${book.users.studentId}　${book.users.name}`}</p>
                   </div>
                   <Image
                     src={book.books.thumbnail}

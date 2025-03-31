@@ -2,7 +2,6 @@
   flex-direction: column;
   align-items: center;
   display: flex;
-
 }
 
 .title {
@@ -52,7 +51,6 @@
   justify-content: center;
   box-shadow: 0vh 1.5vw 1.3vw 0.5vw rgb(27 55 99 / 25%);
   margin-bottom: 6%;
-
 }
 
 .icon {
@@ -62,8 +60,6 @@
   border: 1px solid #bb9c77;
   border-radius: 50px;
   box-shadow: 0vh 0.2vw 0.8vw 0.6vw rgb(27 55 99 / 30%);
-
-
 }
 
 /* テキスト関連の中央揃え */
@@ -100,6 +96,24 @@
 }
 
 .userName {
+  color: #77634b;
+  font-size: 10px;
+  position: relative;
+  top: 1vh;
+  border: #77634b solid 1px;
+  border-radius: 32px;
+  background-color: #bade99;
+  width: 90%;
+  height: 2.6vh;
+  text-align: center;
+  line-height: 2.5vh;
+  font-weight: 500;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.usersName {
   color: #77634b;
   font-size: 10px;
   position: relative;
