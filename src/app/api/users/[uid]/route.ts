@@ -31,7 +31,7 @@ export async function POST(
   { params }: { params: Promise<{ uid: string }> }
 ) {
   try {
-    let user: User = await request.json();
+    const user: User = await request.json();
     const { uid } = await params;
 
     const { data, error } = await supabase
