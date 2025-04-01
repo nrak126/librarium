@@ -48,8 +48,6 @@ export default function Page() {
     } else {
       setResult(books);
     }
-
-    console.log("検索バー", { result });
   }, [searchWordClick, books, searchName]);
 
   return (

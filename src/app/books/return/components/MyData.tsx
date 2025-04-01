@@ -40,28 +40,6 @@ export const MyData = () => {
     })();
   }, []);
 
-  // 返却日を「あと〇日」形式に変換する関数
-  const getRemainingDays = (returnDate: string) => {
-    if (!returnDate) return "不明";
-
-    const returnDateObj = new Date(returnDate); // 返却日の日付
-    const today = new Date();
-    today.setHours(0, 0, 0, 0); // 時間をリセット
-    returnDateObj.setHours(0, 0, 0, 0);
-
-    const diffDays = Math.ceil(
-      (returnDateObj.getTime() - today.getTime()) / (1000 * 60 * 60 * 24)
-    );
-
-    if (diffDays > 0) {
-      return `あと${diffDays}日`;
-    } else if (diffDays === 0) {
-      return "本日";
-    } else {
-      return `期限切れ`;
-    }
-  };
-
   const getReturnDay = (returnDate: string) => {
     const returnDateObj = new Date(returnDate); // 返却日の日付
     returnDateObj.setHours(0, 0, 0, 0);

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+
 import type { Book } from "@/src/types/book";
 import Link from "next/link";
 import styles from "./BooksList.module.scss";

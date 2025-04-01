@@ -1,4 +1,4 @@
-import { NextResponse } from 'next/server';
+import { NextResponse } from "next/server";
 import { supabase } from "@/src/lib/supabase";
 import { User } from "@/src/types/user";
 
@@ -25,7 +25,6 @@ export async function GET(
     );
   }
 }
-
 
 export async function POST(
   request: Request,

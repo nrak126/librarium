@@ -19,19 +19,20 @@ export const PageClient: React.FC = () => {
   const router = useRouter();
 
   useEffect(() => {
-    async () => {
+    // レンタルデータの取得
+    (async () => {
       const { error } = await supabase.auth.getUser();
       if (error) {
         await router.push("/auth");
       }
-    };
-  }, []);
+    })();
+  }, [router]);
 
   useEffect(() => {
     if (searchClick === true) {
       router.push(`/books?searchName=${searchName}`);
     }
-  }, [searchClick]);
+  }, [searchClick, searchName, router]);
 
   useEffect(() => {
     (async () => {
