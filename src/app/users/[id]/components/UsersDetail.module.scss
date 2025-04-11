@@ -1,6 +1,10 @@
 .whole {
+
   flex-direction: column;
   align-items: center;
+  overflow: hidden;
+  height: 80vh; 
+  
 
   .icon {
     margin-top: 2vh;
