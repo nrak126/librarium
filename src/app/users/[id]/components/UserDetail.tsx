@@ -87,6 +87,13 @@ export default function UserDetail() {
         現在の経験値
       </div>
 
+      <div className={styles.percent}>
+        <p className={styles.comment}>1冊借りると+3pt</p>
+        <p className={styles.zero}>0</p>
+        <p className={styles.five}>5</p>
+        <p className={styles.ten}>10</p>
+      </div>
+
       <div className={styles.progressbar}>
         <progress max="10" value={user.exp % 10}>
           <p>50%</p>

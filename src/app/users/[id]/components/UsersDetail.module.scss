@@ -28,7 +28,6 @@
       border-bottom: 1.4px solid #77634b;
       width: 8%;
       padding-bottom: 0.1%;
-      padding-left: 0.7%;
       margin-left: 12%;
       margin-top: 2%;
     }
@@ -68,7 +67,7 @@
   }
 
   .progressbar {
-    margin-top: 10%;
+    margin-top: 2%;
     // margin-right: 35%;
     progress {
       accent-color: #dd6464;
@@ -94,9 +93,40 @@
   }
 
   .backbutton {
-    margin-top: 25%;
+    margin-top: 28%;
     margin-left: 35%;
     font-weight: 700;
     width: 23%;
   }
+
+  .comment {
+    font-size: 9px;
+    position: relative;
+    margin-top: -4%;
+    color: #635038;
+    font-weight: 300;
+  }
+}
+.zero {
+  font-size: 15px;
+  position: relative;
+  margin-right: 73%;
+  margin-top: 10%;
+  color: #635038;
+  font-weight: 300;
+}
+.five {
+  font-size: 15px;
+  position: relative;
+  margin-top: -5%;
+  color: #635038;
+  font-weight: 300;
+}
+.ten {
+  font-size: 15px;
+  position: relative;
+  margin-top: -3%;
+  margin-right: -75%;
+  color: #635038;
+  font-weight: 300;
 }
