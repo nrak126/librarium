@@ -5,10 +5,13 @@ import style from "./index.module.scss";
 import Image from "next/image";
 import { RentalList } from "@/src/types";
 import { supabase } from "@/src/lib/supabase";
+import { useRouter } from "next/navigation";
 
 export const RentalTime = () => {
   const [rental, setRental] = useState<RentalList[]>([]);
   const [userId, setUserId] = useState<string>("");
+
+  const router = useRouter();
 
   useEffect(() => {
     // レンタルデータの取得
@@ -69,6 +72,13 @@ export const RentalTime = () => {
 
     return `${year}/${month}/${day}`;
   };
+  const onLink = (isbn: string, returnDate: string) => {
+    const formattedDate = getReturnDay(returnDate); // YYYY/M/D に変換
+    router.push(
+      `books/return/${isbn}?returnDate=${encodeURIComponent(formattedDate)}`
+    );
+  };
+
   return (
     <div>
       <div className={style.contents}>
@@ -82,7 +92,11 @@ export const RentalTime = () => {
               (book) => book.users.id === userId && book.isReturned === false
             )
             .map((book) => (
-              <div key={book.id} className={style.content}>
+              <div
+                key={book.id}
+                className={style.content}
+                onClick={() => onLink(book.books.isbn, book.return_date)}
+              >
                 <div className={style.main}>
                   <Image
                     className={style.img}
