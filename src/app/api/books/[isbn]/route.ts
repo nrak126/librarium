@@ -11,11 +11,12 @@ export async function GET(
     const { data, error } = await supabase
       .from("books")
       .select("*")
-      .eq("isbn", isbn);
+      .eq("isbn", isbn)
+      .single();
     if (error) {
       throw error;
     }
-    return NextResponse.json(data[0], { status: 200 });
+    return NextResponse.json(data, { status: 200 });
   } catch (error) {
     console.error("Error fetching book:", error);
     return NextResponse.json(
