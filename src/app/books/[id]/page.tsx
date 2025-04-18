@@ -5,9 +5,12 @@ import { BackBtn } from "./components/BackBtn";
 
 export default async function Page({ params }: { params: { id: string } }) {
   const { id } = params;
-  const res = await fetch(`api/books/${id}`, {
-    cache: "no-store",
-  });
+  const res = await fetch(
+    `https://librarium-two.vercel.app/books/api/books/${id}`,
+    {
+      cache: "no-store",
+    }
+  );
 
   if (!res.ok) {
     return <h1>データの取得に失敗しました。</h1>;
