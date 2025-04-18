@@ -26,7 +26,7 @@ export default function PageClient() {
 
   useEffect(() => {
     (async () => {
-      const booksRes = await fetch(`$api/books`);
+      const booksRes = await fetch(`api/books`);
 
       const booksData: Book[] = await booksRes.json();
       setBooks(booksData);
