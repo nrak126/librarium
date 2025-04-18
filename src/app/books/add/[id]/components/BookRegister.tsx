@@ -62,7 +62,7 @@ export const BookRegister = ({ isbn }: { isbn: string }) => {
   }, [isbn, selectedGenres]);
 
   const BookAdd = () => {
-    fetch(`api/books`, {
+    fetch(`/api/books`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(book),

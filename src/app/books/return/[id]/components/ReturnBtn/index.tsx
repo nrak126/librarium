@@ -13,7 +13,7 @@ export function ReturnBtn(props: Props) {
   const { isbn, uid } = props;
 
   const handleReturn = async () => {
-    await fetch(`api/books/return`, {
+    await fetch(`/api/books/return`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

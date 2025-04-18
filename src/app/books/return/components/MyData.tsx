@@ -19,7 +19,7 @@ export const MyData = () => {
     (async () => {
       try {
         const renBooks = await fetch(
-          `$api/loans/rentalList`
+          `/api/loans/rentalList`
         );
         const data: RentalList[] = await renBooks.json();
         setRental(data);

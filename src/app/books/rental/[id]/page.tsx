@@ -10,7 +10,7 @@ export default async function Page({
 }) {
   const { id } = await params;
   const res = await fetch(
-    `api/books/${id}`,
+    `/api/books/${id}`,
     {
       cache: "no-store",
     }
