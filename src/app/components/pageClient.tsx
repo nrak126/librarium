@@ -36,9 +36,7 @@ export const PageClient: React.FC = () => {
 
   useEffect(() => {
     (async () => {
-      const resBook = await fetch(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/api/books`
-      );
+      const resBook = await fetch(`api/books`);
       const data: Book[] = await resBook.json();
       setBooks(data);
     })();

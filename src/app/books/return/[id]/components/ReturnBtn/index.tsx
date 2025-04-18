@@ -13,7 +13,7 @@ export function ReturnBtn(props: Props) {
   const { isbn, uid } = props;
 
   const handleReturn = async () => {
-    await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/books/return`, {
+    await fetch(`api/books/return`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

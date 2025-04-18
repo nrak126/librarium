@@ -23,9 +23,7 @@ export const PageClient = () => {
   useEffect(() => {
     (async () => {
       try {
-        const renBooks = await fetch(
-          `${process.env.NEXT_PUBLIC_BASE_URL}/api/books/${isbn}`
-        );
+        const renBooks = await fetch(`api/books/${isbn}`);
         const book: Book = await renBooks.json();
         setBook(book);
 

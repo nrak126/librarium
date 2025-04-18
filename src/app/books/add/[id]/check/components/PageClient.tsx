@@ -20,9 +20,7 @@ export default function PageClient() {
     console.log(isbn);
 
     (async () => {
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/api/books/${isbn}`
-      );
+      const res = await fetch(`api/books/${isbn}`);
       const data: Book = await res.json();
       setBook(data);
     })();

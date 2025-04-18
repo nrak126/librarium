@@ -62,7 +62,7 @@ export const BookRegister = ({ isbn }: { isbn: string }) => {
   }, [isbn, selectedGenres]);
 
   const BookAdd = () => {
-    fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/books`, {
+    fetch(`api/books`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(book),
