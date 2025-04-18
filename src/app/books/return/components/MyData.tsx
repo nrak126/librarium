@@ -18,9 +18,7 @@ export const MyData = () => {
     // レンタルデータの取得
     (async () => {
       try {
-        const renBooks = await fetch(
-          `/api/loans/rentalList`
-        );
+        const renBooks = await fetch(`/api/loans/rentalList`);
         const data: RentalList[] = await renBooks.json();
         setRental(data);
       } catch (error) {
