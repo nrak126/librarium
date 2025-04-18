@@ -19,7 +19,7 @@ export const MyData = () => {
     (async () => {
       try {
         const renBooks = await fetch(
-          `${process.env.NEXT_PUBLIC_BASE_URL}/api/loans/rentalList`
+          `$api/loans/rentalList`
         );
         const data: RentalList[] = await renBooks.json();
         setRental(data);
