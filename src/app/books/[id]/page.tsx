@@ -3,19 +3,13 @@ import { Book } from "@/src/types/book";
 import { BookInfo } from "@/src/components/book/BookInfo";
 import { BackBtn } from "./components/BackBtn";
 
-export default async function Page({
-  params,
-}: {
-  params: Promise<{ id: string }>;
-}) {
-  const { id } = await params;
-  const res = await fetch(`api/books/${id}`, {
+export default async function Page({ params }: { params: { id: string } }) {
+  const { id } = params;
+  const res = await fetch(`http://localhost:3000/api/books/${id}`, {
     cache: "no-store",
   });
 
   if (!res.ok) {
-    // ここでエラーハンドリング（404ページ返すとか）
-    // throw new Error(`HTTP error! status: ${res.status}`);
     return <h1>データの取得に失敗しました。</h1>;
   }
 

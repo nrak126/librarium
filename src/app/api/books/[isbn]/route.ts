@@ -3,7 +3,7 @@ import { supabase } from "@/src/lib/supabase";
 
 export async function GET(
   request: Request,
-  { params }: { params: Promise<{ isbn: string }> }
+  { params }: { params: { isbn: string } }
 ) {
   try {
     const { isbn } = await params;
@@ -28,7 +28,7 @@ export async function GET(
 
 export async function POST(
   request: Request,
-  { params }: { params: Promise<{ isbn: string }> }
+  { params }: { params: { isbn: string } }
 ) {
   try {
     let { available } = await request.json();
@@ -38,7 +38,7 @@ export async function POST(
 
     const { data, error } = await supabase
       .from("books")
-      .update(available)
+      .update({ available })
       .eq("isbn", isbn);
     if (error) {
       throw error;
