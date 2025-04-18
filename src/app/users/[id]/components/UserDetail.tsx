@@ -21,7 +21,7 @@ export default function UserDetail() {
   useEffect(() => {
     (async () => {
       const UserDataRes = await fetch(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/api/users/${uid}`
+        `api/users/${uid}`
       );
       const UserData: User = await UserDataRes.json();
       setUser(UserData);

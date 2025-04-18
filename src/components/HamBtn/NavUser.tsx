@@ -24,7 +24,7 @@ export const NavUser: React.FC<Props> = ({ setNavOpen }) => {
         console.error("Error fetching user:", error);
       } else {
         //もしユーザーがすでに存在（登録済み）していたら、ホームにリダイレクト
-        const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/users/${data.user.id}`);
+        const response = await fetch(`api/users/${data.user.id}`);
 
         const fetchedUser: User = await response.json();
         setUser(fetchedUser);

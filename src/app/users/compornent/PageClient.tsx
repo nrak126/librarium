@@ -34,7 +34,7 @@ export function PageClient() {
       }
       const uid = data.user.id;
       const logedInUserRes = await fetch(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/api/users/${uid}`
+        `api/users/${uid}`
       );
       const logedInUserData: User = await logedInUserRes.json();
       setLogedInUser(logedInUserData);
