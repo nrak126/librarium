@@ -2,7 +2,6 @@
 
 
 import type { Book } from "@/src/types/book";
-import Link from "next/link";
 import styles from "./BooksList.module.scss";
 import { BookCardList } from "./BookListCard";
 import { StockState } from "@/src/components/book/StockState";
