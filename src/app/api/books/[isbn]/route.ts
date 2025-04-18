@@ -3,7 +3,7 @@ import { supabase } from "@/src/lib/supabase";
 
 export async function GET(
   request: Request,
-  { params }: { params: { isbn: string } }
+  { params }: { params: Promise<{ isbn: string }> }
 ) {
   try {
     const { isbn } = await params;
@@ -28,7 +28,7 @@ export async function GET(
 
 export async function POST(
   request: Request,
-  { params }: { params: { isbn: string } }
+  { params }: { params: Promise<{ isbn: string }> }
 ) {
   try {
     let { available } = await request.json();

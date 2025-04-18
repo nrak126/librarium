@@ -3,11 +3,18 @@ import { Book } from "@/src/types/book";
 import { BookInfo } from "@/src/components/book/BookInfo";
 import { BackBtn } from "./components/BackBtn";
 
-export default async function Page({ params }: { params: { id: string } }) {
-  const { id } = params;
-  const res = await fetch(`http://localhost:3000/api/books/${id}`, {
-    cache: "no-store",
-  });
+export default async function Page({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const { id } = await params;
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/books/${id}`,
+    {
+      cache: "no-store",
+    }
+  );
 
   if (!res.ok) {
     return <h1>データの取得に失敗しました。</h1>;
