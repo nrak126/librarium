@@ -28,11 +28,13 @@ export function ReturnBtn(props: Props) {
   };
   return (
     <div>
-      <div className={styles.back}>
-        <Btn text="キャンセル" bgColor="#99C6E2" onClick={handleBack} />
-      </div>
-      <div className={styles.return}>
-        <Btn text="返却" bgColor="#BADE99" onClick={handleReturn} />
+      <div className={styles.returnButton}>
+        <div className={styles.back}>
+          <Btn text="キャンセル" bgColor="#99C6E2" onClick={handleBack} />
+        </div>
+        <div className={styles.return}>
+          <Btn text="返却" bgColor="#BADE99" onClick={handleReturn} />
+        </div>
       </div>
     </div>
   );

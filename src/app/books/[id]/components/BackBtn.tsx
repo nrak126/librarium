@@ -15,8 +15,10 @@ export function BackBtn() {
 
   return (
     <div>
-      <div className={classes.BtnCenter}>
-        <Btn text="戻る" bgColor="#99C6E2" onClick={handleBack} />
+      <div className={classes.bntContens}>
+        <div className={classes.BtnCenter}>
+          <Btn text="戻る" bgColor="#99C6E2" onClick={handleBack} />
+        </div>
       </div>
     </div>
   );
