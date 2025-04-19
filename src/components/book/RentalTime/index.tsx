@@ -7,23 +7,18 @@ import { RentalList } from "@/src/types";
 import { supabase } from "@/src/lib/supabase";
 import { useRouter } from "next/navigation";
 
-export const RentalTime = () => {
-  const [rental, setRental] = useState<RentalList[]>([]);
+type RentalListProps = {
+  rental: RentalList[];
+};
+
+export const RentalTime: React.FC<RentalListProps> = (props) => {
+  const { rental } = props;
   const [userId, setUserId] = useState<string>("");
 
   const router = useRouter();
 
   useEffect(() => {
     // レンタルデータの取得
-    (async () => {
-      try {
-        const renBooks = await fetch(`/api/loans/rentalList`);
-        const data: RentalList[] = await renBooks.json();
-        setRental(data);
-      } catch (error) {
-        console.error("レンタルデータの取得エラー:", error);
-      }
-    })();
 
     // ログイン中のユーザー情報の取得
     (async () => {

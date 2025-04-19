@@ -7,7 +7,7 @@ import { BookRec } from "../../components/book/BookRec";
 import { BookRanking } from "../../components/book/BookRanking";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/src/lib/supabase";
-import { Book } from "../../types";
+import { Book, RentalList } from "../../types";
 import { useEffect, useState } from "react";
 import { NavSlide } from "@/src/components/nav/NavSlide";
 import { SearchBar } from "@/src/components/SearchBar";
@@ -16,12 +16,14 @@ export const PageClient: React.FC = () => {
   const [searchClick, setSearchClick] = useState(false);
   const [searchName, setSearchName] = useState("");
   const [books, setBooks] = useState<Book[]>([]);
+  const [rental, setRental] = useState<RentalList[]>([]);
+  const [userId, setUserId] = useState<string>("");
   const router = useRouter();
 
   useEffect(() => {
     // レンタルデータの取得
     (async () => {
-      const { error } = await supabase.auth.getUser();
+      const { data, error } = await supabase.auth.getUser();
       if (error) {
         await router.push("/auth");
       }
@@ -41,6 +43,19 @@ export const PageClient: React.FC = () => {
       setBooks(data);
     })();
   }, [router]);
+
+  useEffect(() => {
+    // レンタルデータの取得
+    (async () => {
+      try {
+        const renBooks = await fetch(`/api/loans/rentalList`);
+        const data: RentalList[] = await renBooks.json();
+        setRental(data);
+      } catch (error) {
+        console.error("レンタルデータの取得エラー:", error);
+      }
+    })();
+  }, []);
 
   return (
     <>
@@ -68,7 +83,7 @@ export const PageClient: React.FC = () => {
           <BookRanking books={books} />
         </TabPanel>
         <TabPanel>
-          <RentalTime />
+          <RentalTime rental={rental} />
         </TabPanel>
         <TabPanel>
           <BookRec books={books} />
