@@ -1,21 +1,21 @@
-.back {
+.returnButton {
   display: flex;
-  flex-direction: column;
+  justify-content: center;
   align-items: center;
-  position: fixed;
-  bottom: 30;
-  right: 57%;
-  width: 22vw;
+  text-align: center;
+  position: relative;
+  gap: 50;
+  bottom: 40;
+}
+.back {
+  flex-direction: column;
+
+  width: 23%;
 }
 .return {
-  display: flex;
   flex-direction: column;
-  align-items: center;
-  position: fixed;
-  bottom: 30;
-  left: 55%;
-  right: 57%;
-  width: 22vw;
+
+  width: 23%;
 }
 
 .contents {
