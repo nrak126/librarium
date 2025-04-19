@@ -23,7 +23,7 @@ export const PageClient: React.FC = () => {
   useEffect(() => {
     // レンタルデータの取得
     (async () => {
-      const { data, error } = await supabase.auth.getUser();
+      const { error } = await supabase.auth.getUser();
       if (error) {
         await router.push("/auth");
       }
