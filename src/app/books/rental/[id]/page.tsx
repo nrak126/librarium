@@ -10,7 +10,7 @@ export default async function Page({
 }) {
   const { id } = await params;
   const res = await fetch(
-    `/api/books/${id}`,
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/books/${id}`,
     {
       cache: "no-store",
     }
@@ -19,7 +19,7 @@ export default async function Page({
   if (!res.ok) {
     // ここでエラーハンドリング（404ページ返すとか）
     // throw new Error(`HTTP error! status: ${res.status}`);
-		return <h1>本の情報を取得できませんでした</h1>
+    return <h1>本の情報を取得できませんでした</h1>;
   }
 
   const book: Book = await res.json();
