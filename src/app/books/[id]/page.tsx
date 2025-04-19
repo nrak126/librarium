@@ -9,12 +9,9 @@ export default async function Page({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/api/books/${id}`,
-    {
-      cache: "no-store",
-    }
-  );
+  const res = await fetch(`/api/books/${id}`, {
+    cache: "no-store",
+  });
 
   if (!res.ok) {
     return <h1>データの取得に失敗しました。</h1>;
