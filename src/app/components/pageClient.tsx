@@ -17,7 +17,6 @@ export const PageClient: React.FC = () => {
   const [searchName, setSearchName] = useState("");
   const [books, setBooks] = useState<Book[]>([]);
   const [rental, setRental] = useState<RentalList[]>([]);
-  const [userId, setUserId] = useState<string>("");
   const router = useRouter();
 
   useEffect(() => {
