@@ -8,20 +8,20 @@
   .link {
     text-decoration: none;
     border: none;
-   }
+  }
 
   .whole {
     margin: 0.5%;
     background-color: #f4e9d7;
     width: 90%;
-    border-radius: 12;
+    border-radius: 22px;
     padding: 4%;
 
     .icon {
       align-items: baseline;
       float: left;
       border: 4px solid#bb9c77;
-      border-radius: 50;
+      border-radius: 50%;
     }
 
     .sub {
@@ -45,7 +45,7 @@
 
         .level {
           color: #77634b;
-          font-size: 23;
+          font-size: 23px;
           font-family: "Changa One" !important;
           float: right;
           border: 5px #77634b;
@@ -64,7 +64,7 @@
           margin-left: 6%;
           padding: 1px 6px;
           color: #77634b;
-          font-size: 11;
+          font-size: 11px;
           // text-align: center;
         }
       }
