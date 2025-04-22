@@ -4,12 +4,11 @@
   align-items: center;
   justify-content: center;
   height: 80vh;
-  
 }
 
 .scanner {
-  width: 82%; 
-  height: 60%; 
+  width: 82%;
+  height: 60%;
   border: 4px solid #fffbf5; /* 赤い枠をつける */
   border-radius: 15%; /* 角を少し丸める */
   overflow: hidden;
@@ -31,7 +30,7 @@
 }
 
 .circle {
-  width: 120vw;
+  width: 100vw;
   height: 60vh; /* 丸の高さを小さくする */
   background-color: white;
   border-radius: 50%;
