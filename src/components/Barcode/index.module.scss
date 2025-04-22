@@ -3,8 +3,6 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 80vh;
-  overflow: hidden;
 }
 
 .scanner {
@@ -31,7 +29,7 @@
 }
 
 .circle {
-  width: 100vw;
+  width: 120vw;
   height: 60vh; /* 丸の高さを小さくする */
   background-color: white;
   border-radius: 50%;
