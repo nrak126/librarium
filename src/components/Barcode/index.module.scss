@@ -28,6 +28,7 @@
   align-items: center;
   justify-content: center;
   height: 30vh; /* 下の高さを調整 */
+  overflow: hidden;
 }
 
 .circle {
@@ -39,6 +40,7 @@
   bottom: -27vh; /* 丸の見える量を調整 */
   z-index: 1;
   border: 1px solid #635038;
+  overflow: hidden;
 }
 
 .message {
@@ -51,4 +53,5 @@
   position: relative;
   top: 6vh; /* 位置を調整 */
   max-width: 50vw;
+  overflow: hidden;
 }
