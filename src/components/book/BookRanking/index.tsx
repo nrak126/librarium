@@ -23,9 +23,7 @@ export const BookRanking: React.FC<BookRecProps> = (props) => {
       await router.push(`books/${link}`);
     } catch {
       <p>失敗</p>;
-    } finally {
-      setLoading(false);
-    }
+    } 
   };
 
   return loading || books.length === 0 ? (
