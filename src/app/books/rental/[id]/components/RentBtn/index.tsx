@@ -34,20 +34,22 @@ export function RentBtn({ book }: { book: Book }) {
   };
   return (
     <div>
-      <div className={styles.back}>
-        <Btn text="戻る" bgColor="#99C6E2" onClick={handleBack} />
+      <div className={styles.rentalButton}>
+        <div className={styles.back}>
+          <Btn text="戻る" bgColor="#99C6E2" onClick={handleBack} />
+        </div>
+        {isAvailableRental ? (
+          <div className={styles.rental}>
+            <Link href={`/books/rental/${book.isbn}/check`}>
+              <Btn text="借りる" bgColor="#E2999B" onClick={handleRent} />
+            </Link>
+          </div>
+        ) : (
+          <div className={styles.available}>
+            <Btn text="貸出中" bgColor="#aaaaaa" />
+          </div>
+        )}
       </div>
-      {isAvailableRental ? (
-        <div className={styles.rental}>
-          <Link href={`/books/rental/${book.isbn}/check`}>
-            <Btn text="借りる" bgColor="#E2999B" onClick={handleRent} />
-          </Link>
-        </div>
-      ) : (
-        <div className={styles.available}>
-          <Btn text="貸出中" bgColor="#aaaaaa" />
-        </div>
-      )}
     </div>
   );
 }
