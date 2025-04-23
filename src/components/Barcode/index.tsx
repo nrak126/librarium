@@ -60,10 +60,9 @@ export const Barcode: React.FC<BarcodeProps> = ({ setIsbn, text }) => {
       <div ref={scannerRef} className={styles.scanner} />
 
       <div className={styles.under}>
-        <div className={styles.circle}></div>
-        <p className={styles.message}>
-          {text}
-        </p>
+        <div className={styles.circle}>
+          <p className={styles.message}>{text}</p>
+        </div>
       </div>
     </div>
   );
