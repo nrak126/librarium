@@ -1,10 +1,11 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import style from "./index.module.scss";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { Book } from "@/src/types";
+import LoadingBrown from "../../LoadingBrown";
 
 type BookRecProps = {
   books: Book[];
@@ -12,16 +13,26 @@ type BookRecProps = {
 
 export const BookRanking: React.FC<BookRecProps> = (props) => {
   const { books } = props;
+  const [loading, setLoading] = useState(false);
 
   const router = useRouter();
 
-  const handleClickDetail = (link: string) => {
-    router.push(`books/${link}`);
+  const handleClickDetail = async (link: string) => {
+    try {
+      setLoading(true);
+      await router.push(`books/${link}`);
+    } catch {
+      <p>失敗</p>;
+    } finally {
+      setLoading(false);
+    }
   };
-  return (
+
+  return loading || books.length === 0 ? (
+    <LoadingBrown />
+  ) : (
     <div className={style.contents}>
       {books.map((appName, index) => {
-        // 順位ごとに背景色のクラスを設定
         const rankClass =
           index === 0
             ? style.gold
