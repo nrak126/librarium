@@ -15,6 +15,12 @@
   align-items: center;
 }
 
+.loading {
+  position: relative;
+  top: -28svh;
+  z-index: 111;
+}
+
 .card {
   background-color: #f4e9d7;
   padding: 20px;

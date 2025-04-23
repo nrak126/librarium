@@ -23,11 +23,13 @@ export const BookRanking: React.FC<BookRecProps> = (props) => {
       await router.push(`books/${link}`);
     } catch {
       <p>失敗</p>;
-    } 
+    }
   };
 
   return loading || books.length === 0 ? (
-    <LoadingBrown />
+    <div className={style.loading}>
+      <LoadingBrown />
+    </div>
   ) : (
     <div className={style.contents}>
       {books.map((appName, index) => {
