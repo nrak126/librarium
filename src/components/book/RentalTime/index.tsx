@@ -6,6 +6,7 @@ import Image from "next/image";
 import { RentalList } from "@/src/types";
 import { supabase } from "@/src/lib/supabase";
 import { useRouter } from "next/navigation";
+import LoadingBrown from "../../LoadingBrown";
 
 type RentalListProps = {
   rental: RentalList[];
@@ -14,6 +15,7 @@ type RentalListProps = {
 export const RentalTime: React.FC<RentalListProps> = (props) => {
   const { rental } = props;
   const [userId, setUserId] = useState<string>("");
+  const [loading, setLoading] = useState(false);
 
   const router = useRouter();
 
@@ -66,13 +68,22 @@ export const RentalTime: React.FC<RentalListProps> = (props) => {
     return `${year}/${month}/${day}`;
   };
   const onLink = (isbn: string, returnDate: string) => {
-    const formattedDate = getReturnDay(returnDate); // YYYY/M/D に変換
-    router.push(
-      `books/return/${isbn}?returnDate=${encodeURIComponent(formattedDate)}`
-    );
+    try {
+      setLoading(true);
+      const formattedDate = getReturnDay(returnDate); // YYYY/M/D に変換
+      router.push(
+        `books/return/${isbn}?returnDate=${encodeURIComponent(formattedDate)}`
+      );
+    } catch {
+      <p>失敗</p>;
+    }
   };
 
-  return (
+  return loading ? (
+    <div className={style.loading}>
+      <LoadingBrown />
+    </div>
+  ) : (
     <div>
       <div className={style.contents}>
         {rental.filter(

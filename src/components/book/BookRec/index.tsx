@@ -4,6 +4,8 @@ import style from "./index.module.scss";
 import type { Book } from "@/src/types/book";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
+import LoadingBrown from "../../LoadingBrown";
 
 type BookRecProps = {
   books: Book[];
@@ -11,13 +13,23 @@ type BookRecProps = {
 
 export const BookRec: React.FC<BookRecProps> = (props) => {
   const { books } = props;
+  const [loading, setLading] = useState(false);
 
   const router = useRouter();
 
   const handleClickDetail = (link: string) => {
-    router.push(`books/${link}`);
+    try {
+      setLading(true);
+      router.push(`books/${link}`);
+    } catch {
+      <p>失敗しました</p>;
+    }
   };
-  return (
+  return loading ? (
+    <div className={style.loading}>
+      <LoadingBrown />
+    </div>
+  ) : (
     <div className={style.contents}>
       {books.map((appName, index) => (
         <div key={index} className={style.content}>

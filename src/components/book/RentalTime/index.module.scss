@@ -35,6 +35,12 @@
   font-weight: 599;
 }
 
+.loading {
+  position: relative;
+  top: -28svh;
+  z-index: 111;
+}
+
 .bookName {
   font-size: 12px;
   position: relative;

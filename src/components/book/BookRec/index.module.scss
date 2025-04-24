@@ -26,6 +26,12 @@
   justify-content: center;
 }
 
+.loading {
+  position: relative;
+  top: -28svh;
+  z-index: 111;
+}
+
 .image {
   height: auto;
   position: relative;
