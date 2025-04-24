@@ -15,11 +15,12 @@
   display: flex;
   justify-content: center;
   position: relative;
+  list-style: none;
 }
 
 .stock {
   position: relative;
-  top: -4vh;
-  right: -2vw;
+  top: -5svh;
+  right: -4vw;
   font-size: 10px;
 }
