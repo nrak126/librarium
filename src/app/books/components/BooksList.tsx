@@ -1,6 +1,5 @@
 "use client";
 
-
 import type { Book } from "@/src/types/book";
 import styles from "./BooksList.module.scss";
 import { BookCardList } from "./BookListCard";
@@ -29,9 +28,9 @@ export default function BooksList({ result }: { result: Book[] }) {
       {result.map((book) => (
         <li key={book.isbn}>
           <div className={styles.layout}>
-            <button onClick={() => handleClick(book)}>
+            <div onClick={() => handleClick(book)}>
               <BookCardList book={book} />
-            </button>
+            </div>
             <div className={styles.stock}>
               <StockState initialBook={book} />
             </div>
