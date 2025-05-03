@@ -11,12 +11,6 @@ export function RentBtn({ book }: { book: Book }) {
   const isAvailableRental = book.available > 0;
 
   const handleRent = async () => {
-    await fetch(`/api/books/${book.isbn}`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(book),
-    });
-
     const logedInUserData = await supabase.auth.getUser();
 
     await fetch(`/api/books/rental`, {
