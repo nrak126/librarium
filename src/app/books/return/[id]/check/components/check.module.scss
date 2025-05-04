@@ -1,0 +1,43 @@
+.title {
+  font-size: 12px;
+  font-weight: bold;
+  color: #635038;
+  word-break: break-all;
+  position: relative;
+  top: 10vh;
+}
+
+.card {
+  position: relative;
+  top: 15vh;
+  right: -32%;
+}
+
+.text {
+  font-size: 12px;
+  font-weight: bold;
+  color: #635038;
+  word-break: break-all;
+  position: relative;
+  top: 30vh;
+}
+.Day {
+  font-size: 18px;
+  font-weight: bold;
+  color: #635038;
+  position: relative;
+  top: 25vh;
+  right: -1%;
+}
+
+.Btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* 中央揃え */
+  justify-content: center;
+  text-align: center;
+  width: 24vw;
+  position: relative;
+  top: 36svh;
+  left: 37%;
+}

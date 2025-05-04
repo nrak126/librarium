@@ -3,6 +3,7 @@
 import { Btn } from "@/src/components/book/Btn";
 
 import styles from "../return.module.scss";
+import { useRouter } from "next/navigation";
 
 type Props = {
   isbn: string;
@@ -10,6 +11,7 @@ type Props = {
 };
 
 export function ReturnBtn(props: Props) {
+  const router = useRouter();
   const { isbn, uid } = props;
 
   const handleReturn = async () => {
@@ -20,7 +22,7 @@ export function ReturnBtn(props: Props) {
       },
       body: JSON.stringify({ isbn: isbn, uid: uid }),
     });
-    window.history.back();
+    router.push(`/books/return/${isbn}/check`);
     //この中に返却すると返せるようにする
   };
   const handleBack = () => {
