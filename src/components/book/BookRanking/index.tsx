@@ -58,8 +58,8 @@ export const BookRanking: React.FC<BookRecProps> = (props) => {
                 width={100}
                 height={128}
               />
+              <p className={style.text}>{appName.title}</p>
             </div>
-            <p className={style.text}>{appName.title}</p>
           </div>
         );
       })}
