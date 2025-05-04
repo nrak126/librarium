@@ -1,10 +1,10 @@
 "use client";
 
+import React, { useState } from "react";
 import style from "./index.module.scss";
-import type { Book } from "@/src/types/book";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { Book } from "@/src/types";
 import LoadingBrown from "../../LoadingBrown";
 
 type BookRecProps = {
@@ -13,41 +13,56 @@ type BookRecProps = {
 
 export const BookRec: React.FC<BookRecProps> = (props) => {
   const { books } = props;
-  const [loading, setLading] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const router = useRouter();
 
-  const handleClickDetail = (link: string) => {
+  const handleClickDetail = async (link: string) => {
     try {
-      setLading(true);
-      router.push(`books/${link}`);
+      setLoading(true);
+      await router.push(`books/${link}`);
     } catch {
-      <p>失敗しました</p>;
+      <p>失敗</p>;
     }
   };
-  return loading ? (
+
+  return loading || books.length === 0 ? (
     <div className={style.loading}>
       <LoadingBrown />
     </div>
   ) : (
     <div className={style.contents}>
-      {books.map((appName, index) => (
-        <div key={index} className={style.content}>
-          <div
-            onClick={() => handleClickDetail(appName.isbn)}
-            className={style.card}
-          >
-            <Image
-              className={style.image}
-              src={appName.thumbnail}
-              alt={appName.title}
-              width={100}
-              height={128}
-            />
+      {books.map((appName, index) => {
+        const rankClass =
+          index === 0
+            ? style.gold
+            : index === 1
+            ? style.silver
+            : index === 2
+            ? style.bronze
+            : style.default;
+
+        return (
+          <div key={index} className={style.content}>
+            <div
+              onClick={() => handleClickDetail(appName.isbn)}
+              className={style.card}
+            >
+              <div className={`${style.ranking} ${rankClass}`}>
+                <div className={style.number}>{index + 1}</div>
+              </div>
+              <Image
+                className={style.image}
+                src={appName.thumbnail}
+                alt={appName.title}
+                width={100}
+                height={128}
+              />
+              <p className={style.text}>{appName.title}</p>
+            </div>
           </div>
-          <p className={style.text}>{appName.title}</p>
-        </div>
-      ))}
+        );
+      })}
     </div>
   );
 };

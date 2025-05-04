@@ -1,29 +1,16 @@
 .contents {
   margin-top: 2%;
-  display: flex;
-  justify-content: center;
-  display: grid;
+  display: grid; /* flexは不要 */
   grid-template-columns: repeat(2, 1fr); /* 2列 */
-  max-height: 50vh; /* 最大高さを指定 */
+  max-height: 50svh;
   overflow-y: auto;
+  width: 100%;
 }
 
 .content {
-  margin-top: 25%;
   display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.card {
-  background-color: #f4e9d7;
-  padding: 20px;
-  width: 41vw;
-  height: 21vh;
-  border-radius: 20px;
-  display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
 }
 
 .loading {
@@ -32,21 +19,37 @@
   z-index: 111;
 }
 
-.image {
-  height: auto;
+.card {
+  margin-top: 10%;
+  background-color: #f4e9d7;
+  padding: 20px;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 90%; /* 任意：カード幅を一定に */
+  max-width: 200px; /* 必要なら制限 */
+  height: 60%;
   position: relative;
-  left: 17%;
-  bottom: 50%;
-  box-shadow: 0vh 1.5vw 1.3vw 0.5vw rgb(27 55 99 / 25%);
+}
+
+.image {
+  width: 70%;
+  max-width: 200px;
+  height: 120px; /* 明示的に高さを固定 */
+  box-shadow: 0 1.5vw 1.3vw 0.5vw rgb(27 55 99 / 25%);
+  position: relative;
+  left: 25%;
+  bottom: 10svh;
 }
 
 .text {
-  margin-top: 9px;
   font-size: 10px;
   color: #635038;
-  position: relative;
-  bottom: 28%;
-  width: 20ch; /* 12文字分の幅 */
-  white-space: normal; /* 折り返しを許可 */
+  width: 20ch; /* 約20文字ぶんの幅 */
+  white-space: normal; /* 折り返し許可 */
   overflow-wrap: break-word;
+  position: relative;
+  bottom: 26%;
 }
