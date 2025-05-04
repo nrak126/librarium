@@ -1,16 +1,20 @@
 .BaseBtn {
-    text-align: center;
-    height: 7vh;
-    width: 140%;
-    font-size: 11px;
-    padding: 10px 30px;
-    border-radius: 10px;
-    border: none;
-    background-color: #e2999b;
-    color: #31291f;
-    font-weight: bold;
-    box-shadow: 0px 3px 8px 1px rgb(27 55 99 / 25%);
-    }
+  display: flex;
+  align-items: center; /* 縦方向中央揃え */
+  justify-content: center; /* 横方向中央揃え */
+  text-align: center;
+  height: fit-content;
+  width: fit-content;
+  font-size: 11px;
+  border-radius: 10px;
+  border: none;
+  background-color: #e2999b;
+  color: #31291f;
+  font-weight: bold;
+  box-shadow: 0px 3px 8px 1px rgb(27 55 99 / 25%);
+  padding: 20px 30px; /* 任意：クリックしやすく */
+}
+
 .BaseBtn:active {
-    transform: scale(0.9);
+  transform: scale(0.9);
 }

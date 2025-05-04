@@ -33,7 +33,7 @@ export default function PageClient() {
   return (
     <div>
       {book ? (
-        <>
+        <div className={styles.contents}>
           <p className={styles.title}>{book.title}</p>
           <BookCard
             book={book}
@@ -41,13 +41,14 @@ export default function PageClient() {
             height={180}
             className={styles.card}
           />
-        </>
+          <p className={styles.returnCheck}>返却が完了しました</p>
+          <div className={styles.Btn}>
+            <Btn text="確認した" bgColor="#E2999B" onClick={handleConfirm} />
+          </div>
+        </div>
       ) : (
         <LoadingBrown />
       )}
-      <div className={styles.Btn}>
-        <Btn text="確認した" bgColor="#E2999B" onClick={handleConfirm} />
-      </div>
     </div>
   );
 }
