@@ -6,20 +6,20 @@
 }
 
 .title {
-    display: flex;
-    flex-direction: column;
-    font-size: 13px;
-    //text-align: center;
-    align-items: center;
-    justify-content: center;
-    color: #635038;
-    font-weight: bold;
-    border: 1px solid #635038;
-    border-radius: 7;
-    width: 17vh;
-    height: 4.5vh;
-    position: relative;
-    right: -33%;
+  display: flex;
+  flex-direction: column;
+  font-size: 13px;
+  //text-align: center;
+  align-items: center;
+  justify-content: center;
+  color: #635038;
+  font-weight: bold;
+  border: 1px solid #635038;
+  border-radius: 7;
+  width: 17vh;
+  height: 4.5vh;
+  position: relative;
+  right: -33%;
 }
 
 .description {
@@ -31,7 +31,7 @@
   font-weight: bold;
 }
 .genreList {
-  padding-bottom: 25%;
+  padding-bottom: 10%;
 }
 
 .genre {

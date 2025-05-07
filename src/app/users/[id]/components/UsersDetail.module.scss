@@ -96,13 +96,11 @@
 
   .backbutton {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     text-align: center;
-    position: relative;
-    left: 40%;
-    top: 3svh;
-    width: 30%;
+    margin-top: 4svh;
   }
 
   .comment {

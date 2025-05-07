@@ -4,19 +4,9 @@
   align-items: center;
   text-align: center;
   margin-bottom: 10%;
-  position: relative;
-  left: -2%;
-  gap: 15%;
+  gap: 15px;
 }
 
-.back {
-  flex-direction: column;
-  width: 23%;
-}
-.rental {
-  flex-direction: column;
-  width: 23%;
-}
 .available {
   flex-direction: column;
   width: 23%;

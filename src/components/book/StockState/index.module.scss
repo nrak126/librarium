@@ -1,34 +1,35 @@
 .StockState {
   display: flex;
   align-items: center;
-  padding: 9px;
-  width: 105px;
-  height: 30px;
+  justify-content: center;
+  text-align: center;
+  width: fit-content;
+  height: fit-content;
+  padding: 14% 20% 14% 10%;
   border-radius: 10px;
 }
 
-.borrowed,.available {
+.borrowed,
+.available {
   display: flex;
   align-items: center;
   gap: 9px;
   font-weight: bold;
-  color: #31291F;
+  color: #31291f;
   text-shadow: 2px 2px 4px rgb(0, 0, 0, 0.3);
 }
-  
 
 .StockStateIcon {
   width: 11px;
   height: 11px;
   border-radius: 100%;
-  box-shadow:  0px 3px 8px 1px rgb(27 55 99 / 25%);    
-
+  box-shadow: 0px 3px 8px 1px rgb(27 55 99 / 25%);
 }
 
 .red {
-  background-color: #B85353;
+  background-color: #b85353;
 }
 
 .green {
-  background-color: #CFF1B1;
+  background-color: #cff1b1;
 }
