@@ -28,6 +28,7 @@
   align-items: center;
   justify-content: center;
   width: 90%;
+  max-width: 170px;
   height: fit-content;
   padding: 25%;
   position: relative;
@@ -39,7 +40,7 @@
   box-shadow: 0 1.5vw 1.3vw 0.5vw rgb(27 55 99 / 25%);
   position: absolute;
   left: 65%;
-  bottom: 9svh;
+  bottom: 11svh;
   transform: translateX(-50%); /* 水平方向の中央揃え */
 }
 
