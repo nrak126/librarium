@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import style from "./index.module.scss";
 import Image from "next/image";
-import { RentalList } from "@/src/types";
+
 import { supabase } from "@/src/lib/supabase";
 import { useRouter } from "next/navigation";
 import LoadingBrown from "../../LoadingBrown";
