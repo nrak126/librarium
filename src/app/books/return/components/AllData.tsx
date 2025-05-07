@@ -2,34 +2,18 @@
 
 import Image from "next/image";
 import style from "../style/return.module.scss";
-import { useEffect, useState } from "react";
-import { RentalList } from "../../../../types";
-import { supabase } from "@/src/lib/supabase";
 import LoadingBrown from "@/src/components/LoadingBrown";
+import { useAtom } from "jotai";
+import { rentalAtom, usersAtom } from "@/src/atoms/atoms";
 
 export const AllData = () => {
-  const [rental, setRental] = useState<RentalList[]>([]);
+  const [rental] = useAtom(rentalAtom);
 
-  useEffect(() => {
-    // レンタルデータの取得
-    (async () => {
-      try {
-        const renBooks = await fetch(`/api/loans/rentalList`);
-        const data: RentalList[] = await renBooks.json();
-        setRental(data);
-      } catch (error) {
-        console.error("レンタルデータの取得エラー:", error);
-      }
-    })();
+  const user = useAtom(usersAtom);
 
-    // ログイン中のユーザー情報の取得
-    (async () => {
-      const { error } = await supabase.auth.getUser();
-      if (error) {
-        return <h1>ユーザ情報を取得できませんでした。</h1>;
-      }
-    })();
-  }, []);
+  if (!user) {
+    return <h1>ユーザ情報を取得できませんでした。</h1>;
+  }
 
   // 返却日を「あと〇日」形式に変換する関数
 

@@ -5,27 +5,19 @@ import style from "../style/return.module.scss";
 
 import { RentalList } from "../../../../types";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 import { supabase } from "@/src/lib/supabase";
+import { Atom, useAtom } from "jotai";
+import { rentalAtom } from "@/src/atoms/atoms";
 
 export const MyData = () => {
-  const [rental, setRental] = useState<RentalList[]>([]);
   const [userId, setUserId] = useState<string>("");
 
   const router = useRouter();
 
-  useEffect(() => {
-    // レンタルデータの取得
-    (async () => {
-      try {
-        const renBooks = await fetch(`/api/loans/rentalList`);
-        const data: RentalList[] = await renBooks.json();
-        setRental(data);
-      } catch (error) {
-        console.error("レンタルデータの取得エラー:", error);
-      }
-    })();
+  const [rental] = useAtom(rentalAtom);
 
+  useEffect(() => {
     // ログイン中のユーザー情報の取得
     (async () => {
       const { data, error } = await supabase.auth.getUser();
@@ -60,13 +52,14 @@ export const MyData = () => {
   return (
     <div>
       <div className={style.contents}>
-        {rental.filter(
+        {rental &&
+        rental.filter(
           (book) => book.users.id === userId && book.isReturned === false
-        ).length === 0 ? ( // user.idが一致しないアイテムをフィルタリング
-          <p className={style.noRental}>貸し出し中の本はありません</p> // フィルタ結果が空の場合にメッセージ表示
+        ).length === 0 ? (
+          <p className={style.noRental}>貸し出し中の本はありません</p>
         ) : (
           rental
-            .filter(
+            ?.filter(
               (book) => book.users.id === userId && book.isReturned === false
             )
             .map((book) => (
@@ -90,9 +83,9 @@ export const MyData = () => {
                       {getReturnDay(book.return_date)}
                     </span>
                   </p>
-                  <p
-                    className={style.userName}
-                  >{`${book.users.studentId}　${book.users.name}`}</p>
+                  <p className={style.userName}>
+                    {`${book.users.studentId}　${book.users.name}`}
+                  </p>
                 </div>
                 <Image
                   src={book.books.thumbnail}

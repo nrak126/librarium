@@ -4,23 +4,37 @@ import { Btn } from "@/src/components/book/Btn";
 import { Book } from "@/src/types";
 import { supabase } from "@/src/lib/supabase";
 import styles from "./index.module.scss";
-
+import { useAtom } from "jotai";
+import { rentalAtom } from "@/src/atoms/atoms";
 import Link from "next/link";
 
 export function RentBtn({ book }: { book: Book }) {
   const isAvailableRental = book.available > 0;
+  const [, setRental] = useAtom(rentalAtom);
 
   const handleRent = async () => {
     const logedInUserData = await supabase.auth.getUser();
+    const uid = logedInUserData.data.user?.id;
 
-    await fetch(`/api/books/rental`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        isbn: book.isbn,
-        uid: logedInUserData.data.user?.id,
-      }),
-    });
+    if (!uid) return;
+
+    try {
+      await fetch(`/api/books/rental`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          isbn: book.isbn,
+          uid: uid,
+        }),
+      });
+      // レンタルリストの再取得
+      const res = await fetch(`/api/loans/rentalList`);
+      const rentalData = await res.json();
+
+      setRental(rentalData); //atomsに追加
+    } catch (error) {
+      console.error("レンタル処理エラー:", error);
+    }
   };
 
   const handleBack = () => {
