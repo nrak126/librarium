@@ -4,44 +4,42 @@ import BooksList from "../components/BooksList";
 import { SearchBar } from "@/src/components/SearchBar";
 import styles from "./index.module.scss";
 import { useState, useEffect } from "react";
-import { Book } from "@/src/types";
 import { useSearchParams } from "next/navigation";
+import { useAtom } from "jotai";
+import { booksAtom } from "@/src/atoms/atoms";
+import type { Book } from "@/src/types";
 
 export default function PageClient() {
-  // ここでサーバーから初期データ取得してもいい（任意）
-  //const books = await fetchBooks();
   const searchParams = useSearchParams();
   const seaarchNameData = searchParams.get("searchName") || "";
 
-  console.log(seaarchNameData);
   const [searchClick, setSearchClick] = useState(false);
-  const [searchName, setSearchName] = useState(seaarchNameData || "");
-  const [searchWordClick, setSearchWordClick] = useState(
-    seaarchNameData ? true : false
-  );
-  const [books, setBooks] = useState<Book[]>([]);
+  const [searchName, setSearchName] = useState(seaarchNameData);
+  const [searchWordClick, setSearchWordClick] = useState(!!seaarchNameData);
+
+  const [books, setBooks] = useAtom(booksAtom); // Jotai atom でグローバル books 利用
   const [result, setResult] = useState<Book[]>([]);
 
-  console.log("sss", searchName);
-
+  // 初回のみbooksをフェッチ（すでに取得済ならスキップ）
   useEffect(() => {
-    (async () => {
-      const booksRes = await fetch(`/api/books`);
+    if (books === null) {
+      (async () => {
+        const booksRes = await fetch(`/api/books`);
+        const booksData: Book[] = await booksRes.json();
+        setBooks(booksData);
+      })();
+    }
+  }, [books, setBooks]);
 
-      const booksData: Book[] = await booksRes.json();
-      setBooks(booksData);
-    })();
-  }, []);
+  // 検索フィルタリング処理
   useEffect(() => {
-    // console.log("セットワードクリック", { searchWordClick });
-    if (searchWordClick === true) {
-      // console.log("books", { books });
+    if (!books) return;
+
+    if (searchWordClick) {
       const filteredBooks: Book[] = books.filter(
         (book) =>
           typeof searchName === "string" && book.tags.includes(searchName)
       );
-
-      console.log("filteredBooks", filteredBooks);
       setResult(filteredBooks);
     } else {
       setResult(books);
@@ -49,27 +47,23 @@ export default function PageClient() {
   }, [searchWordClick, books, searchName]);
 
   return (
-    <>
-      <div>
-        <div className={styles.whole}>
-          <div className={styles.title}>書籍一覧</div>
-          <div className={styles.bar}>
-            <SearchBar
-              searchClick={searchClick}
-              setSearchClick={setSearchClick}
-              searchName={typeof searchName === "string" ? searchName : ""}
-              setSearchName={setSearchName}
-              setSearchWordClick={setSearchWordClick}
-              searchWordClick={searchWordClick}
-            />
-            <div className={styles.card}>
-              <div className={styles.list}>
-                <BooksList result={result} />
-              </div>
-            </div>
+    <div className={styles.whole}>
+      <div className={styles.title}>書籍一覧</div>
+      <div className={styles.bar}>
+        <SearchBar
+          searchClick={searchClick}
+          setSearchClick={setSearchClick}
+          searchName={searchName}
+          setSearchName={setSearchName}
+          setSearchWordClick={setSearchWordClick}
+          searchWordClick={searchWordClick}
+        />
+        <div className={styles.card}>
+          <div className={styles.list}>
+            <BooksList result={result} />
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }
