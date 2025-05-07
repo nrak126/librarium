@@ -8,26 +8,32 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Btn } from "@/src/components/book/Btn";
 import { User } from "@/src/types";
-import { usePathname } from "next/navigation";
+import { useAtom } from "jotai";
+import { uidAtom } from "@/src/atoms/atoms"; // 作成したuidAtomをインポート
 
 export default function UserDetail() {
   const [clickEditer, setClickEditer] = useState(false);
   const router = useRouter();
   const [user, setUser] = useState<User | null>(null);
-  const pathname = usePathname();
-  const pathArr = pathname.split("/");
-  const uid = pathArr[pathArr.length - 1];
+  const [uid, setUid] = useAtom(uidAtom); // uidAtom を使用
 
   useEffect(() => {
+    const pathname = window.location.pathname;
+    const pathArr = pathname.split("/");
+    const currentUid = pathArr[pathArr.length - 1];
+
+    // uidをatomにセット
+    setUid(currentUid);
+
     (async () => {
-      const UserDataRes = await fetch(`/api/users/${uid}`);
+      const UserDataRes = await fetch(`/api/users/${currentUid}`);
       const UserData: User = await UserDataRes.json();
       setUser(UserData);
     })();
-  }, [uid]);
+  }, [setUid]); // uidAtomの更新に伴って再実行
 
   if (!user) {
-    return;
+    return <div>Loading...</div>;
   }
 
   const handleSample = () => {
