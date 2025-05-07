@@ -4,6 +4,7 @@ import { User } from "@/src/types";
 import Link from "next/link";
 import LoadingBrown from "../../LoadingBrown";
 import icon from "@/public/icon.svg";
+import { alegreyaSansSC } from "@/src/fonts/font";
 
 function UserData({ user }: { user: User | null }) {
   if (!user) {
@@ -27,7 +28,9 @@ function UserData({ user }: { user: User | null }) {
                 <div className={styles.numname}>
                   {user.studentId + " " + user.name}
                 </div>
-                <div className={styles.level}>Lv.{user.level}</div>
+                <div className={alegreyaSansSC.className}>
+                  <div className={styles.level}>Lv.{user.level}</div>
+                </div>
               </div>
 
               <div className={styles.tagComp}>
