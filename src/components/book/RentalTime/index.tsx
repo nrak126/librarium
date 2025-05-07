@@ -7,16 +7,14 @@ import { RentalList } from "@/src/types";
 import { supabase } from "@/src/lib/supabase";
 import { useRouter } from "next/navigation";
 import LoadingBrown from "../../LoadingBrown";
+import { useAtom } from "jotai";
+import { rentalAtom } from "@/src/atoms/atoms";
 
-type RentalListProps = {
-  rental: RentalList[];
-};
-
-export const RentalTime: React.FC<RentalListProps> = (props) => {
-  const { rental } = props;
+export const RentalTime: React.FC = () => {
   const [userId, setUserId] = useState<string>("");
   const [loading, setLoading] = useState(false);
 
+  const [rental] = useAtom(rentalAtom);
   const router = useRouter();
 
   useEffect(() => {
@@ -86,13 +84,13 @@ export const RentalTime: React.FC<RentalListProps> = (props) => {
   ) : (
     <div>
       <div className={style.contents}>
-        {rental.filter(
+        {rental?.filter(
           (book) => book.users.id === userId && book.isReturned === false
         ).length === 0 ? ( // user.idが一致しないアイテムをフィルタリング
           <p className={style.noRental}>貸し出し中の本はありません</p> // フィルタ結果が空の場合にメッセージ表示
         ) : (
           rental
-            .filter(
+            ?.filter(
               (book) => book.users.id === userId && book.isReturned === false
             )
             .map((book) => (

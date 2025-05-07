@@ -94,7 +94,7 @@ export const PageClient: React.FC = () => {
           <BookRanking books={books ?? []} />
         </TabPanel>
         <TabPanel>
-          <RentalTime rental={rental ?? []} />
+          <RentalTime />
         </TabPanel>
         <TabPanel>
           <BookRec books={books ?? []} />
