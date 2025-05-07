@@ -5,12 +5,13 @@ import Icon4 from "@/src/components/HamBtn/Img/books_side.svg";
 import Icon5 from "@/src/components/HamBtn/Img/add_side.svg";
 
 export const navItems = [
-  { id: 1, link: "/books/rental/barcode", label: "貸出", iconUrl: Icon1 },
-  { id: 2, link: "/books/return", label: "返却", iconUrl: Icon2 },
-  { id: 3, link: "/users", label: "利用者一覧", iconUrl: Icon3 },
-  { id: 4, link: "/books", label: "書籍一覧", iconUrl: Icon4 },
+  { id: 1, link: "./", label: "ホーム", iconUrl: Icon1 },
+  { id: 2, link: "/books/rental/barcode", label: "貸出", iconUrl: Icon1 },
+  { id: 3, link: "/books/return", label: "返却", iconUrl: Icon2 },
+  { id: 4, link: "/users", label: "利用者一覧", iconUrl: Icon3 },
+  { id: 5, link: "/books", label: "書籍一覧", iconUrl: Icon4 },
   {
-    id: 5,
+    id: 6,
     link: "/books/add/barcode",
     label: "新しい本の登録",
     iconUrl: Icon5,

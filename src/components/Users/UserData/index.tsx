@@ -15,7 +15,7 @@ function UserData({ user }: { user: User | null }) {
         <div className={styles.all}>
           <div className={styles.whole}>
             <Image
-              src={user.icon || icon  }
+              src={user.icon || icon}
               alt={"ユーザーアイコン"}
               width={57}
               height={57}
