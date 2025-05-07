@@ -3,11 +3,10 @@
 import Image from "next/image";
 import style from "../style/return.module.scss";
 
-import { RentalList } from "../../../../types";
 import { useRouter } from "next/navigation";
-import { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { supabase } from "@/src/lib/supabase";
-import { Atom, useAtom } from "jotai";
+import { useAtom } from "jotai";
 import { rentalAtom } from "@/src/atoms/atoms";
 
 export const MyData = () => {
