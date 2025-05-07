@@ -72,7 +72,7 @@ export const BookRegister = ({ isbn }: { isbn: string }) => {
       });
 
       // ✅ Atom に新しい本を追加
-      setBooks((prevBooks) => [...prevBooks, book]);
+      setBooks((prevBooks) => [...(prevBooks ?? []), book]);
 
       router.push(`/books/add/${isbn}/check`);
     } catch (error) {
