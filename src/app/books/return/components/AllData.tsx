@@ -12,7 +12,7 @@ export const AllData = () => {
   const user = useAtom(usersAtom);
 
   if (!user) {
-    return <h1>ユーザ情報を取得できませんでした。</h1>;
+    return console.error("aaa");
   }
 
   // 返却日を「あと〇日」形式に変換する関数

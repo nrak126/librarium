@@ -1,56 +1,64 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useAtom } from "jotai";
 import { SearchBar } from "@/src/components/SearchBar";
 import styles from "./PageClient.module.scss";
 import UsersList from "@/src/components/Users/UsersList";
 import UserData from "@/src/components/Users/UserData";
-import { User } from "@/src/types";
 import { supabase } from "@/src/lib/supabase";
+import { usersAtom, logedInUserAtom } from "@/src/atoms/atoms";
+import type { User } from "@/src/types";
 
 export function PageClient() {
   const [searchClick, setSearchClick] = useState(false);
   const [searchName, setSearchName] = useState("");
-  const [result, setResult] = useState<User[]>([]);
-  const [users, setUsers] = useState<User[]>([]);
-
   const [searchWordClick, setSearchWordClick] = useState(false);
-  // let searchWordClick: Boolean | undefined = false;
-  const [logedInUser, setLogedInUser] = useState<User | null>(null);
 
+  const [users, setUsers] = useAtom(usersAtom);
+  const [logedInUser, setLogedInUser] = useAtom(logedInUserAtom);
+  const [result, setResult] = useState<User[]>([]);
+
+  // 初回データ取得
   useEffect(() => {
     (async () => {
-      const usersRes = await fetch(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/api/users`
-      );
-      const usersData: User[] = await usersRes.json();
-      setUsers(usersData);
-
-      const logedInUserSupa = await supabase.auth.getUser();
-      const { data, error } = logedInUserSupa;
-      if (error) {
-        console.log("ログイン中のユーザのデータを取得できませんでした。");
-        return;
+      // 全ユーザー取得
+      if (!users) {
+        const usersRes = await fetch(
+          `${process.env.NEXT_PUBLIC_BASE_URL}/api/users`
+        );
+        const usersData: User[] = await usersRes.json();
+        setUsers(usersData);
+        setResult(usersData); // 初期表示用
+      } else {
+        setResult(users);
       }
-      const uid = data.user.id;
-      const logedInUserRes = await fetch(
-        `/api/users/${uid}`
-      );
-      const logedInUserData: User = await logedInUserRes.json();
-      setLogedInUser(logedInUserData);
-    })();
-  }, []);
 
+      // ログインユーザー取得
+      if (!logedInUser) {
+        const { data, error } = await supabase.auth.getUser();
+        if (error || !data.user?.id) {
+          console.error("ログインユーザーの取得に失敗しました");
+          return;
+        }
+        const logedInUserRes = await fetch(`/api/users/${data.user.id}`);
+        const logedInUserData: User = await logedInUserRes.json();
+        setLogedInUser(logedInUserData);
+      }
+    })();
+  }, [users, logedInUser, setUsers, setLogedInUser]);
+
+  // タグによるフィルタリング
   useEffect(() => {
-    if (searchWordClick === true) {
+    if (searchWordClick && users) {
       const filteredUsers = users.filter((user) =>
         user.tags.includes(searchName)
       );
       setResult(filteredUsers);
-    } else {
+    } else if (users) {
       setResult(users);
     }
-  }, [searchWordClick, users, searchName]); // result は依存関係に追加しない
+  }, [searchWordClick, users, searchName]);
 
   return (
     <>

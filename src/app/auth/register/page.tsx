@@ -95,6 +95,7 @@ export default function Page() {
         <input
           className={styles.inputName}
           type="text"
+          required
           value={user?.name || ""}
           onChange={(e) => {
             setUser((prev) => ({
@@ -111,12 +112,14 @@ export default function Page() {
           className={styles.inputNum}
           type="text"
           onChange={(e) => {
+            const filteredValue = e.target.value.replace(/[^\x01-\x7E]/g, ""); // 半角英数字のみを許可
             setUser((prev) => ({
               ...prev!,
-              studentId: e.target.value,
+              studentId: filteredValue,
             }));
           }}
           placeholder="k12345"
+          required
         />
       </div>
 

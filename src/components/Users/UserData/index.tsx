@@ -3,6 +3,7 @@ import Image from "next/image";
 import { User } from "@/src/types";
 import Link from "next/link";
 import LoadingBrown from "../../LoadingBrown";
+import icon from "@/public/icon.svg";
 
 function UserData({ user }: { user: User | null }) {
   if (!user) {
@@ -14,7 +15,7 @@ function UserData({ user }: { user: User | null }) {
         <div className={styles.all}>
           <div className={styles.whole}>
             <Image
-              src={user.icon}
+              src={user.icon || icon  }
               alt={"ユーザーアイコン"}
               width={57}
               height={57}
