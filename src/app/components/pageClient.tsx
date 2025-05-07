@@ -7,20 +7,22 @@ import { BookRec } from "../../components/book/BookRec";
 import { BookRanking } from "../../components/book/BookRanking";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/src/lib/supabase";
-import { Book, RentalList } from "../../types";
 import { useEffect, useState } from "react";
 import { NavSlide } from "@/src/components/nav/NavSlide";
 import { SearchBar } from "@/src/components/SearchBar";
+import { useAtom } from "jotai";
+import { booksAtom, rentalAtom } from "@/src/atoms/atoms";
+import type { Book, RentalList } from "@/src/types";
 
 export const PageClient: React.FC = () => {
   const [searchClick, setSearchClick] = useState(false);
   const [searchName, setSearchName] = useState("");
-  const [books, setBooks] = useState<Book[]>([]);
-  const [rental, setRental] = useState<RentalList[]>([]);
+  const [books, setBooks] = useAtom(booksAtom);
+  const [rental, setRental] = useAtom(rentalAtom);
   const router = useRouter();
 
+  // 認証チェック
   useEffect(() => {
-    // レンタルデータの取得
     (async () => {
       const { error } = await supabase.auth.getUser();
       if (error) {
@@ -29,32 +31,42 @@ export const PageClient: React.FC = () => {
     })();
   }, [router]);
 
+  // 検索処理
   useEffect(() => {
-    if (searchClick === true) {
+    if (searchClick) {
       router.push(`/books?searchName=${searchName}`);
     }
   }, [searchClick, searchName, router]);
 
+  // 本のデータフェッチ（初回のみ）
   useEffect(() => {
-    (async () => {
-      const resBook = await fetch(`/api/books`);
-      const data: Book[] = await resBook.json();
-      setBooks(data);
-    })();
-  }, [router]);
+    if (books === null) {
+      (async () => {
+        try {
+          const resBook = await fetch(`/api/books`);
+          const data: Book[] = await resBook.json();
+          setBooks(data);
+        } catch (error) {
+          console.error("本のデータ取得エラー:", error);
+        }
+      })();
+    }
+  }, [books, setBooks]);
 
+  // レンタルデータのフェッチ（初回のみ）
   useEffect(() => {
-    // レンタルデータの取得
-    (async () => {
-      try {
-        const renBooks = await fetch(`/api/loans/rentalList`);
-        const data: RentalList[] = await renBooks.json();
-        setRental(data);
-      } catch (error) {
-        console.error("レンタルデータの取得エラー:", error);
-      }
-    })();
-  }, []);
+    if (rental === null) {
+      (async () => {
+        try {
+          const renBooks = await fetch(`/api/loans/rentalList`);
+          const data: RentalList[] = await renBooks.json();
+          setRental(data);
+        } catch (error) {
+          console.error("レンタルデータの取得エラー:", error);
+        }
+      })();
+    }
+  }, [rental, setRental]);
 
   return (
     <>
@@ -79,13 +91,13 @@ export const PageClient: React.FC = () => {
         </TabList>
 
         <TabPanel>
-          <BookRanking books={books} />
+          <BookRanking books={books ?? []} />
         </TabPanel>
         <TabPanel>
-          <RentalTime rental={rental} />
+          <RentalTime rental={rental ?? []} />
         </TabPanel>
         <TabPanel>
-          <BookRec books={books} />
+          <BookRec books={books ?? []} />
         </TabPanel>
       </Tabs>
     </>

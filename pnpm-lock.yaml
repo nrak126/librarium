@@ -20,6 +20,9 @@ importers:
       axios:
         specifier: ^1.8.3
         version: 1.8.3
+      jotai:
+        specifier: ^2.12.4
+        version: 2.12.4(@types/react@19.0.11)(react@19.0.0)
       next:
         specifier: 15.1.7
         version: 15.1.7(@babel/core@7.26.10)(@opentelemetry/api@1.9.0)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(sass@1.86.0)
@@ -2577,6 +2580,18 @@ packages:
   jiti@1.21.7:
     resolution: {integrity: sha512-/imKNG4EbWNrVjoNC/1H5/9GFy+tqjGBHCaSsN+P2RnPqjsLmv6UD3Ej+Kj8nBWaRAwyk7kK5ZUc+OEatnTR3A==}
     hasBin: true
+
+  jotai@2.12.4:
+    resolution: {integrity: sha512-eFXLJol4oOLM8BS1+QV+XwaYQITG8n1tatBCFl4F5HE3zR5j2WIK8QpMt7VJIYmlogNUZfvB7wjwLoVk+umB9Q==}
+    engines: {node: '>=12.20.0'}
+    peerDependencies:
+      '@types/react': '>=17.0.0'
+      react: '>=17.0.0'
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
+      react:
+        optional: true
 
   jpeg-js@0.4.4:
     resolution: {integrity: sha512-WZzeDOEtTOBK4Mdsar0IqEU5sMr3vSV2RqkAIzUEV2BHnUfKGyswWFPFwK5EeDo93K3FohSHbLAjj0s1Wzd+dg==}
@@ -6752,6 +6767,11 @@ snapshots:
       supports-color: 8.1.1
 
   jiti@1.21.7: {}
+
+  jotai@2.12.4(@types/react@19.0.11)(react@19.0.0):
+    optionalDependencies:
+      '@types/react': 19.0.11
+      react: 19.0.0
 
   jpeg-js@0.4.4: {}
 
