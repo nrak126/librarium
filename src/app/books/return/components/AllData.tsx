@@ -8,15 +8,14 @@ import { rentalAtom, usersAtom } from "@/src/atoms/atoms";
 
 export const AllData = () => {
   const [rental] = useAtom(rentalAtom);
+  const [user] = useAtom(usersAtom); // 配列の1番目の要素にアクセス
 
-  const user = useAtom(usersAtom);
-
+  // ユーザーがいない場合のエラーハンドリング
   if (!user) {
-    return console.error("aaa");
+    return <p className={style.noUser}>ユーザーが見つかりません。</p>;
   }
 
   // 返却日を「あと〇日」形式に変換する関数
-
   const getReturnDay = (returnDate: string) => {
     const returnDateObj = new Date(returnDate); // 返却日の日付
     returnDateObj.setHours(0, 0, 0, 0);
