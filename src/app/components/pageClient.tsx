@@ -24,8 +24,8 @@ export const PageClient: React.FC = () => {
   // 認証チェック
   useEffect(() => {
     (async () => {
-      const { error } = await supabase.auth.getUser();
-      if (error) {
+      const { data, error } = await supabase.auth.getUser();
+      if (error || !data.user) {
         await router.push("/auth");
       }
     })();
