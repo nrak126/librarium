@@ -6,10 +6,16 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { Book } from "@/src/types";
 import LoadingBrown from "../../LoadingBrown";
+import { Almarai } from "next/font/google";
 
 type BookRecProps = {
   books: Book[];
 };
+
+export const font = Almarai({
+  weight: "400",
+  subsets: ["latin"],
+});
 
 export const BookRanking: React.FC<BookRecProps> = (props) => {
   const { books } = props;
@@ -58,7 +64,9 @@ export const BookRanking: React.FC<BookRecProps> = (props) => {
                 width={100}
                 height={128}
               />
-              <p className={style.text}>{appName.title}</p>
+              <p className={`${style.text} ${font.className}`}>
+                {appName.title}
+              </p>
             </div>
           </div>
         );
