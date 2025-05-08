@@ -4,6 +4,8 @@ import { Btn } from "@/src/components/book/Btn";
 
 import styles from "../return.module.scss";
 import { useRouter } from "next/navigation";
+import { useAtom } from "jotai";
+import { rentalAtom } from "@/src/atoms/atoms";
 
 type Props = {
   isbn: string;
@@ -13,6 +15,7 @@ type Props = {
 export function ReturnBtn(props: Props) {
   const router = useRouter();
   const { isbn, uid } = props;
+  const [, setReturn] = useAtom(rentalAtom);
 
   const handleReturn = async () => {
     await fetch(`/api/books/return`, {
@@ -22,6 +25,13 @@ export function ReturnBtn(props: Props) {
       },
       body: JSON.stringify({ isbn: isbn, uid: uid }),
     });
+
+    // 返した本をatomsから無くす
+    setReturn((prev) => {
+      if (!prev) return prev; // null なら何もしない
+      return prev.filter((book) => book.isbn !== isbn);
+    });
+
     router.push(`/books/return/${isbn}/check`);
     //この中に返却すると返せるようにする
   };
