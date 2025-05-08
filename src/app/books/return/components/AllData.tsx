@@ -27,6 +27,18 @@ export const AllData = () => {
     })();
   }, [rental, setRental]);
 
+
+  //日付超過を確認
+  const isOverdue = (returnDate: string) => {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    const returnDateObj = new Date(returnDate);
+    returnDateObj.setHours(0, 0, 0, 0);
+
+    return returnDateObj < today;
+  };
+
   // 返却日を「あと〇日」形式に変換する関数
   const getReturnDay = (returnDate: string) => {
     const returnDateObj = new Date(returnDate); // 返却日の日付
@@ -62,7 +74,11 @@ export const AllData = () => {
                     <p className={style.bookName}>{book.books.title}</p>
                     <p className={style.return}>
                       返却期限：
-                      <span className={style.returnTime}>
+                      <span
+                        className={`${style.returnTime} ${
+                          isOverdue(book.return_date) ? style.overdue : ""
+                        }`}
+                      >
                         {getReturnDay(book.return_date)}
                       </span>
                     </p>
