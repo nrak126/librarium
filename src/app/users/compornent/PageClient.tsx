@@ -24,9 +24,7 @@ export function PageClient() {
     (async () => {
       // 全ユーザー取得
       if (!users) {
-        const usersRes = await fetch(
-          `${process.env.NEXT_PUBLIC_BASE_URL}/api/users`
-        );
+        const usersRes = await fetch(`/api/users`);
 
         const usersData: User[] = await usersRes.json();
         setUsers(usersData);
