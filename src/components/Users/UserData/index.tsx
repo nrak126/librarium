@@ -28,8 +28,9 @@ function UserData({ user }: { user: User | null }) {
                 <div className={styles.numname}>
                   {user.studentId + " " + user.name}
                 </div>
-                <div className={alegreyaSansSC.className}>
-                  <div className={styles.level}>Lv.{user.level}</div>
+
+                <div className={`${alegreyaSansSC.className} ${styles.level}`}>
+                  Lv.{user.level}
                 </div>
               </div>
 

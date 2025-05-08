@@ -27,6 +27,7 @@ export function PageClient() {
         const usersRes = await fetch(
           `${process.env.NEXT_PUBLIC_BASE_URL}/api/users`
         );
+
         const usersData: User[] = await usersRes.json();
         setUsers(usersData);
         setResult(usersData); // 初期表示用
@@ -78,7 +79,8 @@ export function PageClient() {
         </div>
       </div>
       <div className={styles.myprofile}>MY PROFILE</div>
-      <UserData user={logedInUser} />
+
+      {logedInUser && <UserData user={logedInUser} />}
       {searchClick ? (
         <div className={styles.titleSearch}>SEARCH</div>
       ) : (
