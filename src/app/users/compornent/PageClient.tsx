@@ -22,27 +22,45 @@ export function PageClient() {
   // 初回データ取得
   useEffect(() => {
     (async () => {
-      // 全ユーザー取得
-      if (!users) {
-        const usersRes = await fetch(`/api/users`);
+      try {
+        // 全ユーザー取得
+        if (!users) {
+          const usersRes = await fetch(
+            `${process.env.NEXT_PUBLIC_BASE_URL}/api/users`
+          );
 
-        const usersData: User[] = await usersRes.json();
-        setUsers(usersData);
-        setResult(usersData); // 初期表示用
-      } else {
-        setResult(users);
-      }
+          if (!usersRes.ok) {
+            console.log("ユーザー一覧の取得に失敗しました");
+          }
 
-      // ログインユーザー取得
-      if (!logedInUser) {
-        const { data, error } = await supabase.auth.getUser();
-        if (error || !data.user?.id) {
-          console.error("ログインユーザーの取得に失敗しました");
-          return;
+          const usersData: User[] = await usersRes.json();
+          setUsers(usersData);
+          setResult(usersData); // 初期表示用
+        } else {
+          setResult(users);
         }
-        const logedInUserRes = await fetch(`/api/users/${data.user.id}`);
-        const logedInUserData: User = await logedInUserRes.json();
-        setLogedInUser(logedInUserData);
+
+        // ログインユーザー取得
+        if (!logedInUser) {
+          const { data, error } = await supabase.auth.getUser();
+
+          if (error || !data.user?.id) {
+            console.log(
+              "ログインユーザーが取得できません。未ログインの可能性があります。"
+            );
+            return;
+          }
+
+          const logedInUserRes = await fetch(`/api/users/${data.user.id}`);
+          if (!logedInUserRes.ok) {
+            console.log("ログインユーザーのAPI取得に失敗しました");
+          }
+
+          const logedInUserData: User = await logedInUserRes.json();
+          setLogedInUser(logedInUserData);
+        }
+      } catch (err) {
+        console.error("初期データ取得中にエラー:", err);
       }
     })();
   }, [users, logedInUser, setUsers, setLogedInUser]);
