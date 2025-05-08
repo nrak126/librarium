@@ -3,8 +3,8 @@
   align-items: center; /* 縦方向中央揃え */
   justify-content: center; /* 横方向中央揃え */
   text-align: center;
-  height: fit-content;
-  width: fit-content;
+  height: 50px;
+  width: 100px;
   font-size: 11px;
   border-radius: 10px;
   border: none;
@@ -12,7 +12,6 @@
   color: #31291f;
   font-weight: bold;
   box-shadow: 0px 3px 8px 1px rgb(27 55 99 / 25%);
-  padding: 20px 30px; /* 任意：クリックしやすく */
 }
 
 .BaseBtn:active {

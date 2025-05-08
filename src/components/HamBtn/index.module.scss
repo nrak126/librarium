@@ -47,6 +47,12 @@
   visibility: visible;
 }
 
+.icon {
+  position: relative;
+  top: 1vh;
+  right: 10vw;
+}
+
 .navItems {
   overflow: hidden; /* はみ出さないようにする */
   display: flex;
