@@ -4,7 +4,14 @@ import { User } from "@/src/types";
 import Link from "next/link";
 import LoadingBrown from "../../LoadingBrown";
 import icon from "@/public/icon.svg";
-import { alegreyaSansSC } from "@/src/fonts/font";
+
+import { Changa_One } from "next/font/google";
+
+// Alegreya Sans SC（Italicあり, Weight全指定）
+export const alegreyaSansSC = Changa_One({
+  weight: "400",
+  subsets: ["latin"],
+});
 
 function UserData({ user }: { user: User | null }) {
   if (!user) {
