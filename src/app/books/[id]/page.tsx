@@ -25,7 +25,9 @@ export default async function Page({
   return (
     <div>
       <BookInfo book={book} />
-      <BackBtn />
+      <div style={{ margin: "20px" }}>
+        <BackBtn />
+      </div>
     </div>
   );
 }

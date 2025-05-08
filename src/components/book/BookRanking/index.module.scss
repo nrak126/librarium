@@ -11,7 +11,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 35%;
+  margin-top: 30%;
 }
 
 .loading {
@@ -40,7 +40,7 @@
   box-shadow: 0 1.5vw 1.3vw 0.5vw rgb(27 55 99 / 25%);
   position: absolute;
   left: 65%;
-  bottom: 11svh;
+  bottom: 8svh;
   transform: translateX(-50%); /* 水平方向の中央揃え */
 }
 
@@ -52,7 +52,7 @@
   overflow-y: auto; /* 縦スクロール */
   white-space: normal;
   position: relative;
-  top: 4svh;
+  top: 5svh;
 }
 
 .number {
