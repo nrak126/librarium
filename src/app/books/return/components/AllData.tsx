@@ -4,16 +4,28 @@ import Image from "next/image";
 import style from "../style/return.module.scss";
 import LoadingBrown from "@/src/components/LoadingBrown";
 import { useAtom } from "jotai";
-import { rentalAtom, usersAtom } from "@/src/atoms/atoms";
+import { rentalAtom } from "@/src/atoms/atoms";
+import { useEffect } from "react";
+import { RentalList } from "@/src/types";
 
 export const AllData = () => {
-  const [rental] = useAtom(rentalAtom);
-  const [user] = useAtom(usersAtom); // 配列の1番目の要素にアクセス
+  const [rental, setRental] = useAtom(rentalAtom);
 
-  // ユーザーがいない場合のエラーハンドリング
-  if (!user) {
-    return <p className={style.noUser}>ユーザーが見つかりません。</p>;
-  }
+  useEffect(() => {
+    (async () => {
+      if (!rental) {
+        const usersRes = await fetch(`/api/books/rental`);
+        // ステータス確認
+        if (!usersRes.ok) {
+          console.error("Fetch failed:", usersRes.status);
+          return;
+        }
+
+        const rentalBook: RentalList[] = await usersRes.json();
+        setRental(rentalBook);
+      }
+    })();
+  }, [rental, setRental]);
 
   // 返却日を「あと〇日」形式に変換する関数
   const getReturnDay = (returnDate: string) => {
