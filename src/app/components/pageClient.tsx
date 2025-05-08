@@ -13,6 +13,8 @@ import { SearchBar } from "@/src/components/SearchBar";
 import { useAtom } from "jotai";
 import { booksAtom, rentalAtom } from "@/src/atoms/atoms";
 import type { Book, RentalList } from "@/src/types";
+import { logedInUserAtom } from "@/src/atoms/atoms";
+import { User } from "@/src/types/user";
 
 export const PageClient: React.FC = () => {
   const [searchClick, setSearchClick] = useState(false);
@@ -20,16 +22,31 @@ export const PageClient: React.FC = () => {
   const [books, setBooks] = useAtom(booksAtom);
   const [rental, setRental] = useAtom(rentalAtom);
   const router = useRouter();
+  const [logedInUser, setLogedInUser] = useAtom(logedInUserAtom);
 
   // 認証チェック
   useEffect(() => {
-    (async () => {
-      const { data, error } = await supabase.auth.getUser();
-      if (error || !data.user) {
-        await router.push("/auth");
-      }
-    })();
-  }, [router]);
+    if (!logedInUser) {
+      (async () => {
+        const { data, error } = await supabase.auth.getUser();
+        if (error || !data.user) {
+          await router.push("/auth");
+          return;
+        }
+
+        // Supabase のユーザー ID をもとに、アプリ用ユーザー情報を取得
+        const res = await fetch(`/api/users/${data.user.id}`);
+        if (!res.ok) {
+          console.error("ユーザー情報の取得に失敗しました");
+          await router.push("/auth");
+          return;
+        }
+
+        const appUser: User = await res.json();
+        setLogedInUser(appUser);
+      })();
+    }
+  }, [router, logedInUser, setLogedInUser]);
 
   // 検索処理
   useEffect(() => {
