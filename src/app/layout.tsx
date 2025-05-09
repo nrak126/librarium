@@ -11,8 +11,7 @@ export const metadata = {
     icon: "/favicon.ico",
   },
 };
-
-export const font = Almarai({
+const font = Almarai({
   weight: "400",
   subsets: ["latin"],
 });
