@@ -5,6 +5,9 @@
   box-sizing: border-box;
 }
 
-body{
+html,body{
+  height: 100%;
   touch-action: pan-x pan-y;
+  overscroll-behavior-y: none;
+  
 }
