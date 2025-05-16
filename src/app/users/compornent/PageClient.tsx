@@ -79,6 +79,30 @@ export const PageClient = () => {
     })();
   }, []);
 
+  // Supabase リアルタイム購読で新規ユーザーを即時反映
+  useEffect(() => {
+    const channel = supabase
+      .channel("realtime-users")
+      .on(
+        "postgres_changes",
+        { event: "INSERT", schema: "public", table: "users" },
+        (payload) => {
+          const newUser = payload.new as User;
+          setUsers((prev) => {
+            const updated = [...prev, newUser];
+            localStorage.setItem("users", JSON.stringify(updated));
+            return updated;
+          });
+          setResult((prev) => [...prev, newUser]);
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, []);
+
   return (
     <>
       <div className={styles.whole}>
