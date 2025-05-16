@@ -1,7 +1,4 @@
 import { Book } from "@/src/types/book";
-import { BookInfo } from "@/src/components/book/BookInfo";
-
-import { RentBtn } from "./components/RentBtn";
 import PageClient from "./components/PageClient";
 
 export default async function Page({
