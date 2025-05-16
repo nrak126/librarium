@@ -5,28 +5,60 @@ import style from "../style/return.module.scss";
 
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { supabase } from "@/src/lib/supabase";
-import { useAtom } from "jotai";
-import { rentalAtom } from "@/src/atoms/atoms";
+
+// types.ts などに
+export type Rental = {
+  id: string;
+  users: {
+    id: string;
+    icon: string;
+    studentId: string;
+    name: string;
+  };
+  books: {
+    isbn: string;
+    title: string;
+    thumbnail: string;
+  };
+  return_date: string;
+  isReturned: boolean;
+};
+
+// ✅ Rental の配列にする
+export type RentalList = Rental[];
 
 export const MyData = () => {
   const [userId, setUserId] = useState<string>("");
-
   const router = useRouter();
-
-  const [rental] = useAtom(rentalAtom);
+  const [rental, SetRental] = useState<RentalList>();
 
   useEffect(() => {
-    // ログイン中のユーザー情報の取得
+    const rentalBooks = localStorage.getItem("rentalBooks");
+    if (rentalBooks) {
+      const parsed: RentalList = JSON.parse(rentalBooks);
+      SetRental(parsed);
+      return;
+    }
+
     (async () => {
-      const { data, error } = await supabase.auth.getUser();
-      if (error) {
-        return <h1>ユーザ情報を取得できませんでした。</h1>;
-      }
-      if (data) {
-        setUserId(data.user.id); // 現在のユーザーIDをセット
-      }
+      const res = await fetch(`/api/books/rental`);
+      const data = await res.json();
+      SetRental(data);
+      localStorage.setItem(`rentalBooks`, JSON.stringify(data));
     })();
+  }, []);
+
+  // ユーザーID取得（localStorageから）
+  useEffect(() => {
+    const storedUser = localStorage.getItem("loginUser");
+    if (storedUser) {
+      try {
+        const parsed = JSON.parse(storedUser);
+        if (parsed?.id) setUserId(parsed.id);
+      } catch (e) {
+        console.error("loginUser JSON parse error:", e);
+      }
+    }
   }, []);
 
   const getReturnDay = (returnDate: string) => {
@@ -47,6 +79,10 @@ export const MyData = () => {
       `./return/${isbn}?returnDate=${encodeURIComponent(formattedDate)}`
     );
   };
+
+  if (!rental) {
+    return <p>読み込み中...</p>;
+  }
 
   return (
     <div>

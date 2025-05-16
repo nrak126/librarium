@@ -49,6 +49,7 @@ export function RentBtn({ book }: { book: Book }) {
   const handleBack = () => {
     window.history.back();
   };
+
   return (
     <div>
       <div className={styles.rentalButton}>

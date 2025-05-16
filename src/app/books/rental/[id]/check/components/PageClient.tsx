@@ -16,13 +16,21 @@ export default function PageClient() {
   const isbn = pathArr[pathArr.length - 2];
   const router = useRouter();
 
+  // 本のデータ取得（キャッシュ優先）
   useEffect(() => {
-    console.log(isbn);
+    const cached = localStorage.getItem(`books-${isbn}`);
+    if (cached) {
+      const parsed: Book = JSON.parse(cached);
+      setBook(parsed);
+
+      return;
+    }
 
     (async () => {
       const res = await fetch(`/api/books/${isbn}`);
-      const data: Book = await res.json();
+      const data = await res.json();
       setBook(data);
+      localStorage.setItem(`books-${isbn}`, JSON.stringify(data));
     })();
   }, [isbn]);
 
