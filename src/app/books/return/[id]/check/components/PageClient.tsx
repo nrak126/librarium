@@ -37,6 +37,10 @@ export default function PageClient() {
     router.push("/");
   };
 
+  if (!isbn || !book) {
+    return <LoadingBrown />;
+  }
+
   return (
     <div>
       {book ? (
