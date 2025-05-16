@@ -17,7 +17,7 @@ export const PageClient = () => {
 
   const [book, setBook] = useState<Book[] | null>(null);
   const [uid, setUid] = useState<string>("");
-  const [loading, setLoading] = useState(true);
+  const [, setLoading] = useState(true);
 
   // ユーザーID取得（localStorageから）
   useEffect(() => {

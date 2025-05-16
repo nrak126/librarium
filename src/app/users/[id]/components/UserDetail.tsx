@@ -9,7 +9,6 @@ import { useRouter } from "next/navigation";
 import { Btn } from "@/src/components/book/Btn";
 import { User } from "@/src/types";
 import { useAtom } from "jotai";
-import { uidAtom } from "@/src/atoms/atoms"; // 作成したuidAtomをインポート
 import { logedInUserAtom } from "@/src/atoms/atoms";
 import { supabase } from "@/src/lib/supabase";
 import LoadingBrown from "@/src/components/LoadingBrown";
@@ -18,7 +17,7 @@ export default function UserDetail() {
   const [clickEditer, setClickEditer] = useState(false);
   const router = useRouter();
   const [user, setUser] = useState<User | null>(null);
-  const [uid, setUid] = useAtom(uidAtom); // uidAtom を使用
+  const [uid, setUid] = useState<string | null>(null); // JotaiからuseStateに変更
   const [logedInUser, setLogedInUser] = useAtom(logedInUserAtom);
 
   useEffect(() => {
@@ -26,34 +25,42 @@ export default function UserDetail() {
     const pathArr = pathname.split("/");
     const currentUid = pathArr[pathArr.length - 1];
 
-    // uidをatomにセット
     setUid(currentUid);
+    localStorage.setItem("uid", currentUid); // localStorageに保存
 
     (async () => {
       const UserDataRes = await fetch(`/api/users/${currentUid}`);
       const UserData: User = await UserDataRes.json();
       setUser(UserData);
-
       if (!logedInUser) {
-        const { data, error } = await supabase.auth.getUser();
+        const localUserStr = localStorage.getItem("loginUser");
 
-        if (error || !data.user?.id) {
-          console.log(
-            "ログインユーザーが取得できません。未ログインの可能性があります。"
-          );
-          return;
+        if (localUserStr) {
+          const localUser: User = JSON.parse(localUserStr);
+          setLogedInUser(localUser);
+        } else {
+          const { data, error } = await supabase.auth.getUser();
+
+          if (error || !data.user?.id) {
+            console.log(
+              "ログインユーザーが取得できません。未ログインの可能性があります。"
+            );
+            return;
+          }
+
+          const logedInUserRes = await fetch(`/api/users/${data.user.id}`);
+          if (!logedInUserRes.ok) {
+            console.log("ログインユーザーのAPI取得に失敗しました");
+            return;
+          }
+
+          const logedInUserData: User = await logedInUserRes.json();
+          setLogedInUser(logedInUserData);
+          localStorage.setItem("loginUser", JSON.stringify(logedInUserData)); // 保存
         }
-
-        const logedInUserRes = await fetch(`/api/users/${data.user.id}`);
-        if (!logedInUserRes.ok) {
-          console.log("ログインユーザーのAPI取得に失敗しました");
-        }
-
-        const logedInUserData: User = await logedInUserRes.json();
-        setLogedInUser(logedInUserData);
       }
     })();
-  }, [setUid]); // uidAtomの更新に伴って再実行
+  }, [setLogedInUser]);
 
   if (!user) {
     return <LoadingBrown />;
@@ -66,6 +73,8 @@ export default function UserDetail() {
   };
 
   const handleBack = async () => {
+    if (!uid) return;
+
     await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/users/${uid}`, {
       method: "POST",
       body: JSON.stringify(user),
