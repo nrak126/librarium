@@ -28,7 +28,6 @@ export const NavUser: React.FC<Props> = ({ setNavOpen }) => {
 
         const fetchedUser: User = await response.json();
         setUser(fetchedUser);
-        localStorage.setItem("users", JSON.stringify(user));
       }
     })();
   }, [router]);
