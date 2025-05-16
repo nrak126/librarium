@@ -7,10 +7,6 @@ import { BackBtn } from "../components/BackBtn";
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 
-type Props = {
-  isbn: string;
-};
-
 export const PageClient = () => {
   const pathname = usePathname();
   const isbn = pathname.split("/").pop() ?? "";

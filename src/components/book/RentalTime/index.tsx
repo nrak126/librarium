@@ -7,8 +7,6 @@ import Image from "next/image";
 import { supabase } from "@/src/lib/supabase";
 import { useRouter } from "next/navigation";
 import LoadingBrown from "../../LoadingBrown";
-import { useAtom } from "jotai";
-import { rentalAtom } from "@/src/atoms/atoms";
 import { RentalList } from "@/src/types";
 
 export const RentalTime: React.FC = () => {
