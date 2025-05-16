@@ -6,6 +6,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { Book } from "@/src/types";
 import LoadingBrown from "../../LoadingBrown";
+import { StockState } from "../StockState";
 
 type BookRecProps = {
   books: Book[];
@@ -59,6 +60,10 @@ export const BookRanking: React.FC<BookRecProps> = (props) => {
                 height={128}
               />
               <p className={style.text}>{appName.title}</p>
+
+              <div className={style.stock}>
+                <StockState initialBook={appName} />
+              </div>
             </div>
           </div>
         );
