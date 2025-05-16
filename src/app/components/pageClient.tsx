@@ -34,15 +34,14 @@ export const PageClient: React.FC = () => {
           return;
         }
 
-        // Supabase のユーザー ID をもとに、アプリ用ユーザー情報を取得
-        const res = await fetch(`/api/users/${data.user.id}`);
-        if (!res.ok) {
+        const user = await fetch(`/api/users/${data.user.id}`);
+        if (!user.ok) {
           console.error("ユーザー情報の取得に失敗しました");
           await router.push("/auth");
           return;
         }
 
-        const appUser: User = await res.json();
+        const appUser: User = await user.json();
         setLogedInUser(appUser);
 
         localStorage.setItem("loginUser", JSON.stringify(appUser));
