@@ -50,7 +50,7 @@ export const PageClient = () => {
     })();
   }, [isbn]);
 
-  if (isbn || !book) {
+  if (!isbn || !book) {
     return <LoadingBrown />;
   }
 
