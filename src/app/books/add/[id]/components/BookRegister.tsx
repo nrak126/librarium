@@ -10,6 +10,7 @@ import Icon from "@/public/icon.svg";
 import { useRouter } from "next/navigation";
 import { useAtom } from "jotai";
 import { booksAtom } from "@/src/atoms/atoms";
+import LoadingBrown from "@/src/components/LoadingBrown";
 export const BookRegister = ({ isbn }: { isbn: string }) => {
   const [book, setBook] = useState<Book | null>(null);
   const [selectedGenres, setSelectedGenres] = useState<string[]>([]);
@@ -96,6 +97,10 @@ export const BookRegister = ({ isbn }: { isbn: string }) => {
       }));
     }
   };
+
+  if (!book) {
+    return <LoadingBrown />;
+  }
 
   return (
     <div>

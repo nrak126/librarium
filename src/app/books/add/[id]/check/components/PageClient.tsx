@@ -30,6 +30,10 @@ export default function PageClient() {
     router.push("/");
   };
 
+  if (!book) {
+    return <LoadingBrown />;
+  }
+
   return (
     <div>
       {book ? (

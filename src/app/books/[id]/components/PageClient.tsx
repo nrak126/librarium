@@ -6,6 +6,7 @@ import { BookInfo } from "@/src/components/book/BookInfo";
 import { BackBtn } from "../components/BackBtn";
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
+import LoadingBrown from "@/src/components/LoadingBrown";
 
 export const PageClient = () => {
   const pathname = usePathname();
@@ -28,6 +29,10 @@ export const PageClient = () => {
       localStorage.setItem(`book-${isbn}`, JSON.stringify(data));
     })();
   }, [isbn]);
+
+  if (!book) {
+    return <LoadingBrown />;
+  }
 
   return (
     <div>
