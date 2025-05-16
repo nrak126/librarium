@@ -44,6 +44,8 @@ export const PageClient: React.FC = () => {
 
         const appUser: User = await res.json();
         setLogedInUser(appUser);
+
+        localStorage.setItem("loginUser", JSON.stringify(appUser));
       })();
     }
   }, [router, logedInUser, setLogedInUser]);
@@ -63,6 +65,7 @@ export const PageClient: React.FC = () => {
           const resBook = await fetch(`/api/books`);
           const data: Book[] = await resBook.json();
           setBooks(data);
+          localStorage.setItem("books", JSON.stringify(data));
         } catch (error) {
           console.error("本のデータ取得エラー:", error);
         }
@@ -78,6 +81,7 @@ export const PageClient: React.FC = () => {
           const renBooks = await fetch(`/api/loans/rentalList`);
           const data: RentalList[] = await renBooks.json();
           setRental(data);
+          localStorage.setItem("rentalBooks", JSON.stringify(data));
         } catch (error) {
           console.error("レンタルデータの取得エラー:", error);
         }
@@ -108,13 +112,13 @@ export const PageClient: React.FC = () => {
         </TabList>
 
         <TabPanel>
-          <BookRanking books={books ?? []} />
+          <BookRanking />
         </TabPanel>
         <TabPanel>
           <RentalTime />
         </TabPanel>
         <TabPanel>
-          <BookRec books={books ?? []} />
+          <BookRec />
         </TabPanel>
       </Tabs>
     </>

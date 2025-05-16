@@ -1,21 +1,27 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import style from "./index.module.scss";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { Book } from "@/src/types";
 import LoadingBrown from "../../LoadingBrown";
 
-type BookRecProps = {
-  books: Book[];
-};
-
-export const BookRec: React.FC<BookRecProps> = (props) => {
-  const { books } = props;
+export const BookRec: React.FC = () => {
   const [loading, setLoading] = useState(false);
+  const [books, setBooks] = useState<Book[]>([]);
 
   const router = useRouter();
+
+  // localStorageから読み込み（初回のみ）
+  useEffect(() => {
+    const booksJson = localStorage.getItem("books");
+    if (booksJson) {
+      const parsedBooks = JSON.parse(booksJson);
+      setBooks(parsedBooks);
+    }
+    setLoading(false);
+  }, []);
 
   const handleClickDetail = async (link: string) => {
     try {
