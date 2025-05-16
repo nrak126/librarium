@@ -24,9 +24,10 @@
   font-size: 23px;
   margin-top: 13vh;
 
-  transition: transform 0.3s;
+  transition: transform 0.1s;
 
   &:active {
-    transform: scale(1.03);
+    transform: scale(0.96);
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.2);
   }
 }
