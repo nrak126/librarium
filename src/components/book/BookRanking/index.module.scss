@@ -31,6 +31,12 @@
   height: fit-content;
   padding: 25%;
   position: relative;
+  box-shadow: 1px 1px 4px gray;
+  transition: transform 0.1s;
+
+  &:active {
+    transform: scale(0.96);
+  }
 }
 
 .image {
