@@ -71,8 +71,15 @@ export const BookRegister = ({ isbn }: { isbn: string }) => {
         body: JSON.stringify(book),
       });
 
-      // ✅ Atom に新しい本を追加
-      setBooks((prevBooks) => [...(prevBooks ?? []), book]);
+      // ✅ Atom に新しい本を追加したあとloacalstrageに追加
+      setBooks((prevBooks) => {
+        const updatedBooks = [...(prevBooks ?? []), book];
+
+        // localStorage に保存
+        localStorage.setItem("books", JSON.stringify(updatedBooks));
+
+        return updatedBooks;
+      });
 
       router.push(`/books/add/${isbn}/check`);
     } catch (error) {
