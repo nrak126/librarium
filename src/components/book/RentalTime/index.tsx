@@ -7,29 +7,47 @@ import Image from "next/image";
 import { supabase } from "@/src/lib/supabase";
 import { useRouter } from "next/navigation";
 import LoadingBrown from "../../LoadingBrown";
-import { useAtom } from "jotai";
-import { rentalAtom } from "@/src/atoms/atoms";
+import { RentalList } from "@/src/types";
 
 export const RentalTime: React.FC = () => {
   const [userId, setUserId] = useState<string>("");
   const [loading, setLoading] = useState(false);
+  const [rental, setRental] = useState<RentalList[]>([]);
 
-  const [rental] = useAtom(rentalAtom);
   const router = useRouter();
 
+  // 初回マウント時に localStorage から読み込む
   useEffect(() => {
-    // レンタルデータの取得
-
-    // ログイン中のユーザー情報の取得
-    (async () => {
-      const { data, error } = await supabase.auth.getUser();
-      if (error) {
-        return <h1>ユーザ情報を取得できませんでした。</h1>;
+    const json = localStorage.getItem("rentalBooks");
+    if (json) {
+      try {
+        const parsed = JSON.parse(json);
+        setRental(parsed);
+      } catch (e) {
+        console.error("rentalBooks JSON parse error:", e);
       }
-      if (data) {
-        setUserId(data.user.id); // 現在のユーザーIDをセット
+    }
+  }, []);
+  useEffect(() => {
+    const json = localStorage.getItem("loginUser");
+    if (json) {
+      try {
+        const parsed = JSON.parse(json);
+        setUserId(parsed.id); // ここは保存しているuserオブジェクトのidに合わせて調整
+      } catch (e) {
+        console.error("loginUser JSON parse error:", e);
       }
-    })();
+    } else {
+      // localStorageにない場合はSupabaseから取るのもあり
+      (async () => {
+        const { data, error } = await supabase.auth.getUser();
+        if (!error && data?.user) {
+          setUserId(data.user.id);
+          // localStorageにも保存しておく
+          localStorage.setItem("loginUser", JSON.stringify(data));
+        }
+      })();
+    }
   }, []);
 
   // 返却日を「あと〇日」形式に変換する関数

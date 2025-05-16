@@ -1,19 +1,19 @@
 .background {
-    background-color: #BB9C77;
-    height: 100vh;
-  }
-  
-  .main {
-    background-color: #FFFBF5;
-    display: flex;
-    justify-content: center;
-    text-align: center;
-    width: 100%;
-    border-radius: 39px 39px  0;
-  }
-  
-  .mainContents {
-    margin-top: 4vh;
-    width: 100%;
-    min-height:100vh; 
-  }
+  background-color: #bb9c77;
+  height: 100vh;
+}
+
+.main {
+  background-color: #fffbf5;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  width: 100%;
+  border-radius: 39px 39px 0;
+}
+
+.mainContents {
+  margin-top: 4vh;
+  width: 100%;
+  min-height: 100vh;
+}

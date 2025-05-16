@@ -3,30 +3,47 @@
 import Image from "next/image";
 import style from "../style/return.module.scss";
 import LoadingBrown from "@/src/components/LoadingBrown";
-import { useAtom } from "jotai";
-import { rentalAtom } from "@/src/atoms/atoms";
-import { useEffect } from "react";
-import { RentalList } from "@/src/types";
+import { useEffect, useState } from "react";
+
+// types.ts などに
+export type Rental = {
+  id: string;
+  users: {
+    id: string;
+    icon: string;
+    studentId: string;
+    name: string;
+  };
+  books: {
+    isbn: string;
+    title: string;
+    thumbnail: string;
+  };
+  return_date: string;
+  isReturned: boolean;
+};
+
+// ✅ Rental の配列にする
+export type RentalList = Rental[];
 
 export const AllData = () => {
-  const [rental, setRental] = useAtom(rentalAtom);
+  const [rental, SetRental] = useState<RentalList>();
 
   useEffect(() => {
+    const rentalBooks = localStorage.getItem("rentalBooks");
+    if (rentalBooks) {
+      const parsed: RentalList = JSON.parse(rentalBooks);
+      SetRental(parsed);
+      return;
+    }
+
     (async () => {
-      if (!rental) {
-        const usersRes = await fetch(`/api/books/rental`);
-        // ステータス確認
-        if (!usersRes.ok) {
-          console.error("Fetch failed:", usersRes.status);
-          return;
-        }
-
-        const rentalBook: RentalList[] = await usersRes.json();
-        setRental(rentalBook);
-      }
+      const res = await fetch(`/api/books/rental`);
+      const data = await res.json();
+      SetRental(data);
+      localStorage.setItem(`rentalBooks`, JSON.stringify(data));
     })();
-  }, [rental, setRental]);
-
+  }, []);
 
   //日付超過を確認
   const isOverdue = (returnDate: string) => {

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import style from "./index.module.scss";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -8,23 +8,25 @@ import { Book } from "@/src/types";
 import LoadingBrown from "../../LoadingBrown";
 import { StockState } from "../StockState";
 
-type BookRecProps = {
-  books: Book[];
-};
-
-export const BookRanking: React.FC<BookRecProps> = (props) => {
-  const { books } = props;
+export const BookRanking: React.FC = () => {
   const [loading, setLoading] = useState(false);
+  const [books, setBooks] = useState<Book[]>([]);
 
   const router = useRouter();
 
-  const handleClickDetail = async (link: string) => {
-    try {
-      setLoading(true);
-      await router.push(`books/${link}`);
-    } catch {
-      <p>失敗</p>;
+  // localStorageから読み込み（初回のみ）
+  useEffect(() => {
+    const booksJson = localStorage.getItem("books");
+    if (booksJson) {
+      const parsedBooks = JSON.parse(booksJson);
+      setBooks(parsedBooks);
     }
+    setLoading(false);
+  }, []);
+
+  const handleClickDetail = (link: string) => {
+    setLoading(true);
+    router.push(`/books/${link}`);
   };
 
   return loading || books.length === 0 ? (

@@ -17,18 +17,29 @@ export default function PageClient() {
   const router = useRouter();
 
   useEffect(() => {
-    console.log(isbn);
+    const cached = localStorage.getItem(`books-${isbn}`);
+    if (cached) {
+      const parsed: Book = JSON.parse(cached);
+      setBook(parsed);
+
+      return;
+    }
 
     (async () => {
       const res = await fetch(`/api/books/${isbn}`);
-      const data: Book = await res.json();
+      const data = await res.json();
       setBook(data);
+      localStorage.setItem(`books-${isbn}`, JSON.stringify(data));
     })();
   }, [isbn]);
 
   const handleConfirm = () => {
     router.push("/");
   };
+
+  if (!isbn) {
+    return <LoadingBrown />;
+  }
 
   return (
     <div>
