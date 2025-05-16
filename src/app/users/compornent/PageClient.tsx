@@ -1,81 +1,105 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useAtom } from "jotai";
 import { SearchBar } from "@/src/components/SearchBar";
 import styles from "./PageClient.module.scss";
 import UsersList from "@/src/components/Users/UsersList";
 import UserData from "@/src/components/Users/UserData";
-import { supabase } from "@/src/lib/supabase";
-import { usersAtom, logedInUserAtom } from "@/src/atoms/atoms";
+import { createClient } from "@supabase/supabase-js";
 import type { User } from "@/src/types";
 
-export function PageClient() {
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+);
+
+export const PageClient = () => {
+  const [users, setUsers] = useState<User[]>([]);
+  const [logedInUser, setLogedInUser] = useState<User | null>(null);
+  const [result, setResult] = useState<User[]>([]);
   const [searchClick, setSearchClick] = useState(false);
   const [searchName, setSearchName] = useState("");
   const [searchWordClick, setSearchWordClick] = useState(false);
 
-  const [users, setUsers] = useAtom(usersAtom);
-  const [logedInUser, setLogedInUser] = useAtom(logedInUserAtom);
-  const [result, setResult] = useState<User[]>([]);
-
-  // 初回データ取得
+  // 初期データ取得＋localStorage読み込み
   useEffect(() => {
     (async () => {
       try {
-        // 全ユーザー取得
-        if (!users) {
+        const cachedUsers = localStorage.getItem("users");
+        if (cachedUsers) {
+          const parsedUsers: User[] = JSON.parse(cachedUsers);
+          if (Array.isArray(parsedUsers)) {
+            setUsers(parsedUsers);
+            setResult(parsedUsers);
+          }
+        }
+
+        if (users.length === 0) {
           const usersRes = await fetch(
             `${process.env.NEXT_PUBLIC_BASE_URL}/api/users`
           );
-
-          if (!usersRes.ok) {
+          if (usersRes.ok) {
+            const usersData: User[] = await usersRes.json();
+            setUsers(usersData);
+            setResult(usersData);
+            localStorage.setItem("users", JSON.stringify(usersData));
+          } else {
             console.log("ユーザー一覧の取得に失敗しました");
           }
-
-          const usersData: User[] = await usersRes.json();
-          setUsers(usersData);
-          setResult(usersData); // 初期表示用
-        } else {
-          setResult(users);
         }
 
-        // ログインユーザー取得
-        if (!logedInUser) {
-          const { data, error } = await supabase.auth.getUser();
+        // localStorage からログインユーザー取得
+        const storedUser = localStorage.getItem("loginUser");
 
+        if (storedUser) {
+          const parsedUser: User = JSON.parse(storedUser);
+          setLogedInUser(parsedUser);
+        } else {
+          // Supabase から取得して localStorage に保存
+          const { data, error } = await supabase.auth.getUser();
           if (error || !data.user?.id) {
-            console.log(
-              "ログインユーザーが取得できません。未ログインの可能性があります。"
-            );
+            console.log("ログインユーザーが取得できません");
             return;
           }
 
-          const logedInUserRes = await fetch(`/api/users/${data.user.id}`);
-          if (!logedInUserRes.ok) {
-            console.log("ログインユーザーのAPI取得に失敗しました");
+          const res = await fetch(`/api/users/${data.user.id}`);
+          if (res.ok) {
+            const userData: User = await res.json();
+            setLogedInUser(userData);
+            localStorage.setItem("loginUser", JSON.stringify(userData));
+          } else {
+            console.log("ログインユーザーの取得に失敗しました");
           }
-
-          const logedInUserData: User = await logedInUserRes.json();
-          setLogedInUser(logedInUserData);
         }
       } catch (err) {
         console.error("初期データ取得中にエラー:", err);
       }
     })();
-  }, [users, logedInUser, setUsers, setLogedInUser]);
+  }, []);
 
-  // タグによるフィルタリング
+  // Supabase リアルタイム購読で新規ユーザーを即時反映
   useEffect(() => {
-    if (searchWordClick && users) {
-      const filteredUsers = users.filter((user) =>
-        user.tags.includes(searchName)
-      );
-      setResult(filteredUsers);
-    } else if (users) {
-      setResult(users);
-    }
-  }, [searchWordClick, users, searchName]);
+    const channel = supabase
+      .channel("realtime-users")
+      .on(
+        "postgres_changes",
+        { event: "INSERT", schema: "public", table: "users" },
+        (payload) => {
+          const newUser = payload.new as User;
+          setUsers((prev) => {
+            const updated = [...prev, newUser];
+            localStorage.setItem("users", JSON.stringify(updated));
+            return updated;
+          });
+          setResult((prev) => [...prev, newUser]);
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, []);
 
   return (
     <>
@@ -83,7 +107,7 @@ export function PageClient() {
         <div className={styles.title}>利用者一覧</div>
         <div className={styles.bar}>
           <SearchBar
-            func={"ユーザー検索"}
+            func="ユーザー検索"
             clickBy="usersSearch"
             searchClick={searchClick}
             setSearchClick={setSearchClick}
@@ -94,15 +118,18 @@ export function PageClient() {
           />
         </div>
       </div>
-      <div className={styles.myprofile}>MY PROFILE</div>
 
+      <div className={styles.myprofile}>MY PROFILE</div>
       {logedInUser && <UserData user={logedInUser} />}
+
       {searchClick ? (
         <div className={styles.titleSearch}>SEARCH</div>
       ) : (
         <div className={styles.titleAll}>ALL</div>
       )}
+
+      {/* UsersList に必ず配列を渡す */}
       <UsersList users={result} />
     </>
   );
-}
+};
