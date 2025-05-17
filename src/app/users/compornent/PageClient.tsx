@@ -16,70 +16,25 @@ const supabase = createClient(
 );
 
 export const PageClient = () => {
-  const [, setUsers] = useState<User[]>([]);
-  const [logedInUser, setLogedInUser] = useAtom(logedInUserAtom);
   const [result, setResult] = useState<User[]>([]);
   const [searchClick, setSearchClick] = useState(false);
   const [searchName, setSearchName] = useState("");
   const [searchWordClick, setSearchWordClick] = useState(false);
+  const [logedInUser, setLogedInUser] = useAtom(logedInUserAtom);
 
-  // 初期データ取得＋localStorage読み込み
+  // --- 初期化処理 ---
   useEffect(() => {
     (async () => {
       try {
-        // ------- ログインユーザー取得（ローカルストレージ優先） -------
-        const storedUser = localStorage.getItem("loginUser");
-        if (storedUser) {
-          const parsedUser: User = JSON.parse(storedUser);
-          setLogedInUser(parsedUser); // ← すぐ反映
-        } else {
-          const { data, error } = await supabase.auth.getUser();
-          if (error || !data.user?.id) {
-            console.log("ログインユーザーが取得できません");
-          } else {
-            const res = await fetch(`/api/users/${data.user.id}`);
-            if (res.ok) {
-              const userData: User = await res.json();
-              setLogedInUser(userData);
-              localStorage.setItem("loginUser", JSON.stringify(userData));
-            } else {
-              console.log("ログインユーザーの取得に失敗しました");
-            }
-          }
-        }
-
-        // ------- ユーザー一覧取得（ローカルストレージ優先） -------
-        const cachedUsers = localStorage.getItem("users");
-        let usersData: User[] = [];
-
-        if (cachedUsers) {
-          usersData = JSON.parse(cachedUsers);
-          if (Array.isArray(usersData)) {
-            setUsers(usersData);
-            setResult(usersData);
-          }
-        }
-
-        if (!cachedUsers || usersData.length === 0) {
-          const usersRes = await fetch(
-            `${process.env.NEXT_PUBLIC_BASE_URL}/api/users`
-          );
-          if (usersRes.ok) {
-            usersData = await usersRes.json();
-            setUsers(usersData);
-            setResult(usersData);
-            localStorage.setItem("users", JSON.stringify(usersData));
-          } else {
-            console.log("ユーザー一覧の取得に失敗しました");
-          }
-        }
+        await loadLoginUser();
+        await loadUsers();
       } catch (err) {
         console.error("初期データ取得中にエラー:", err);
       }
     })();
   }, []);
 
-  // Supabase リアルタイム購読で新規ユーザーを即時反映
+  // --- Supabase リアルタイム購読 ---
   useEffect(() => {
     const channel = supabase
       .channel("realtime-users")
@@ -88,7 +43,7 @@ export const PageClient = () => {
         { event: "INSERT", schema: "public", table: "users" },
         (payload) => {
           const newUser = payload.new as User;
-          setUsers((prev) => {
+          setResult((prev) => {
             const updated = [...prev, newUser];
             localStorage.setItem("users", JSON.stringify(updated));
             return updated;
@@ -102,6 +57,56 @@ export const PageClient = () => {
       supabase.removeChannel(channel);
     };
   }, []);
+
+  // --- ログインユーザー読み込み ---
+  const loadLoginUser = async () => {
+    const storedUser = localStorage.getItem("loginUser");
+    if (storedUser) {
+      setLogedInUser(JSON.parse(storedUser));
+      return;
+    }
+
+    const { data, error } = await supabase.auth.getUser();
+    if (error || !data.user?.id) {
+      console.log("ログインユーザーが取得できません");
+      return;
+    }
+
+    // --- LocalStorageにログイン中の’userがなかったら ---
+    const res = await fetch(`/api/users/${data.user.id}`);
+    if (res.ok) {
+      const userData: User = await res.json();
+      setLogedInUser(userData);
+      localStorage.setItem("loginUser", JSON.stringify(userData));
+    } else {
+      console.log("ログインユーザーの取得に失敗しました");
+    }
+  };
+
+  // --- ユーザー一覧読み込み ---
+  const loadUsers = async () => {
+    const cachedUsers = localStorage.getItem("users");
+    let usersData: User[] = [];
+
+    if (cachedUsers) {
+      usersData = JSON.parse(cachedUsers);
+    }
+
+    if (!cachedUsers || usersData.length === 0) {
+      const usersRes = await fetch(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/users`
+      );
+      if (usersRes.ok) {
+        usersData = await usersRes.json();
+        localStorage.setItem("users", JSON.stringify(usersData));
+      } else {
+        console.log("ユーザー一覧の取得に失敗しました");
+        return;
+      }
+    }
+
+    setResult(usersData);
+  };
 
   return (
     <>
@@ -121,16 +126,15 @@ export const PageClient = () => {
         </div>
       </div>
 
+      {/* 自分のアカウント */}
       <div className={styles.myprofile}>MY PROFILE</div>
-      {logedInUser && <UserData user={logedInUser} />}
+      <UserData user={logedInUser} />
 
-      {searchClick ? (
-        <div className={styles.titleSearch}>SEARCH</div>
-      ) : (
-        <div className={styles.titleAll}>ALL</div>
-      )}
+      <div className={searchClick ? styles.titleSearch : styles.titleAll}>
+        {searchClick ? "SEARCH" : "ALL"}
+      </div>
 
-      {/* UsersList に必ず配列を渡す */}
+      {/* 利用者すべてのアカウント表示 */}
       <UsersList users={result} />
     </>
   );
