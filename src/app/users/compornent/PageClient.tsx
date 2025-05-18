@@ -48,7 +48,6 @@ export const PageClient = () => {
             localStorage.setItem("users", JSON.stringify(updated));
             return updated;
           });
-          setResult((prev) => [...prev, newUser]);
         }
       )
       .subscribe();
