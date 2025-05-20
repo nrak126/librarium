@@ -13,48 +13,44 @@ export const alegreyaSansSC = Changa_One({
   subsets: ["latin"],
 });
 
-function UserData({ user }: { user: User | null }) {
-  if (!user) {
-    return <LoadingBrown />;
-  }
+function UserData({ user }: { user?: User | null }) {
+  if (!user) return <LoadingBrown />;
+
   return (
-    <>
-      <Link legacyBehavior href={`users/${user.uid}`} className={styles.link}>
-        <div className={styles.all}>
-          <div className={styles.whole}>
-            <Image
-              src={user.icon || icon}
-              alt={"ユーザーアイコン"}
-              width={57}
-              height={57}
-              className={styles.icon}
-            />
-
-            <div className={styles.sub}>
-              <div className={styles.component}>
-                <div className={styles.numname}>
-                  {user.studentId + " " + user.name}
-                </div>
-
-                <div className={`${alegreyaSansSC.className} ${styles.level}`}>
-                  Lv.{user.level}
-                </div>
+    // ユーザー詳細ページへリンク
+    <Link legacyBehavior href={`users/${user.uid}`} className={styles.link}>
+      <div className={styles.all}>
+        <div className={styles.whole}>
+          <Image
+            src={user.icon || icon}
+            alt={"ユーザーアイコン"}
+            width={57}
+            height={57}
+            className={styles.icon}
+          />
+          <div className={styles.sub}>
+            {/* 学籍番号と名前を表示 */}
+            <div className={styles.component}>
+              <div className={styles.numname}>
+                {/* レベル表示。Google Fontsのクラスとスタイルを組み合わせて装飾 */}
+                {user.studentId + " " + user.name}
               </div>
-
-              <div className={styles.tagComp}>
-                {user.tags.slice(0, 4).map((tagdata, index) => {
-                  return (
-                    <div key={index} className={styles.tag}>
-                      #{tagdata}
-                    </div>
-                  );
-                })}
+              <div className={`${alegreyaSansSC.className} ${styles.level}`}>
+                Lv.{user.level}
               </div>
+            </div>
+            {/* タグを最大4つまで表示。タグにはハッシュマークを付けて表示 */}
+            <div className={styles.tagComp}>
+              {(user.tags ?? []).slice(0, 4).map((tagdata, index) => (
+                <div key={index} className={styles.tag}>
+                  #{tagdata}
+                </div>
+              ))}
             </div>
           </div>
         </div>
-      </Link>
-    </>
+      </div>
+    </Link>
   );
 }
 

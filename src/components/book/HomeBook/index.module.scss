@@ -2,8 +2,7 @@
   margin-top: 3%;
   display: grid;
   grid-template-columns: repeat(2, 1fr); /* 2列 */
-  max-height: 50svh;
-  overflow-y: auto;
+  margin-bottom: 10%;
   width: 100%;
 }
 
@@ -32,11 +31,17 @@
   height: fit-content;
   padding: 25%;
   position: relative;
+  box-shadow: 1px 1px 4px gray;
+  transition: transform 0.1s;
+
+  &:active {
+    transform: scale(0.96);
+  }
 }
 
 .image {
   width: 90px; /* 幅を固定 */
-  height: 110px; /* 高さを固定 */
+  height: 115px; /* 高さを固定 */
   box-shadow: 0 1.5vw 1.3vw 0.5vw rgb(27 55 99 / 25%);
   position: absolute;
   left: 65%;
@@ -48,11 +53,18 @@
   font-size: 10px;
   color: #635038;
   width: 20ch;
-  height: 40px; /* テキストエリアの高さ固定 */
-  overflow-y: auto; /* 縦スクロール */
-  white-space: normal;
-  position: relative;
+
+  height: 35px;
+  overflow: hidden;
+  display: block;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  box-orient: vertical;
+  line-height: 1.2;
   top: 5svh;
+  position: relative;
 }
 
 .number {
@@ -63,7 +75,7 @@
   height: fit-content;
   font-size: 10px;
   font-weight: bold;
-  color: #f4e9d7;
+  color: white;
 }
 
 .ranking {
@@ -75,5 +87,44 @@
   align-items: center;
   font-size: 5vw;
   font-weight: bold;
+  top: -0.1vh;
   position: absolute;
+  right: 80%;
+  bottom: 77%;
+  color: white;
+  clip-path: polygon(
+    0% 0%,
+    100% 0%,
+    100% 100%,
+    90% 100%,
+    75% 92%,
+    50% 80%,
+    25% 92%,
+    10% 100%,
+    0% 100%
+  );
+}
+
+.gold {
+  background-color: #f8d612;
+}
+
+.silver {
+  background-color: #a3a3a3;
+}
+
+.bronze {
+  background-color: #ba5d10; /* 銅色 */
+}
+
+.default {
+  background-color: #e2e2e2; /* 4位以降はグレー */
+}
+
+.stock {
+  position: relative;
+  top: 5vh;
+  font-size: 10px;
+  width: 20vw;
+  margin-bottom: -1vh;
 }

@@ -2,54 +2,63 @@
 
 import { BookInfo } from "@/src/components/book/BookInfo";
 import styles from "./return.module.scss";
-import { useSearchParams } from "next/navigation";
-import { usePathname } from "next/navigation";
+import { useSearchParams, usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { Book } from "@/src/types";
 import { ReturnBtn } from "./ReturnBtn";
 import LoadingBrown from "@/src/components/LoadingBrown";
-import { supabase } from "@/src/lib/supabase";
+
+import { Book } from "@/src/types";
 
 export const PageClient = () => {
   const searchParams = useSearchParams();
-  const returnDate = searchParams.get("returnDate"); // クエリから取得
+  const returnDate = searchParams.get("returnDate");
   const pathname = usePathname();
-  const pathArr = pathname.split("/");
-  const isbn = pathArr[pathArr.length - 1];
+  const isbn = pathname.split("/").pop() ?? "";
 
-  const [book, setBook] = useState<Book | null>(null);
+  const [book, setBook] = useState<Book[] | null>(null);
   const [uid, setUid] = useState<string>("");
+  const [, setLoading] = useState(true);
 
+  // ユーザーID取得（localStorageから）
   useEffect(() => {
-    (async () => {
+    const storedUser = localStorage.getItem("loginUser");
+    if (storedUser) {
       try {
-        const renBooks = await fetch(`/api/books/${isbn}`);
-        const book: Book = await renBooks.json();
-        setBook(book);
-
-        const logedInUser = await supabase.auth.getUser();
-        const { data, error } = logedInUser;
-        if (error) {
-          return <h1>ログイン中のユーザ情報を取得できませんでした。</h1>;
-        }
-        setUid(data.user.id);
-      } catch (error) {
-        console.error("レンタルデータの取得エラー:", error);
+        const parsed = JSON.parse(storedUser);
+        if (parsed?.id) setUid(parsed.id);
+      } catch (e) {
+        console.error("loginUser JSON parse error:", e);
       }
+    }
+  }, []);
+
+  // 本のデータ取得（キャッシュ優先）
+  useEffect(() => {
+    const cached = localStorage.getItem(`books-${isbn}`);
+    if (cached) {
+      setBook([JSON.parse(cached)]);
+      setLoading(false);
+      return;
+    }
+
+    (async () => {
+      const res = await fetch(`/api/books/${isbn}`);
+      const data = await res.json();
+      setBook([data]);
+      localStorage.setItem(`book-${isbn}`, JSON.stringify(data));
+      setLoading(false);
     })();
   }, [isbn]);
 
+  if (!isbn || !book) {
+    return <LoadingBrown />;
+  }
+
   return (
-    <>
-      {!book ? (
-        <LoadingBrown />
-      ) : (
-        <div className={styles.contents}>
-          {book && <BookInfo book={book} />}
-          <p className={styles.Day}>返却期限：{returnDate ?? "不明"}</p>
-          <ReturnBtn isbn={isbn} uid={uid} />
-        </div>
-      )}
-    </>
+    <div className={styles.contents}>
+      {<BookInfo book={book[0]} />}
+      <p className={styles.Day}>返却期限：{returnDate ?? "不明"}</p>
+      <ReturnBtn isbn={isbn} uid={uid} />
+    </div>
   );
 };

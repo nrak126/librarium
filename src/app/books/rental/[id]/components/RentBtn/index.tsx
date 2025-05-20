@@ -2,19 +2,33 @@
 
 import { Btn } from "@/src/components/book/Btn";
 import { Book } from "@/src/types";
-import { supabase } from "@/src/lib/supabase";
 import styles from "./index.module.scss";
 import { useAtom } from "jotai";
 import { rentalAtom } from "@/src/atoms/atoms";
 import Link from "next/link";
 
-export function RentBtn({ book }: { book: Book }) {
+export function RentBtn({
+  book,
+  loanPeriod,
+}: {
+  book: Book;
+  loanPeriod: number;
+}) {
   const isAvailableRental = book.available > 0;
   const [, setRental] = useAtom(rentalAtom);
 
   const handleRent = async () => {
-    const logedInUserData = await supabase.auth.getUser();
-    const uid = logedInUserData.data.user?.id;
+    const logedInUserData = localStorage.getItem("loginUser");
+    let uid = null;
+
+    if (logedInUserData) {
+      try {
+        const userObj = JSON.parse(logedInUserData);
+        uid = userObj.id; // これでユーザーID取得できる
+      } catch (e) {
+        console.error("loginUser JSON parse error:", e);
+      }
+    }
 
     if (!uid) return;
 
@@ -25,13 +39,15 @@ export function RentBtn({ book }: { book: Book }) {
         body: JSON.stringify({
           isbn: book.isbn,
           uid: uid,
+          loanPeriod: loanPeriod,
         }),
       });
+
       // レンタルリストの再取得
       const res = await fetch(`/api/loans/rentalList`);
       const rentalData = await res.json();
-
-      setRental(rentalData); //atomsに追加
+      setRental(rentalData);
+      localStorage.setItem("rentalBooks", JSON.stringify(rentalData));
     } catch (error) {
       console.error("レンタル処理エラー:", error);
     }
@@ -40,6 +56,7 @@ export function RentBtn({ book }: { book: Book }) {
   const handleBack = () => {
     window.history.back();
   };
+
   return (
     <div>
       <div className={styles.rentalButton}>
@@ -48,7 +65,7 @@ export function RentBtn({ book }: { book: Book }) {
         </div>
         {isAvailableRental ? (
           <div className={styles.rental}>
-            <Link href={`/books/rental/${book.isbn}/check`}>
+            <Link href={`/books/rental/${book.isbn}/check?q=${loanPeriod}`}>
               <Btn text="借りる" bgColor="#E2999B" onClick={handleRent} />
             </Link>
           </div>

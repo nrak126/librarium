@@ -3,7 +3,7 @@
 import styles from "./check.module.scss";
 import React, { useEffect, useState } from "react";
 import { Book } from "@/src/types";
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import { BookCard } from "@/src/components/book/BookCard";
 import { Btn } from "@/src/components/book/Btn";
 import { useRouter } from "next/navigation";
@@ -15,14 +15,25 @@ export default function PageClient() {
   const pathArr = pathname.split("/");
   const isbn = pathArr[pathArr.length - 2];
   const router = useRouter();
+  const seachParams = useSearchParams();
+  const loanPeriodStr = seachParams.get("q") || "";
+  const loanPeriod = Number(loanPeriodStr);
 
+  // 本のデータ取得（キャッシュ優先）
   useEffect(() => {
-    console.log(isbn);
+    const cached = localStorage.getItem(`books-${isbn}`);
+    if (cached) {
+      const parsed: Book = JSON.parse(cached);
+      setBook(parsed);
+
+      return;
+    }
 
     (async () => {
       const res = await fetch(`/api/books/${isbn}`);
-      const data: Book = await res.json();
+      const data = await res.json();
       setBook(data);
+      localStorage.setItem(`books-${isbn}`, JSON.stringify(data));
     })();
   }, [isbn]);
 
@@ -30,11 +41,9 @@ export default function PageClient() {
     router.push("/");
   };
 
-  const today = new Date();
+  const today = new Date(loanPeriod);
+
   today.setHours(0, 0, 0, 0);
-
-  today.setDate(today.getDate() + 7);
-
   const year = today.getFullYear();
   const month = today.getMonth() + 1;
   const day = today.getDate();
@@ -51,7 +60,7 @@ export default function PageClient() {
             height={180}
             className={styles.card}
           />
-          <p className={styles.Day}>返却期限：{date}</p>
+          <p className={styles.Day}>返却期限： {date}</p>
         </>
       ) : (
         <LoadingBrown />

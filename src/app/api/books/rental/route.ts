@@ -4,8 +4,8 @@ import { NextResponse } from "next/server";
 // POST: 貸し出し履歴を登録する
 export async function POST(request: Request) {
   try {
-    const { isbn, uid } = await request.json();
-    console.log("isbn:", isbn, uid);
+    const { isbn, uid, loanPeriod } = await request.json();
+    console.log("isbn:", isbn, uid, loanPeriod);
 
     const { data: book, error: bookFetchError } = await supabase
       .from("books")
@@ -30,7 +30,7 @@ export async function POST(request: Request) {
         isbn: isbn,
         uid: uid,
         return_date: new Date(
-          Date.now() + 7 * 24 * 60 * 60 * 1000
+          loanPeriod
         ).toISOString(),
       })
       .select("*");

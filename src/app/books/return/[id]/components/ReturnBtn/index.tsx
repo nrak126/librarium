@@ -26,10 +26,15 @@ export function ReturnBtn(props: Props) {
       body: JSON.stringify({ isbn: isbn, uid: uid }),
     });
 
-    // 返した本をatomsから無くす
     setReturn((prev) => {
-      if (!prev) return prev; // null なら何もしない
-      return prev.filter((book) => book.isbn !== isbn);
+      if (!prev) return prev;
+
+      const updated = prev.filter((book) => book.isbn !== isbn);
+
+      // localStorage も更新
+      localStorage.setItem("rentalBooks", JSON.stringify(updated));
+
+      return updated;
     });
 
     router.push(`/books/return/${isbn}/check`);
