@@ -5,12 +5,27 @@ import { supabase } from "@/src/lib/supabase";
 
 
 // GET: ユーザーのリストを取得する
-export async function GET() {
+export async function GET(request: Request) {
+  const { searchParams } = new URL(request.url);
+  const keyword = searchParams.get("search");
   try {
-    const { data, error } = await supabase.from("users").select("*");
+    let query = supabase.from("users_view").select("*");
+    if (keyword) {
+      query = query.or(
+        `name.ilike.%${keyword}%,role.ilike.%${keyword}%,studentId.ilike.%${keyword}%,tags_string.ilike.%${keyword}%`
+      );
+    }
+    const { data, error } = await query;
     if (error) {
       throw error;
     }
+    // tags_string を削除する処理
+    if (data && Array.isArray(data)) {
+      data.map((user) => {
+        delete user.tags_string;
+      });
+    }
+
     return NextResponse.json(data);
   } catch (error) {
     console.error("Error fetching users:", error);

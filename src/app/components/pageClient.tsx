@@ -44,7 +44,7 @@ export const PageClient: React.FC = () => {
         setLogedInUser(appUser);
       })();
     }
-  }, [router, logedInUser, setLogedInUser]);
+  }, [router, logedInUser]);
 
   // 本のデータフェッチ（初回のみ）
   useEffect(() => {
@@ -59,7 +59,7 @@ export const PageClient: React.FC = () => {
         }
       })();
     }
-  }, [books, setBooks]);
+  }, [books]);
 
   // レンタルデータのフェッチ（初回のみ）
   useEffect(() => {
@@ -74,7 +74,7 @@ export const PageClient: React.FC = () => {
         }
       })();
     }
-  }, [rental, setRental]);
+  }, [rental]);
 
   return (
     <>
