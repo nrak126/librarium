@@ -9,61 +9,56 @@ import { useRouter } from "next/navigation";
 import { Btn } from "@/src/components/book/Btn";
 import { User } from "@/src/types";
 import { useAtom } from "jotai";
+import { uidAtom } from "@/src/atoms/atoms"; // 作成したuidAtomをインポート
 import { logedInUserAtom } from "@/src/atoms/atoms";
-import { supabase } from "@/src/lib/supabase";
-import LoadingBrown from "@/src/components/LoadingBrown";
 
 export default function UserDetail() {
   const [clickEditer, setClickEditer] = useState(false);
   const router = useRouter();
   const [user, setUser] = useState<User | null>(null);
-  const [uid, setUid] = useState<string | null>(null); // JotaiからuseStateに変更
-  const [logedInUser, setLogedInUser] = useAtom(logedInUserAtom);
+  const [uid, setUid] = useAtom(uidAtom); // uidAtom を使用
+  const [logedInUser] = useAtom(logedInUserAtom);
+
+  const pathname = window.location.pathname;
+  const pathArr = pathname.split("/");
+  const currentUid = pathArr[pathArr.length - 1];
+  setUid(currentUid);
 
   useEffect(() => {
-    const pathname = window.location.pathname;
-    const pathArr = pathname.split("/");
-    const currentUid = pathArr[pathArr.length - 1];
+    if (!uid) return; // uid が無ければ何もしない
 
-    setUid(currentUid);
-    localStorage.setItem("uid", currentUid); // localStorageに保存
+    const cached = localStorage.getItem(`users-${uid}`);
+    if (cached) {
+      try {
+        const parsed: User = JSON.parse(cached);
+        setUser(parsed);
+      } catch (e) {
+        console.error("ユーザーデータのパースに失敗:", e);
+      }
+    }
 
+    // ネットワークから最新データ取得
     (async () => {
-      const UserDataRes = await fetch(`/api/users/${currentUid}`);
-      const UserData: User = await UserDataRes.json();
-      setUser(UserData);
-      if (!logedInUser) {
-        const localUserStr = localStorage.getItem("loginUser");
-
-        if (localUserStr) {
-          const localUser: User = JSON.parse(localUserStr);
-          setLogedInUser(localUser);
-        } else {
-          const { data, error } = await supabase.auth.getUser();
-
-          if (error || !data.user?.id) {
-            console.log(
-              "ログインユーザーが取得できません。未ログインの可能性があります。"
-            );
-            return;
-          }
-
-          const logedInUserRes = await fetch(`/api/users/${data.user.id}`);
-          if (!logedInUserRes.ok) {
-            console.log("ログインユーザーのAPI取得に失敗しました");
-            return;
-          }
-
-          const logedInUserData: User = await logedInUserRes.json();
-          setLogedInUser(logedInUserData);
-          localStorage.setItem("loginUser", JSON.stringify(logedInUserData)); // 保存
+      try {
+        const res = await fetch(`/api/users/${uid}`);
+        if (!res.ok) {
+          console.warn("ユーザーデータの取得に失敗");
+          return;
         }
+
+        const fetchedUser: User = await res.json();
+        setUser(fetchedUser);
+
+        // localStorage にキャッシュ
+        localStorage.setItem(`users-${uid}`, JSON.stringify(fetchedUser));
+      } catch (err) {
+        console.error("ユーザーデータ取得エラー:", err);
       }
     })();
-  }, [setLogedInUser]);
+  }, [uid]);
 
   if (!user) {
-    return <LoadingBrown />;
+    return <div>Loading...</div>;
   }
 
   const handleSample = () => {
@@ -73,8 +68,6 @@ export default function UserDetail() {
   };
 
   const handleBack = async () => {
-    if (!uid) return;
-
     await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/users/${uid}`, {
       method: "POST",
       body: JSON.stringify(user),
