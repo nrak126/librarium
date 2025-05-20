@@ -132,7 +132,6 @@ export const PageClient = () => {
       <div className={searchClick ? styles.titleSearch : styles.titleAll}>
         {searchClick ? "SEARCH" : "ALL"}
       </div>
-
       {/* 利用者すべてのアカウント表示 */}
       <UsersList users={result} />
     </>

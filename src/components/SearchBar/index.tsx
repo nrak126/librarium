@@ -1,51 +1,24 @@
 "use client";
 
+import { useState } from "react";
 import style from "./index.module.scss";
 import { Icon } from "@iconify/react";
+import { usePathname, useRouter } from "next/navigation";
 
-interface SearchBarProps {
-  func?: string;
-  clickBy?: string;
-  setSearchClick?: (value: boolean) => void;
-  searchClick?: boolean;
-  setSearchName?: (value: string) => void;
-  searchName?: string;
-  setSearchWordClick?: (value: boolean) => void;
-  searchWordClick?: boolean;
-}
+export default function SearchBar({
+  placeholder = "書籍検索",
+}: {
+  placeholder?: string;
+}) {
+  const router = useRouter();
+  const [searchName, setSearchName] = useState<string>("");
+  const pathName = usePathname();
 
-export const SearchBar: React.FC<SearchBarProps> = ({
-  func = "書籍検索",
-  clickBy = "homeSearch",
-  setSearchClick,
-  searchClick,
-  setSearchName,
-  searchName,
-  setSearchWordClick,
-  searchWordClick,
-}) => {
-  const handleSearch = () => {
-    if (setSearchClick) {
-      setSearchClick(true);
-    }
-    if (setSearchWordClick) {
-      setSearchWordClick(true);
-    }
-    console.log("検索ボタンが押されました。");
-    console.log(`検索ワード：${searchName}`);
-
-    if (clickBy === "homeSearch") {
-      // 個別の検索処理を実行
-      console.log(
-        `SearchClick: ${searchClick},SearchWordClick: ${searchWordClick}, homeSearch`
-      );
-    }
-
-    if (clickBy === "usersSearch") {
-      // 個別の検索処理を実行
-      console.log(
-        `setSearchClick: ${searchClick}, SearchWordClick: ${searchWordClick}, usersSearch`
-      );
+  const handleSearch = async () => {
+    if (searchName) {
+      await router.push(`${pathName}?search=${searchName}`);
+    } else {
+      await router.push(`${pathName}`);
     }
   };
 
@@ -54,12 +27,15 @@ export const SearchBar: React.FC<SearchBarProps> = ({
       <div className={style.searchContainer}>
         <input
           type="text"
-          placeholder={func}
+          placeholder={placeholder}
           value={searchName}
           className={style.searchBar}
-          onChange={(event) => {
-            if (setSearchName) {
-              setSearchName(event.target.value);
+          onChange={(e) => {
+            setSearchName(e.target.value);
+          }}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              handleSearch();
             }
           }}
         />
@@ -71,4 +47,4 @@ export const SearchBar: React.FC<SearchBarProps> = ({
       </div>
     </div>
   );
-};
+}
