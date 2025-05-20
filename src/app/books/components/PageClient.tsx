@@ -1,7 +1,7 @@
 "use client";
 
 import BooksList from "../components/BooksList";
-import { SearchBar } from "@/src/components/SearchBar";
+import SearchBar from "@/src/components/SearchBar";
 import styles from "./index.module.scss";
 import { useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
@@ -11,11 +11,7 @@ import type { Book } from "@/src/types";
 
 export default function PageClient() {
   const searchParams = useSearchParams();
-  const seaarchNameData = searchParams.get("searchName") || "";
-
-  const [searchClick, setSearchClick] = useState(false);
-  const [searchName, setSearchName] = useState(seaarchNameData);
-  const [searchWordClick, setSearchWordClick] = useState(!!seaarchNameData);
+  const searchName = searchParams.get("search") || "";
 
   const [books, setBooks] = useAtom(booksAtom); // Jotai atom でグローバル books 利用
   const [result, setResult] = useState<Book[]>([]);
@@ -29,35 +25,29 @@ export default function PageClient() {
         setBooks(booksData);
       })();
     }
-  }, [books, setBooks]);
+  }, [books]);
 
   // 検索フィルタリング処理
   useEffect(() => {
-    if (!books) return;
-
-    if (searchWordClick) {
-      const filteredBooks: Book[] = books.filter(
-        (book) =>
-          typeof searchName === "string" && book.tags.includes(searchName)
-      );
-      setResult(filteredBooks);
-    } else {
-      setResult(books);
-    }
-  }, [searchWordClick, books, searchName]);
+    (async () => {
+      if (searchName) {
+        const fetchFilteredBooks = await fetch(
+          `/api/books?search=${searchName}`
+        );
+        const filteredBooks: Book[] = await fetchFilteredBooks.json();
+        setResult(filteredBooks);
+      } else {
+        if (!books) return;
+        setResult(books);
+      }
+    })();
+  }, [searchName, books]);
 
   return (
     <div className={styles.whole}>
       <div className={styles.title}>書籍一覧</div>
       <div className={styles.bar}>
-        <SearchBar
-          searchClick={searchClick}
-          setSearchClick={setSearchClick}
-          searchName={searchName}
-          setSearchName={setSearchName}
-          setSearchWordClick={setSearchWordClick}
-          searchWordClick={searchWordClick}
-        />
+        <SearchBar />
         <div className={styles.card}>
           <div className={styles.list}>
             <BooksList result={result} />

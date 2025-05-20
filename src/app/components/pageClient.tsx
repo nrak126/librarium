@@ -9,7 +9,7 @@ import { useRouter } from "next/navigation";
 import { supabase } from "@/src/lib/supabase";
 import { useEffect, useState } from "react";
 import { NavSlide } from "@/src/components/nav/NavSlide";
-import { SearchBar } from "@/src/components/SearchBar";
+import SearchBar from "@/src/components/SearchBar";
 import { useAtom } from "jotai";
 import { booksAtom, rentalAtom } from "@/src/atoms/atoms";
 import type { Book, RentalList } from "@/src/types";
@@ -17,8 +17,6 @@ import { logedInUserAtom } from "@/src/atoms/atoms";
 import { User } from "@/src/types/user";
 
 export const PageClient: React.FC = () => {
-  const [searchClick, setSearchClick] = useState(false);
-  const [searchName, setSearchName] = useState("");
   const [books, setBooks] = useAtom(booksAtom);
   const [rental, setRental] = useAtom(rentalAtom);
   const router = useRouter();
@@ -47,13 +45,6 @@ export const PageClient: React.FC = () => {
       })();
     }
   }, [router, logedInUser, setLogedInUser]);
-
-  // 検索処理
-  useEffect(() => {
-    if (searchClick) {
-      router.push(`/books?searchName=${searchName}`);
-    }
-  }, [searchClick, searchName, router]);
 
   // 本のデータフェッチ（初回のみ）
   useEffect(() => {
@@ -87,12 +78,7 @@ export const PageClient: React.FC = () => {
 
   return (
     <>
-      <SearchBar
-        searchClick={searchClick}
-        setSearchClick={setSearchClick}
-        searchName={searchName}
-        setSearchName={setSearchName}
-      />
+      <SearchBar />
       <NavSlide />
       <Tabs className={styles.tabs}>
         <TabList className={styles.tabList}>

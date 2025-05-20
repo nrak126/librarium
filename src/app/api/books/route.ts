@@ -4,13 +4,26 @@ import type { Book } from "@/src/types/book";
 import { supabase } from "@/src/lib/supabase";
 
 
-// GET: 本のリストを取得する
-export async function GET() {
+// GET: クエリで 'の' を含む本を検索
+export async function GET(request: Request) {
+  const { searchParams } = new URL(request.url);
+  const keyword = searchParams.get("search");
+
   try {
-    const { data, error } = await supabase.from("books").select("*");
+    let query = supabase.from("books").select("*");
+
+    if (keyword) {
+      query = query.or(
+        `title.ilike.%${keyword}%,author.ilike.%${keyword}%,description.ilike.%${keyword}%,publisher.ilike.%${keyword}%`
+      );
+    }
+
+    const { data, error } = await query;
+
     if (error) {
       throw error;
     }
+
     return NextResponse.json(data);
   } catch (error) {
     console.error("Error fetching books:", error);
