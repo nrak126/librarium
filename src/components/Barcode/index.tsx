@@ -1,12 +1,12 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
+import React, { ReactNode, useEffect, useRef } from "react";
 import Quagga from "quagga";
 import styles from "./index.module.scss";
 
 type BarcodeProps = {
   setIsbn: (isbn: string) => void;
-  text: string;
+  text: ReactNode;
 };
 
 export const Barcode: React.FC<BarcodeProps> = ({ setIsbn, text }) => {
