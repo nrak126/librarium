@@ -14,7 +14,7 @@ export const BookCardList = ({ book }: { book: Book }) => {
         src={book.thumbnail}
         alt="本の表紙画像"
         width={100}
-        height={140}
+        height={150}
       />
     </div>
 </>

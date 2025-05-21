@@ -44,14 +44,14 @@
 }
 
 .message {
-  font-size: 12px;
+  font-size: 16px;
   font-weight: bold;
   color: #635038;
   line-height: 1.5;
   text-align: center;
   z-index: 2;
   position: relative;
-  top: 10svh; /* 位置を調整 */
+  top: 14svh; /* 位置を調整 */
   left: 30%;
   max-width: 50svw;
   overflow: hidden;

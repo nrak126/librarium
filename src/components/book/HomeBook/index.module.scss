@@ -41,11 +41,11 @@
 
 .image {
   width: 90px; /* 幅を固定 */
-  height: 115px; /* 高さを固定 */
+  height: 120px; /* 高さを固定 */
   box-shadow: 0 1.5vw 1.3vw 0.5vw rgb(27 55 99 / 25%);
   position: absolute;
   left: 65%;
-  bottom: 8svh;
+  bottom: 8.5svh;
   transform: translateX(-50%); /* 水平方向の中央揃え */
 }
 
@@ -63,7 +63,7 @@
   line-clamp: 3;
   box-orient: vertical;
   line-height: 1.2;
-  top: 5svh;
+  top: 6svh;
   position: relative;
 }
 
