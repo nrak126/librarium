@@ -117,9 +117,9 @@ export default function UserDetail() {
       <div className={clickEditer ? styles.trueexp : styles.falseexp}>
         現在の経験値
       </div>
+      <p className={styles.comment}>1冊借りると+3pt</p>
 
       <div className={styles.percent}>
-        <p className={styles.comment}>1冊借りると+3pt</p>
         <p className={styles.zero}>0</p>
         <p className={styles.five}>5</p>
         <p className={styles.ten}>10</p>
