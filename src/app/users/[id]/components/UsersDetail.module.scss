@@ -111,26 +111,14 @@
     font-weight: 300;
   }
 }
-.zero {
-  font-size: 15px;
-  position: relative;
-  margin-right: 73%;
-  margin-top: 10%;
+
+.percent{
+  display: flex;  
+  justify-content: space-between;
+  font-size: 17px;
   color: #635038;
   font-weight: 300px;
-}
-.five {
-  font-size: 15px;
-  position: relative;
-  margin-top: -5%;
-  color: #635038;
-  font-weight: 300;
-}
-.ten {
-  font-size: 15px;
-  position: relative;
-  margin-top: -3%;
-  margin-right: -75%;
-  color: #635038;
-  font-weight: 300px;
+  margin-left: 13svw;
+  margin-right: 13svw;
+  margin-top: 7svh;
 }
