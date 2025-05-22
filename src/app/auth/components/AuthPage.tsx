@@ -3,11 +3,11 @@
 import Image from "next/image";
 import Icon from "@/public/icon.svg";
 import styles from "./AuthPage.module.scss";
+import LoginBackground from "@/public/login_background.svg";
 
 import { supabase } from "@/src/lib/supabase";
 
 export function AuthPage() {
-
   // Googleアカウントでログイン
   const handleLogin = async () => {
     const { data, error } = await supabase.auth.signInWithOAuth({
@@ -24,22 +24,28 @@ export function AuthPage() {
   };
 
   return (
-    <div className={styles.whole}>
+    <div className={styles.container}>
       <Image
-        src={Icon}
-        alt={"librariumのアイコン"}
-        width={230}
-        height={230}
-        className={styles.icon}
+        src={LoginBackground}
+        alt={"背景画像"}
+        className={styles.background}
         priority
       />
 
-      <button
-        onClick={handleLogin}
-        className={styles.loginBtn}
-      >
-        {"ログイン"}
-      </button>
+      <div className={styles.whole}>
+        <Image
+          src={Icon}
+          alt={"librariumのアイコン"}
+          width={230}
+          height={230}
+          className={styles.icon}
+          priority
+        />
+
+        <button onClick={handleLogin} className={styles.loginBtn}>
+          {"ログイン"}
+        </button>
+      </div>
     </div>
   );
 }
