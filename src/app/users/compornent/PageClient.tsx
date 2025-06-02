@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import SearchBar from "@/src/components/SearchBar";
 import styles from "./PageClient.module.scss";
 import UsersList from "@/src/components/Users/UsersList";
@@ -8,6 +8,7 @@ import UserData from "@/src/components/Users/UserData";
 import { createClient } from "@supabase/supabase-js";
 import type { User } from "@/src/types";
 import { useSearchParams } from "next/navigation";
+import LoadingBrown from "@/src/components/LoadingBrown";
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -15,6 +16,14 @@ const supabase = createClient(
 );
 
 export const PageClient = () => {
+  return (
+    <Suspense fallback={<LoadingBrown />}>
+      <PageContent />
+    </Suspense>
+  );
+};
+
+const PageContent = () => {
   const [users, setUsers] = useState<User[]>([]);
   const [logedInUser, setLogedInUser] = useState<User | null>(null);
   const [result, setResult] = useState<User[]>([]);
@@ -75,7 +84,7 @@ export const PageClient = () => {
         console.error("初期データ取得中にエラー:", err);
       }
     })();
-  }, []);
+  }, [users]);
 
   // Supabase リアルタイム購読で新規ユーザーを即時反映
   useEffect(() => {

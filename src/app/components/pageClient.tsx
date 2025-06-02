@@ -7,7 +7,7 @@ import { BookRec } from "../../components/book/BookRec";
 import { BookRanking } from "../../components/book/BookRanking";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/src/lib/supabase";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { NavSlide } from "@/src/components/nav/NavSlide";
 import SearchBar from "@/src/components/SearchBar";
 import { useAtom } from "jotai";
@@ -45,7 +45,7 @@ export const PageClient: React.FC = () => {
         localStorage.setItem("loginUser", JSON.stringify(appUser));
       })();
     }
-  }, [router, logedInUser]);
+  }, [router, logedInUser, setLogedInUser]);
 
   // 本のデータフェッチ（初回のみ）
   useEffect(() => {
@@ -61,7 +61,7 @@ export const PageClient: React.FC = () => {
         }
       })();
     }
-  }, [books]);
+  }, [books, setBooks]);
 
   // レンタルデータのフェッチ（初回のみ）
   useEffect(() => {
@@ -77,7 +77,7 @@ export const PageClient: React.FC = () => {
         }
       })();
     }
-  }, [rental]);
+  }, [rental, setRental]);
 
   return (
     <>
