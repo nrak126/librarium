@@ -18,7 +18,7 @@ function UserData({ user }: { user?: User | null }) {
 
   return (
     // ユーザー詳細ページへリンク
-    <Link legacyBehavior href={`users/${user.uid}`} className={styles.link}>
+    <Link href={`users/${user.uid}`} className={styles.link}>
       <div className={styles.all}>
         <div className={styles.whole}>
           <Image

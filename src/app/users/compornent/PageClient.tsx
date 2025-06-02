@@ -84,7 +84,7 @@ const PageContent = () => {
         console.error("初期データ取得中にエラー:", err);
       }
     })();
-  }, [users]);
+  }, []);
 
   // Supabase リアルタイム購読で新規ユーザーを即時反映
   useEffect(() => {
