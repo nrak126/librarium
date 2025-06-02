@@ -1,12 +1,13 @@
 "use client";
 
 import { useState, useEffect } from "react";
-// import { SearchBar } from "@/src/components/SearchBar";
+import SearchBar from "@/src/components/SearchBar";
 import styles from "./PageClient.module.scss";
 import UsersList from "@/src/components/Users/UsersList";
 import UserData from "@/src/components/Users/UserData";
 import { createClient } from "@supabase/supabase-js";
 import type { User } from "@/src/types";
+import { useSearchParams } from "next/navigation";
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -17,9 +18,8 @@ export const PageClient = () => {
   const [users, setUsers] = useState<User[]>([]);
   const [logedInUser, setLogedInUser] = useState<User | null>(null);
   const [result, setResult] = useState<User[]>([]);
-  const [searchClick, setSearchClick] = useState(false);
-  const [searchName, setSearchName] = useState("");
-  const [searchWordClick, setSearchWordClick] = useState(false);
+  const searchParams = useSearchParams();
+  const searchName = searchParams.get("search") || "";
 
   // 初期データ取得＋localStorage読み込み
   useEffect(() => {
@@ -101,34 +101,39 @@ export const PageClient = () => {
     };
   }, []);
 
+  // 検索フィルタリング処理
+  useEffect(() => {
+    (async () => {
+      if (searchName) {
+        const fetchFilteredBooks = await fetch(
+          `/api/users?search=${searchName}`
+        );
+        const filteredBooks: User[] = await fetchFilteredBooks.json();
+        setResult(filteredBooks);
+      } else {
+        if (!users) return;
+        setResult(users);
+      }
+    })();
+  }, [searchName, users]);
+
   return (
     <>
       <div className={styles.whole}>
         <div className={styles.title}>利用者一覧</div>
         <div className={styles.bar}>
-          {/* <SearchBar
-            func="ユーザー検索"
-            clickBy="usersSearch"
-            searchClick={searchClick}
-            setSearchClick={setSearchClick}
-            searchName={searchName}
-            setSearchName={setSearchName}
-            setSearchWordClick={setSearchWordClick}
-            searchWordClick={searchWordClick}
-          /> */}
+          <SearchBar placeholder="ユーザー検索" />
         </div>
       </div>
 
       <div className={styles.myprofile}>MY PROFILE</div>
       {logedInUser && <UserData user={logedInUser} />}
 
-      {searchClick ? (
+      {searchName ? (
         <div className={styles.titleSearch}>SEARCH</div>
       ) : (
         <div className={styles.titleAll}>ALL</div>
       )}
-
-      {/* UsersList に必ず配列を渡す */}
       <UsersList users={result} />
     </>
   );
