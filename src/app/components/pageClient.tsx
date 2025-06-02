@@ -81,7 +81,7 @@ export const PageClient: React.FC = () => {
 
   return (
     <>
-      <SearchBar />
+      <SearchBar searchPageName="books" />
       <NavSlide />
       <Tabs className={styles.tabs}>
         <TabList className={styles.tabList}>
