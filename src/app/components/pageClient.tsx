@@ -41,8 +41,6 @@ export const PageClient: React.FC = () => {
 
         const appUser: User = await user.json();
         setLogedInUser(appUser);
-
-        localStorage.setItem("loginUser", JSON.stringify(appUser));
       })();
     }
   }, [router, logedInUser, setLogedInUser]);

@@ -9,6 +9,8 @@ import { createClient } from "@supabase/supabase-js";
 import type { User } from "@/src/types";
 import { useSearchParams } from "next/navigation";
 import LoadingBrown from "@/src/components/LoadingBrown";
+import { useAtom } from "jotai";
+import { logedInUserAtom, usersAtom } from "@/src/atoms/atoms";
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -24,70 +26,35 @@ export const PageClient = () => {
 };
 
 const PageContent = () => {
-  const [users, setUsers] = useState<User[]>([]);
-  const [logedInUser, setLogedInUser] = useState<User | null>(null);
-  const [result, setResult] = useState<User[]>([]);
+  const [users, setUsers] = useAtom<User[]>(usersAtom);
+  const [logedInUser] = useAtom<User | null>(logedInUserAtom);
   const searchParams = useSearchParams();
   const searchName = searchParams.get("search") || "";
+  const [result, setResult] = useState<User[]>([]);
 
-  // 初期データ取得＋localStorage読み込み
+  // 初期データ取得（空の場合のみ）+ リアルタイム更新
   useEffect(() => {
-    (async () => {
-      try {
-        const cachedUsers = localStorage.getItem("users");
-        if (cachedUsers) {
-          const parsedUsers: User[] = JSON.parse(cachedUsers);
-          if (Array.isArray(parsedUsers)) {
-            setUsers(parsedUsers);
-            setResult(parsedUsers);
-          }
-        }
-
-        if (users.length === 0) {
-          const usersRes = await fetch(
-            `${process.env.NEXT_PUBLIC_BASE_URL}/api/users`
-          );
-          if (usersRes.ok) {
-            const usersData: User[] = await usersRes.json();
-            setUsers(usersData);
-            setResult(usersData);
-            localStorage.setItem("users", JSON.stringify(usersData));
+    const fetchInitialData = async () => {
+      // usersが空の場合のみ初回データを取得
+      if (users.length === 0) {
+        try {
+          const { data, error } = await supabase.from("users").select("*");
+          if (error) {
+            console.error("ユーザー一覧の取得に失敗しました:", error);
           } else {
-            console.log("ユーザー一覧の取得に失敗しました");
+            setUsers(data || []);
+            setResult(data || []);
           }
+        } catch (err) {
+          console.error("初期データ取得中にエラー:", err);
         }
-
-        // localStorage からログインユーザー取得
-        const storedUser = localStorage.getItem("loginUser");
-
-        if (storedUser) {
-          const parsedUser: User = JSON.parse(storedUser);
-          setLogedInUser(parsedUser);
-        } else {
-          // Supabase から取得して localStorage に保存
-          const { data, error } = await supabase.auth.getUser();
-          if (error || !data.user?.id) {
-            console.log("ログインユーザーが取得できません");
-            return;
-          }
-
-          const res = await fetch(`/api/users/${data.user.id}`);
-          if (res.ok) {
-            const userData: User = await res.json();
-            setLogedInUser(userData);
-            localStorage.setItem("loginUser", JSON.stringify(userData));
-          } else {
-            console.log("ログインユーザーの取得に失敗しました");
-          }
-        }
-      } catch (err) {
-        console.error("初期データ取得中にエラー:", err);
       }
-    })();
-  }, []);
+    };
 
-  // Supabase リアルタイム購読で新規ユーザーを即時反映
-  useEffect(() => {
+    // 初回データ取得を実行
+    fetchInitialData();
+
+    // リアルタイム購読設定
     const channel = supabase
       .channel("realtime-users")
       .on(
@@ -95,12 +62,36 @@ const PageContent = () => {
         { event: "INSERT", schema: "public", table: "users" },
         (payload) => {
           const newUser = payload.new as User;
-          setUsers((prev) => {
-            const updated = [...prev, newUser];
-            localStorage.setItem("users", JSON.stringify(updated));
-            return updated;
-          });
+          setUsers((prev) => [...prev, newUser]);
           setResult((prev) => [...prev, newUser]);
+        }
+      )
+      .on(
+        "postgres_changes",
+        { event: "UPDATE", schema: "public", table: "users" },
+        (payload) => {
+          const updatedUser = payload.new as User;
+          setUsers((prev) =>
+            prev.map((user) =>
+              user.id === updatedUser.id ? updatedUser : user
+            )
+          );
+          setResult((prev) =>
+            prev.map((user) =>
+              user.id === updatedUser.id ? updatedUser : user
+            )
+          );
+        }
+      )
+      .on(
+        "postgres_changes",
+        { event: "DELETE", schema: "public", table: "users" },
+        (payload) => {
+          const deletedUser = payload.old as User;
+          setUsers((prev) => prev.filter((user) => user.id !== deletedUser.id));
+          setResult((prev) =>
+            prev.filter((user) => user.id !== deletedUser.id)
+          );
         }
       )
       .subscribe();
@@ -108,7 +99,7 @@ const PageContent = () => {
     return () => {
       supabase.removeChannel(channel);
     };
-  }, []);
+  }, []); // 依存配列を空に変更
 
   // 検索フィルタリング処理
   useEffect(() => {
@@ -120,7 +111,6 @@ const PageContent = () => {
         const filteredBooks: User[] = await fetchFilteredBooks.json();
         setResult(filteredBooks);
       } else {
-        if (!users) return;
         setResult(users);
       }
     })();
