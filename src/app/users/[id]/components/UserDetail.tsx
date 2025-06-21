@@ -9,7 +9,7 @@ import { useRouter, useParams } from "next/navigation";
 import { Btn } from "@/src/components/book/Btn";
 import { User } from "@/src/types";
 import { useAtom } from "jotai";
-import { logedInUserAtom, usersAtom } from "@/src/atoms/atoms";
+import { logedInUserAtom } from "@/src/atoms/atoms";
 import LoadingBrown from "@/src/components/LoadingBrown";
 
 export default function UserDetail() {
@@ -22,9 +22,8 @@ export default function UserDetail() {
   const uid = params.id as string;
 
   useEffect(() => {
-    if (!uid) return; // uid が無ければ何もしない
+    if (!uid) return;
 
-    // ネットワークから最新データ取得
     (async () => {
       try {
         const res = await fetch(`/api/users/${uid}`);
@@ -41,7 +40,7 @@ export default function UserDetail() {
   }, [uid]);
 
   if (!user) {
-    return <LoadingBrown />
+    return <LoadingBrown />;
   }
 
   const handleSample = () => {
