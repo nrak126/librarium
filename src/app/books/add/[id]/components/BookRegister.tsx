@@ -6,15 +6,26 @@ import axios from "axios";
 import { BookInfo } from "@/src/components/book/BookInfo";
 import { Genre } from "@/src/components/Genre";
 import { Btns } from "../../components/Btns";
-import Icon from "@/public/icon.svg";
 import { useRouter } from "next/navigation";
 import { useAtom } from "jotai";
 import { booksAtom } from "@/src/atoms/atoms";
 import LoadingBrown from "@/src/components/LoadingBrown";
+
 export const BookRegister = ({ isbn }: { isbn: string }) => {
+  // ISBNがない場合は何もしない
+  // if (!isbn || (isbn.length !== 10 && isbn.length !== 13)) {
+  //   return <p>有効なISBN（10桁または13桁）を入力してください。</p>;
+  // }
+
+  // if (isbn.startsWith("978") && isbn.startsWith("979")) {
+  //   return <p>ISBNではありません</p>;
+  // }
+
   const [book, setBook] = useState<Book | null>(null);
   const [selectedGenres, setSelectedGenres] = useState<string[]>([]);
   const [, setBooks] = useAtom(booksAtom);
+  const [loading, setLoading] = useState(true);
+  const [notFound, setNotFound] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -29,7 +40,7 @@ export const BookRegister = ({ isbn }: { isbn: string }) => {
             const volumeInfo = response.data.Items[0].Item;
             const fetchedBook: Book = {
               isbn: isbn,
-              title: volumeInfo.title || "タイトルが見つかりません",
+              title: volumeInfo.title,
               author: volumeInfo.author || "著者情報がありません",
               description: volumeInfo.itemCaption || "説明がありません",
               thumbnail: volumeInfo.largeImageUrl || "",
@@ -41,22 +52,13 @@ export const BookRegister = ({ isbn }: { isbn: string }) => {
             };
             setBook(fetchedBook);
           } else {
-            setBook({
-              isbn: isbn,
-              title: "タイトルが見つかりません",
-              author: "著者情報がありません",
-              description: "説明がありません",
-              thumbnail: Icon,
-              publisher: "出版会社情報がありません",
-              stock: 0,
-              available: 0,
-              tags: selectedGenres,
-              created_at: "",
-            });
+            setNotFound(true);
           }
         } catch (error) {
           console.error("エラー:", error);
-          setBook(null);
+          setNotFound(true);
+        } finally {
+          setLoading(false);
         }
       })();
     }
@@ -98,7 +100,13 @@ export const BookRegister = ({ isbn }: { isbn: string }) => {
     }
   };
 
-  if (!book) {
+  if (notFound) {
+    return (
+      <p>指定されたISBNの本が見つかりませんでした。ISBNを確認してください。</p>
+    );
+  }
+
+  if (loading) {
     return <LoadingBrown />;
   }
 
