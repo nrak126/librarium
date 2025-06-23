@@ -8,7 +8,26 @@ const withPWA = nextPWA({
 });
 
 const nextConfig: NextConfig = withPWA({
+  // Tauriアプリ対応設定
+  headers: async () => {
+    return [
+      {
+        source: "/(.*)",
+        headers: [
+          {
+            key: "Cross-Origin-Embedder-Policy",
+            value: "unsafe-none",
+          },
+          {
+            key: "Cross-Origin-Opener-Policy",
+            value: "same-origin-allow-popups",
+          },
+        ],
+      },
+    ];
+  },
   images: {
+    unoptimized: true,
     remotePatterns: [
       {
         protocol: "https",
