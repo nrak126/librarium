@@ -27,7 +27,6 @@ const nextConfig: NextConfig = withPWA({
     ];
   },
   images: {
-    unoptimized: true,
     remotePatterns: [
       {
         protocol: "https",

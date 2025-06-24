@@ -1,54 +1,21 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import style from "./index.module.scss";
 import Image from "next/image";
 
-import { supabase } from "@/src/lib/supabase";
 import { useRouter } from "next/navigation";
 import LoadingBrown from "../../LoadingBrown";
-import { RentalList } from "@/src/types";
+import { useAtom } from "jotai";
+import { logedInUserAtom, rentalAtom } from "@/src/atoms/atoms";
+import dayjs from "dayjs";
 
 export const RentalTime: React.FC = () => {
-  const [userId, setUserId] = useState<string>("");
   const [loading, setLoading] = useState(false);
-  const [rental, setRental] = useState<RentalList[]>([]);
+  const [rental] = useAtom(rentalAtom); // useAtom を使用
+  const [loginUser] = useAtom(logedInUserAtom); // ログインユーザーを取得
 
   const router = useRouter();
-
-  // 初回マウント時に localStorage から読み込む
-  useEffect(() => {
-    const json = localStorage.getItem("rentalBooks");
-    if (json) {
-      try {
-        const parsed = JSON.parse(json);
-        setRental(parsed);
-      } catch (e) {
-        console.error("rentalBooks JSON parse error:", e);
-      }
-    }
-  }, []);
-  useEffect(() => {
-    const json = localStorage.getItem("loginUser");
-    if (json) {
-      try {
-        const parsed = JSON.parse(json);
-        setUserId(parsed.id); // ここは保存しているuserオブジェクトのidに合わせて調整
-      } catch (e) {
-        console.error("loginUser JSON parse error:", e);
-      }
-    } else {
-      // localStorageにない場合はSupabaseから取るのもあり
-      (async () => {
-        const { data, error } = await supabase.auth.getUser();
-        if (!error && data?.user) {
-          setUserId(data.user.id);
-          // localStorageにも保存しておく
-          localStorage.setItem("loginUser", JSON.stringify(data));
-        }
-      })();
-    }
-  }, []);
 
   // 返却日を「あと〇日」形式に変換する関数
   const getRemainingDays = (returnDate: string) => {
@@ -72,17 +39,20 @@ export const RentalTime: React.FC = () => {
     }
   };
 
-  const getReturnDay = (returnDate: string) => {
-    const returnDateObj = new Date(returnDate); // 返却日の日付
-    returnDateObj.setHours(0, 0, 0, 0);
+  const getUserRentalBooks = () => {
+    if (!rental || !loginUser?.uid) return [];
 
-    // YYYY/M/D の形式に整形
-    const year = returnDateObj.getFullYear();
-    const month = returnDateObj.getMonth() + 1;
-    const day = returnDateObj.getDate();
-
-    return `${year}/${month}/${day}`;
+    return rental.filter(
+      (book) => book.users.id === loginUser.uid && book.isReturned === false
+    );
   };
+
+  const getReturnDay = (returnDate: string) => {
+    const returnDateObj = dayjs(returnDate);
+
+    return returnDateObj.format("YYYY/MM/DD");
+  };
+
   const onLink = (isbn: string, returnDate: string) => {
     try {
       setLoading(true);
@@ -95,6 +65,7 @@ export const RentalTime: React.FC = () => {
     }
   };
 
+  const userRentalBooks = getUserRentalBooks();
   return loading ? (
     <div className={style.loading}>
       <LoadingBrown />
@@ -102,14 +73,13 @@ export const RentalTime: React.FC = () => {
   ) : (
     <div>
       <div className={style.contents}>
-        {rental?.filter(
-          (book) => book.users.id === userId && book.isReturned === false
-        ).length === 0 ? ( // user.idが一致しないアイテムをフィルタリング
-          <p className={style.noRental}>貸し出し中の本はありません</p> // フィルタ結果が空の場合にメッセージ表示
+        {userRentalBooks.length === 0 ? (
+          <p className={style.noRental}>貸し出し中の本はありません</p>
         ) : (
           rental
             ?.filter(
-              (book) => book.users.id === userId && book.isReturned === false
+              (book) =>
+                book.users.id === loginUser?.uid && book.isReturned === false
             )
             .map((book) => (
               <div

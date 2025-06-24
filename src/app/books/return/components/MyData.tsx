@@ -1,10 +1,13 @@
 "use client";
 
-import Image from "next/image";
 import style from "../style/return.module.scss";
+import dayjs from "dayjs";
 
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { useAtom } from "jotai";
+import { logedInUserAtom } from "@/src/atoms/atoms";
+import { RentalBookItem } from "./RentalBook";
 
 // types.ts などに
 export type Rental = {
@@ -28,9 +31,9 @@ export type Rental = {
 export type RentalList = Rental[];
 
 export const MyData = () => {
-  const [userId, setUserId] = useState<string>("");
   const router = useRouter();
   const [rental, SetRental] = useState<RentalList>();
+  const [loginUser] = useAtom(logedInUserAtom);
 
   useEffect(() => {
     const rentalBooks = localStorage.getItem("rentalBooks");
@@ -48,29 +51,18 @@ export const MyData = () => {
     })();
   }, []);
 
-  // ユーザーID取得（localStorageから）
-  useEffect(() => {
-    const storedUser = localStorage.getItem("loginUser");
-    if (storedUser) {
-      try {
-        const parsed = JSON.parse(storedUser);
-        if (parsed?.id) setUserId(parsed.id);
-      } catch (e) {
-        console.error("loginUser JSON parse error:", e);
-      }
-    }
-  }, []);
-
   const getReturnDay = (returnDate: string) => {
-    const returnDateObj = new Date(returnDate); // 返却日の日付
-    returnDateObj.setHours(0, 0, 0, 0);
+    const returnDateObj = dayjs(returnDate);
+    const returnData =  returnDateObj.format("YYYY/MM/DD");
+    return returnData
+  };
 
-    // YYYY/M/D の形式に整形
-    const year = returnDateObj.getFullYear();
-    const month = returnDateObj.getMonth() + 1;
-    const day = returnDateObj.getDate();
+  const getUserRentalBooks = () => {
+    if (!rental || !loginUser?.uid) return [];
 
-    return `${year}/${month}/${day}`;
+    return rental.filter(
+      (book) => book.users.id === loginUser.uid && book.isReturned === false
+    );
   };
 
   const onLink = (isbn: string, returnDate: string) => {
@@ -84,53 +76,23 @@ export const MyData = () => {
     return <p>読み込み中...</p>;
   }
 
+
+  const userRentalBooks = getUserRentalBooks();
+
   return (
     <div>
       <div className={style.contents}>
-        {rental &&
-        rental.filter(
-          (book) => book.users.id === userId && book.isReturned === false
-        ).length === 0 ? (
+        {userRentalBooks.length === 0 ? (
           <p className={style.noRental}>貸し出し中の本はありません</p>
         ) : (
-          rental
-            ?.filter(
-              (book) => book.users.id === userId && book.isReturned === false
-            )
-            .map((book) => (
-              <div
-                key={book.id}
-                className={style.content}
-                onClick={() => onLink(book.books.isbn, book.return_date)} // 返却日も渡す
-              >
-                <Image
-                  src={book.users.icon}
-                  alt="librariumのアイコン"
-                  width={57}
-                  height={57}
-                  className={style.icon}
-                />
-                <div className={style.text}>
-                  <p className={style.bookName}>{book.books.title}</p>
-                  <p className={style.return}>
-                    返却期限：
-                    <span className={style.returnTime}>
-                      {getReturnDay(book.return_date)}
-                    </span>
-                  </p>
-                  <p className={style.userName}>
-                    {`${book.users.studentId}　${book.users.name}`}
-                  </p>
-                </div>
-                <Image
-                  src={book.books.thumbnail}
-                  alt="librariumの本のアイコン"
-                  width={60}
-                  height={90}
-                  className={style.BookIcon}
-                />
-              </div>
-            ))
+          userRentalBooks.map((book) => (
+            <RentalBookItem
+              key={book.id}
+              book={book}
+              onLink={onLink}
+              getReturnDay={getReturnDay}
+            />
+          ))
         )}
       </div>
     </div>
