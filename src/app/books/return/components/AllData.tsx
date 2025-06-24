@@ -4,7 +4,6 @@ import style from "../style/return.module.scss";
 import dayjs from "dayjs";
 import { useAtom } from "jotai";
 import { rentalAtom } from "@/src/atoms/atoms";
-import { useRouter } from "next/navigation";
 import { RentalBookItem } from "./RentalBook";
 
 // types.ts などに
@@ -30,9 +29,6 @@ export type RentalList = Rental[];
 
 export const AllData = () => {
   const [rentalList] = useAtom(rentalAtom);
-
-  const router = useRouter();
-
   // 返却日を「あと〇日」形式に変換する関数
   const getReturnDay = (returnDate: string) => {
     const returnDateObj = dayjs(returnDate);
