@@ -13,7 +13,7 @@ export function AuthPage() {
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider: "google",
       options: {
-        redirectTo: `${process.env.NEXT_PUBLIC_BASE_URL}/auth/register`,
+        redirectTo: `${process.env.NEXT_PUBLIC_BASE_URL}`,
       },
     });
     if (error) {
