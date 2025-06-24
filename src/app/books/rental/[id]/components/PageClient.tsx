@@ -5,6 +5,7 @@ import { Book } from "@/src/types";
 import { RentBtn } from "./RentBtn";
 import { LoanPeriod } from "./LoanPeriod";
 import { useEffect, useState } from "react";
+import LoadingBrown from "@/src/components/LoadingBrown";
 
 export default function PageClient({ id }: { id: string }) {
   const [book, setBook] = useState<Book>();
@@ -39,7 +40,7 @@ export default function PageClient({ id }: { id: string }) {
 
   // bookがnullの場合はローディング表示
   if (!book) {
-    return <div>読み込み中...</div>;
+    return <LoadingBrown />;
   }
 
   return (

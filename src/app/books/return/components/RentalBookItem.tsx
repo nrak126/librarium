@@ -1,34 +1,19 @@
 import Image from "next/image";
 import style from "../style/return.module.scss";
-export type Rental = {
-  id: string;
-  users: {
-    id: string;
-    icon: string;
-    studentId: string;
-    name: string;
-  };
-  books: {
-    isbn: string;
-    title: string;
-    thumbnail: string;
-  };
-  return_date: string;
-  isReturned: boolean;
-};
+import { RentalList } from "@/src/types";
 
 type Props = {
-  book: Rental;
+  rental: RentalList;
   isAllData?: boolean;
-  onLink?: (isbn: string, returnDate: string) => void;
+  onLink?: (isbn: string, returnDate: string, loanId: string) => void;
   getReturnDay: (returnDate: string) => string;
 };
 
 export const RentalBookItem: React.FC<Props> = (props) => {
-  const { book, isAllData, onLink, getReturnDay } = props;
+  const { rental, isAllData, onLink, getReturnDay } = props;
 
   const isOver = (() => {
-    const returnDate = new Date(book.return_date);
+    const returnDate = new Date(rental.return_date);
     const today = new Date();
 
     // 時刻部分をリセット（00:00:00に設定）
@@ -40,33 +25,35 @@ export const RentalBookItem: React.FC<Props> = (props) => {
 
   return (
     <div
-      key={book.id}
+      key={rental.id}
       className={`${style.content} ${!isAllData ? style.allData : ""}`}
       onClick={
-        onLink ? () => onLink(book.books.isbn, book.return_date) : undefined
+        onLink
+          ? () => onLink(rental.books.isbn, rental.return_date, rental.id)
+          : undefined
       }
     >
       <Image
-        src={book.users.icon}
+        src={rental.users.icon}
         alt="librariumのアイコン"
         width={57}
         height={57}
         className={style.icon}
       />
       <div className={style.text}>
-        <p className={style.bookName}>{book.books.title}</p>
+        <p className={style.bookName}>{rental.books.title}</p>
         <p className={`${style.return} ${isOver ? style.over : ""}`}>
           返却期限：
           <span className={style.returnTime}>
-            {getReturnDay(book.return_date)}
+            {getReturnDay(rental.return_date)}
           </span>
         </p>
         <p className={`${style.userName} ${isAllData ? style.allUser : ""}`}>
-          {`${book.users.studentId}　${book.users.name}`}
+          {`${rental.users.studentId}　${rental.users.name}`}
         </p>
       </div>
       <Image
-        src={book.books.thumbnail}
+        src={rental.books.thumbnail}
         alt="librariumの本のアイコン"
         width={60}
         height={90}

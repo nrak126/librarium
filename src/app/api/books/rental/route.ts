@@ -5,7 +5,6 @@ import { NextResponse } from "next/server";
 export async function POST(request: Request) {
   try {
     const { isbn, uid, loanPeriod } = await request.json();
-    console.log("isbn:", isbn, uid, loanPeriod);
 
     const { data: book, error: bookFetchError } = await supabase
       .from("books")
@@ -37,7 +36,6 @@ export async function POST(request: Request) {
     if (loanError) {
       throw loanError;
     }
-    console.log("Created loan:", data);
     return NextResponse.json(data, { status: 201 });
   } catch (error) {
     console.error("Error creating loan:", error);

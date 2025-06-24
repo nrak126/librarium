@@ -12,7 +12,7 @@ import dayjs from "dayjs";
 
 export const RentalTime: React.FC = () => {
   const [loading, setLoading] = useState(false);
-  const [rental] = useAtom(rentalAtom); // useAtom を使用
+  const [rentals] = useAtom(rentalAtom); // useAtom を使用
   const [loginUser] = useAtom(logedInUserAtom); // ログインユーザーを取得
 
   const router = useRouter();
@@ -40,10 +40,11 @@ export const RentalTime: React.FC = () => {
   };
 
   const getUserRentalBooks = () => {
-    if (!rental || !loginUser?.uid) return [];
+    if (!rentals || !loginUser?.uid) return [];
 
-    return rental.filter(
-      (book) => book.users.id === loginUser.uid && book.isReturned === false
+    return rentals.filter(
+      (rental) =>
+        rental.users.id === loginUser.uid && rental.isReturned === false
     );
   };
 
@@ -53,12 +54,14 @@ export const RentalTime: React.FC = () => {
     return returnDateObj.format("YYYY/MM/DD");
   };
 
-  const onLink = (isbn: string, returnDate: string) => {
+  const onLink = (isbn: string, returnDate: string, loanId: string) => {
     try {
       setLoading(true);
       const formattedDate = getReturnDay(returnDate); // YYYY/M/D に変換
       router.push(
-        `books/return/${isbn}?returnDate=${encodeURIComponent(formattedDate)}`
+        `books/return/${isbn}?returnDate=${encodeURIComponent(
+          formattedDate
+        )}&loanId=${loanId}`
       );
     } catch {
       <p>失敗</p>;
@@ -76,51 +79,55 @@ export const RentalTime: React.FC = () => {
         {userRentalBooks.length === 0 ? (
           <p className={style.noRental}>貸し出し中の本はありません</p>
         ) : (
-          rental
+          rentals
             ?.filter(
-              (book) =>
-                book.users.id === loginUser?.uid && book.isReturned === false
+              (rental) =>
+                rental.users.id === loginUser?.uid &&
+                rental.isReturned === false
             )
-            .map((book) => (
+            .map((rental) => (
               <div
-                key={book.id}
+                key={rental.id}
                 className={style.content}
-                onClick={() => onLink(book.books.isbn, book.return_date)}
+                onClick={() =>
+                  onLink(rental.books.isbn, rental.return_date, rental.id)
+                }
               >
                 <div className={style.main}>
                   <Image
                     className={style.img}
-                    src={book.books.thumbnail} // 本のサムネイルを表示
+                    src={rental.books.thumbnail} // 本のサムネイルを表示
                     width={90}
                     height={130}
-                    alt={book.books.title} // 本のタイトルをaltに
+                    alt={rental.books.title} // 本のタイトルをaltに
                   />
                 </div>
 
                 <div className={style.text}>
-                  <p className={style.bookName}>{book.books.title}</p>
+                  <p className={style.bookName}>{rental.books.title}</p>
                   <p
                     className={`${style.return} ${
-                      getRemainingDays(book.return_date).includes("期限切れ")
+                      getRemainingDays(rental.return_date).includes("期限切れ")
                         ? style.expiredDay
                         : ""
                     }`}
                   >
                     返却期限：
                     <span className={style.returnTime}>
-                      {getReturnDay(book.return_date)} {/* 返却期限を表示 */}
+                      {getReturnDay(rental.return_date)} {/* 返却期限を表示 */}
                     </span>
                   </p>
                   <p
                     className={`${style.day} ${
-                      getRemainingDays(book.return_date).includes("期限切れ")
+                      getRemainingDays(rental.return_date).includes("期限切れ")
                         ? style.expired
-                        : getRemainingDays(book.return_date).includes("本日")
+                        : getRemainingDays(rental.return_date).includes("本日")
                         ? style.dueToday
                         : ""
                     }`}
                   >
-                    {getRemainingDays(book.return_date)} {/* 残り日数を表示 */}
+                    {getRemainingDays(rental.return_date)}{" "}
+                    {/* 残り日数を表示 */}
                   </p>
                 </div>
               </div>

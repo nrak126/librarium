@@ -4,8 +4,18 @@ import { NextResponse } from "next/server";
 // POST: 返却処理を行う
 export async function POST(request: Request) {
   try {
-    const { isbn, uid } = await request.json();
-    console.log("isbn:", isbn, uid);
+    const { isbn, loanId } = await request.json();
+
+    const { data, error: loanError } = await supabase
+      .from("loans")
+      .update({
+        isReturned: true,
+        return_date: new Date().toISOString(),
+      })
+      .eq("id", loanId);
+    if (loanError) {
+      throw loanError;
+    }
 
     const { data: book, error: bookFetchError } =  await supabase
     .from("books")
@@ -23,19 +33,6 @@ export async function POST(request: Request) {
     if (bookError) {
       throw bookError;
     }
-
-    const { data, error: loanError } = await supabase
-      .from("loans")
-      .update({
-        isReturned: true,
-        return_date: new Date().toISOString(),
-      })
-      .eq("isbn", isbn)
-      .eq("uid", uid);
-    if (loanError) {
-      throw loanError;
-    }
-    console.log("Updated loan:", data);
     return NextResponse.json(data, { status: 200 });
   } catch (error) {
     console.error("Error updating loan:", error);
