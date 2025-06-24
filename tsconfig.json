@@ -30,5 +30,5 @@
     ".next/types/**/*.ts",
     "src/lib/firebase.ts"
   ],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules", "src-tauri/target"]
 }
