@@ -7,28 +7,21 @@ import { BackBtn } from "../components/BackBtn";
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import LoadingBrown from "@/src/components/LoadingBrown";
+import { booksAtom } from "@/src/atoms/atoms";
+import { useAtom } from "jotai";
 
 export const PageClient = () => {
   const pathname = usePathname();
   const isbn = pathname.split("/").pop() ?? "";
+  const [books] = useAtom(booksAtom);
+  const [book, setBook] = useState<Book | null>();
 
-  const [book, setBook] = useState<Book[] | null>();
-
-  // 本のデータ取得（キャッシュ優先）
   useEffect(() => {
-    const cached = localStorage.getItem(`books-${isbn}`);
-    if (cached) {
-      setBook([JSON.parse(cached)]);
-      return;
-    }
+    if (!books || !isbn) return;
 
-    (async () => {
-      const res = await fetch(`/api/books/${isbn}`);
-      const data = await res.json();
-      setBook([data]);
-      localStorage.setItem(`book-${isbn}`, JSON.stringify(data));
-    })();
-  }, [isbn]);
+    const cached = books.find((book) => book.isbn === isbn);
+    setBook(cached || null);
+  }, [books, isbn]);
 
   if (!book) {
     return <LoadingBrown />;
@@ -36,7 +29,7 @@ export const PageClient = () => {
 
   return (
     <div>
-      {book && <BookInfo book={book[0]} />}
+      {book && <BookInfo book={book} />}
       <div style={{ margin: "20px" }}>
         <BackBtn />
       </div>

@@ -12,15 +12,6 @@ import { booksAtom } from "@/src/atoms/atoms";
 import LoadingBrown from "@/src/components/LoadingBrown";
 
 export const BookRegister = ({ isbn }: { isbn: string }) => {
-  // ISBNがない場合は何もしない
-  // if (!isbn || (isbn.length !== 10 && isbn.length !== 13)) {
-  //   return <p>有効なISBN（10桁または13桁）を入力してください。</p>;
-  // }
-
-  // if (isbn.startsWith("978") && isbn.startsWith("979")) {
-  //   return <p>ISBNではありません</p>;
-  // }
-
   const [book, setBook] = useState<Book | null>(null);
   const [selectedGenres, setSelectedGenres] = useState<string[]>([]);
   const [, setBooks] = useAtom(booksAtom);
@@ -77,10 +68,6 @@ export const BookRegister = ({ isbn }: { isbn: string }) => {
       // ✅ Atom に新しい本を追加したあとloacalstrageに追加
       setBooks((prevBooks) => {
         const updatedBooks = [...(prevBooks ?? []), book];
-
-        // localStorage に保存
-        localStorage.setItem("books", JSON.stringify(updatedBooks));
-
         return updatedBooks;
       });
 
