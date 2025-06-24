@@ -53,8 +53,8 @@ export const MyData = () => {
 
   const getReturnDay = (returnDate: string) => {
     const returnDateObj = dayjs(returnDate);
-
-    return returnDateObj.format("YYYY/MM/DD");
+    const returnData =  returnDateObj.format("YYYY/MM/DD");
+    return returnData
   };
 
   const getUserRentalBooks = () => {
@@ -75,6 +75,7 @@ export const MyData = () => {
   if (!rental) {
     return <p>読み込み中...</p>;
   }
+
 
   const userRentalBooks = getUserRentalBooks();
 
