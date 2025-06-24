@@ -6,7 +6,7 @@ import dayjs from "dayjs";
 import { useRouter } from "next/navigation";
 import { useAtom } from "jotai";
 import { logedInUserAtom, rentalAtom } from "@/src/atoms/atoms";
-import { RentalBookItem } from "./RentalBook";
+import { RentalBookItem } from "./RentalBookItem";
 
 // types.ts などに
 export type Rental = {
@@ -43,15 +43,15 @@ export const MyData = () => {
   const getUserRentalBooks = () => {
     if (!rental || !loginUser?.uid) return [];
 
-    return rental.filter(
-      (book) => book.users.id === loginUser.uid
-    );
+    return rental.filter((book) => book.users.id === loginUser.uid);
   };
 
-  const onLink = (isbn: string, returnDate: string) => {
+  const onLink = (isbn: string, returnDate: string, loanId: string) => {
     const formattedDate = getReturnDay(returnDate); // YYYY/M/D に変換
     router.push(
-      `./return/${isbn}?returnDate=${encodeURIComponent(formattedDate)}`
+      `./return/${isbn}?returnDate=${encodeURIComponent(
+        formattedDate
+      )}&loanId=${loanId}`
     );
   };
 
@@ -67,10 +67,10 @@ export const MyData = () => {
         {userRentalBooks.length === 0 ? (
           <p className={style.noRental}>貸し出し中の本はありません</p>
         ) : (
-          userRentalBooks.map((book) => (
+          userRentalBooks.map((rental) => (
             <RentalBookItem
-              key={book.id}
-              book={book}
+              key={rental.id}
+              rental={rental}
               onLink={onLink}
               getReturnDay={getReturnDay}
             />

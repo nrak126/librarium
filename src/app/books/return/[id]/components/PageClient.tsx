@@ -14,18 +14,19 @@ import { booksAtom, logedInUserAtom } from "@/src/atoms/atoms";
 export const PageClient = () => {
   const searchParams = useSearchParams();
   const returnDate = searchParams.get("returnDate");
+  const loanId = searchParams.get("loanId");
   const pathname = usePathname();
   const isbn = pathname.split("/").pop() ?? "";
 
   const [book, setBook] = useState<Book | null>(null);
-  const [loginUser] = useAtom(logedInUserAtom);
   const [, setLoading] = useState(true);
+  const [loan, setLoan] = useState(null);
+  const [loginUser] = useAtom(logedInUserAtom);
   const [books] = useAtom(booksAtom);
 
   // 本のデータ取得（キャッシュ優先）
   useEffect(() => {
     if (!books || !isbn) return;
-
     const cached = books.find((book) => book.isbn === isbn);
     if (cached) {
       setBook(cached);
@@ -34,6 +35,10 @@ export const PageClient = () => {
       // キャッシュにない場合の処理（必要に応じて）
       setLoading(false);
     }
+    (async () => {
+      const loanData = await fetch(`/api/loans/${loanId}`);
+      setLoan(await loanData.json());
+    })();
   }, [isbn, books]);
 
   // ログインユーザーがいない場合
@@ -45,17 +50,15 @@ export const PageClient = () => {
     );
   }
 
-  if (!isbn || !book) {
+  if (!isbn || !book || !loan) {
     return <LoadingBrown />;
   }
-
-  const uid = loginUser.uid;
 
   return (
     <div className={styles.contents}>
       {<BookInfo book={book} />}
       <p className={styles.Day}>返却期限：{returnDate ?? "不明"}</p>
-      <ReturnBtn isbn={isbn} uid={uid} />
+      <ReturnBtn loan={loan} isbn={isbn} loanId={loanId} />
     </div>
   );
 };
