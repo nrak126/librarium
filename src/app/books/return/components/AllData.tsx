@@ -24,7 +24,6 @@ export type Rental = {
   isReturned: boolean;
 };
 
-// ✅ Rental の配列にする
 export type RentalList = Rental[];
 
 export const AllData = () => {

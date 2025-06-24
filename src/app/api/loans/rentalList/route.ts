@@ -5,11 +5,17 @@ import { supabase } from "@/src/lib/supabase";
 // GET: loansのリストを取得する
 export async function GET() {
   try {
-    const { data, error } = await supabase.from("loans").select(`
+    const { data, error } = await supabase
+      .from("loans")
+      .select(
+        `
         *,
         books(*),
         users(*)
-      `);
+      `
+      )
+      .eq("isReturned", false)
+      .order("created_at", { ascending: false });
 
     if (error) {
       throw error;

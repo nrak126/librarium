@@ -44,7 +44,7 @@ export const MyData = () => {
     if (!rental || !loginUser?.uid) return [];
 
     return rental.filter(
-      (book) => book.users.id === loginUser.uid && book.isReturned === false
+      (book) => book.users.id === loginUser.uid
     );
   };
 
