@@ -4,9 +4,8 @@ import style from "../style/return.module.scss";
 import dayjs from "dayjs";
 
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
 import { useAtom } from "jotai";
-import { logedInUserAtom } from "@/src/atoms/atoms";
+import { logedInUserAtom, rentalAtom } from "@/src/atoms/atoms";
 import { RentalBookItem } from "./RentalBook";
 
 // types.ts などに
@@ -32,29 +31,13 @@ export type RentalList = Rental[];
 
 export const MyData = () => {
   const router = useRouter();
-  const [rental, SetRental] = useState<RentalList>();
+  const [rental] = useAtom(rentalAtom);
   const [loginUser] = useAtom(logedInUserAtom);
-
-  useEffect(() => {
-    const rentalBooks = localStorage.getItem("rentalBooks");
-    if (rentalBooks) {
-      const parsed: RentalList = JSON.parse(rentalBooks);
-      SetRental(parsed);
-      return;
-    }
-
-    (async () => {
-      const res = await fetch(`/api/books/rental`);
-      const data = await res.json();
-      SetRental(data);
-      localStorage.setItem(`rentalBooks`, JSON.stringify(data));
-    })();
-  }, []);
 
   const getReturnDay = (returnDate: string) => {
     const returnDateObj = dayjs(returnDate);
-    const returnData =  returnDateObj.format("YYYY/MM/DD");
-    return returnData
+    const returnData = returnDateObj.format("YYYY/MM/DD");
+    return returnData;
   };
 
   const getUserRentalBooks = () => {
@@ -75,7 +58,6 @@ export const MyData = () => {
   if (!rental) {
     return <p>読み込み中...</p>;
   }
-
 
   const userRentalBooks = getUserRentalBooks();
 

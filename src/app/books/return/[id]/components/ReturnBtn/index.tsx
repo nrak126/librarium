@@ -28,12 +28,7 @@ export function ReturnBtn(props: Props) {
 
     setReturn((prev) => {
       if (!prev) return prev;
-
       const updated = prev.filter((book) => book.isbn !== isbn);
-
-      // localStorage も更新
-      localStorage.setItem("rentalBooks", JSON.stringify(updated));
-
       return updated;
     });
 

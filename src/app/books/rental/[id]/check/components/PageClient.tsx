@@ -8,6 +8,8 @@ import { BookCard } from "@/src/components/book/BookCard";
 import { Btn } from "@/src/components/book/Btn";
 import { useRouter } from "next/navigation";
 import LoadingBrown from "@/src/components/LoadingBrown";
+import { useAtom } from "jotai";
+import { booksAtom } from "@/src/atoms/atoms";
 
 export default function PageClient() {
   const [book, setBook] = useState<Book | null>();
@@ -18,24 +20,13 @@ export default function PageClient() {
   const seachParams = useSearchParams();
   const loanPeriodStr = seachParams.get("q") || "";
   const loanPeriod = Number(loanPeriodStr);
+  const [books] = useAtom(booksAtom);
 
   // 本のデータ取得（キャッシュ優先）
   useEffect(() => {
-    const cached = localStorage.getItem(`books-${isbn}`);
-    if (cached) {
-      const parsed: Book = JSON.parse(cached);
-      setBook(parsed);
-
-      return;
-    }
-
-    (async () => {
-      const res = await fetch(`/api/books/${isbn}`);
-      const data = await res.json();
-      setBook(data);
-      localStorage.setItem(`books-${isbn}`, JSON.stringify(data));
-    })();
-  }, [isbn]);
+    const cached = books?.find((book) => book.isbn === isbn);
+    setBook(cached || null);
+  }, [isbn, books]);
 
   const handleConfirm = () => {
     router.push("/");
