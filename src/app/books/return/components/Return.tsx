@@ -24,9 +24,6 @@ export const Return = () => {
   };
 
   useEffect(() => {
-    // // 初回データ取得
-    // fetchRentalData();
-
     // Supabaseのリアルタイム監視を設定
     const channel = supabase
       .channel("realtime-rentals")

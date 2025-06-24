@@ -1,28 +1,33 @@
 "use client";
 
-import { Header } from "../../components/Header";
-import style from "../styles/layout.module.scss";
 import { usePathname } from "next/navigation";
+import style from "../styles/layout.module.scss";
 import React from "react";
 
-export const LayoutClient: React.FC<{ children: React.ReactNode }> = ({
+export default function LayoutClient({
   children,
-}) => {
+}: {
+  children: React.ReactNode;
+}) {
   const pathname = usePathname();
-  const isBookCheck =
-    pathname === "/books/add/barcode" || pathname === "/books/rental/barcode";
+
+  // スタイルを適用しないパス
   const isAuth = pathname === "/auth" || pathname.startsWith("/auth/");
+  const isBarcode =
+    pathname === "/books/add/barcode" || pathname === "/books/rental/barcode";
+
+  // 通常のレイアウトスタイルを適用するかどうか
+  const shouldApplyLayout = !isAuth && !isBarcode;
+
+  if (!shouldApplyLayout) {
+    return <main>{children}</main>;
+  }
 
   return (
-    <div className={isAuth ? undefined : style.background}>
-      {!isAuth && <Header />}
-      <div className={isAuth || isBookCheck ? undefined : style.main}>
-        <main
-          className={isAuth || isBookCheck ? undefined : style.mainContents}
-        >
-          {children}
-        </main>
+    <div className={style.background}>
+      <div className={style.main}>
+        <main className={style.mainContents}>{children}</main>
       </div>
     </div>
   );
-};
+}
