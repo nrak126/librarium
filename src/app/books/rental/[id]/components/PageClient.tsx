@@ -5,6 +5,7 @@ import { Book } from "@/src/types";
 import { RentBtn } from "./RentBtn";
 import { LoanPeriod } from "./LoanPeriod";
 import { useState } from "react";
+import styles from "./index.module.scss";
 
 
 export default function PageClient({ book }: { book: Book }) {
@@ -12,8 +13,9 @@ export default function PageClient({ book }: { book: Book }) {
   return (
     <>
       <BookInfo book={book} />
-			<LoanPeriod setLoanPeriod={setLoanPeriod} />
-			<RentBtn book={book} loanPeriod={loanPeriod} />
+      <p className={styles.Text}>貸出期限</p>
+      <LoanPeriod setLoanPeriod={setLoanPeriod} />
+      <RentBtn book={book} loanPeriod={loanPeriod} />
     </>
   );
 }
