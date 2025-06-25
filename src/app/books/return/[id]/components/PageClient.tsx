@@ -39,7 +39,7 @@ export const PageClient = () => {
       const loanData = await fetch(`/api/loans/${loanId}`);
       setLoan(await loanData.json());
     })();
-  }, [isbn, books]);
+  }, [isbn, books, loanId]);
 
   // ログインユーザーがいない場合
   if (!loginUser) {

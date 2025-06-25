@@ -99,7 +99,7 @@ const PageContent = () => {
     return () => {
       supabase.removeChannel(channel);
     };
-  }, []); // 依存配列を空に変更
+  }, []); // 空の依存配列でマウント時のみ実行
 
   // 検索フィルタリング処理
   useEffect(() => {
