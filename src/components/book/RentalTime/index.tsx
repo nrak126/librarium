@@ -9,6 +9,7 @@ import LoadingBrown from "../../LoadingBrown";
 import { useAtom } from "jotai";
 import { logedInUserAtom, rentalAtom } from "@/src/atoms/atoms";
 import dayjs from "dayjs";
+import NotFound from "@/public/bookNot.svg";
 
 export const RentalTime: React.FC = () => {
   const [loading, setLoading] = useState(false);
@@ -96,7 +97,7 @@ export const RentalTime: React.FC = () => {
                 <div className={style.main}>
                   <Image
                     className={style.img}
-                    src={rental.books.thumbnail} // 本のサムネイルを表示
+                    src={rental.books.thumbnail || NotFound} // 本のサムネイルを表示
                     width={90}
                     height={130}
                     alt={rental.books.title} // 本のタイトルをaltに
