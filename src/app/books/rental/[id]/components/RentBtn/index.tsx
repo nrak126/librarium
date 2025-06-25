@@ -6,14 +6,18 @@ import styles from "./index.module.scss";
 import { useAtom } from "jotai";
 import { logedInUserAtom, rentalAtom } from "@/src/atoms/atoms";
 import { useRouter } from "next/navigation";
-import Link from "next/link";
+import { useState } from "react";
 
 export function RentBtn({
   book,
   loanPeriod,
+  error,
+  setError,
 }: {
   book: Book;
   loanPeriod: number;
+  error: boolean;
+  setError: (value: boolean) => void;
 }) {
   const router = useRouter();
   const isAvailableRental = book.available > 0;
@@ -48,28 +52,34 @@ export function RentBtn({
 
   const handleClick = async () => {
     if (!loanPeriod) {
-      alert("貸出期間を選択してください");
+      setError(true);
       return;
     }
+    setError(false);
     await handleRent();
     router.push(`/books/rental/${book.isbn}/check?q=${loanPeriod}`);
   };
 
   return (
-    <div>
+    <div className={styles.rentalButtonWrapper}>
       <div className={styles.rentalButton}>
-        <div className={styles.back}>
-          <Btn text="戻る" bgColor="#99C6E2" onClick={handleBack} />
-        </div>
-        {isAvailableRental ? (
-          <div className={styles.rental}>
-            <Btn text="借りる" bgColor="#E2999B" onClick={handleClick} />
-          </div>
-        ) : (
-          <div className={styles.available}>
-            <Btn text="貸出中" bgColor="#aaaaaa" />
-          </div>
+        {error && (
+          <div className={styles.erroMessage}>※ 貸出期間を選択してください</div>
         )}
+        <div className={styles.buttonRow}>
+          <div className={styles.back}>
+            <Btn text="戻る" bgColor="#99C6E2" onClick={handleBack} />
+          </div>
+          {isAvailableRental ? (
+            <div className={styles.rental}>
+              <Btn text="借りる" bgColor="#E2999B" onClick={handleClick} />
+            </div>
+          ) : (
+            <div className={styles.available}>
+              <Btn text="貸出中" bgColor="#aaaaaa" />
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
