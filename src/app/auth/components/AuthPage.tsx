@@ -31,20 +31,21 @@ export function AuthPage() {
         className={styles.background}
         priority
       />
+      <div className={styles.background}>
+        <div className={styles.whole}>
+          <Image
+            src={Icon}
+            alt={"librariumのアイコン"}
+            width={230}
+            height={230}
+            className={styles.icon}
+            priority
+          />
 
-      <div className={styles.whole}>
-        <Image
-          src={Icon}
-          alt={"librariumのアイコン"}
-          width={230}
-          height={230}
-          className={styles.icon}
-          priority
-        />
-
-        <button onClick={handleLogin} className={styles.loginBtn}>
-          {"ログイン"}
-        </button>
+          <button onClick={handleLogin} className={styles.loginBtn}>
+            {"ログイン"}
+          </button>
+        </div>
       </div>
     </div>
   );
