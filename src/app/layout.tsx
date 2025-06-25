@@ -1,7 +1,7 @@
-import { LayoutClient } from "./components/LayoutClient"; // 別ファイルからインポート
 import "./styles/globals.css";
 import React from "react";
 import { Almarai } from "next/font/google";
+import ConditionalHeader from "./components/ConditionalHeader";
 
 export const metadata = {
   title: "Librarium",
@@ -11,6 +11,7 @@ export const metadata = {
     icon: "/favicon.ico",
   },
 };
+
 const font = Almarai({
   weight: "400",
   subsets: ["latin"],
@@ -22,7 +23,8 @@ export default function RootLayout({
   return (
     <html lang="ja">
       <body className={font.className}>
-        <LayoutClient>{children}</LayoutClient>
+        <ConditionalHeader />
+        <main>{children}</main>
       </body>
     </html>
   );

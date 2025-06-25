@@ -32,7 +32,12 @@ export const NavSlide: React.FC = () => {
   };
 
   return (
-    <div style={{ position: "relative", width: "100%" }}>
+    <div
+      style={{
+        position: "relative",
+        width: "100%",
+      }}
+    >
       <Swiper
         className="swiper-container"
         spaceBetween={15} // アイコン間の隙間
@@ -47,7 +52,10 @@ export const NavSlide: React.FC = () => {
       >
         {iconData.map((icon) => (
           <SwiperSlide key={icon.id}>
-            <div onClick={() => onLink(icon.link)}>
+            <div
+              style={{ textAlign: "center" }}
+              onClick={() => onLink(icon.link)}
+            >
               <NavIcon name={icon.name} iconUrl={icon.iconUrl} />
             </div>
           </SwiperSlide>
