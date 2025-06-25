@@ -10,7 +10,6 @@ import { useAtom } from "jotai";
 import { booksAtom } from "@/src/atoms/atoms";
 import LoadingBrown from "@/src/components/LoadingBrown";
 import { IndustryIdentifier } from "@/src/types/book";
-import NotFound from "@/public/bookNot.svg";
 
 export const BookRegister = ({ isbn }: { isbn: string }) => {
   const [book, setBook] = useState<Book | null>(null);
@@ -59,10 +58,11 @@ export const BookRegister = ({ isbn }: { isbn: string }) => {
               ? volumeInfo.authors.join(", ")
               : "著者情報がありません",
             description: volumeInfo.description || "説明がありません",
-            thumbnail: volumeInfo.imageLinks?.thumbnail || NotFound,
+            thumbnail: volumeInfo.imageLinks?.thumbnail || "",
             publisher: volumeInfo.publisher || "出版会社情報がありません",
             stock: 1,
             available: 1,
+            tags: [],
             created_at: new Date().toISOString(),
           };
         }
@@ -92,13 +92,11 @@ export const BookRegister = ({ isbn }: { isbn: string }) => {
             author: item.author || "著者情報がありません",
             description: item.itemCaption || "説明がありません",
             thumbnail:
-              item.largeImageUrl ||
-              item.mediumImageUrl ||
-              item.smallImageUrl ||
-              NotFound,
+              item.largeImageUrl || item.mediumImageUrl || item.smallImageUrl,
             publisher: item.publisherName || "出版会社情報がありません",
             stock: 1,
             available: 1,
+            tags: [],
             created_at: new Date().toISOString(),
           };
         }
@@ -140,10 +138,11 @@ export const BookRegister = ({ isbn }: { isbn: string }) => {
             author: summary.author || "著者情報がありません",
             description:
               summary.series || summary.volume || detail || "説明がありません",
-            thumbnail: summary.cover || NotFound,
+            thumbnail: summary.cover,
             publisher: summary.publisher || "出版会社情報がありません",
             stock: 1,
             available: 1,
+            tags: [],
             created_at: new Date().toISOString(),
           };
         }

@@ -1,6 +1,7 @@
 import Image from "next/image";
 import style from "../style/return.module.scss";
 import { RentalList } from "@/src/types";
+import NotFound from "@/public/bookNot.svg";
 
 type Props = {
   rental: RentalList;
@@ -49,11 +50,11 @@ export const RentalBookItem: React.FC<Props> = (props) => {
           </span>
         </p>
         <p className={`${style.userName} ${isAllData ? style.allUser : ""}`}>
-          {`${rental.users.studentId}　${rental.users.name}`}
+          {`${rental.users.studentId} ${rental.users.name}`}
         </p>
       </div>
       <Image
-        src={rental.books.thumbnail}
+        src={rental.books.thumbnail || NotFound}
         alt="librariumの本のアイコン"
         width={60}
         height={90}
