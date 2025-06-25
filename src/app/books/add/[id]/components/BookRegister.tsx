@@ -171,6 +171,11 @@ export const BookRegister = ({ isbn }: { isbn: string }) => {
         fetchedBook = await fetchFromOpenBD(isbn);
       }
 
+      if (!fetchedBook) {
+        console.log("すべてのAPIで本が見つかりませんでした。  ");
+        return null;
+      }
+
       return fetchedBook;
     },
     [fetchFromGoogle, fetchFromRakuten, fetchFromOpenBD]
@@ -220,14 +225,17 @@ export const BookRegister = ({ isbn }: { isbn: string }) => {
     }
   };
 
-  if (notFound) {
-    return (
-      <p>指定されたISBNの本が見つかりませんでした。ISBNを確認してください。</p>
-    );
-  }
-
   if (loading) {
     return <LoadingBrown />;
+  }
+
+  if (notFound) {
+    return (
+      <p>
+        指定されたISBN（{isbn}
+        ）の本が見つかりませんでした。ISBNを確認してください。
+      </p>
+    );
   }
 
   return (
