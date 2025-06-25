@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import axios from "axios";
 import { IndustryIdentifier } from "@/src/types/book"; // IndustryIdentifier 型をインポート
+import { console } from "inspector";
 
 const apiKey = process.env.GOOGLE_API_KEY;
 if (!apiKey) {
@@ -36,6 +37,7 @@ async function fetchFromGoogle(isbn: string) {
       isMatched
     ) {
       const volumeInfo = response.data.items[0].volumeInfo;
+
       return {
         isbn: isbn,
         created_at: new Date().toISOString(),
@@ -51,7 +53,6 @@ async function fetchFromGoogle(isbn: string) {
         publisher: volumeInfo.publisher || "出版会社情報がありません",
       };
     }
-    return null;
   } catch {
     return null;
   }
@@ -59,6 +60,7 @@ async function fetchFromGoogle(isbn: string) {
 
 // 楽天Books API
 async function fetchFromRakuten(isbn: string) {
+  console.log("Google Booksからのデータに失敗:");
   try {
     const response = await axios.get(
       `https://app.rakuten.co.jp/services/api/BooksBook/Search/20170404?format=json&isbn=${isbn}&applicationId=${process.env.NEXT_PUBLIC_RAKUTEN_BOOKS_APP_ID}`
@@ -87,7 +89,9 @@ async function fetchFromRakuten(isbn: string) {
 
 // openBD APIから本の情報を取得する関数
 async function fetchFromOpenBD(isbn: string) {
+  console.log("楽天からの取得に失敗");
   let thumbnail = "";
+  console.log("openBDからの取得中:");
   try {
     const response = await axios.get(
       `https://api.openbd.jp/v1/get?isbn=${isbn}&pretty`
@@ -117,7 +121,7 @@ async function fetchFromOpenBD(isbn: string) {
                 thumbnailには、書籍の表紙画像のURLを設定してください。
                 # 情報が見つからない場合のルール
                 書籍情報の一部が見つからない場合は、以下のデフォルト値を必ず使用してください。
-                - "thumbnail": "" 
+                - "thumbnail": ""
                 # 入力ISBN
                 ${isbn}
                 `;
@@ -126,6 +130,7 @@ async function fetchFromOpenBD(isbn: string) {
           const text = result.response.text();
           const json = JSON.parse(text.replace(/```json|```/g, "").trim());
           thumbnail = json.thumbnail;
+          console.log("Geminiからのサムネイル取得:");
         } catch (error) {
           console.error("Gemini API error:", error);
           return null;
@@ -154,49 +159,43 @@ async function fetchFromOpenBD(isbn: string) {
 }
 
 // Gemini
-async function fetchFromGemini(isbn: string) {
-  const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
-  const prompt = `
-                # 指示
-                あなたは書籍情報をJSON形式で返すAPIとして振る舞ってください。
-                指定されたISBNコードの書籍情報を、以下のルールに厳密に従ってJSONオブジェクトとして出力してください。
+// async function fetchFromGemini(isbn: string) {
+//   const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
+//   const prompt = `
+//                 # 指示
+//                 あなたは書籍情報をJSON形式で返すAPIとして振る舞ってください。
+//                 指定されたISBNコードの書籍情報を、以下のルールに厳密に従ってJSONオブジェクトとして出力してください。
 
-                # 全体ルール
-                1.  出力はJSONオブジェクトのみとし、他のテキスト（挨拶、説明、マークダウンの\`\`\`jsonなど）は絶対に含めないでください。
-                2.  'isbn' フィールドには、入力されたISBNの値を文字列として設定してください。
-                3.  'created_at' フィールドには、現在の日時をISO 8601形式で設定してください。
-                4.  'stock' フィールドは、必ず数値の 1 を設定してください。
-                5.  'available' フィールドは、必ず数値の 1 を設定してください。
-                6.  'tags' フィールドは、必ず空の配列 [] を設定してください。
+//                 # 全体ルール
+//                 1.  出力はJSONオブジェクトのみとし、他のテキスト（挨拶、説明、マークダウンの\`\`\`jsonなど）は絶対に含めないでください。
+//                 2.  'isbn' フィールドには、入力されたISBNの値を文字列として設定してください。
+//                 3.  'created_at' フィールドには、現在の日時をISO 8601形式で設定してください。
 
-                # 情報が見つからない場合のルール
-                書籍情報の一部が見つからない場合は、以下のデフォルト値を必ず使用してください。
-                - "title": "タイトル不明"
-                - "thumbnail": "" 
-                - "description": "説明がありません"
-                - "author": "著者情報がありません"
-                  stock: 1,
-                  available: 1,
-                  tags: [],
-                - "publisher": "出版会社情報がありません"
+//                 # 情報が見つからない場合のルール
+//                 書籍情報の一部が見つからない場合は、以下のデフォルト値を必ず使用してください。
+//                 - "title": "タイトル不明"
+//                 - "thumbnail": ""
+//                 - "description": "説明がありません"
+//                 - "author": "著者情報がありません"
+//                 - "publisher": "出版会社情報がありません"
 
-                # 入力ISBN
-                ${isbn}
-                `;
-  try {
-    const result = await model.generateContent(prompt);
-    const text = result.response.text();
-    const json = JSON.parse(text.replace(/```json|```/g, "").trim());
-    if (!json.created_at) json.created_at = new Date().toISOString();
-    if (!json.stock) json.stock = 1;
-    if (!json.available) json.available = 1;
-    if (!json.tags) json.tags = [];
-    return json;
-  } catch (error) {
-    console.error("Gemini API error:", error);
-    return null;
-  }
-}
+//                 # 入力ISBN
+//                 ${isbn}
+//                 `;
+//   try {
+//     const result = await model.generateContent(prompt);
+//     const text = result.response.text();
+//     const json = JSON.parse(text.replace(/```json|```/g, "").trim());
+//     json.created_at = new Date().toISOString();
+//     json.stock = 1;
+//     json.available = 1;
+//     json.tags = [];
+//     return json;
+//   } catch (error) {
+//     console.error("Gemini API error:", error);
+//     return null;
+//   }
+// }
 
 export async function GET(request: NextRequest) {
   const isbn = request.nextUrl.searchParams.get("isbn");
@@ -205,15 +204,18 @@ export async function GET(request: NextRequest) {
   }
 
   let bookInfo = await fetchFromGoogle(isbn);
+
   if (!bookInfo) {
+    console.log("楽天からの取得中:");
     bookInfo = await fetchFromRakuten(isbn);
   }
   if (!bookInfo) {
+    console.log("楽天からの取得失敗\nopenBDからの取得中:");
     bookInfo = await fetchFromOpenBD(isbn);
   }
-  if (!bookInfo) {
-    bookInfo = await fetchFromGemini(isbn);
-  }
+  // if (!bookInfo) {
+  //   bookInfo = await fetchFromGemini(isbn);
+  // }
 
   // ここで最終的なbookInfoをチェック
   if (bookInfo) {

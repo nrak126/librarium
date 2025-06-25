@@ -2,13 +2,13 @@
 
 import { Book } from "@/src/types/book";
 import { useCallback, useEffect, useState } from "react";
-import axios from "axios";
 import { BookInfo } from "@/src/components/book/BookInfo";
 import { Btns } from "../../components/Btns";
 import { useRouter } from "next/navigation";
 import { useAtom } from "jotai";
 import { booksAtom } from "@/src/atoms/atoms";
 import LoadingBrown from "@/src/components/LoadingBrown";
+import { Btn } from "@/src/components/book/Btn";
 
 export const BookRegister = ({ isbn }: { isbn: string }) => {
   const [book, setBook] = useState<Book | null>(null);
@@ -18,21 +18,21 @@ export const BookRegister = ({ isbn }: { isbn: string }) => {
   const router = useRouter();
 
   // メインのフェッチ関数（サーバーAPIでGoogle→楽天→Geminiの順で取得）
-  const fetchBookData = useCallback(
-    async (isbn: string): Promise<Book | null> => {
-      try {
-        const response = await axios.get(`/api/books/bookInfo?isbn=${isbn}`);
-        if (response.data && response.data.isbn) {
-          return response.data;
+  const fetchBookData = useCallback(async (isbn: string) => {
+    try {
+      const res = await fetch(`/api/books/bookInfo?isbn=${isbn}`);
+      if (res.ok) {
+        const data = await res.json();
+        if (data && data.isbn) {
+          return data;
         }
-        return null;
-      } catch (error) {
-        console.error("AI書誌APIエラー:", error);
-        return null;
       }
-    },
-    []
-  );
+      return null;
+    } catch (error) {
+      console.error("AI書誌APIエラー(fetch):", error);
+      return null;
+    }
+  }, []);
 
   // useEffectを修正
   useEffect(() => {
@@ -82,13 +82,42 @@ export const BookRegister = ({ isbn }: { isbn: string }) => {
     return <LoadingBrown />;
   }
 
+  const aiCheck = async () => {
+    setLoading(true);
+    setNotFound(false); // ここで一度リセット
+    try {
+      const res = await fetch(`/api/books/ai?isbn=${isbn}`);
+      if (res.ok) {
+        const data = await res.json();
+        if (data && data.isbn) {
+          setBook(data);
+          setNotFound(false);
+          return;
+        }
+      }
+      setBook(null);
+      setNotFound(true);
+    } catch (error) {
+      console.error("AI書誌APIエラー(fetch):", error);
+      setBook(null);
+      setNotFound(true);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   if (notFound) {
     return (
       <p>
         指定されたISBN（{isbn}
         ）の本が見つかりませんでした。ISBNを確認してください。
+        <Btn onClick={aiCheck} bgColor="#99C6E2" text="AIで探す" />
       </p>
     );
+  }
+
+  if (loading) {
+    return <LoadingBrown />;
   }
 
   return (
