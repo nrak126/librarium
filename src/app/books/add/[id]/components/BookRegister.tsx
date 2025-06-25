@@ -1,147 +1,181 @@
 "use client";
 
 import { Book } from "@/src/types/book";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import axios from "axios";
 import { BookInfo } from "@/src/components/book/BookInfo";
-import { Genre } from "@/src/components/Genre";
 import { Btns } from "../../components/Btns";
 import { useRouter } from "next/navigation";
 import { useAtom } from "jotai";
 import { booksAtom } from "@/src/atoms/atoms";
 import LoadingBrown from "@/src/components/LoadingBrown";
+import { IndustryIdentifier } from "@/src/types/book";
+import NotFound from "@/public/bookNot.svg";
 
 export const BookRegister = ({ isbn }: { isbn: string }) => {
   const [book, setBook] = useState<Book | null>(null);
-  const [selectedGenres, setSelectedGenres] = useState<string[]>([]);
   const [, setBooks] = useAtom(booksAtom);
   const [loading, setLoading] = useState(true);
   const [notFound, setNotFound] = useState(false);
   const router = useRouter();
 
-  const fetchFromGoogle = async (isbn: string): Promise<Book | null> => {
-    try {
-      const response = await axios.get(
-        `https://www.googleapis.com/books/v1/volumes?q=${isbn}&startIndex=0&maxResults=1&key=${process.env.NEXT_PUBLIC_GOOGLE_BOOKS_API_KEY}`
-      );
-      console.log("Google Books APIレスポンス:", response.data);
+  const fetchFromGoogle = useCallback(
+    async (isbn: string): Promise<Book | null> => {
+      try {
+        const response = await axios.get(
+          `https://www.googleapis.com/books/v1/volumes?q=${isbn}&startIndex=0&maxResults=1&key=${process.env.NEXT_PUBLIC_GOOGLE_BOOKS_API_KEY}`
+        );
+        console.log("Google Books APIレスポンス:", response.data);
 
-      if (response.data.items && response.data.items.length > 0) {
-        const volumeInfo = response.data.items[0].volumeInfo;
-
-        return {
-          isbn: isbn,
-          title: volumeInfo.title || "タイトル不明",
-          author: volumeInfo.authors
-            ? volumeInfo.authors.join(", ")
-            : "著者情報がありません",
-          description: volumeInfo.description || "説明がありません",
-          thumbnail: volumeInfo.imageLinks?.thumbnail || "",
-          publisher: volumeInfo.publisher || "出版会社情報がありません",
-          stock: 1,
-          available: 1,
-          tags: selectedGenres,
-          created_at: new Date().toISOString(),
-        };
-      }
-      return null;
-    } catch (error) {
-      console.error("googleAPIエラー:", error);
-      return null;
-    }
-  };
-
-  // 楽天APIから本の情報を取得する関数
-  const fetchFromRakuten = async (isbn: string): Promise<Book | null> => {
-    try {
-      const response = await axios.get(
-        `https://app.rakuten.co.jp/services/api/BooksBook/Search/20170404?format=json&isbn=${isbn}&applicationId=${process.env.NEXT_PUBLIC_RAKUTEN_BOOKS_APP_ID}`
-      );
-
-      if (response.data?.Items && response.data.Items.length > 0) {
-        const item = response.data.Items[0].Item;
-
-        return {
-          isbn: isbn,
-          title: item.title || "タイトル不明",
-          author: item.author || "著者情報がありません",
-          description: item.itemCaption || "説明がありません",
-          thumbnail:
-            item.largeImageUrl ||
-            item.mediumImageUrl ||
-            item.smallImageUrl ||
-            "",
-          publisher: item.publisherName || "出版会社情報がありません",
-          stock: 1,
-          available: 1,
-          tags: selectedGenres,
-          created_at: new Date().toISOString(),
-        };
-      }
-      return null;
-    } catch (error) {
-      console.error("楽天APIエラー:", error);
-      return null;
-    }
-  };
-
-  // openBD APIから本の情報を取得する関数
-  const fetchFromOpenBD = async (isbn: string): Promise<Book | null> => {
-    try {
-      const response = await axios.get(
-        `https://api.openbd.jp/v1/get?isbn=${isbn}&pretty`
-      );
-
-      if (response.data && response.data[0] && response.data[0].summary) {
-        const summary = response.data[0].summary;
-
-        let detail = "説明がありません";
-        try {
-          if (response.data[0].onix?.CollateralDetail?.TextContent?.[0]?.Text) {
-            detail = response.data[0].onix.CollateralDetail.TextContent[0].Text;
-          }
-        } catch (e) {
-          console.log("onixデータが取得できませんでした:", e);
+        // レスポンスデータの存在チェック
+        if (
+          !response.data ||
+          !response.data.items ||
+          response.data.items.length === 0
+        ) {
+          return null;
         }
 
-        return {
-          isbn: isbn,
-          title: summary.title || "タイトル不明",
-          author: summary.author || "著者情報がありません",
-          description:
-            summary.series || summary.volume || detail || "説明がありません",
-          thumbnail: summary.cover || "",
-          publisher: summary.publisher || "出版会社情報がありません",
-          stock: 1,
-          available: 1,
-          tags: selectedGenres,
-          created_at: new Date().toISOString(),
-        };
+        // ISBN-13 の一致確認
+        const isMatched = response.data.items.some(
+          (item: {
+            volumeInfo: {
+              industryIdentifiers?: IndustryIdentifier[];
+            };
+          }) =>
+            item.volumeInfo?.industryIdentifiers?.some(
+              (identifier: IndustryIdentifier) =>
+                identifier.type === "ISBN_13" && identifier.identifier === isbn
+            )
+        );
+
+        if (isMatched) {
+          const volumeInfo = response.data.items[0].volumeInfo;
+
+          return {
+            isbn: isbn,
+            title: volumeInfo.title || "タイトル不明",
+            author: volumeInfo.authors
+              ? volumeInfo.authors.join(", ")
+              : "著者情報がありません",
+            description: volumeInfo.description || "説明がありません",
+            thumbnail: volumeInfo.imageLinks?.thumbnail || NotFound,
+            publisher: volumeInfo.publisher || "出版会社情報がありません",
+            stock: 1,
+            available: 1,
+            created_at: new Date().toISOString(),
+          };
+        }
+        return null;
+      } catch (error) {
+        console.error("googleAPIエラー:", error);
+        return null;
       }
-      return null;
-    } catch (error) {
-      console.log("openBD APIエラー:", error);
-      return null;
-    }
-  };
+    },
+    []
+  );
 
-  // メインのフェッチ関数（楽天 → openBD の順で試す）
-  const fetchBookData = async (isbn: string): Promise<Book | null> => {
-    console.log("Google Books APIから取得を試みます...");
-    let fetchedBook = await fetchFromGoogle(isbn);
+  // 楽天APIから本の情報を取得する関数
+  const fetchFromRakuten = useCallback(
+    async (isbn: string): Promise<Book | null> => {
+      try {
+        const response = await axios.get(
+          `https://app.rakuten.co.jp/services/api/BooksBook/Search/20170404?format=json&isbn=${isbn}&applicationId=${process.env.NEXT_PUBLIC_RAKUTEN_BOOKS_APP_ID}`
+        );
 
-    if (!fetchedBook) {
-      console.log("Google Books APIで見つからないため、楽天APIを試します...");
-      fetchedBook = await fetchFromRakuten(isbn);
-    }
+        if (response.data?.Items && response.data.Items.length > 0) {
+          const item = response.data.Items[0].Item;
 
-    if (!fetchedBook) {
-      console.log("楽天APIで見つからないため、openBD APIを試します...");
-      fetchedBook = await fetchFromOpenBD(isbn);
-    }
+          return {
+            isbn: isbn,
+            title: item.title || "タイトル不明",
+            author: item.author || "著者情報がありません",
+            description: item.itemCaption || "説明がありません",
+            thumbnail:
+              item.largeImageUrl ||
+              item.mediumImageUrl ||
+              item.smallImageUrl ||
+              NotFound,
+            publisher: item.publisherName || "出版会社情報がありません",
+            stock: 1,
+            available: 1,
+            created_at: new Date().toISOString(),
+          };
+        }
+        return null;
+      } catch (error) {
+        console.error("楽天APIエラー:", error);
+        return null;
+      }
+    },
+    []
+  );
 
-    return fetchedBook;
-  };
+  // openBD APIから本の情報を取得する関数
+  const fetchFromOpenBD = useCallback(
+    async (isbn: string): Promise<Book | null> => {
+      try {
+        const response = await axios.get(
+          `https://api.openbd.jp/v1/get?isbn=${isbn}&pretty`
+        );
+
+        if (response.data && response.data[0] && response.data[0].summary) {
+          const summary = response.data[0].summary;
+
+          let detail = "説明がありません";
+          try {
+            if (
+              response.data[0].onix?.CollateralDetail?.TextContent?.[0]?.Text
+            ) {
+              detail =
+                response.data[0].onix.CollateralDetail.TextContent[0].Text;
+            }
+          } catch (e) {
+            console.log("onixデータが取得できませんでした:", e);
+          }
+
+          return {
+            isbn: isbn,
+            title: summary.title || "タイトル不明",
+            author: summary.author || "著者情報がありません",
+            description:
+              summary.series || summary.volume || detail || "説明がありません",
+            thumbnail: summary.cover || NotFound,
+            publisher: summary.publisher || "出版会社情報がありません",
+            stock: 1,
+            available: 1,
+            created_at: new Date().toISOString(),
+          };
+        }
+        return null;
+      } catch (error) {
+        console.log("openBD APIエラー:", error);
+        return null;
+      }
+    },
+    []
+  );
+
+  // メインのフェッチ関数（Google → 楽天 → openBD の順で試す）
+  const fetchBookData = useCallback(
+    async (isbn: string): Promise<Book | null> => {
+      console.log("Google Books APIから取得を試みます...");
+      let fetchedBook = await fetchFromGoogle(isbn);
+
+      if (!fetchedBook) {
+        console.log("Google Books APIで見つからないため、楽天APIを試します...");
+        fetchedBook = await fetchFromRakuten(isbn);
+      }
+
+      if (!fetchedBook) {
+        console.log("楽天APIで見つからないため、openBD APIを試します...");
+        fetchedBook = await fetchFromOpenBD(isbn);
+      }
+
+      return fetchedBook;
+    },
+    [fetchFromGoogle, fetchFromRakuten, fetchFromOpenBD]
+  );
 
   // useEffectを修正
   useEffect(() => {
@@ -163,7 +197,7 @@ export const BookRegister = ({ isbn }: { isbn: string }) => {
         }
       })();
     }
-  }, [isbn, selectedGenres]);
+  }, [isbn, fetchBookData]);
 
   const BookAdd = async () => {
     if (!book) return;
@@ -187,16 +221,6 @@ export const BookRegister = ({ isbn }: { isbn: string }) => {
     }
   };
 
-  const handleGenreChange = (genres: string[]) => {
-    setSelectedGenres(genres);
-    if (book) {
-      setBook((prevBook) => ({
-        ...prevBook!,
-        tags: genres,
-      }));
-    }
-  };
-
   if (notFound) {
     return (
       <p>指定されたISBNの本が見つかりませんでした。ISBNを確認してください。</p>
@@ -212,7 +236,6 @@ export const BookRegister = ({ isbn }: { isbn: string }) => {
       {book ? (
         <>
           <BookInfo book={book} />
-          <Genre onGenreChange={handleGenreChange} />
           <Btns BookAdd={BookAdd} />
         </>
       ) : (

@@ -8,11 +8,9 @@ export default function ConditionalHeader() {
 
   // ヘッダーを非表示にするパスの条件
   const isAuth = pathname === "/auth" || pathname.startsWith("/auth/");
-  const isBarcode =
-    pathname === "/books/add/barcode" || pathname === "/books/rental/barcode";
 
   // ヘッダーを表示するかどうか
-  const shouldShow = !isAuth && !isBarcode;
+  const shouldShow = !isAuth;
 
   console.log("Current pathname:", pathname, "Should show header:", shouldShow);
 
