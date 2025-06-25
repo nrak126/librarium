@@ -13,12 +13,14 @@ export const Header = () => {
     router.push(link); // クリック時に指定されたリンクに遷移
   };
   return (
-    <div className={styles.header}>
-      <h1 onClick={() => onHome(link)} className={styles.h1}>
-        Librarium
-      </h1>
-      <HamBtn />
-      {/* <div className={styles.section} /> */}
+    <div className={styles.headerContainer}>
+      <div className={styles.header}>
+        <h1 onClick={() => onHome(link)} className={styles.h1}>
+          Librarium
+        </h1>
+        <HamBtn />
+      </div>
+      <div className={styles.underSpace}></div>
     </div>
   );
 };
