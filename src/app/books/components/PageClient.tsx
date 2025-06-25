@@ -25,7 +25,7 @@ export default function PageClient() {
         setBooks(booksData);
       })();
     }
-  }, [books]);
+  }, [books, setBooks]);
 
   // 検索フィルタリング処理
   useEffect(() => {

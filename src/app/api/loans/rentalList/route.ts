@@ -7,11 +7,15 @@ export async function GET() {
   try {
     const { data, error } = await supabase
       .from("loans")
-      .select(`
+      .select(
+        `
         *,
         books(*),
         users(*)
-      `)
+      `
+      )
+      .eq("isReturned", false)
+      .order("created_at", { ascending: false });
 
     if (error) {
       throw error;

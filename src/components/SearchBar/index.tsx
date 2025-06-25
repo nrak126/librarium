@@ -7,8 +7,10 @@ import { usePathname, useRouter } from "next/navigation";
 
 export default function SearchBar({
   placeholder = "書籍検索",
+  searchPageName = "",
 }: {
   placeholder?: string;
+  searchPageName?: string;
 }) {
   const router = useRouter();
   const [searchName, setSearchName] = useState<string>("");
@@ -16,7 +18,7 @@ export default function SearchBar({
 
   const handleSearch = async () => {
     if (searchName) {
-      await router.push(`${pathName}?search=${searchName}`);
+      await router.push(`${pathName}${searchPageName}?search=${searchName}`);
     } else {
       await router.push(`${pathName}`);
     }

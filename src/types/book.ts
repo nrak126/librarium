@@ -2,12 +2,12 @@ export type Book = {
   isbn: string; // 書籍のISBN
   created_at: string; // 作成日時 (ISO 8601形式)
   title: string; // 書籍タイトル
-  thumbnail: string; // サムネイル画像URL
+  thumbnail: string ; // サムネイル画像URL
   description: string; // 説明文
   author: string; // 著者名
   stock: number; // 在庫数
   available: number; // 貸出可能数
-  tags: string[]; // タグ（配列形式、nullの場合もあり）
+  // tags: string[]; // タグ（配列形式、nullの場合もあり）
   publisher: string; // 出版社
 };
 

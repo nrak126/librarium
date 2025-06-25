@@ -7,7 +7,7 @@ import { BookRec } from "../../components/book/BookRec";
 import { BookRanking } from "../../components/book/BookRanking";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/src/lib/supabase";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { NavSlide } from "@/src/components/nav/NavSlide";
 import SearchBar from "@/src/components/SearchBar";
 import { useAtom } from "jotai";
@@ -41,11 +41,9 @@ export const PageClient: React.FC = () => {
 
         const appUser: User = await user.json();
         setLogedInUser(appUser);
-
-        localStorage.setItem("loginUser", JSON.stringify(appUser));
       })();
     }
-  }, [router, logedInUser]);
+  }, [router, logedInUser, setLogedInUser]);
 
   // 本のデータフェッチ（初回のみ）
   useEffect(() => {
@@ -55,13 +53,12 @@ export const PageClient: React.FC = () => {
           const resBook = await fetch(`/api/books`);
           const data: Book[] = await resBook.json();
           setBooks(data);
-          localStorage.setItem("books", JSON.stringify(data));
         } catch (error) {
           console.error("本のデータ取得エラー:", error);
         }
       })();
     }
-  }, [books]);
+  }, [books, setBooks]);
 
   // レンタルデータのフェッチ（初回のみ）
   useEffect(() => {
@@ -71,17 +68,16 @@ export const PageClient: React.FC = () => {
           const renBooks = await fetch(`/api/loans/rentalList`);
           const data: RentalList[] = await renBooks.json();
           setRental(data);
-          localStorage.setItem("rentalBooks", JSON.stringify(data));
         } catch (error) {
           console.error("レンタルデータの取得エラー:", error);
         }
       })();
     }
-  }, [rental]);
+  }, [rental, setRental]);
 
   return (
     <>
-      <SearchBar />
+      <SearchBar searchPageName="books" />
       <NavSlide />
       <Tabs className={styles.tabs}>
         <TabList className={styles.tabList}>

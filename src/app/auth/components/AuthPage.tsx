@@ -3,17 +3,17 @@
 import Image from "next/image";
 import Icon from "@/public/icon.svg";
 import styles from "./AuthPage.module.scss";
+import LoginBackground from "@/public/login_background.svg";
 
 import { supabase } from "@/src/lib/supabase";
 
 export function AuthPage() {
-
   // Googleアカウントでログイン
   const handleLogin = async () => {
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider: "google",
       options: {
-        redirectTo: `${process.env.NEXT_PUBLIC_BASE_URL}/auth/register`,
+        redirectTo: `${process.env.NEXT_PUBLIC_BASE_URL}`,
       },
     });
     if (error) {
@@ -24,22 +24,29 @@ export function AuthPage() {
   };
 
   return (
-    <div className={styles.whole}>
+    <div className={styles.container}>
       <Image
-        src={Icon}
-        alt={"librariumのアイコン"}
-        width={230}
-        height={230}
-        className={styles.icon}
+        src={LoginBackground}
+        alt={"背景画像"}
+        className={styles.background}
         priority
       />
+      <div className={styles.background}>
+        <div className={styles.whole}>
+          <Image
+            src={Icon}
+            alt={"librariumのアイコン"}
+            width={230}
+            height={230}
+            className={styles.icon}
+            priority
+          />
 
-      <button
-        onClick={handleLogin}
-        className={styles.loginBtn}
-      >
-        {"ログイン"}
-      </button>
+          <button onClick={handleLogin} className={styles.loginBtn}>
+            {"ログイン"}
+          </button>
+        </div>
+      </div>
     </div>
   );
 }

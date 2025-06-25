@@ -1,12 +1,11 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
 import style from "./index.module.scss";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { Book } from "@/src/types";
-import LoadingBrown from "../../LoadingBrown";
 import { StockState } from "../StockState";
+import { useAtom } from "jotai";
+import { booksAtom } from "@/src/atoms/atoms";
 
 type BookListBaseProps = {
   showNumber: boolean;
@@ -14,35 +13,24 @@ type BookListBaseProps = {
 
 export const HomeBook: React.FC<BookListBaseProps> = (props) => {
   const { showNumber } = props;
-  const [loading, setLoading] = useState(true);
-  const [books, setBooks] = useState<Book[]>([]);
+  const [books] = useAtom(booksAtom);
   const router = useRouter();
 
-  useEffect(() => {
-    const booksJson = localStorage.getItem("books");
-    if (booksJson) {
-      const parsedBooks = JSON.parse(booksJson);
-      setBooks(parsedBooks);
-    }
-    setLoading(false);
-  }, []);
-
   const handleClickDetail = (link: string) => {
-    setLoading(true);
     router.push(`/books/${link}`);
   };
 
-  if (loading || books.length === 0) {
-    return (
-      <div className={style.loading}>
-        <LoadingBrown />
-      </div>
-    );
-  }
+  // if (loading || books?.length === 0) {
+  //   return (
+  //     <div className={style.loading}>
+  //       <LoadingBrown />
+  //     </div>
+  //   );
+  // }
 
   return (
     <div className={style.contents}>
-      {books.map((book, index) => {
+      {books?.map((book, index) => {
         const rankClass =
           index === 0
             ? style.gold

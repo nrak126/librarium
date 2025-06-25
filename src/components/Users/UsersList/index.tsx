@@ -4,8 +4,8 @@ import UserData from "../UserData";
 function UsersList({ users }: { users: User[] }) {
   return (
     <>
-      {users.map((data, index) => {
-        return <UserData user={data} key={index} />;
+      {users.map((data) => {
+        return <UserData user={data} key={data.id} />;
       })}
     </>
   );
