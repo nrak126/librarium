@@ -5,6 +5,7 @@ import { Book } from "@/src/types";
 import styles from "./index.module.scss";
 import { useAtom } from "jotai";
 import { logedInUserAtom, rentalAtom } from "@/src/atoms/atoms";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 
 export function RentBtn({
@@ -14,6 +15,7 @@ export function RentBtn({
   book: Book;
   loanPeriod: number;
 }) {
+  const router = useRouter();
   const isAvailableRental = book.available > 0;
   const [, setRental] = useAtom(rentalAtom);
   const [loginUser] = useAtom(logedInUserAtom);
@@ -44,6 +46,15 @@ export function RentBtn({
     window.history.back();
   };
 
+  const handleClick = async () => {
+    if (!loanPeriod) {
+      alert("貸出期間を選択してください");
+      return;
+    }
+    await handleRent();
+    router.push(`/books/rental/${book.isbn}/check?q=${loanPeriod}`);
+  };
+
   return (
     <div>
       <div className={styles.rentalButton}>
@@ -52,9 +63,7 @@ export function RentBtn({
         </div>
         {isAvailableRental ? (
           <div className={styles.rental}>
-            <Link href={`/books/rental/${book.isbn}/check?q=${loanPeriod}`}>
-              <Btn text="借りる" bgColor="#E2999B" onClick={handleRent} />
-            </Link>
+            <Btn text="借りる" bgColor="#E2999B" onClick={handleClick} />
           </div>
         ) : (
           <div className={styles.available}>
