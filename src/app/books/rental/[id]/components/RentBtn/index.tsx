@@ -6,7 +6,6 @@ import styles from "./index.module.scss";
 import { useAtom } from "jotai";
 import { logedInUserAtom, rentalAtom } from "@/src/atoms/atoms";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
 
 export function RentBtn({
   book,
