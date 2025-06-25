@@ -1,13 +1,12 @@
 "use client";
 
-import { useState } from "react";
 import styles from "./index.module.scss";
 
 type LoanPeriodProps = {
   setLoanPeriod: (value: number) => void;
+  setError: (value: boolean) => void;
 };
-export function LoanPeriod({ setLoanPeriod }: LoanPeriodProps) {
-  const [error, setError] = useState(false);
+export function LoanPeriod({ setLoanPeriod, setError }: LoanPeriodProps) {
 
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const rawValue = e.target.value;
@@ -15,6 +14,8 @@ export function LoanPeriod({ setLoanPeriod }: LoanPeriodProps) {
       setError(true);
       return;
     }
+    setError(false);
+
     const value = Number(rawValue);
     const today = new Date();
     today.setHours(0, 0, 0, 0);
@@ -30,6 +31,7 @@ export function LoanPeriod({ setLoanPeriod }: LoanPeriodProps) {
     const timestamp = targetDate.getTime();
     setLoanPeriod(timestamp);
   };
+
   return (
     <div className={styles.selectbox} id="selectbox">
       <div className={styles.periodselect}>
@@ -53,7 +55,6 @@ export function LoanPeriod({ setLoanPeriod }: LoanPeriodProps) {
             <option value="34">半年</option>
           </select>
         </div>
-        {error && <p className={styles.error}>※ 貸出期間を選択してください</p>}
       </div>
     </div>
   );
