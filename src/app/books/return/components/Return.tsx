@@ -42,7 +42,7 @@ export const Return = () => {
     return () => {
       supabase.removeChannel(channel);
     };
-  }, [setRental]);
+  }, [fetchRentalData]);
 
   return (
     <>

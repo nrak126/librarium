@@ -89,15 +89,16 @@
   font-weight: bold;
   color: #635038;
   position: relative;
-  top: 5vh;
-  right: -6%;
+  top: 9vh;
+  text-align: center;
   word-break: normal;
   line-height: 3.5vh;
+  margin: 0 auto;
 }
 
 .ReadMore {
   position: relative;
-  right: -4%;
+
 }
 
 .Input {
@@ -123,13 +124,14 @@
 
 .ReadMoreLabel {
   display: flex;
+  justify-content: center;
   align-items: center;
-  margin-top: 13%;
-  margin-left: 56%;
-  transform: translateX(-50%);
+  margin: 0 auto;
+  margin-top: 28%;
   color: #bfbfbf;
   font-size: 0.8em;
   cursor: pointer;
+  text-align: center;
 }
 
 .ReadMoreLabel:hover {
@@ -139,9 +141,10 @@
 
 .ReadCloseLabel {
   display: none;
-  margin-top: 15%;
-  margin-left: 61%;
-  transform: translateX(-50%);
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  margin-top: 28%;
   color: #bfbfbf;
   font-size: 0.8em;
   cursor: pointer;

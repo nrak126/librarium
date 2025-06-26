@@ -3,6 +3,7 @@
 import { Barcode } from "@/src/components/Barcode";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import LoadingBrown from "@/src/components/LoadingBrown";
 
 export const GetIsbn = () => {
   const router = useRouter();
@@ -18,15 +19,13 @@ export const GetIsbn = () => {
   return (
     <>
       {isbn ? (
-        <p>{isbn}</p>
+        <LoadingBrown />
       ) : (
         <Barcode
           setIsbn={setIsbn}
           text={
             <>
-              追加したい本のバーコードを
-              <br />
-              カメラにかざしてください
+              追加したい本のバーコードをカメラにかざしてください
             </>
           }
         />

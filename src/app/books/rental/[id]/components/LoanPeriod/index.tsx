@@ -4,11 +4,17 @@ import styles from "./index.module.scss";
 
 type LoanPeriodProps = {
   setLoanPeriod: (value: number) => void;
+  setError: (value: boolean) => void;
 };
-export function LoanPeriod({ setLoanPeriod }: LoanPeriodProps) {
+export function LoanPeriod({ setLoanPeriod, setError }: LoanPeriodProps) {
+
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const rawValue = e.target.value;
-    if (!rawValue) return;
+    if (!rawValue) {
+      setError(true);
+      return;
+    }
+    setError(false);
 
     const value = Number(rawValue);
     const today = new Date();
@@ -25,6 +31,7 @@ export function LoanPeriod({ setLoanPeriod }: LoanPeriodProps) {
     const timestamp = targetDate.getTime();
     setLoanPeriod(timestamp);
   };
+
   return (
     <div className={styles.selectbox} id="selectbox">
       <div className={styles.periodselect}>

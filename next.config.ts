@@ -27,6 +27,12 @@ const nextConfig: NextConfig = withPWA({
     ];
   },
   images: {
+    domains: [
+      'books.google.com',
+      'books.google.co.jp',
+      'thumbnail.image.rakuten.co.jp',
+      'api.openbd.jp'
+    ],
     remotePatterns: [
       {
         protocol: "https",

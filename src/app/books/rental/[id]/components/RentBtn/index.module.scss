@@ -1,8 +1,27 @@
+.rentalButtonWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.8rem;
+  margin-top: 2rem;
+}
 .rentalButton {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   text-align: center;
   margin-bottom: 10%;
+  gap: 40px;
+}
+.buttonRow { 
+  display: flex;
   gap: 15px;
+}
+.erroMessage {
+  color: #c96d6d;
+  font-weight: bold;
+  font-size: 0.7rem;
+  text-align: center;
+  margin-top: -20%;
 }

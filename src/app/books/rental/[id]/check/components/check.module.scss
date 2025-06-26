@@ -1,16 +1,23 @@
 .title {
-  font-size: 12px;
+  display: flex;
+  font-size: 14px;
   font-weight: bold;
   color: #635038;
   word-break: break-all;
   position: relative;
   top: 10vh;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
 }
 
 .card {
+  display: flex;
   position: relative;
   top: 15vh;
-  right: -32%;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
 }
 
 .text {
@@ -20,14 +27,19 @@
   word-break: break-all;
   position: relative;
   top: 30vh;
+  justify-content: center;
+  align-items: center;
 }
 .Day {
+  display: flex;
   font-size: 18px;
   font-weight: bold;
   color: #635038;
   position: relative;
   top: 25vh;
-  right: -1%;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
 }
 
 .Btn {

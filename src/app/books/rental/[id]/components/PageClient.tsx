@@ -6,10 +6,12 @@ import { RentBtn } from "./RentBtn";
 import { LoanPeriod } from "./LoanPeriod";
 import { useEffect, useState } from "react";
 import LoadingBrown from "@/src/components/LoadingBrown";
+import styles from "./index.module.scss";
 
 export default function PageClient({ id }: { id: string }) {
   const [book, setBook] = useState<Book>();
   const [loanPeriod, setLoanPeriod] = useState<number>(0);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
     const fetchBook = async () => {
@@ -46,8 +48,9 @@ export default function PageClient({ id }: { id: string }) {
   return (
     <>
       <BookInfo book={book} />
-      <LoanPeriod setLoanPeriod={setLoanPeriod} />
-      <RentBtn book={book} loanPeriod={loanPeriod} />
+      <p className={styles.Text}>貸出期限</p>
+      <LoanPeriod setLoanPeriod={setLoanPeriod} setError={setError}/>
+      <RentBtn book={book} loanPeriod={loanPeriod} error={error} setError={setError}/>
     </>
   );
 }
