@@ -1,18 +1,19 @@
 .container {
-   display: grid;
   place-items: center;
+
 }
 
-.background,
-.whole {
-  grid-area: 1 / 1; // 同じ位置に重ねる
+body{
+  width: 100%;
+  height: 100%;
+  background-image: url('../../../../public/login_background.svg');
+  background-size: cover;
 }
 
 .whole {
-    background-image: url('/public/login_background.svg');
   display: flex;
-  // height: 100vh;
-  // width: 100vw;
+  height: 100%;
+  width: 100%;
   align-items: center;
   flex-direction: column;
 }

@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Icon from "@/public/icon.svg";
 import styles from "./AuthPage.module.scss";
-import LoginBackground from "@/public/login_background.svg";
+import LoginBackground from "@/public/background.svg";
 
 import { supabase } from "@/src/lib/supabase";
 
@@ -25,27 +25,25 @@ export function AuthPage() {
 
   return (
     <div className={styles.container}>
-      <Image
+      {/* <Image
         src={LoginBackground}
         alt={"背景画像"}
-        className={styles.background}
+        className={styles.background1}
         priority
-      />
-      <div className={styles.background}>
-        <div className={styles.whole}>
-          <Image
-            src={Icon}
-            alt={"librariumのアイコン"}
-            width={230}
-            height={230}
-            className={styles.icon}
-            priority
-          />
+      /> */}
+      <div className={styles.whole}>
+        <Image
+          src={Icon}
+          alt={"librariumのアイコン"}
+          width={230}
+          height={230}
+          className={styles.icon}
+          priority
+        />
 
-          <button onClick={handleLogin} className={styles.loginBtn}>
-            {"ログイン"}
-          </button>
-        </div>
+        <button onClick={handleLogin} className={styles.loginBtn}>
+          {"ログイン"}
+        </button>
       </div>
     </div>
   );
