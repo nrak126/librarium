@@ -25,7 +25,7 @@ async function fetchFromGemini(isbn: string) {
     抽出した情報と固定値を組み合わせ、【出力フォーマット】と【ルール】に厳密に従ってJSONオブジェクトを生成してください。
     入力 (Input)
 
-    ISBNコード: $9784802612364
+    ISBNコード: ${isbn}
 
 
 出力フォーマット (Output Format)
