@@ -3,7 +3,6 @@
 import Image from "next/image";
 import Icon from "@/public/icon.svg";
 import styles from "./AuthPage.module.scss";
-import LoginBackground from "@/public/background.svg";
 
 import { supabase } from "@/src/lib/supabase";
 
