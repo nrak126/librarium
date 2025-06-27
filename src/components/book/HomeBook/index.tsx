@@ -56,10 +56,15 @@ export const HomeBook: React.FC<BookListBaseProps> = (props) => {
 
               <Image
                 className={style.image}
-                src={book.thumbnail || NotFound}
+                src={
+                  book.thumbnail && book.thumbnail.startsWith("http")
+                    ? book.thumbnail
+                    : NotFound
+                }
                 alt={book.title}
                 width={100}
                 height={128}
+                unoptimized={true}
               />
               <p className={style.text}>{book.title}</p>
               <div className={style.stock}>

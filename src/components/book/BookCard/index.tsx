@@ -26,10 +26,11 @@ export const BookCard: React.FC<BookCardProps> = ({
     >
       <Image
         className={classes.Img}
-        src={book.thumbnail || NotFound}
+        src={book.thumbnail ? book.thumbnail : NotFound}
         alt="本の表紙画像"
         width={width}
         height={height}
+        unoptimized={true}
       />
     </div>
   );

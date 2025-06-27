@@ -97,10 +97,16 @@ export const RentalTime: React.FC = () => {
                 <div className={style.main}>
                   <Image
                     className={style.img}
-                    src={rental.books.thumbnail || NotFound} // 本のサムネイルを表示
+                    src={
+                      rental.books.thumbnail &&
+                      rental.books.thumbnail.startsWith("http")
+                        ? rental.books.thumbnail
+                        : NotFound // 本のサムネイルを表示
+                    } // 本のサムネイルを表示
                     width={90}
                     height={130}
                     alt={rental.books.title} // 本のタイトルをaltに
+                    unoptimized={true} 
                   />
                 </div>
 
