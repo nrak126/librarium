@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useCallback } from "react";
 import style from "../style/return.module.scss";
 import { MyData } from "./MyData";
 import { supabase } from "@/src/lib/supabase";
@@ -12,7 +12,7 @@ export const Return = () => {
   const [, setRental] = useAtom(rentalAtom);
 
   // レンタルデータをフェッチする関数
-  const fetchRentalData = async () => {
+  const fetchRentalData = useCallback(async () => {
     try {
       const res = await fetch("/api/books/rental");
       const data = await res.json();
@@ -21,7 +21,7 @@ export const Return = () => {
     } catch (error) {
       console.error("レンタルデータの取得に失敗しました:", error);
     }
-  };
+  }, [setRental]);
 
   useEffect(() => {
     // Supabaseのリアルタイム監視を設定
