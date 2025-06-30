@@ -8,11 +8,14 @@ import icon from "@/public/rei.svg";
 import { Btn } from "../Btn";
 import { Genre } from "./components/Genre";
 import { Book } from "@/src/types";
+import { useRouter } from "next/navigation";
 export const BookRec = () => {
   const [isRecChecked, setIsRecChecked] = useState(false); // おすすめ診断のチェック状態(APIが出来次第変更)
   const [showSelect, setShowSelect] = useState(false); // ← 追加
   const [books, setBooks] = useState<Book[]>([]); // 本のリストを管理する状態
   const [isLoading, setIsLoading] = useState(false); // ローディング状態
+
+  const router = useRouter();
 
   const handleClick = () => {
     // ここにボタンがクリックされたときの処理を追加
@@ -20,7 +23,7 @@ export const BookRec = () => {
   };
 
   const handleBack = () => {
-    window.location.href = "/"; // ホームに戻る処理
+    router.push("/books/rec");
   };
 
   const handleSearch = async () => {
