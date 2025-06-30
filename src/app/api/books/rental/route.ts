@@ -1,38 +1,45 @@
 import { supabase } from "@/src/lib/supabase";
 import { NextResponse } from "next/server";
+import { Book } from "@/src/types/book";
+import { Loan } from "@/src/types";
 
 // POST: 貸し出し履歴を登録する
 export async function POST(request: Request) {
   try {
     const { isbn, uid, loanPeriod } = await request.json();
 
-    const { data: book, error: bookFetchError } = await supabase
+    const {
+      data: book,
+      error: bookFetchError,
+    }: { data: Book | null; error: any } = await supabase
       .from("books")
       .select("*")
       .eq("isbn", isbn)
       .single();
-    if (bookFetchError) {
-      throw bookFetchError;
+    if (bookFetchError || !book) {
+      throw bookFetchError || new Error("Book not found");
     }
 
     const { error: bookError } = await supabase
       .from("books")
-      .update({ available: book.available - 1 })
+      .update({
+        available: book.available - 1,
+        loanCount: book.loanCount + 1,
+      })
       .eq("isbn", isbn);
     if (bookError) {
       throw bookError;
     }
 
-    const { data, error: loanError } = await supabase
-      .from("loans")
-      .insert({
-        isbn: isbn,
-        uid: uid,
-        return_date: new Date(
-          loanPeriod
-        ).toISOString(),
-      })
-      .select("*");
+    const { data, error: loanError }: { data: Loan[] | null; error: any } =
+      await supabase
+        .from("loans")
+        .insert({
+          isbn: isbn,
+          uid: uid,
+          return_date: new Date(loanPeriod).toISOString(),
+        })
+        .select("*");
     if (loanError) {
       throw loanError;
     }
