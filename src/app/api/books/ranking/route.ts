@@ -17,7 +17,7 @@ export async function GET(request: Request) {
 			);
 		}
 
-		const { data, error }: { data: Book[] | null, error: any } = await query;
+		const { data, error }: { data: Book[] | null, error: Error | null } = await query;
 
 		if (error) {
 			console.error("Supabase error:", error);
