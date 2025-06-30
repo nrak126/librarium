@@ -44,9 +44,7 @@ export default function Page() {
     <>
       <h2 className={style.title}>お勧め診断</h2>
       <div className={style.bar}></div>
-      {questions.map((item) => (
-        <InquiryForm question={item.question} key={item.question} />
-      ))}
+      <InquiryForm questions={questions.map((item) => item.question)} />
       <RecBtn />
     </>
   );
