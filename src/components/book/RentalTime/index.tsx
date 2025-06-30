@@ -78,7 +78,9 @@ export const RentalTime: React.FC = () => {
     <div>
       <div className={style.contents}>
         {userRentalBooks.length === 0 ? (
+          <div className={style.noRentalWrapper}>
           <p className={style.noRental}>貸し出し中の本はありません</p>
+          </div>
         ) : (
           rentals
             ?.filter(
