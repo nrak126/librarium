@@ -1,0 +1,104 @@
+.container {
+  padding: 2%;
+  border-radius: 8px;
+  text-align: center;
+  margin-top: 3svh;
+}
+
+.question {
+  width: 90%;
+  font-size: 14px;
+  font-weight: bold;
+  color: #5d4037;
+  margin-bottom: 2svh;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.radioGroup {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 13px;
+  gap: 5px;
+  margin-top: 3svh;
+}
+
+.radioOptions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.label {
+  color: #bb9c77;
+}
+
+/* ラジオボタンの見た目をカスタマイズ */
+.radioLabel {
+  position: relative;
+  cursor: pointer;
+}
+
+// 元のラジオボタンは非表示にする
+.radioInput {
+  opacity: 0;
+  position: absolute;
+  width: 0;
+  height: 0;
+}
+
+// カスタムラジオボタンのスタイル
+.customRadio {
+  display: block;
+  border-radius: 50%;
+  transition: all 0.2s;
+}
+
+.customRadio1 {
+  border: 2px solid #e2999b;
+  width: 40px;
+  height: 40px;
+}
+
+.customRadio2 {
+  border: 2px solid #e2999b;
+  width: 35px;
+  height: 35px;
+}
+
+.customRadio3 {
+  border: 2px solid #c3c3c3;
+  width: 30px;
+  height: 30px;
+}
+
+.customRadio4 {
+  border: 2px solid #99c6e2;
+  width: 35px;
+  height: 35px;
+}
+
+.customRadio5 {
+  border: 2px solid #99c6e2;
+  width: 40px;
+  height: 40px;
+}
+
+// 選択された時のスタイル
+.radioInput:checked + .customRadio {
+  background-color: #ef9a9a;
+  border-color: #ef9a9a;
+}
+
+// ホバーした時のスタイル
+.radioLabel:hover .customRadio {
+  border-color: #ef9a9a;
+}
+
+.bar {
+  height: 2px;
+  background-color: #bb9c77;
+  margin: 2svh auto;
+}
