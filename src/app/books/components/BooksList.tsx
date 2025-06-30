@@ -8,15 +8,6 @@ import { StockState } from "@/src/components/book/StockState";
 import { useRouter } from "next/navigation";
 
 export default function BooksList({ result }: { result: Book[] }) {
-  // const [books, setBooks] = useState<Book[]>([]);
-
-  // useEffect(() => {
-  //   if (result) {
-  //     setBooks(result);
-  //     console.log("一覧", { result });
-  //   }
-  // }, []);
-
   const router = useRouter();
 
   const handleClick = (book: Book) => {
