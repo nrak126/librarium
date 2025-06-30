@@ -41,7 +41,7 @@ function UserData({ user }: { user?: User | null }) {
             </div>
             {/* タグを最大4つまで表示。タグにはハッシュマークを付けて表示 */}
             <div className={styles.tagComp}>
-              {user.tags.map((tagdata, index) => (
+              {(user.tags ?? []).slice(0, 4).map((tagdata, index) => (
                 <div key={index} className={styles.tag}>
                   #{tagdata}
                 </div>

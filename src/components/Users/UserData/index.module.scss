@@ -1,12 +1,12 @@
+.link {
+  text-decoration: none;
+  border: none;
+}
+
 .all {
   display: flex;
   flex-direction: column;
   align-items: center;
-
-  .link {
-    text-decoration: none;
-    border: none;
-  }
 
   .whole {
     margin: 0.5%;
@@ -25,44 +25,50 @@
     .sub {
       display: flex;
       flex-flow: column;
+
       .component {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 90%;
+
         .numname {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          margin-left: 5%;
-          margin-top: 2%;
-          font-size: 10px;
-          font-weight: bold;
+          text-align: center;
+          font-size: 13px;
           color: #77634b;
           border-bottom: 1.5px solid #77634b;
           float: left;
-          width: 37%;
-          padding-bottom: 1%;
+          padding-bottom: 0.5%;
+          margin-left: 3%;
         }
 
         .level {
           color: #77634b;
           font-size: 23px;
           float: right;
-          border: 5px #77634b;
         }
       }
 
       .tagComp {
         display: grid;
-        grid-template-columns: repeat(2, auto); /* 2列 */
-        grid-template-rows: repeat(2, auto); /* 2行 */
-        // gap: 5px; /* タグ間の余白 */
-        margin-top: 5px;
+        grid-template-columns: repeat(2, auto);
+        /* 2列 */
+        grid-template-rows: repeat(2, auto);
+        /* 2行 */
+        gap: 5px;
+        /* タグ間の余白 */
+        margin-top: 4px;
+        text-decoration: none;
+        border: none;
+        border-bottom: none; // 下線を消す
+
 
         .tag {
-          text-align: left;
-          margin-left: 6%;
-          padding: 1px 6px;
+          margin-left: 7%;
           color: #77634b;
           font-size: 11px;
-          // text-align: center;
+          padding-bottom: 0.5%;
+          text-decoration: none;
         }
       }
     }
