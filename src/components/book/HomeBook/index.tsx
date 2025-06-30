@@ -21,14 +21,6 @@ export const HomeBook: React.FC<BookListBaseProps> = (props) => {
     router.push(`/books/${link}`);
   };
 
-  // if (loading || books?.length === 0) {
-  //   return (
-  //     <div className={style.loading}>
-  //       <LoadingBrown />
-  //     </div>
-  //   );
-  // }
-
   return (
     <div className={style.contents}>
       {books?.map((book, index) => {
