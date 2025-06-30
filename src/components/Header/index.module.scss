@@ -2,17 +2,25 @@
 
 .headerContainer {
   background-color: #bb9c77;
+  position: relative;
 }
 .header {
   display: flex;
+  align-items: center;
 }
-.h1 {
-  padding: 20px;
+.image {
+  padding: 10px;
+  padding-left: 25px;
 }
-
 .underSpace {
   width: 100%;
   height: 4svh;
   background-color: #fffbf5;
   border-radius: 39px 39px 0 0;
+}
+
+.humBut {
+  position: absolute;
+
+  right: 10vw;
 }

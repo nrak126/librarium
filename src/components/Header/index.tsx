@@ -21,10 +21,12 @@ export const Header = () => {
             alt="HomeIcon"
             width={180}
             height={80}
-            className={styles.h1}
+            className={styles.image}
           />
         </Link>
-        <HamBtn />
+        <div className={styles.humBut}>
+          <HamBtn />
+        </div>
       </div>
       {!isBarcodePage && <div className={styles.underSpace}></div>}
     </div>
