@@ -1,8 +1,5 @@
 .container {
   padding: 2%;
-  border-radius: 8px;
-  text-align: center;
-  margin-top: 3svh;
 }
 
 .question {
@@ -87,18 +84,31 @@
 }
 
 // 選択された時のスタイル
-.radioInput:checked + .customRadio {
+.radioInput:checked + .customRadio1,
+.radioInput:checked + .customRadio2 {
   background-color: #ef9a9a;
   border-color: #ef9a9a;
 }
 
-// ホバーした時のスタイル
-.radioLabel:hover .customRadio {
-  border-color: #ef9a9a;
+.radioInput:checked + .customRadio3 {
+  background-color: #c3c3c3;
+  border-color: #c3c3c3;
+}
+
+.radioInput:checked + .customRadio4,
+.radioInput:checked + .customRadio5 {
+  background-color: #99c6e2;
+  border-color: #99c6e2;
 }
 
 .bar {
   height: 2px;
   background-color: #bb9c77;
-  margin: 2svh auto;
+  margin: 4svh auto;
+}
+
+.btnContainer {
+  display: flex;
+  justify-content: center;
+  gap: 2vw;
 }
