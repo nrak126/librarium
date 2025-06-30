@@ -21,6 +21,7 @@ export default function UserDetail() {
 
   const uid = params.id as string;
 
+  // ユーザーのuidの取得
   useEffect(() => {
     if (!uid) return;
 
@@ -95,23 +96,6 @@ export default function UserDetail() {
       ) : (
         <TagList user={user} />
       )}
-
-      <div className={clickEditer ? styles.trueexp : styles.falseexp}>
-        現在の経験値
-      </div>
-      <p className={styles.comment}>1冊借りると+3pt</p>
-
-      <div className={styles.percent}>
-        <p className={styles.zero}>0</p>
-        <p className={styles.five}>5</p>
-        <p className={styles.ten}>10</p>
-      </div>
-
-      <div className={styles.progressbar}>
-        <progress max="10" value={user.exp % 10}>
-          <p>50%</p>
-        </progress>
-      </div>
 
       <div className={styles.backbutton}>
         <Btn text="戻る" bgColor="#99C6E2" onClick={handleBack} />

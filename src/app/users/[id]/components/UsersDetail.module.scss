@@ -1,4 +1,5 @@
 .whole {
+  display: flex;
   flex-direction: column;
   align-items: center;
   overflow: hidden;
@@ -19,30 +20,25 @@
 
   .tagediter {
     display: flex;
-    margin-top: 2vh;
+    width: 83%;
     justify-content: space-between;
+    margin-top: 2vh;
     .tag {
       text-align: center;
       float: left;
       color: #77634b;
       font-size: 1.8vh;
-      font-weight: 700px;
       border-bottom: 1.4px solid #77634b;
-      width: 8%;
       padding-bottom: 0.1%;
-      margin-left: 12%;
-      margin-top: 2%;
     }
     .editbutton {
       float: right;
       color: #635038;
-      font-weight: 700px;
       font-size: 1.5vh;
       border: 1px solid #635038;
       border-radius: 7px;
       background: #fffbf5;
       padding: 1% 3.3%;
-      margin-right: 10%;
     }
   }
 
