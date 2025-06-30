@@ -7,14 +7,15 @@ import { StockState } from "../StockState";
 import { useAtom } from "jotai";
 import { booksAtom } from "@/src/atoms/atoms";
 import NotFound from "@/public/bookNot.svg";
+import { Book } from "@/src/types";
 
 type BookListBaseProps = {
   showNumber: boolean;
+  books: Book[];
 };
 
 export const HomeBook: React.FC<BookListBaseProps> = (props) => {
-  const { showNumber } = props;
-  const [books] = useAtom(booksAtom);
+  const { showNumber, books } = props;
   const router = useRouter();
 
   const handleClickDetail = (link: string) => {
@@ -23,7 +24,7 @@ export const HomeBook: React.FC<BookListBaseProps> = (props) => {
 
   return (
     <div className={style.contents}>
-      {books?.map((book, index) => {
+      {books.map((books, index) => {
         const rankClass =
           index === 0
             ? style.gold
@@ -36,7 +37,7 @@ export const HomeBook: React.FC<BookListBaseProps> = (props) => {
         return (
           <div key={index} className={style.content}>
             <div
-              onClick={() => handleClickDetail(book.isbn)}
+              onClick={() => handleClickDetail(books.isbn)}
               className={style.card}
             >
               {/* ランキングなら表示 */}
@@ -49,18 +50,18 @@ export const HomeBook: React.FC<BookListBaseProps> = (props) => {
               <Image
                 className={style.image}
                 src={
-                  book.thumbnail && book.thumbnail.startsWith("http")
-                    ? book.thumbnail
+                  books.thumbnail && books.thumbnail.startsWith("http")
+                    ? books.thumbnail
                     : NotFound
                 }
-                alt={book.title}
+                alt={books.title}
                 width={100}
                 height={128}
                 unoptimized={true}
               />
-              <p className={style.text}>{book.title}</p>
+              <p className={style.text}>{books.title}</p>
               <div className={style.stock}>
-                <StockState initialBook={book} />
+                <StockState initialBook={books} />
               </div>
             </div>
           </div>
