@@ -47,6 +47,9 @@ importers:
       react-firebase-hooks:
         specifier: ^5.1.1
         version: 5.1.1(firebase@11.4.0)(react@19.0.0)
+      react-paginate:
+        specifier: ^8.3.0
+        version: 8.3.0(react@19.0.0)
       react-tabs:
         specifier: ^6.1.0
         version: 6.1.0(react@19.0.0)
@@ -3192,6 +3195,11 @@ packages:
 
   react-is@16.13.1:
     resolution: {integrity: sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==}
+
+  react-paginate@8.3.0:
+    resolution: {integrity: sha512-TptZE37HPkT3R+7AszWA++LOTIsIHXcCSWMP9WW/abeF8sLpJzExFB/dVs7xbtqteJ5njF6kk+udTDC0AR3y5w==}
+    peerDependencies:
+      react: ^16 || ^17 || ^18 || ^19
 
   react-tabs@6.1.0:
     resolution: {integrity: sha512-6QtbTRDKM+jA/MZTTefvigNxo0zz+gnBTVFw2CFVvq+f2BuH0nF0vDLNClL045nuTAdOoK/IL1vTP0ZLX0DAyQ==}
@@ -7400,6 +7408,11 @@ snapshots:
       react: 19.0.0
 
   react-is@16.13.1: {}
+
+  react-paginate@8.3.0(react@19.0.0):
+    dependencies:
+      prop-types: 15.8.1
+      react: 19.0.0
 
   react-tabs@6.1.0(react@19.0.0):
     dependencies:
