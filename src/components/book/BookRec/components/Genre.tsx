@@ -4,11 +4,11 @@ import style from "./Genre.module.scss"; // スタイルシートのパスを修
 import { Btn } from "../../Btn";
 
 interface GenreProps {
-  handleSearch: () => void;
+  handleSearch: (genre: string) => void;
 }
 
 export const Genre: React.FC<GenreProps> = ({ handleSearch }) => {
-  const [selectedGenre, setSelectedGenre] = useState<string>("");
+  const [selectedGenre] = useState<string>("Web");
 
   const genreList = [
     "Web",
@@ -23,8 +23,8 @@ export const Genre: React.FC<GenreProps> = ({ handleSearch }) => {
     "CG/ゲーム",
   ];
 
-  const handleRadioChange = (genre: string) => {
-    setSelectedGenre(genre);
+  const handleRadioChange = () => {
+    console.log("選択されたジャンル:", selectedGenre);
   };
 
   return (
@@ -35,12 +35,11 @@ export const Genre: React.FC<GenreProps> = ({ handleSearch }) => {
           {genreList.map((genre, index) => (
             <div className={style.genre} key={index}>
               <input
-                onChange={() => handleRadioChange(genre)}
+                onChange={() => handleRadioChange()}
                 className={style.input}
                 type="radio"
                 name="genre"
                 id={`genre-${index}`}
-                checked={selectedGenre === genre}
               />
               <label className={style.label} htmlFor={`genre-${index}`}>
                 {genre}
@@ -49,7 +48,11 @@ export const Genre: React.FC<GenreProps> = ({ handleSearch }) => {
           ))}
         </div>
         <div className={style.btnContainer}>
-          <Btn text="決定" bgColor="#E2999B" onClick={handleSearch} />
+          <Btn
+            text="決定"
+            bgColor="#E2999B"
+            onClick={() => handleSearch(selectedGenre)}
+          />
           <Btn text="戻る" bgColor="#99C6E2" onClick={() => {}} />
         </div>
       </div>

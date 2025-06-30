@@ -4,8 +4,6 @@ import style from "./index.module.scss";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { StockState } from "../StockState";
-import { useAtom } from "jotai";
-import { booksAtom } from "@/src/atoms/atoms";
 import NotFound from "@/public/bookNot.svg";
 import { Book } from "@/src/types";
 

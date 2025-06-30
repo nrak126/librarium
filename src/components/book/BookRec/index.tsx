@@ -1,3 +1,5 @@
+"use client";
+
 import { HomeBook } from "../HomeBook";
 import React, { useState } from "react";
 import style from "./index.module.scss";
@@ -9,8 +11,8 @@ import { Book } from "@/src/types";
 export const BookRec = () => {
   const [isRecChecked, setIsRecChecked] = useState(false); // おすすめ診断のチェック状態(APIが出来次第変更)
   const [showSelect, setShowSelect] = useState(false); // ← 追加
-  const [selectedGenre, setSelectedGenre] = useState<string>("");
   const [books, setBooks] = useState<Book[]>([]); // 本のリストを管理する状態
+  const [isLoading, setIsLoading] = useState(false); // ローディング状態
 
   const handleClick = () => {
     // ここにボタンがクリックされたときの処理を追加
@@ -22,8 +24,8 @@ export const BookRec = () => {
   };
 
   const handleSearch = async () => {
-    setSelectedGenre("Web");
-    const response = await fetch(`/api/books/?Search=${selectedGenre}`);
+    setIsLoading(true); // ローディング開始
+    const response = await fetch(`/api/books/?Search=Web`);
     if (response.ok) {
       const data = await response.json();
       // Book型にマッピング
@@ -40,11 +42,16 @@ export const BookRec = () => {
         publisher: item.publisher,
         loanCount: item.loanCount,
       }));
+
       setBooks(books);
-      setIsRecChecked(true); // おすすめの本を表示
+      setIsLoading(false);
+      setIsRecChecked(true);
+      setShowSelect(false); // セレクト画面を閉じる
       console.log("取得した本のリスト:", books);
+      console.log("おすすめ診断のチェック状態:", isRecChecked);
     } else {
       console.error("検索に失敗しました");
+      setIsLoading(false); // エラー時もローディング終了
     }
   };
 
@@ -55,6 +62,11 @@ export const BookRec = () => {
         <Genre handleSearch={handleSearch} />
       </div>
     );
+  }
+
+  if (isLoading) {
+    // ローディング中の表示
+    return <div className={style.loading}>Loading...</div>;
   }
 
   return (
