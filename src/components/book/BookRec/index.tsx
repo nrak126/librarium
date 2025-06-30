@@ -40,7 +40,6 @@ export const BookRec = () => {
         available: item.available,
         tags: item.tags,
         publisher: item.publisher,
-        loanCount: item.loanCount,
       }));
 
       setBooks(books);
