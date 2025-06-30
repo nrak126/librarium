@@ -1,6 +1,6 @@
 export type Book = {
   isbn: string; // 書籍のISBN
-  created_at: string; // 作成日時 (ISO 8601形式)
+  createdAt: string; // 作成日時 (ISO 8601形式)
   title: string; // 書籍タイトル
   thumbnail: string; // サムネイル画像URL
   description: string; // 説明文
@@ -9,6 +9,7 @@ export type Book = {
   available: number; // 貸出可能数
   tags: string[]; // タグ（配列形式、nullの場合もあり）
   publisher: string; // 出版社
+  loanCount: number; // 貸出回数
 };
 
 export type BookEditorProps = {
