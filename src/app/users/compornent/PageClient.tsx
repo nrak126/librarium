@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, Suspense } from "react";
+import { useState, useEffect, Suspense, use } from "react";
 import SearchBar from "@/src/components/SearchBar";
 import styles from "./PageClient.module.scss";
 import UsersList from "@/src/components/Users/UsersList";
@@ -25,12 +25,16 @@ export const PageClient = () => {
   );
 };
 
-const PageContent = () => {
+export function PageContent() {
   const [users, setUsers] = useAtom<User[]>(usersAtom);
   const [logedInUser] = useAtom<User | null>(logedInUserAtom);
   const searchParams = useSearchParams();
   const searchName = searchParams.get("search") || "";
   const [result, setResult] = useState<User[]>([]);
+  const [user, setUser] = useState<User | null>(null);
+
+  // ログインユーザーのUIDを取得
+  const uid = logedInUser?.uid || "";
 
   // 初期データ取得（空の場合のみ）+ リアルタイム更新
   useEffect(() => {
@@ -101,6 +105,25 @@ const PageContent = () => {
     };
   }, []); // 空の依存配列でマウント時のみ実行
 
+  // ユーザーデータの取得
+  useEffect(() => {
+    if (!uid) return;
+
+    (async () => {
+      try {
+        const res = await fetch(`/api/users/${uid}`);
+        if (!res.ok) {
+          console.warn("ユーザーデータの取得に失敗");
+          return;
+        }
+        const fetchedUser: User = await res.json();
+        setUser(fetchedUser);
+      } catch (err) {
+        console.error("ユーザーデータ取得エラー:", err);
+      }
+    })();
+  }, [uid]);
+
   // 検索フィルタリング処理
   useEffect(() => {
     (async () => {
@@ -126,7 +149,7 @@ const PageContent = () => {
       </div>
 
       <div className={styles.myprofile}>MY PROFILE</div>
-      {logedInUser && <UserData user={logedInUser} />}
+      {logedInUser && <UserData user={user} />}
 
       {searchName ? (
         <div className={styles.titleSearch}>SEARCH</div>
@@ -136,4 +159,4 @@ const PageContent = () => {
       <UsersList users={result} />
     </>
   );
-};
+}
