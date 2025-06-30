@@ -24,7 +24,7 @@ export async function POST(request: Request) {
       .from("books")
       .update({
         available: book.available - 1,
-        loanCount: book.loanCount + 1,
+        loan_count: book.loan_count + 1,
       })
       .eq("isbn", isbn);
     if (bookError) {

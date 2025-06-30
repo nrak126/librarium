@@ -9,7 +9,7 @@ export type Book = {
   available: number; // 貸出可能数
   tags: string[]; // タグ（配列形式、nullの場合もあり）
   publisher: string; // 出版社
-  loanCount: number; // 貸出回数
+  loan_count: number; // 貸出回数
 };
 
 export type BookEditorProps = {
