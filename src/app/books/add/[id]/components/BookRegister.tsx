@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 import { useAtom } from "jotai";
 import { booksAtom } from "@/src/atoms/atoms";
 import LoadingBrown from "@/src/components/LoadingBrown";
+import styles from "./BookRegister.module.scss";
 import { Btn } from "@/src/components/book/Btn";
 
 export const BookRegister = ({ isbn }: { isbn: string }) => {
@@ -26,6 +27,8 @@ export const BookRegister = ({ isbn }: { isbn: string }) => {
         if (data && data.isbn) {
           return data;
         }
+      } else {
+        setNotFound(true);
       }
       return null;
     } catch (error) {
@@ -40,7 +43,6 @@ export const BookRegister = ({ isbn }: { isbn: string }) => {
       (async () => {
         try {
           const fetchedBook = await fetchBookData(isbn);
-
           if (fetchedBook) {
             setBook(fetchedBook);
           } else {
@@ -82,37 +84,21 @@ export const BookRegister = ({ isbn }: { isbn: string }) => {
     return <LoadingBrown />;
   }
 
-  const aiCheck = async () => {
-    setLoading(true);
-    setNotFound(false); // ここで一度リセット
-    try {
-      const res = await fetch(`/api/books/ai?isbn=${isbn}`);
-      if (res.ok) {
-        const data = await res.json();
-        if (data && data.isbn) {
-          setBook(data);
-          setNotFound(false);
-          return;
-        }
-      }
-      setBook(null);
-      setNotFound(true);
-    } catch (error) {
-      console.error("AI書誌APIエラー(fetch):", error);
-      setBook(null);
-      setNotFound(true);
-    } finally {
-      setLoading(false);
-    }
+  const handleConfirm = () => {
+    router.push("/");
   };
 
   if (notFound) {
     return (
-      <p>
-        指定されたISBN（{isbn}
-        ）の本が見つかりませんでした。ISBNを確認してください。
-        <Btn onClick={aiCheck} bgColor="#99C6E2" text="AIで探す" />
-      </p>
+      <div className={styles.body}>
+        <p className={styles.errorMessage}>
+          指定されたISBN（{isbn}）<br />
+          の本が見つかりませんでした。
+        </p>
+        <div className={styles.Btn}>
+          <Btn text="ホームに戻る" bgColor="#E2999B" onClick={handleConfirm} />
+        </div>
+      </div>
     );
   }
 
@@ -128,7 +114,9 @@ export const BookRegister = ({ isbn }: { isbn: string }) => {
           <Btns BookAdd={BookAdd} />
         </>
       ) : (
-        <p>本の情報が見つかりませんでした。ISBNを確認してください。</p>
+        <p className={styles.errorMessage}>
+          本の情報が見つかりませんでした。ISBNを確認してください。
+        </p>
       )}
     </div>
   );

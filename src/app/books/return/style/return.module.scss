@@ -102,7 +102,7 @@
 .returnTime {
   font-family: "Jua", sans-serif !important;
   position: relative;
-  top: -0.25svh;
+  top: 0.25svh;
 }
 
 .userName {
@@ -147,4 +147,17 @@
 .under {
   position: relative;
   top: 2vh;
+}
+
+.noRental {
+    text-align: center;
+    color: #6b4f3b; 
+    font-weight: bold;
+    font-size: 16px;
+    font-family: sans-serif;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #a98966; 
+    display: inline-block;
+    background-color: #fdfaf5; 
+    margin: 40px auto;
 }
