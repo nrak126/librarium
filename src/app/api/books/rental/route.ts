@@ -11,7 +11,7 @@ export async function POST(request: Request) {
     const {
       data: book,
       error: bookFetchError,
-    }: { data: Book | null; error: any } = await supabase
+    }: { data: Book | null; error: Error | null } = await supabase
       .from("books")
       .select("*")
       .eq("isbn", isbn)
@@ -31,7 +31,7 @@ export async function POST(request: Request) {
       throw bookError;
     }
 
-    const { data, error: loanError }: { data: Loan[] | null; error: any } =
+    const { data, error: loanError }: { data: Loan[] | null; error: Error | null } =
       await supabase
         .from("loans")
         .insert({
