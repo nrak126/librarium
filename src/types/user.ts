@@ -10,4 +10,5 @@ export type User = {
   studentId: string; // 学籍番号
   level: number;
   exp: number;
+  interest_tech: string; // 興味のある分野（診断結果）
 };

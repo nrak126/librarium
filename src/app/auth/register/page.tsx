@@ -24,6 +24,7 @@
       icon: "",
       level: 1,
       exp: 0,
+      interest_tech: "",
     });
 
     const [isExistUser, setIsExistUser] = useState<Response | null>(null);
@@ -55,6 +56,7 @@
             icon: data.user.user_metadata?.avatar_url || "",
             level: 1,
             exp: 0,
+            interest_tech: "",
           }));
           console.log("Logged-in user:", data.user);
         }

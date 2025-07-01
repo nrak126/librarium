@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, Suspense, use } from "react";
+import { useState, useEffect, Suspense } from "react";
 import SearchBar from "@/src/components/SearchBar";
 import styles from "./PageClient.module.scss";
 import UsersList from "@/src/components/Users/UsersList";
