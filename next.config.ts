@@ -28,10 +28,11 @@ const nextConfig: NextConfig = withPWA({
   },
   images: {
     domains: [
-      'books.google.com',
-      'books.google.co.jp',
-      'thumbnail.image.rakuten.co.jp',
-      'api.openbd.jp'
+      "books.google.com",
+      "books.google.co.jp",
+      "thumbnail.image.rakuten.co.jp",
+      "api.openbd.jp",
+      "olqrssibqgetnjohbhmm.supabase.co",
     ],
     remotePatterns: [
       {
@@ -45,6 +46,10 @@ const nextConfig: NextConfig = withPWA({
       {
         protocol: "https",
         hostname: "thumbnail.image.rakuten.co.jp",
+      },
+      {
+        protocol: "https",
+        hostname: "olqrssibqgetnjohbhmm.supabase.co",
       },
     ],
   },

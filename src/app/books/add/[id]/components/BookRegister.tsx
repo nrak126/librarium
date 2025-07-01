@@ -10,12 +10,14 @@ import { booksAtom } from "@/src/atoms/atoms";
 import LoadingBrown from "@/src/components/LoadingBrown";
 import styles from "./BookRegister.module.scss";
 import { Btn } from "@/src/components/book/Btn";
+import heic2any from "heic2any";
 
 export const BookRegister = ({ isbn }: { isbn: string }) => {
   const [book, setBook] = useState<Book | null>(null);
   const [, setBooks] = useAtom(booksAtom);
   const [loading, setLoading] = useState(true);
   const [notFound, setNotFound] = useState(false);
+  const [uploadLoading, setUploadLoading] = useState(false);
   const router = useRouter();
 
   // メインのフェッチ関数（サーバーAPIでGoogle→楽天→Geminiの順で取得）
@@ -88,6 +90,77 @@ export const BookRegister = ({ isbn }: { isbn: string }) => {
     router.push("/");
   };
 
+  const handleFileChange = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    setUploadLoading(true);
+
+    try {
+      let fileToUpload = file;
+
+      // HEICファイルの場合はJPEGに変換
+      if (file.type === "image/heic") {
+        console.log("HEICファイルを検出、JPEG形式に変換中...");
+
+        try {
+          const convertedBlob = (await heic2any({
+            blob: file,
+            toType: "image/jpeg",
+            quality: 0.8,
+          })) as Blob;
+
+          // 新しいFileオブジェクトを作成
+          const fileName = file.name.replace(/\.heic$/i, ".jpg");
+          fileToUpload = new File([convertedBlob], fileName, {
+            type: "image/jpeg",
+            lastModified: Date.now(),
+          });
+
+          console.log("HEIC変換完了:", fileName);
+        } catch (conversionError) {
+          console.error("HEIC変換エラー:", conversionError);
+          alert("HEICファイルの変換に失敗しました。");
+          return;
+        }
+      }
+
+      const formData = new FormData();
+      formData.append("file", fileToUpload);
+      formData.append("isbn", isbn);
+
+      const response = await fetch("/api/strage/postBookThumbnail", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log("サムネイルアップロード成功:", data);
+        alert("サムネイルが正常にアップロードされました！");
+
+        // 本の情報を更新（サムネイルURLを反映）
+        if (book) {
+          setBook({
+            ...book,
+            thumbnail: data.data?.thumbnailUrl || data.thumbnailUrl,
+          });
+        }
+      } else {
+        const errorData = await response.json();
+        console.error("サムネイルアップロード失敗:", errorData);
+        alert(`アップロードに失敗しました: ${errorData.error}`);
+      }
+    } catch (error) {
+      console.error("サムネイルアップロードエラー:", error);
+      alert("アップロード中にエラーが発生しました。");
+    } finally {
+      setUploadLoading(false);
+    }
+  };
+
   if (notFound) {
     return (
       <div className={styles.body}>
@@ -112,6 +185,63 @@ export const BookRegister = ({ isbn }: { isbn: string }) => {
         <>
           <BookInfo book={book} />
           <Btns BookAdd={BookAdd} />
+          <div
+            style={{
+              margin: "20px 0",
+              padding: "16px",
+              border: "1px solid #ccc",
+              borderRadius: "8px",
+            }}
+          >
+            <label
+              htmlFor="thumbnail-upload"
+              style={{
+                display: "block",
+                marginBottom: "10px",
+                fontWeight: "bold",
+                color: "#333",
+              }}
+            >
+              📷 サムネイル画像をアップロード:
+            </label>
+            <input
+              id="thumbnail-upload"
+              type="file"
+              accept="image/*,.heic"
+              onChange={handleFileChange}
+              disabled={uploadLoading}
+              style={{
+                padding: "8px",
+                border: "1px solid #ddd",
+                borderRadius: "4px",
+                width: "100%",
+                maxWidth: "400px",
+                backgroundColor: uploadLoading ? "#f5f5f5" : "white",
+              }}
+            />
+            {uploadLoading && (
+              <p
+                style={{
+                  marginTop: "10px",
+                  color: "#666",
+                  fontStyle: "italic",
+                }}
+              >
+                ⏳ アップロード中...
+              </p>
+            )}
+            <p
+              style={{
+                fontSize: "12px",
+                color: "#666",
+                marginTop: "8px",
+                lineHeight: "1.4",
+              }}
+            >
+              💡 対応形式: JPEG, PNG, WebP, GIF, HEIC (最大5MB)
+              <br />※ HEICファイルは自動的にJPEGに変換されます
+            </p>
+          </div>
         </>
       ) : (
         <p className={styles.errorMessage}>
