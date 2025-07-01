@@ -8,10 +8,10 @@ import icon from "@/public/icon.svg";
 import { Changa_One } from "next/font/google";
 
 // Alegreya Sans SC（Italicあり, Weight全指定）
-export const alegreyaSansSC = Changa_One({
-  weight: "400",
-  subsets: ["latin"],
-});
+// export const alegreyaSansSC = Changa_One({
+//   weight: "400",
+//   subsets: ["latin"],
+// });
 
 function UserData({ user }: { user?: User | null }) {
   if (!user) return <LoadingBrown />;
@@ -35,9 +35,7 @@ function UserData({ user }: { user?: User | null }) {
                 {/* レベル表示。Google Fontsのクラスとスタイルを組み合わせて装飾 */}
                 {user.studentId + " " + user.name}
               </div>
-              <div className={`${alegreyaSansSC.className} ${styles.level}`}>
-                Lv.{user.level}
-              </div>
+              <div className={styles.level}>{user.loan_count}冊</div>
             </div>
             {/* タグを最大4つまで表示。タグにはハッシュマークを付けて表示 */}
             <div className={styles.tagComp}>
