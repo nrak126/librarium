@@ -8,7 +8,7 @@ import { logedInUserAtom } from "@/src/atoms/atoms";
 export const Genre = () => {
   const [selectedGenre, setSelectedGenre] = useState<string>();
 
-  const [loginUser] = useAtom(logedInUserAtom); // ログインユーザーを取得
+  const [loginUser, setLoginUser] = useAtom(logedInUserAtom); // ログインユーザーを取得
 
   const uid = loginUser?.uid;
 
@@ -40,6 +40,10 @@ export const Genre = () => {
         body: JSON.stringify({ interest_tech: selectedGenre }),
       });
       if (res.ok) {
+        setLoginUser((prev) => {
+          if (!prev) return prev; // nullのまま
+          return { ...prev, interest_tech: selectedGenre };
+        });
         console.log("登録成功");
         window.location.href = "/";
       } else {
