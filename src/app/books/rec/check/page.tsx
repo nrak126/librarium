@@ -1,8 +1,10 @@
+import { ShowRec } from "./components/showRe";
 
 export default function Page() {
   return (
     <>
-      aaaa
+      <h2>お勧め診断結果</h2>
+      <ShowRec />
     </>
   );
 }

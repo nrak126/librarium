@@ -1,29 +1,29 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import styles from "./InquiryForm.module.scss";
+import { RecBtn } from "./Btn";
+import { useRouter } from "next/navigation";
+import { useAtom } from "jotai";
+import { logedInUserAtom } from "@/src/atoms/atoms";
+import LoadingBrown from "@/src/components/LoadingBrown";
 
 type Props = {
   questions: string[];
 };
 
-type Rec = {
-  recommendation: string;
-  reason: string;
-};
-
 export const InquiryForm: React.FC<Props> = ({ questions }) => {
-  // 10個の回答を配列で管理（初期値は空文字列）
+  const router = useRouter();
   const [answers, setAnswers] = useState<string[]>(
     Array(questions.length).fill("")
   );
-  const [rec, setRec] = useState<Rec>();
+
   const [notFound, setNotFound] = useState(false);
   const [loading, setLoading] = useState(false);
-
+  const [loginUser, setLoginUser] = useAtom(logedInUserAtom);
   const options = ["1", "2", "3", "4", "5"];
+  const uid = loginUser?.uid;
 
-  // ラジオボタンの選択時に該当indexの値を更新
   const handleChange = (index: number, value: string) => {
     setAnswers((prev) => {
       const next = [...prev];
@@ -32,35 +32,56 @@ export const InquiryForm: React.FC<Props> = ({ questions }) => {
     });
   };
 
-  // 回答が全て埋まったらAPIリクエスト
-  useEffect(() => {
+  const handleSearch = async () => {
     const allAnswered = answers.every((a) => a !== "");
-    if (allAnswered) {
-      setLoading(true);
-      (async () => {
-        try {
-          console.log("Get1 ", answers);
-          const res = await fetch(`/api/books/recs?answer=${answers}`);
-          if (res.ok) {
-            const data = await res.json();
-            if (data && data.recommendation) {
-              setRec(data);
-              setNotFound(false);
-            } else {
-              setNotFound(true);
-            }
-          } else {
-            setNotFound(true);
-          }
-        } catch (error) {
-          console.error("AIのAPIエラー(fetch):", error);
-          setNotFound(true);
-        } finally {
-          setLoading(false);
-        }
-      })();
+    if (!allAnswered) {
+      alert("全ての質問に回答してください");
+      return;
     }
-  }, [answers]);
+    setLoading(true);
+    try {
+      const res = await fetch(`/api/books/recs?answer=${answers}`);
+      if (res.ok) {
+        const data = await res.json();
+        if (data && data.recommendation) {
+          if (uid) {
+            await fetch(`/api/users/${uid}`, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ interest_tech: data.recommendation }),
+            });
+          }
+          setLoginUser((prev) => {
+            if (!prev) return prev;
+            return { ...prev, interest_tech: data.recommendation };
+          });
+          setNotFound(false);
+          router.push(
+            `/books/rec/check?reason=${encodeURIComponent(data.reason)}`
+          );
+        } else {
+          setNotFound(true);
+        }
+      } else {
+        setNotFound(true);
+      }
+    } catch (error) {
+      console.error("AIのAPIエラー(fetch):", error);
+      setNotFound(true);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (notFound) {
+    return (
+      <div className={styles.notFound}>おすすめが見つかりませんでした。</div>
+    );
+  }
+
+  if (loading) {
+    return <LoadingBrown />;
+  }
 
   return (
     <div>
@@ -93,14 +114,7 @@ export const InquiryForm: React.FC<Props> = ({ questions }) => {
           <div className={styles.bar}></div>
         </div>
       ))}
-      {loading && <div>診断中...</div>}
-      {notFound && <div>おすすめが見つかりませんでした</div>}
-      {rec && (
-        <div className={styles.recommendation}>
-          {rec.recommendation}
-          {rec.reason}
-        </div>
-      )}
+      <RecBtn handleSearch={handleSearch} />
     </div>
   );
 };
