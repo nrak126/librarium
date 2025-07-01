@@ -57,10 +57,8 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // ファイル名を生成（ISBN + タイムスタンプ + 拡張子）
-    const timestamp = Date.now();
-    const fileExtension = file.name.split('.').pop();
-    const fileName = `${isbn}_${timestamp}.${fileExtension}`;
+    // ファイル名
+    const fileName = `${isbn}`;
 
     // ファイルをArrayBufferに変換
     const arrayBuffer = await file.arrayBuffer();
@@ -76,11 +74,18 @@ export async function POST(request: NextRequest) {
 
     if (uploadError) {
       console.error('ストレージアップロードエラー:', uploadError);
+      
+      // バケットが存在するかチェック
+      const { data: buckets } = await supabaseAdmin.storage.listBuckets();
+      console.log('利用可能なバケット:', buckets);
+      
       return NextResponse.json(
-        { error: 'ファイルのアップロードに失敗しました' },
+        { error: 'ファイルのアップロードに失敗しました', details: uploadError.message },
         { status: 500 }
       );
     }
+
+    console.log('アップロード成功:', uploadData);
 
     // アップロードされたファイルの公開URLを取得
     const { data: urlData } = supabaseAdmin.storage
@@ -88,6 +93,25 @@ export async function POST(request: NextRequest) {
       .getPublicUrl(fileName);
 
     const publicUrl = urlData.publicUrl;
+    
+    console.log('Generated public URL:', publicUrl);
+    console.log('File name:', fileName);
+    
+    // 代替手段：サインドURLも生成してみる
+    const { data: signedUrlData } = await supabaseAdmin.storage
+      .from('book-thumbnails')
+      .createSignedUrl(fileName, 60 * 60 * 24 * 365); // 1年間有効
+    
+    console.log('Signed URL:', signedUrlData?.signedUrl);
+    
+    // URLが正しく生成されているか確認
+    if (!publicUrl) {
+      console.error('公開URLの生成に失敗しました');
+      return NextResponse.json(
+        { error: '公開URLの生成に失敗しました' },
+        { status: 500 }
+      );
+    }
 
     // 古いサムネイルがある場合は削除
     if (existingBook.thumbnail && existingBook.thumbnail.includes('book-thumbnails')) {
@@ -121,9 +145,12 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({
       message: 'サムネイルが正常にアップロードされました',
+      thumbnailUrl: publicUrl, // 直接thumbnailUrlとして返す
+      signedUrl: signedUrlData?.signedUrl, // サインドURLも返す
       data: {
         isbn,
         thumbnailUrl: publicUrl,
+        signedUrl: signedUrlData?.signedUrl,
         fileName,
         fileSize: file.size,
         contentType: file.type,
@@ -160,7 +187,7 @@ export async function GET() {
         curl: `curl -X POST -F "file=@thumbnail.jpg" -F "isbn=9781234567890" ${process.env.NEXT_PUBLIC_BASE_URL}/api/strage/postBookThumbnail`
       }
     });
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       { error: 'API情報の取得に失敗しました' },
       { status: 500 }

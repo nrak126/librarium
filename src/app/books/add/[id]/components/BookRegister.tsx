@@ -131,7 +131,7 @@ export const BookRegister = ({ isbn }: { isbn: string }) => {
       formData.append("file", fileToUpload);
       formData.append("isbn", isbn);
 
-      const response = await fetch("/api/strage/postBookThumbnail", {
+      const response = await fetch("/api/strage/storeBookThumbnail", {
         method: "POST",
         body: formData,
       });
@@ -139,13 +139,12 @@ export const BookRegister = ({ isbn }: { isbn: string }) => {
       if (response.ok) {
         const data = await response.json();
         console.log("サムネイルアップロード成功:", data);
-        alert("サムネイルが正常にアップロードされました！");
 
         // 本の情報を更新（サムネイルURLを反映）
         if (book) {
           setBook({
             ...book,
-            thumbnail: data.data?.thumbnailUrl || data.thumbnailUrl,
+            thumbnail: data.data?.signedUrl || data.signedUrl,
           });
         }
       } else {
