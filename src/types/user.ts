@@ -11,4 +11,5 @@ export type User = {
   level: number;
   exp: number;
   interest_tech: string; // 興味のある分野（診断結果）
+  loan_count: number; // 貸出回数
 };
