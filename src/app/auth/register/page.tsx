@@ -25,6 +25,7 @@
       level: 1,
       exp: 0,
       interest_tech: "",
+      loan_count: 0,
     });
 
     const [isExistUser, setIsExistUser] = useState<Response | null>(null);
@@ -57,6 +58,7 @@
             level: 1,
             exp: 0,
             interest_tech: "",
+            loan_count: 0,
           }));
           console.log("Logged-in user:", data.user);
         }

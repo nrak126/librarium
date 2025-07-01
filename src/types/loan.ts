@@ -1,4 +1,7 @@
-export interface Loan  {
+import { Book } from "./book";
+import { User } from "./user";
+
+export interface Loan {
   id: string; // ローンID (UUID)
   created_at: string; // 作成日時 (ISO 8601形式)
   uid: string; // ユーザーID (Firebase AuthのユーザーID, UUID)
@@ -6,4 +9,13 @@ export interface Loan  {
   rental_date: string; // レンタル日 (ISO 8601形式)
   return_date: string; // 返却日 (ISO 8601形式)
   isReturned: boolean; // ステータス (貸し出し中ならtrue、返却済みならfalse)
-};
+}
+
+export interface LoanWithBook extends Loan {
+  books: Book;
+}
+
+export interface RentalList extends Loan {
+  books: Book;
+  users: User;
+}
