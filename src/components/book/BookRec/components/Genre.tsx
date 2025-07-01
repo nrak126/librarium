@@ -2,13 +2,15 @@
 import { useState } from "react";
 import style from "./Genre.module.scss"; // スタイルシートのパスを修正
 import { Btn } from "../../Btn";
+import { useAtom } from "jotai";
+import { logedInUserAtom } from "@/src/atoms/atoms";
 
-interface GenreProps {
-  handleSearch: (genre: string) => void;
-}
+export const Genre = () => {
+  const [selectedGenre, setSelectedGenre] = useState<string>();
 
-export const Genre: React.FC<GenreProps> = ({ handleSearch }) => {
-  const [selectedGenre] = useState<string>("Web");
+  const [loginUser, setLoginUser] = useAtom(logedInUserAtom); // ログインユーザーを取得
+
+  const uid = loginUser?.uid;
 
   const genreList = [
     "Web",
@@ -23,8 +25,33 @@ export const Genre: React.FC<GenreProps> = ({ handleSearch }) => {
     "CG/ゲーム",
   ];
 
-  const handleRadioChange = () => {
-    console.log("選択されたジャンル:", selectedGenre);
+  const handleRadioChange = (genre: string) => {
+    setSelectedGenre(genre);
+    console.log("ラジオボタンが変更されました");
+    console.log("選択されたジャンル:", genre);
+  };
+
+  const handleRecSearch = async () => {
+    if (!selectedGenre) return;
+    try {
+      const res = await fetch(`/api/users/${uid}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ interest_tech: selectedGenre }),
+      });
+      if (res.ok) {
+        setLoginUser((prev) => {
+          if (!prev) return prev; // nullのまま
+          return { ...prev, interest_tech: selectedGenre };
+        });
+        console.log("登録成功");
+        window.location.href = "/";
+      } else {
+        alert("登録失敗");
+      }
+    } catch (e) {
+      console.error("通信エラー", e);
+    }
   };
 
   return (
@@ -35,11 +62,12 @@ export const Genre: React.FC<GenreProps> = ({ handleSearch }) => {
           {genreList.map((genre, index) => (
             <div className={style.genre} key={index}>
               <input
-                onChange={() => handleRadioChange()}
+                onChange={() => handleRadioChange(genre)}
                 className={style.input}
                 type="radio"
                 name="genre"
                 id={`genre-${index}`}
+                checked={selectedGenre === genre}
               />
               <label className={style.label} htmlFor={`genre-${index}`}>
                 {genre}
@@ -48,11 +76,7 @@ export const Genre: React.FC<GenreProps> = ({ handleSearch }) => {
           ))}
         </div>
         <div className={style.btnContainer}>
-          <Btn
-            text="決定"
-            bgColor="#E2999B"
-            onClick={() => handleSearch(selectedGenre)}
-          />
+          <Btn text="決定" bgColor="#E2999B" onClick={handleRecSearch} />
           <Btn text="戻る" bgColor="#99C6E2" onClick={() => {}} />
         </div>
       </div>

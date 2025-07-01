@@ -8,3 +8,4 @@ export const rentalAtom = atomWithStorage<RentalList[] | null>(
 );
 export const usersAtom = atomWithStorage<User[]>("users", []);
 export const logedInUserAtom = atomWithStorage<User | null>("userAuth", null);
+export const loginRecBookAtom = atomWithStorage<Book[] | null>("recBook", null);

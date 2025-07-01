@@ -1,7 +1,7 @@
 "use client";
 
 import { HomeBook } from "../HomeBook";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import style from "./index.module.scss";
 import Image from "next/image";
 import icon from "@/public/rei.svg";
@@ -9,17 +9,22 @@ import { Btn } from "../Btn";
 import { Genre } from "./components/Genre";
 import { Book } from "@/src/types";
 import { useRouter } from "next/navigation";
+import { logedInUserAtom, loginRecBookAtom } from "@/src/atoms/atoms";
+import { useAtom } from "jotai";
+import LoadingBrown from "../../LoadingBrown";
 export const BookRec = () => {
-  const [isRecChecked, setIsRecChecked] = useState(false); // おすすめ診断のチェック状態(APIが出来次第変更)
   const [showSelect, setShowSelect] = useState(false); // ← 追加
-  const [books, setBooks] = useState<Book[]>([]); // 本のリストを管理する状態
   const [isLoading, setIsLoading] = useState(false); // ローディング状態
+  const [loginUser] = useAtom(logedInUserAtom); // ログインユーザーを取得
+  const [books, setBooks] = useAtom(loginRecBookAtom); // 本のリストを管理
+
+  // const interestTech = loginUser?.interest_tech;
 
   const router = useRouter();
 
   const handleClick = () => {
     // ここにボタンがクリックされたときの処理を追加
-    setShowSelect(true); // ← 状態を切り替える
+    setShowSelect(true);
   };
 
   const handleBack = () => {
@@ -28,7 +33,9 @@ export const BookRec = () => {
 
   const handleSearch = async () => {
     setIsLoading(true); // ローディング開始
-    const response = await fetch(`/api/books/?Search=Web`);
+    const response = await fetch(
+      `/api/books/?search=${loginUser?.interest_tech}`
+    );
     if (response.ok) {
       const data = await response.json();
       // Book型にマッピング
@@ -44,36 +51,45 @@ export const BookRec = () => {
         tags: item.tags,
         publisher: item.publisher,
       }));
-
-      setBooks(books);
       setIsLoading(false);
-      setIsRecChecked(true);
       setShowSelect(false); // セレクト画面を閉じる
+      setBooks(books); // 取得した本のリストを更新
       console.log("取得した本のリスト:", books);
-      console.log("おすすめ診断のチェック状態:", isRecChecked);
     } else {
       console.error("検索に失敗しました");
       setIsLoading(false); // エラー時もローディング終了
     }
   };
 
+  useEffect(() => {
+    if (
+      loginUser?.interest_tech &&
+      !showSelect &&
+      (!books || books.length === 0)
+    ) {
+      handleSearch();
+    }
+  }, [loginUser?.interest_tech, showSelect, books]);
+
   if (showSelect) {
     // セレクト画面だけを表示
     return (
       <div className={style.container}>
-        <Genre handleSearch={handleSearch} />
+        <Genre />
       </div>
     );
   }
 
   if (isLoading) {
     // ローディング中の表示
-    return <div className={style.loading}>Loading...</div>;
+    return <LoadingBrown />;
   }
+
+  if (!books) return;
 
   return (
     <div>
-      {isRecChecked ? (
+      {loginUser?.interest_tech ? (
         <HomeBook showNumber={false} books={books} />
       ) : (
         <>
