@@ -21,6 +21,8 @@ export default function UserDetail() {
 
   const uid = params.id as string;
 
+  console.log("user", user);
+
   // ユーザーのuidの取得
   useEffect(() => {
     if (!uid) return;
@@ -72,8 +74,14 @@ export default function UserDetail() {
         priority
       />
 
-      <div className={styles.username}>
-        {user.studentId} {user.name}
+      <div className={styles.username}>{user.name}</div>
+
+      <div className={styles.studentId}>
+        <div className={styles.subtitle}>学籍番号</div>
+        <div className={styles.id}>{user.studentId}</div>
+        <button onClick={handleSample} className={styles.editbutton}>
+          編集
+        </button>
       </div>
 
       <div className={styles.tagediter}>
@@ -96,6 +104,10 @@ export default function UserDetail() {
       ) : (
         <TagList user={user} />
       )}
+
+      <div className={styles.history}>
+        <div className={styles.subtitle}>履歴</div>
+      </div>
 
       <div className={styles.backbutton}>
         <Btn text="戻る" bgColor="#99C6E2" onClick={handleBack} />
