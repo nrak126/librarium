@@ -33,13 +33,14 @@ export const PageClient: React.FC = () => {
         }
 
         const user = await fetch(`/api/users/${data.user.id}`);
-        if (!user.ok) {
-          console.error("ユーザー情報の取得に失敗しました");
-          await router.push("/auth");
+
+        const appUser: User = await user.json();
+        if (appUser.studentId === null || appUser.studentId === undefined) {
+          // 新規ユーザーの場合は登録画面へ
+          await router.push("/auth/register");
           return;
         }
 
-        const appUser: User = await user.json();
         setLogedInUser(appUser);
       })();
     }
