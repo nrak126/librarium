@@ -48,6 +48,11 @@ async function fetchFromGemini(...answers: number[]) {
 8. はんだ付けやブレッドボードでの試作など、自分の手で物理的なプロトタイプを組み立てる作業が好きだ。 ${answers[7]}
 9. 機能を作ること以上に、ユーザーが抱える根本的な課題を発見し、解決に導くプロセスを重視する。 ${answers[8]}
 10. 作ったものがすぐにインターネットを通じて、多くの人の目に触れたり使われたりすることに喜びを感じる。 ${answers[9]}
+11. 新しい機能を追加することよりも、既存のプロセスにある無駄を見つけ出し、より効率的な方法に改善していくことに喜びを感じる。${answers[10]}
+12. 現実的な問題解決も大切だが、それ以上に「未来はどうなるか」を空想し、まだ存在しない世界や体験を思い描くのが好きだ。${answers[11]}
+13. 人とコミュニケーションを取りながら進める作業よりも、複雑に絡み合ったパズルを一人で解き明かすような、知的な課題に没頭したい。${answers[12]}
+14. 多機能で便利なものよりも、機能は少なくても、一つの目的が研ぎ澄まされた、シンプルで美しいものに強く惹かれる。${answers[13]}
+15. 物事がスムーズに進むことよりも、予期せぬエラーや困難な状況に直面し、それを乗り越える過程にこそ、成長や面白さを感じる。${answers[14]}
 `;
 
   try {
@@ -66,7 +71,7 @@ export async function GET(request: NextRequest) {
   const answers = answerParam ? answerParam.split(",").map(Number) : [];
   console.log("Get ", answers);
 
-  if (answers.length !== 10 || answers.some((v) => isNaN(v))) {
+  if (answers.length !== 15 || answers.some((v) => isNaN(v))) {
     return NextResponse.json(
       { error: "全ての回答(10個)が必要です" },
       { status: 400 }
