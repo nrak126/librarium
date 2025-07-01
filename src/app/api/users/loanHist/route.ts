@@ -1,7 +1,6 @@
 // app/api/loans/route.ts
 import { NextResponse } from "next/server";
 import { supabase } from "@/src/lib/supabase";
-import { LoanWithBook } from "@/src/types";
 
 // GET: loansのリストを取得する
 export async function GET(request: Request) {
