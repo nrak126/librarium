@@ -1,4 +1,3 @@
-import { RecBtn } from "./components/Btn";
 import InquiryForm from "./components/InquiryForm";
 import style from "./style/index.module.scss";
 

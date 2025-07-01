@@ -1,6 +1,6 @@
 "use client";
 
-import React, { use, useEffect, useState } from "react";
+import React, { useState } from "react";
 import styles from "./InquiryForm.module.scss";
 import { RecBtn } from "./Btn";
 import { useRouter } from "next/navigation";
