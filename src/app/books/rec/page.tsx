@@ -1,6 +1,4 @@
 import InquiryForm from "./components/InquiryForm";
-import style from "./style/index.module.scss";
-
 const questions = [
   {
     question:
@@ -67,8 +65,6 @@ const questions = [
 export default function Page() {
   return (
     <>
-      <h2 className={style.title}>お勧め診断</h2>
-      <div className={style.bar}></div>
       <InquiryForm questions={questions.map((item) => item.question)} />
     </>
   );
