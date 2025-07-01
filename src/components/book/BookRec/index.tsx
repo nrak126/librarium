@@ -61,7 +61,7 @@ export const BookRec = () => {
     // セレクト画面だけを表示
     return (
       <div className={style.container}>
-        <Genre handleSearch={handleSearch} />
+        <Genre />
       </div>
     );
   }
