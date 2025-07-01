@@ -56,7 +56,16 @@ export async function POST(request: NextRequest) {
         { status: 404 }
       );
     }
-
+    // 古いサムネイルがある場合は削除
+    if (existingBook.thumbnail && existingBook.thumbnail.includes('book-thumbnails')) {
+      const oldFileName = existingBook.thumbnail.split('/').pop();
+      if (oldFileName && oldFileName.startsWith(isbn)) {
+        await supabaseAdmin.storage
+          .from('book-thumbnails')
+          .remove([oldFileName]);
+      }
+    }
+    
     // ファイル名
     const fileName = `${isbn}`;
 
@@ -113,15 +122,6 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // 古いサムネイルがある場合は削除
-    if (existingBook.thumbnail && existingBook.thumbnail.includes('book-thumbnails')) {
-      const oldFileName = existingBook.thumbnail.split('/').pop();
-      if (oldFileName && oldFileName.startsWith(isbn)) {
-        await supabaseAdmin.storage
-          .from('book-thumbnails')
-          .remove([oldFileName]);
-      }
-    }
 
     // 本のサムネイルURLを更新
     const { data: updateData, error: updateError } = await supabaseAdmin
