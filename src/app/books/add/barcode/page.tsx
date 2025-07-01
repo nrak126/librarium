@@ -1,5 +1,5 @@
-import {GetIsbn } from "./components/GetIsbn"
+import { GetIsbn } from "./components/GetIsbn";
 
 export default async function Page() {
-	return <GetIsbn />
+  return <GetIsbn />;
 }

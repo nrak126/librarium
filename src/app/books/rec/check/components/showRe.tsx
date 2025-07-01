@@ -14,7 +14,7 @@ export const ShowRec = () => {
   const reason = searchParams.get("reason");
 
   const handleBack = () => {
-    window.location.href = "/books";
+    window.location.href = "/";
   };
 
   return (

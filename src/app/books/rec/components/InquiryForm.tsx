@@ -56,7 +56,7 @@ export const InquiryForm: React.FC<Props> = ({ questions }) => {
             return { ...prev, interest_tech: data.recommendation };
           });
           setNotFound(false);
-          router.push(
+          await router.push(
             `/books/rec/check?reason=${encodeURIComponent(data.reason)}`
           );
         } else {
@@ -85,6 +85,8 @@ export const InquiryForm: React.FC<Props> = ({ questions }) => {
 
   return (
     <div>
+      <h2 className={styles.title}>お勧め診断</h2>
+      <div className={styles.bar}></div>
       {questions.map((question, idx) => (
         <div className={styles.container} key={question}>
           <p className={styles.question}>{question}</p>
