@@ -30,14 +30,22 @@ export const Genre = () => {
     console.log("選択されたジャンル:", genre);
   };
 
+  const handleBack = () => {
+    window.location.href = "/";
+  };
+
   const handleRecSearch = async () => {
-    if (!selectedGenre) return;
+    if (!selectedGenre) alert("ジャンルを選択してください");
+
     try {
       const res = await fetch(`/api/users/${uid}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ interest_tech: selectedGenre }),
       });
+      if (!selectedGenre) {
+        return;
+      }
       if (res.ok) {
         setLoginUser((prev) => {
           if (!prev) return prev; // nullのまま
@@ -75,8 +83,8 @@ export const Genre = () => {
           ))}
         </div>
         <div className={style.btnContainer}>
+          <Btn text="戻る" bgColor="#99C6E2" onClick={handleBack} />
           <Btn text="決定" bgColor="#E2999B" onClick={handleRecSearch} />
-          <Btn text="戻る" bgColor="#99C6E2" onClick={() => {}} />
         </div>
       </div>
     </>

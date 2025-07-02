@@ -12,6 +12,7 @@ import { Diagnosis } from "./components/diagnosis";
 
 export const BookRec = () => {
   const [showSelect, setShowSelect] = useState(false); // ← 追加
+  const [showDia, setShowDia] = useState(false); // ← 追加
   const [isLoading, setIsLoading] = useState(false); // ローディング状態
   const [loginUser] = useAtom(logedInUserAtom); // ログインユーザーを取得
   const [books, setBooks] = useAtom(loginRecBookAtom); // 本のリストを管理
@@ -22,6 +23,10 @@ export const BookRec = () => {
   const handleClick = () => {
     // ここにボタンがクリックされたときの処理を追加
     setShowSelect(true);
+  };
+
+  const handleDiaClick = () => {
+    setShowDia(true); // セレクト画面を閉じて診断画面を表示
   };
 
   const handleSearch = useCallback(async () => {
@@ -92,7 +97,24 @@ export const BookRec = () => {
 
   // データなし状態の表示を追加
   if (noDataFound) {
-    return <p className={style.noBooks}>おすすめの本がありません</p>;
+    return (
+      <>
+        {showDia ? (
+          <Diagnosis handleClick={handleClick} />
+        ) : (
+          <>
+            <p className={style.noBooks}>おすすめの本がありません</p>
+            <HomeBook showNumber={false} books={books || []} />
+            <div className={`${style.btnContainer} ${style.noData}`}>
+              <p className={style.text}>もう一度診断してみる？</p>
+              <button className={style.btn} onClick={handleDiaClick}>
+                再診断
+              </button>
+            </div>
+          </>
+        )}
+      </>
+    );
   }
 
   if (isLoading) {
@@ -103,7 +125,21 @@ export const BookRec = () => {
   return (
     <div>
       {loginUser?.interest_tech && loginUser.interest_tech.trim() !== "" ? (
-        <HomeBook showNumber={false} books={books || []} />
+        <>
+          {showDia ? (
+            <Diagnosis handleClick={handleClick} />
+          ) : (
+            <>
+              <HomeBook showNumber={false} books={books || []} />
+              <div className={style.btnContainer}>
+                <p className={style.text}>もう一度診断してみる？</p>
+                <button className={style.btn} onClick={handleDiaClick}>
+                  再診断
+                </button>
+              </div>
+            </>
+          )}
+        </>
       ) : (
         <>
           <Diagnosis handleClick={handleClick} />

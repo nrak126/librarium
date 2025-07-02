@@ -1,0 +1,30 @@
+.noRec {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  color: #635038;
+  margin-top: 3svh;
+}
+
+.title {
+  margin-top: 10px;
+}
+
+.diagText {
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.btnContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin-top: 6svh;
+}
+
+.diagDesc {
+  font-size: 10px;
+}
