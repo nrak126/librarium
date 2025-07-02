@@ -15,6 +15,7 @@ import { BookCardList } from "@/src/app/books/components/BookListCard";
 
 export default function UserDetail() {
   const [clickEditer, setClickEditer] = useState(false);
+  const [clickIcon, setClickIcon] = useState(false);
   const router = useRouter();
   const params = useParams();
   const [user, setUser] = useState<User | null>(null);
@@ -94,6 +95,13 @@ export default function UserDetail() {
     console.log("編集が押されました。");
   };
 
+  const handleIcon = () => {
+    if (clickEditer === true) {
+      console.log("アイコンがクリックされました。");
+      setClickIcon(!clickIcon);
+    }
+  };
+
   const handleHistBook = (book: LoanWithBook["books"]) => {
     router.push(`/books/${book.isbn}`);
   };
@@ -111,14 +119,33 @@ export default function UserDetail() {
 
   return (
     <div className={styles.whole}>
-      <Image
-        src={user.icon}
-        alt={"ユーザーのアイコン"}
-        width={180}
-        height={180}
-        className={styles.icon}
-        priority
-      />
+      {clickEditer ? (
+        <div>
+          <Image
+            src={user.icon}
+            alt={"ユーザーのアイコン"}
+            width={180}
+            height={180}
+            className={styles.icon}
+            priority
+            onClick={handleIcon}
+          />
+          {/* <select>
+            <option>写真ライブラリ</option>
+            <option>写真を撮る</option>
+            <option>ファイルを選択</option>
+          </select> */}
+        </div>
+      ) : (
+        <Image
+          src={user.icon}
+          alt={"ユーザーのアイコン"}
+          width={180}
+          height={180}
+          className={styles.icon}
+          priority
+        />
+      )}
 
       {user.uid === logedInUser?.uid ? (
         clickEditer ? (
