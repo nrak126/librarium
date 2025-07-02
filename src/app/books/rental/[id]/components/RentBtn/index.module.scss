@@ -14,14 +14,14 @@
   margin-bottom: 10%;
   gap: 40px;
 }
-.buttonRow { 
+.buttonRow {
   display: flex;
   gap: 15px;
 }
-.erroMessage {
+.errorMessage {
   color: #c96d6d;
   font-weight: bold;
-  font-size: 0.7rem;
+  font-size: 0.9rem;
   text-align: center;
-  margin-top: -20%;
+  margin-top: -15svh;
 }
