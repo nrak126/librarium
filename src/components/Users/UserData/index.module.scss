@@ -44,11 +44,24 @@
           margin-left: 3%;
         }
 
-        .level {
+        .count{
+          display: flex;
+          justify-content: space-between;
+          width: 10%;
+          padding-bottom: 1vh;
+          .level {
+            color: #77634b;
+            font-size: 20px;
+            font-weight: 700;
+            float: right;
+          }
+        .satu{
+          font-size: 13px;
+          padding-top: 0.3vh;
           color: #77634b;
-          font-size: 20px;
-          float: right;
+          }
         }
+
       }
 
       .tagComp {
