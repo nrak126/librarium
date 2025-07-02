@@ -10,16 +10,20 @@
 }
 
 .whole {
-  display: flex;
   height: 100%;
   width: 100%;
-  align-items: center;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(6, 1fr);
+
 }
 
 .icon {
-  margin-top: 7vh;
-  margin-bottom: 10vh;
+    width: 100%;
+    height: auto;
+    grid-column: 2 / 3;
+    grid-row: 2 / 3;
+    margin-top: 5vh;
 }
 
 .loginBtn {
@@ -32,7 +36,9 @@
   box-shadow: 1px 1px 4px gray;
   font-weight: bold;
   font-size: 23px;
-  margin-top: 13vh;
+  grid-column: 1 / 4;
+  grid-row: 4 / 5;
+  margin-left: 18%;
 
   transition: transform 0.1s;
 
