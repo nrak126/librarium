@@ -3,7 +3,6 @@
   flex-direction: column;
   align-items: center;
   overflow: hidden;
-  height: 100svh;
 
   .icon {
     margin-top: 2vh;
@@ -22,6 +21,16 @@
       padding: 1% 3.3%;
       box-shadow: 0.5px 3px 4px rgba(123, 98, 60, 0.6); 
       margin-top: 5vh;
+      -webkit-transition: all .3s;
+      transition: all .3s;
+  }
+
+  .editbutton:active{
+     transform: scale(0.9,0.9);
+  }
+
+  .editbutton::after{
+    transform: scale(1.0,1.0);
   }
 
   .username {

@@ -29,6 +29,14 @@
       border-radius: 8px;
       width: 5vh;
       height: 2vh;
+      -webkit-transition: all .3s;
+      transition: all .3s;
+    }
+    .delete:active{
+    transform: scale(0.9,0.9);
+    }
+    .delete::after{
+    transform: scale(1,1); 
     }
   }
 }
@@ -94,5 +102,13 @@
     margin-left: 3%;
     width: 5.3vh;
     height: 2.5vh;
+    -webkit-transition: all .3s;
+    transition: all .3s;
+  }
+  .tagadd:active{
+    transform: scale(0.9,0.9);
+  }
+  .tagadd::after{
+    transform: scale(1,1); 
   }
 }
