@@ -18,10 +18,20 @@ export const BookRec = () => {
   const [loginUser] = useAtom(logedInUserAtom); // ログインユーザーを取得
   const [books, setBooks] = useAtom(loginRecBookAtom); // 本のリストを管理
   const [noDataFound, setNoDataFound] = useState(false); // 追加：データなし状態を管理
+  const [isInitializing, setIsInitializing] = useState(true); // 初期化状態を追加
 
-  // const interestTech = loginUser?.interest_tech;
+  const interestTech = loginUser?.interest_tech;
+
+  console.log("interestTech:", loginUser);
 
   const router = useRouter();
+
+  // loginUserの初期化を監視
+  useEffect(() => {
+    if (loginUser !== undefined) {
+      setIsInitializing(false);
+    }
+  }, [loginUser]);
 
   const handleClick = () => {
     // ここにボタンがクリックされたときの処理を追加
@@ -35,9 +45,7 @@ export const BookRec = () => {
   const handleSearch = useCallback(async () => {
     setIsLoading(true); // ローディング開始
     setNoDataFound(false); // 検索開始時にリセット
-    const response = await fetch(
-      `/api/books/?search=${loginUser?.interest_tech}`
-    );
+    const response = await fetch(`/api/books/?search=${interestTech}`);
     if (response.ok) {
       const data = await response.json();
       if (!data || data.length === 0) {
@@ -68,28 +76,34 @@ export const BookRec = () => {
       console.error("検索に失敗しました");
       setIsLoading(false); // エラー時もローディング終了
     }
-  }, [loginUser?.interest_tech, setBooks]);
+  }, [loginUser?.interest_tech, setBooks, interestTech]);
 
   useEffect(() => {
     if (
+      !isInitializing &&
       loginUser?.interest_tech &&
       loginUser.interest_tech.trim() !== "" &&
       !showSelect &&
       (!books || books.length === 0) &&
-      !noDataFound && // データなし状態の場合は実行しない
-      !isLoading // ローディング中も実行しない
+      !noDataFound &&
+      !isLoading
     ) {
       handleSearch();
     }
   }, [
+    isInitializing,
     loginUser?.interest_tech,
     showSelect,
     books?.length,
     noDataFound,
     isLoading,
-    books,
     handleSearch,
+    books,
   ]);
+
+  if (isInitializing) {
+    return <LoadingBrown />;
+  }
 
   if (showSelect) {
     // セレクト画面だけを表示
@@ -110,12 +124,10 @@ export const BookRec = () => {
     return <LoadingBrown />;
   }
 
-  if (!books) return;
-
   return (
     <div>
       {loginUser?.interest_tech && loginUser.interest_tech.trim() !== "" ? (
-        <HomeBook showNumber={false} books={books} />
+        <HomeBook showNumber={false} books={books || []} />
       ) : (
         <>
           <div className={style.noRec}>
