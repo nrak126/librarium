@@ -4,6 +4,7 @@ import { User } from "@/src/types";
 import Link from "next/link";
 import LoadingBrown from "../../LoadingBrown";
 import icon from "@/public/icon.svg";
+// import { Changa_One } from "next/font/google"; // 追加
 
 // Alegreya Sans SC（Italicあり, Weight全指定）
 // export const alegreyaSansSC = Changa_One({
@@ -33,7 +34,10 @@ function UserData({ user }: { user?: User | null }) {
                 {/* レベル表示。Google Fontsのクラスとスタイルを組み合わせて装飾 */}
                 {user.studentId + " " + user.name}
               </div>
-              <div className={styles.level}>{user.loan_count}冊</div>
+              <div className={styles.count}>
+                <div className={styles.level}>{user.loan_count}</div>
+                <div className={styles.satu}>冊</div>
+              </div>
             </div>
             {/* タグを最大4つまで表示。タグにはハッシュマークを付けて表示 */}
             <div className={styles.tagComp}>
