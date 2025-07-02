@@ -1,4 +1,4 @@
-import InquiryForm from "./components/InquiryForm";
+import { InquiryForm } from "./components/InquiryForm";
 const questions = [
   {
     question:

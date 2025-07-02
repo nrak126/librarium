@@ -68,8 +68,6 @@ export const InquiryForm: React.FC<Props> = ({ questions }) => {
     } catch (error) {
       console.error("AIのAPIエラー(fetch):", error);
       setNotFound(true);
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -120,5 +118,3 @@ export const InquiryForm: React.FC<Props> = ({ questions }) => {
     </div>
   );
 };
-
-export default InquiryForm;

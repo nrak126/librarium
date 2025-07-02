@@ -1,7 +1,7 @@
 "use client";
 
 import { HomeBook } from "../HomeBook";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import style from "./index.module.scss";
 import Image from "next/image";
 import icon from "@/public/rei.svg";
@@ -31,7 +31,7 @@ export const BookRec = () => {
     router.push("/books/rec");
   };
 
-  const handleSearch = async () => {
+  const handleSearch = useCallback(async () => {
     setIsLoading(true); // ローディング開始
     const response = await fetch(
       `/api/books/?search=${loginUser?.interest_tech}`
@@ -59,7 +59,7 @@ export const BookRec = () => {
       console.error("検索に失敗しました");
       setIsLoading(false); // エラー時もローディング終了
     }
-  };
+  }, [loginUser?.interest_tech, setBooks]);
 
   useEffect(() => {
     if (
@@ -69,7 +69,7 @@ export const BookRec = () => {
     ) {
       handleSearch();
     }
-  }, [loginUser?.interest_tech, showSelect, books]);
+  }, [loginUser?.interest_tech, showSelect, books, handleSearch]);
 
   if (showSelect) {
     // セレクト画面だけを表示
