@@ -104,7 +104,7 @@ export const BookRec = () => {
         ) : (
           <>
             <p className={style.noBooks}>おすすめの本がありません</p>
-            <HomeBook showNumber={false} books={books || []} />
+
             <div className={`${style.btnContainer} ${style.noData}`}>
               <p className={style.text}>もう一度診断してみる？</p>
               <button className={style.btn} onClick={handleDiaClick}>
@@ -130,6 +130,7 @@ export const BookRec = () => {
             <Diagnosis handleClick={handleClick} />
           ) : (
             <>
+              <h3 className={style.title}>{loginUser?.interest_tech}</h3>
               <HomeBook showNumber={false} books={books || []} />
               <div className={style.btnContainer}>
                 <p className={style.text}>もう一度診断してみる？</p>
