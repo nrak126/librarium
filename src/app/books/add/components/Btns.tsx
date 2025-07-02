@@ -4,19 +4,29 @@ import React from "react";
 import { Btn } from "@/src/components/book/Btn";
 import { useRouter } from "next/navigation";
 import style from "./rental.module.scss";
+import { Book } from "@/src/types";
 
 interface BtnsProps {
-  BookAdd: () => void;
+  BookAdd?: () => void;
   test?: string;
+  book?: Book; // Adjust type as necessary
 }
 
 export const Btns: React.FC<BtnsProps> = (props) => {
-  const { BookAdd } = props;
+  const { book } = props;
   // onst isbn = "9784815618599";
   const router = useRouter();
 
   const handleBack = () => {
     router.back();
+  };
+
+  const bookCheck = async () => {
+    if (!book) return;
+
+    // bookの情報をURLパラメータとして渡す
+    const bookData = encodeURIComponent(JSON.stringify(book));
+    router.push(`/books/add/${book.isbn}/check2?bookData=${bookData}`);
   };
 
   return (
@@ -25,7 +35,7 @@ export const Btns: React.FC<BtnsProps> = (props) => {
         <Btn text="戻る" bgColor="#99C6E2" onClick={handleBack} />
       </div>
       <div className={style.BtnLeft}>
-        <Btn text="登録" bgColor="#E2999B" onClick={BookAdd} />
+        <Btn text="確認" bgColor="#E2999B" onClick={bookCheck} />
       </div>
     </div>
   );

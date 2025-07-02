@@ -4,7 +4,7 @@ import styles from "./UsersDetail.module.scss";
 import Image from "next/image";
 import { TagList } from "@/src/components/Users/TagList";
 import { TagEdit } from "@/src/components/Users/TagEdit";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 import { useRouter, useParams } from "next/navigation";
 import { Btn } from "@/src/components/book/Btn";
 import { LoanWithBook, User } from "@/src/types";
