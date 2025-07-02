@@ -1,8 +1,11 @@
 .BookInfo {
   padding: 8%;
   border-radius: 8%;
-  max-width: 100%;
-  margin: 0 auto;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .Title {
@@ -10,99 +13,82 @@
   font-weight: bold;
   margin-bottom: 5%;
   margin: 0 auto;
-  justify-content: center;
-  align-items: center;
   text-align: center;
   color: #635038;
-  white-space: normal;
+  border-bottom: 2px solid #635038;
+  margin-bottom: 3svh;
 }
 
-.hr {
-  border: 2px solid #635038; /* ボーダーの太さと色 */
-  margin: 4% 15;
-}
+// .hr {
+//   border: 2px solid #635038;
+//   margin: 4% 15%;
+//   width: 70%;
+// }
 
-.InfoBox {
+.Author {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  margin-top: 4%;
-}
-.Author,
-.Publisher {
-  font-size: 13px;
-  font-weight: bold;
-  position: relative;
-  right: -3%;
-  top: 5vh;
+  justify-content: center;
   color: #635038;
+  margin-top: 7svh;
+  position: relative;
+  width: 85svw;
 }
 
-.AuthorLabel,
-.PublisherLabel {
+.AuthorLabel {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  background-color: #d5b58f;
-  padding: 3%;
-  border-radius: 11vh;
+  justify-content: flex-start;
+  gap: 30px;
+  height: auto;
+  position: absolute;
+  left: -8svw;
+  width: 100%;
+  max-width: 300px;
+  height: 3svh;
+}
+
+.publisherLabel {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 30px;
+  height: auto;
+  width: 100%;
+  max-width: 300px;
+  position: absolute;
+  left: -8svw;
+  height: 3svh;
+  margin-top: 10svh;
+}
+
+.AuthorName {
   font-size: 14px;
-  width: 40%;
-  height: 3.4vh;
-  top: 40px;
-  left: -13%;
-  box-shadow: 0vh 0.5vw 1.3vw 0.5vw rgb(27 55 99 / 25%);
-  position: relative;
-}
-
-.AuthorLabel::after {
-  content: "";
-  position: absolute;
-  left: 20%;
-  width: 4%;
-  height: 100%;
-  background-color: #fffbf5;
-}
-
-.PublisherLabel::before,
-.PublisherLabel::after {
-  content: "";
-  position: absolute;
-  width: 4%;
-  height: 100%;
-  background-color: #fffbf5;
-}
-.PublisherLabel::before {
-  left: 20%;
-}
-.PublisherLabel::after {
-  left: 28%;
-}
-
-.Label {
-  margin-left: auto;
-  font-size: 12px;
   font-weight: bold;
-  color: #31291f;
+  color: #635038;
+  margin: 0;
+}
+
+.icon {
+  flex-shrink: 0;
+  object-fit: contain;
 }
 
 .Description {
-  height: 28vw;
   width: 70vw;
   font-size: 13px;
-  margin-top: 9%;
   font-weight: bold;
   color: #635038;
   position: relative;
-  top: 9vh;
   text-align: center;
   word-break: normal;
-  line-height: 3.5vh;
-  margin: 0 auto;
+  line-height: 2.5svh;
+  margin-top: 10svh;
 }
 
 .ReadMore {
   position: relative;
-
 }
 
 .Input {
@@ -117,12 +103,12 @@
   transition: max-height 1s;
 }
 
-.ReadMore:has(Input:checked) p {
+.ReadMore:has(.Input:checked) p {
   height: auto;
   padding-bottom: 1%;
 }
 
-.ReadMore:has(Input:checked) p::after {
+.ReadMore:has(.Input:checked) p::after {
   content: none;
 }
 
@@ -131,7 +117,7 @@
   justify-content: center;
   align-items: center;
   margin: 0 auto;
-  margin-top: 28%;
+  margin-top: 3svh;
   color: #bfbfbf;
   font-size: 0.8em;
   cursor: pointer;
@@ -148,7 +134,7 @@
   justify-content: center;
   align-items: center;
   margin: 0 auto;
-  margin-top: 28%;
+  margin-top: 3svh;
   color: #bfbfbf;
   font-size: 0.8em;
   cursor: pointer;
@@ -159,15 +145,10 @@
   text-decoration: underline;
 }
 
-.ReadMore:has(Input:checked) .ReadMoreLabel {
+.ReadMore:has(.Input:checked) .ReadMoreLabel {
   display: none;
 }
 
-.ReadMore:has(Input:checked) .ReadCloseLabel {
+.ReadMore:has(.Input:checked) .ReadCloseLabel {
   display: flex;
-}
-
-.card {
-  position: relative;
-  right: -26%;
 }
