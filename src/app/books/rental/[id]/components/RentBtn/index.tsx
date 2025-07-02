@@ -7,16 +7,13 @@ import { useAtom } from "jotai";
 import { logedInUserAtom, rentalAtom } from "@/src/atoms/atoms";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import LoadingBrown from "@/src/components/LoadingBrown";
 
 export function RentBtn({
   book,
   loanPeriod,
-  error,
 }: {
   book: Book;
   loanPeriod: number;
-  error: boolean;
 }) {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);

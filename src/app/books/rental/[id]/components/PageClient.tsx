@@ -12,7 +12,7 @@ import Link from "next/link";
 export default function PageClient({ id }: { id: string }) {
   const [book, setBook] = useState<Book>();
   const [loanPeriod, setLoanPeriod] = useState<number>(0);
-  const [error, setError] = useState(false);
+  const [, setError] = useState(false);
   const [notFound, setNotFound] = useState(false);
 
   useEffect(() => {
@@ -73,7 +73,7 @@ export default function PageClient({ id }: { id: string }) {
       <BookInfo book={book} />
       <p className={styles.Text}>貸出期限</p>
       <LoanPeriod setLoanPeriod={setLoanPeriod} setError={setError} />
-      <RentBtn book={book} loanPeriod={loanPeriod} error={error} />
+      <RentBtn book={book} loanPeriod={loanPeriod} />
     </>
   );
 }
