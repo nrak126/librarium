@@ -4,13 +4,14 @@ import styles from "./UsersDetail.module.scss";
 import Image from "next/image";
 import { TagList } from "@/src/components/Users/TagList";
 import { TagEdit } from "@/src/components/Users/TagEdit";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useRouter, useParams } from "next/navigation";
 import { Btn } from "@/src/components/book/Btn";
-import { User } from "@/src/types";
+import { LoanWithBook, User } from "@/src/types";
 import { useAtom } from "jotai";
-import { logedInUserAtom } from "@/src/atoms/atoms";
+import { histAtom, logedInUserAtom } from "@/src/atoms/atoms";
 import LoadingBrown from "@/src/components/LoadingBrown";
+import { BookCard } from "@/src/components/book/BookCard";
 
 export default function UserDetail() {
   const [clickEditer, setClickEditer] = useState(false);
@@ -18,6 +19,7 @@ export default function UserDetail() {
   const params = useParams();
   const [user, setUser] = useState<User | null>(null);
   const [logedInUser] = useAtom(logedInUserAtom);
+  const [hist, setHist] = useAtom(histAtom);
 
   const uid = params.id as string;
 
@@ -42,6 +44,21 @@ export default function UserDetail() {
     })();
   }, [uid]);
 
+  console.log("user,uid", uid);
+  useEffect(() => {
+    if (hist === null) {
+      (async () => {
+        try {
+          const histBook = await fetch(`/api/users/loanHist?uid=${uid}`);
+          const data: LoanWithBook[] = await histBook.json();
+          setHist(data);
+        } catch (error) {
+          console.error("ヒストブックデータの取得エラー:", error);
+        }
+      })();
+    }
+  }, [hist, setHist]);
+
   if (!user) {
     return <LoadingBrown />;
   }
@@ -50,6 +67,10 @@ export default function UserDetail() {
     setClickEditer(!clickEditer);
     console.log(`ClickEdit ${clickEditer}`);
     console.log("編集が押されました。");
+  };
+
+  const handleHistBook = (book: LoanWithBook["books"]) => {
+    router.push(`/books/${book.isbn}`);
   };
 
   const handleBack = async () => {
@@ -86,22 +107,47 @@ export default function UserDetail() {
         )
       ) : null}
 
-      <div className={styles.username}>{user.name}</div>
+      <div className={styles.username}>
+        <div className={styles.subtitle}>名前</div>
+        <div className={styles.name}>{user.name}</div>
+      </div>
+
       <div className={styles.studentId}>
         <div className={styles.subtitle}>学籍番号</div>
         <div className={styles.id}>{user.studentId}</div>
       </div>
 
-      <div className={styles.tag}>タグ</div>
+      <div className={styles.taglist}>
+        <div className={styles.tag}>タグ</div>
+      </div>
 
       {clickEditer ? (
         <TagEdit user={user} setUser={setUser} />
       ) : (
         <TagList user={user} />
       )}
+
       <div className={styles.history}>
         <div className={styles.subtitle}>履歴</div>
+        <div className={styles.histlist}>
+          {hist?.length === 0 ? (
+            <div className={styles.noRental}>借りた本はありません</div>
+          ) : (
+            hist?.map((item, index) =>
+              item?.books ? (
+                <div
+                  className={styles.card}
+                  key={index}
+                  onClick={() => handleHistBook(item.books)}
+                >
+                  <BookCard book={item.books} width={100} height={130} />
+                </div>
+              ) : null
+            )
+          )}
+        </div>
       </div>
+
       <div className={styles.backbutton}>
         <Btn text="戻る" bgColor="#99C6E2" onClick={handleBack} />
       </div>
