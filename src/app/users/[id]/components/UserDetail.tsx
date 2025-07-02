@@ -4,14 +4,14 @@ import styles from "./UsersDetail.module.scss";
 import Image from "next/image";
 import { TagList } from "@/src/components/Users/TagList";
 import { TagEdit } from "@/src/components/Users/TagEdit";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 import { useRouter, useParams } from "next/navigation";
 import { Btn } from "@/src/components/book/Btn";
 import { LoanWithBook, User } from "@/src/types";
 import { useAtom } from "jotai";
 import { histAtom, logedInUserAtom } from "@/src/atoms/atoms";
 import LoadingBrown from "@/src/components/LoadingBrown";
-import { BookCard } from "@/src/components/book/BookCard";
+import { BookCardList } from "@/src/app/books/components/BookListCard";
 
 export default function UserDetail() {
   const [clickEditer, setClickEditer] = useState(false);
@@ -20,6 +20,8 @@ export default function UserDetail() {
   const [user, setUser] = useState<User | null>(null);
   const [logedInUser] = useAtom(logedInUserAtom);
   const [hist, setHist] = useAtom(histAtom);
+  const [newName, setNewName] = useState(user?.name);
+  const [newstudentId, setNewstudentId] = useState(user?.studentId);
 
   const uid = params.id as string;
 
@@ -45,6 +47,7 @@ export default function UserDetail() {
   }, [uid]);
 
   console.log("user,uid", uid);
+
   useEffect(() => {
     if (hist === null) {
       (async () => {
@@ -63,7 +66,29 @@ export default function UserDetail() {
     return <LoadingBrown />;
   }
 
-  const handleSample = () => {
+  const handleSample = async () => {
+    if (!clickEditer) {
+      setNewName(user.name);
+      setNewstudentId(user.studentId);
+    } else {
+      let updatedUser = user;
+      if (newName && newName !== user.name) {
+        updatedUser = { ...updatedUser, name: newName };
+        setUser(updatedUser);
+        console.log("名前が変更されました。");
+      }
+      if (newstudentId && newstudentId !== user.studentId) {
+        updatedUser = { ...updatedUser, studentId: newstudentId };
+        setUser(updatedUser);
+        console.log("学籍番号が変更されました。");
+      }
+      // サーバーにも反映
+      await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/users/${user.uid}`, {
+        method: "POST",
+        body: JSON.stringify(updatedUser),
+        headers: { "Content-Type": "application/json" },
+      });
+    }
     setClickEditer(!clickEditer);
     console.log(`ClickEdit ${clickEditer}`);
     console.log("編集が押されました。");
@@ -109,12 +134,35 @@ export default function UserDetail() {
 
       <div className={styles.username}>
         <div className={styles.subtitle}>名前</div>
-        <div className={styles.name}>{user.name}</div>
+        {clickEditer ? (
+          <input
+            type="text"
+            value={newName}
+            className={styles.name}
+            onChange={(e) => {
+              setNewName(e.target.value);
+            }}
+          />
+        ) : (
+          <div className={styles.name}>{user.name}</div>
+        )}
       </div>
 
       <div className={styles.studentId}>
         <div className={styles.subtitle}>学籍番号</div>
-        <div className={styles.id}>{user.studentId}</div>
+        {clickEditer ? (
+          <input
+            type="text"
+            pattern="^[a-zA-Z0-9]+$"
+            value={newstudentId}
+            className={styles.id}
+            onChange={(e) => {
+              setNewstudentId(e.target.value);
+            }}
+          />
+        ) : (
+          <div className={styles.id}>{user.studentId}</div>
+        )}
       </div>
 
       <div className={styles.taglist}>
@@ -140,7 +188,7 @@ export default function UserDetail() {
                   key={index}
                   onClick={() => handleHistBook(item.books)}
                 >
-                  <BookCard book={item.books} width={100} height={130} />
+                  <BookCardList book={item.books} />
                 </div>
               ) : null
             )
