@@ -74,41 +74,34 @@ export default function UserDetail() {
         priority
       />
 
-      <div className={styles.username}>{user.name}</div>
+      {user.uid === logedInUser?.uid ? (
+        clickEditer ? (
+          <button onClick={handleSample} className={styles.editbutton}>
+            完了
+          </button>
+        ) : (
+          <button onClick={handleSample} className={styles.editbutton}>
+            編集
+          </button>
+        )
+      ) : null}
 
+      <div className={styles.username}>{user.name}</div>
       <div className={styles.studentId}>
         <div className={styles.subtitle}>学籍番号</div>
         <div className={styles.id}>{user.studentId}</div>
-        <button onClick={handleSample} className={styles.editbutton}>
-          編集
-        </button>
       </div>
 
-      <div className={styles.tagediter}>
-        <div className={styles.tag}>タグ</div>
-        {user.uid === logedInUser?.uid ? (
-          clickEditer ? (
-            <button onClick={handleSample} className={styles.editbutton}>
-              完了
-            </button>
-          ) : (
-            <button onClick={handleSample} className={styles.editbutton}>
-              編集
-            </button>
-          )
-        ) : null}
-      </div>
+      <div className={styles.tag}>タグ</div>
 
       {clickEditer ? (
         <TagEdit user={user} setUser={setUser} />
       ) : (
         <TagList user={user} />
       )}
-
       <div className={styles.history}>
         <div className={styles.subtitle}>履歴</div>
       </div>
-
       <div className={styles.backbutton}>
         <Btn text="戻る" bgColor="#99C6E2" onClick={handleBack} />
       </div>
