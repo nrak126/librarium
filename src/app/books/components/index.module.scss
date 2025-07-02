@@ -23,35 +23,3 @@
   }
 }
 
-// ページネーション
-
-.pagination {
-  display: flex;
-  justify-content: center;
-  list-style: none;
-  padding: 0;
-  margin-top: 150svh;
-  margin-bottom: 3svh;
-}
-
-.pageItem {
-  margin: 0 2px;
-}
-
-.pageLink {
-  display: block;
-  width: fit-content;
-  padding: 6px 12px;
-  border-radius: 4px;
-  background: #fff;
-  border-radius: 50px;
-  border: 1px solid #bb9c77;
-  color: #635038;
-  cursor: pointer;
-}
-
-.Active .pageLink {
-  background: #bb9c77;
-  color: #fff;
-  font-weight: bold;
-}
