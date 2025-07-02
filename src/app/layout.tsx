@@ -2,7 +2,7 @@ import "./styles/globals.css";
 import React from "react";
 import { Almarai } from "next/font/google";
 import ConditionalHeader from "./components/ConditionalHeader";
-import AppLoader from "./components/AppLoader";
+// import AppLoader from "./components/AppLoader";
 
 export const metadata = {
   title: "Librarium",
@@ -24,10 +24,10 @@ export default function RootLayout({
   return (
     <html lang="ja">
       <body className={font.className}>
-        <AppLoader>
-          <ConditionalHeader />
-          <main>{children}</main>
-        </AppLoader>
+        {/* <AppLoader> */}
+        <ConditionalHeader />
+        <main>{children}</main>
+        {/* </AppLoader> */}
       </body>
     </html>
   );
