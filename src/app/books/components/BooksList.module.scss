@@ -34,7 +34,8 @@
   justify-content: center;
   list-style: none;
   padding: 0;
-  margin-bottom: 3svh;
+
+  margin: 4svh 0 2svh 0; /* 上2svh、下3svhのマージン */
 }
 
 .pageItem {

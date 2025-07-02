@@ -28,21 +28,6 @@ export default function BooksList({ result }: { result: Book[] }) {
 
   return (
     <div className={styles.booksListContainer}>
-      <ul className={styles.booklist}>
-        {pagedBooks.map((book) => (
-          <li key={book.isbn}>
-            <div className={styles.layout}>
-              <div onClick={() => handleClick(book)}>
-                <BookCardList book={book} />
-              </div>
-              <div className={styles.stock}>
-                <StockState initialBook={book} />
-              </div>
-            </div>
-          </li>
-        ))}
-      </ul>
-
       {pageCount > 1 && (
         <ReactPaginate
           pageCount={pageCount}
@@ -62,6 +47,20 @@ export default function BooksList({ result }: { result: Book[] }) {
           breakLabel="..." // 省略記号
         />
       )}
+      <ul className={styles.booklist}>
+        {pagedBooks.map((book) => (
+          <li key={book.isbn}>
+            <div className={styles.layout}>
+              <div onClick={() => handleClick(book)}>
+                <BookCardList book={book} />
+              </div>
+              <div className={styles.stock}>
+                <StockState initialBook={book} />
+              </div>
+            </div>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }
