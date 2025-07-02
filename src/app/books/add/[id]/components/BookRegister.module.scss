@@ -1,26 +1,33 @@
 .body {
   display: flex;
-	flex-direction: column; 
-  justify-content: center;    
-  align-items: center;        
-  height: 100vh;             
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
 }
 .errorMessage {
-	display: flex;
-	color: #635038;               
-  background-color: #fdf6f0;    
-  border: 1px solid #e0d4c4;   
-  padding: 12px 16px;            
-  border-radius: 8px;        
-  font-size: 14px;         
+  display: flex;
+  color: #635038;
+  background-color: #fdf6f0;
+  border: 1px solid #e0d4c4;
+  padding: 12px 16px;
+  border-radius: 8px;
+  font-size: 14px;
   line-height: 1.6;
   margin-top: -30%;
-	margin-bottom: 30%;
-	text-align: center;
+  margin-bottom: 30%;
+  text-align: center;
 }
 .Btn {
-	display: flex;
-  align-items: center; 
+  display: flex;
+  align-items: center;
   justify-content: center;
   text-align: center;
+}
+
+.btnContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
 }
