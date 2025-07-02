@@ -170,7 +170,8 @@ export const BookEdit = ({ isbn }: { isbn: string }) => {
             <input
               className={styles.Title}
               type="text"
-              value={book?.title || "タイトル"}
+              value={book?.title || ""}
+              placeholder="タイトルを入力"
               required
               onChange={(e) => {
                 setBook((prev) => {
