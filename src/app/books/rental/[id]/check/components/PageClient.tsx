@@ -41,16 +41,18 @@ export default function PageClient() {
   const date = `${year}/${month}/${day}`;
 
   return (
-    <div>
+    <div className={styles.content}>
       {book ? (
         <>
           <p className={styles.title}>{book.title}</p>
-          <BookCard
-            book={book}
-            width={150}
-            height={180}
-            className={styles.card}
-          />
+          <div className={styles.author}>
+            <BookCard
+              book={book}
+              width={150}
+              height={180}
+              className={styles.card}
+            />
+          </div>
           <p className={styles.Day}>返却期限： {date}</p>
         </>
       ) : (

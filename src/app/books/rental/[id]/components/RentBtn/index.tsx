@@ -6,6 +6,8 @@ import styles from "./index.module.scss";
 import { useAtom } from "jotai";
 import { logedInUserAtom, rentalAtom } from "@/src/atoms/atoms";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
+import LoadingBrown from "@/src/components/LoadingBrown";
 
 export function RentBtn({
   book,
@@ -17,13 +19,15 @@ export function RentBtn({
   error: boolean;
 }) {
   const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
   const isAvailableRental = book.available > 0;
   const [, setRental] = useAtom(rentalAtom);
   const [loginUser] = useAtom(logedInUserAtom);
 
   const handleRent = async () => {
-    if (!loginUser) return;
+    if (!loginUser || isLoading) return;
 
+    setIsLoading(true);
     try {
       await fetch(`/api/books/rental`, {
         method: "POST",
@@ -42,6 +46,7 @@ export function RentBtn({
       router.push(`/books/rental/${book.isbn}/check?q=${loanPeriod}`);
     } catch (error) {
       console.error("レンタル処理エラー:", error);
+      setIsLoading(false);
     }
   };
   const handleBack = () => {
@@ -61,16 +66,17 @@ export function RentBtn({
   return (
     <div className={styles.rentalButtonWrapper}>
       <div className={styles.rentalButton}>
-        {error && (
-          <div className={styles.erroMessage}>※ 貸出期間を選択してください</div>
-        )}
         <div className={styles.buttonRow}>
           <div className={styles.back}>
             <Btn text="戻る" bgColor="#99C6E2" onClick={handleBack} />
           </div>
           {isAvailableRental ? (
             <div className={styles.rental}>
-              <Btn text="借りる" bgColor="#E2999B" onClick={handleRent} />
+              <Btn
+                text={isLoading ? "処理中..." : "借りる"}
+                bgColor={isLoading ? "#F1CCCC" : "#E2999B"}
+                onClick={isLoading ? undefined : handleRent}
+              />
             </div>
           ) : (
             <div className={styles.available}>

@@ -15,8 +15,20 @@
   margin: 0 auto;
   text-align: center;
   color: #635038;
-  border-bottom: 2px solid #635038;
+  padding-bottom: 8px; // 文字と線の間の余白を追加
   margin-bottom: 3svh;
+}
+
+.Title::after {
+  content: "";
+  position: absolute;
+  top: 6.5svh;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 30%;
+  height: 2px;
+  background-color: #635038;
+  border-radius: 12px;
 }
 
 // .hr {
