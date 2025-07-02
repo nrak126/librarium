@@ -120,6 +120,15 @@
   justify-content: center;
   margin-top: 3svh;
   width: 100%;
+  -webkit-transition: all .1s;
+  transition: all .1s;
+}
+
+.circle:active{
+  transform: scale(0.7,0.7);
+}
+.circle::after{
+  transform: scale(1,1);
 }
 .circle1 {
   //円

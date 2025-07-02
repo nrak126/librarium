@@ -16,6 +16,8 @@
     border-radius: 22px;
     padding: 4%;
     box-shadow: 0.5px 4px 8px rgba(123, 98, 60, 0.6); // 追加：やわらかい影
+    -webkit-transition: all .3s;
+    transition: all .3s;
 
     .icon {
       align-items: baseline;
@@ -84,8 +86,17 @@
           font-size: 11px;
           padding-bottom: 0.5%;
           text-decoration: none;
+          -webkit-transition: all .1s;
+          transition: all .1s;
         }
       }
     }
+  }
+
+  .whole:active{
+    transform: scale(0.7,0.7);
+  }
+  .whole::after{
+    transform: scale(1,1);
   }
 }
