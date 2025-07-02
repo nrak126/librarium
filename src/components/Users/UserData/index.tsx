@@ -5,8 +5,6 @@ import Link from "next/link";
 import LoadingBrown from "../../LoadingBrown";
 import icon from "@/public/icon.svg";
 
-import { Changa_One } from "next/font/google";
-
 // Alegreya Sans SC（Italicあり, Weight全指定）
 // export const alegreyaSansSC = Changa_One({
 //   weight: "400",
