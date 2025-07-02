@@ -17,6 +17,7 @@ export const BookRec = () => {
   const [isLoading, setIsLoading] = useState(false); // ローディング状態
   const [loginUser] = useAtom(logedInUserAtom); // ログインユーザーを取得
   const [books, setBooks] = useAtom(loginRecBookAtom); // 本のリストを管理
+  const [noDataFound, setNoDataFound] = useState(false); // 追加：データなし状態を管理
 
   // const interestTech = loginUser?.interest_tech;
 
@@ -33,11 +34,19 @@ export const BookRec = () => {
 
   const handleSearch = useCallback(async () => {
     setIsLoading(true); // ローディング開始
+    setNoDataFound(false); // 検索開始時にリセット
     const response = await fetch(
       `/api/books/?search=${loginUser?.interest_tech}`
     );
     if (response.ok) {
       const data = await response.json();
+      if (!data || data.length === 0) {
+        setIsLoading(false); // ローディング終了
+        setBooks([]); // 本のリストを空にする
+        setNoDataFound(true); // データなし状態をセット
+        return;
+      }
+
       // Book型にマッピング
       const books: Book[] = data.map((item: Book) => ({
         isbn: item.isbn,
@@ -64,12 +73,23 @@ export const BookRec = () => {
   useEffect(() => {
     if (
       loginUser?.interest_tech &&
+      loginUser.interest_tech.trim() !== "" &&
       !showSelect &&
-      (!books || books.length === 0)
+      (!books || books.length === 0) &&
+      !noDataFound && // データなし状態の場合は実行しない
+      !isLoading // ローディング中も実行しない
     ) {
       handleSearch();
     }
-  }, [loginUser?.interest_tech, showSelect, books, handleSearch]);
+  }, [
+    loginUser?.interest_tech,
+    showSelect,
+    books?.length,
+    noDataFound,
+    isLoading,
+    books,
+    handleSearch,
+  ]);
 
   if (showSelect) {
     // セレクト画面だけを表示
@@ -78,6 +98,11 @@ export const BookRec = () => {
         <Genre />
       </div>
     );
+  }
+
+  // データなし状態の表示を追加
+  if (noDataFound) {
+    return <p className={style.noBooks}>おすすめの本がありません</p>;
   }
 
   if (isLoading) {
@@ -89,7 +114,7 @@ export const BookRec = () => {
 
   return (
     <div>
-      {loginUser?.interest_tech ? (
+      {loginUser?.interest_tech && loginUser.interest_tech.trim() !== "" ? (
         <HomeBook showNumber={false} books={books} />
       ) : (
         <>
