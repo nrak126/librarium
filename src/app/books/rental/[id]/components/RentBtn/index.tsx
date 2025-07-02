@@ -11,12 +11,10 @@ export function RentBtn({
   book,
   loanPeriod,
   error,
-  setError,
 }: {
   book: Book;
   loanPeriod: number;
   error: boolean;
-  setError: (value: boolean) => void;
 }) {
   const router = useRouter();
   const isAvailableRental = book.available > 0;
@@ -41,6 +39,7 @@ export function RentBtn({
       const res = await fetch(`/api/loans/rentalList`);
       const rentalData = await res.json();
       setRental(rentalData);
+      router.push(`/books/rental/${book.isbn}/check?q=${loanPeriod}`);
     } catch (error) {
       console.error("レンタル処理エラー:", error);
     }
@@ -49,15 +48,15 @@ export function RentBtn({
     window.history.back();
   };
 
-  const handleClick = async () => {
-    if (!loanPeriod) {
-      setError(true);
-      return;
-    }
-    setError(false);
-    await handleRent();
-    router.push(`/books/rental/${book.isbn}/check?q=${loanPeriod}`);
-  };
+  // const handleClick = async () => {
+  //   if (!loanPeriod) {
+  //     setError(true);
+  //     return;
+  //   }
+  //   setError(false);
+  //   await handleRent();
+  //   router.push(`/books/rental/${book.isbn}/check?q=${loanPeriod}`);
+  // };
 
   return (
     <div className={styles.rentalButtonWrapper}>
@@ -71,7 +70,7 @@ export function RentBtn({
           </div>
           {isAvailableRental ? (
             <div className={styles.rental}>
-              <Btn text="借りる" bgColor="#E2999B" onClick={handleClick} />
+              <Btn text="借りる" bgColor="#E2999B" onClick={handleRent} />
             </div>
           ) : (
             <div className={styles.available}>

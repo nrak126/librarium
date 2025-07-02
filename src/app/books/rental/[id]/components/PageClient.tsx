@@ -73,12 +73,7 @@ export default function PageClient({ id }: { id: string }) {
       <BookInfo book={book} />
       <p className={styles.Text}>貸出期限</p>
       <LoanPeriod setLoanPeriod={setLoanPeriod} setError={setError} />
-      <RentBtn
-        book={book}
-        loanPeriod={loanPeriod}
-        error={error}
-        setError={setError}
-      />
+      <RentBtn book={book} loanPeriod={loanPeriod} error={error} />
     </>
   );
 }
