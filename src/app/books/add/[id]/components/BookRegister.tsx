@@ -206,7 +206,7 @@ export const BookRegister = ({ isbn }: { isbn: string }) => {
             <input
               id="thumbnail-upload"
               type="file"
-              accept="image/*,.heic"
+              accept="image/jpeg, image/png, image/webp, image/gif, image/heic"
               onChange={handleFileChange}
               disabled={uploadLoading}
               style={{
