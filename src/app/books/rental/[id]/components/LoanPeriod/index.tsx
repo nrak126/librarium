@@ -7,7 +7,6 @@ type LoanPeriodProps = {
   setError: (value: boolean) => void;
 };
 export function LoanPeriod({ setLoanPeriod, setError }: LoanPeriodProps) {
-
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const rawValue = e.target.value;
     if (!rawValue) {
