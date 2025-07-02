@@ -162,13 +162,23 @@ export const BookEdit = ({ isbn }: { isbn: string }) => {
     return;
   }
 
+  const fileClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    const fileInput = document.getElementById(
+      "thumbnail-upload"
+    ) as HTMLInputElement;
+    if (fileInput) {
+      fileInput.click();
+    }
+  };
+
   return (
     <div>
       <div>
         <form>
           <div className={styles.BookInfo}>
             <input
-              className={styles.Title}
+              className={styles.title}
               type="text"
               value={book?.title || ""}
               placeholder="タイトルを入力"
@@ -188,62 +198,22 @@ export const BookEdit = ({ isbn }: { isbn: string }) => {
               height={200}
             />
 
-            <div
-              style={{
-                margin: "20px 0",
-                padding: "16px",
-                border: "1px solid #ccc",
-                borderRadius: "8px",
-              }}
-            >
-              <label
-                htmlFor="thumbnail-upload"
-                style={{
-                  display: "block",
-                  marginBottom: "10px",
-                  fontWeight: "bold",
-                  color: "#333",
-                }}
-              >
+            <div>
+              {/* <label htmlFor="thumbnail-upload">
                 📷 サムネイル画像をアップロード:
-              </label>
+              </label> */}
               <input
                 id="thumbnail-upload"
                 type="file"
                 accept="image/jpeg, image/png, image/webp, image/gif, image/heic"
                 onChange={handleFileChange}
                 disabled={uploadLoading}
-                style={{
-                  padding: "8px",
-                  border: "1px solid #ddd",
-                  borderRadius: "4px",
-                  width: "100%",
-                  maxWidth: "400px",
-                  backgroundColor: uploadLoading ? "#f5f5f5" : "white",
-                }}
+                style={{ display: "none" }}
               />
-              {uploadLoading && (
-                <p
-                  style={{
-                    marginTop: "10px",
-                    color: "#666",
-                    fontStyle: "italic",
-                  }}
-                >
-                  ⏳ アップロード中...
-                </p>
-              )}
-              <p
-                style={{
-                  fontSize: "12px",
-                  color: "#666",
-                  marginTop: "8px",
-                  lineHeight: "1.4",
-                }}
-              >
-                💡 対応形式: JPEG, PNG, WebP, GIF, HEIC (最大5MB)
-                <br />※ HEICファイルは自動的にJPEGに変換されます
-              </p>
+              <button style={{ marginTop: "4svh" }} onClick={fileClick}>
+                ファイルを選択
+              </button>
+              {uploadLoading && <p>⏳ アップロード中...</p>}
             </div>
 
             {/* 著者情報 */}
@@ -258,7 +228,8 @@ export const BookEdit = ({ isbn }: { isbn: string }) => {
                 />
                 <input
                   className={styles.AuthorName}
-                  value={book?.author || "著者はなし"}
+                  value={book?.author || ""}
+                  placeholder="著者を入力"
                   type="text"
                   onChange={(e) => {
                     setBook((prev) => {
@@ -279,8 +250,9 @@ export const BookEdit = ({ isbn }: { isbn: string }) => {
                 />
                 <input
                   className={styles.AuthorName}
-                  value={book?.publisher || "出版社はなし"}
+                  value={book?.publisher || ""}
                   type="text"
+                  placeholder="出版社を入力"
                   onChange={(e) => {
                     setBook((prev) => {
                       if (!prev) return null;
@@ -290,6 +262,17 @@ export const BookEdit = ({ isbn }: { isbn: string }) => {
                 />
               </div>
             </div>
+            <textarea
+              className={styles.description}
+              value={book?.description || ""}
+              placeholder="詳細を入力してください"
+              onChange={(e) => {
+                setBook((prev) => {
+                  if (!prev) return null;
+                  return { ...prev, description: e.target.value };
+                });
+              }}
+            />
           </div>
           <div className={styles.btnContainer}>
             <Btns book={book} />
