@@ -12,15 +12,49 @@
 
 .reason {
   width: 90%;
+  position: relative;
+  color: #635038;
+}
+
+.tech {
+  margin-top: 2svh;
+  font-weight: bold;
 }
 
 .icon {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 10svh;
+  margin-top: 4svh;
 }
 
 .btnContainer {
-  margin-top: 13svh;
+  margin-top: 33svh;
+}
+
+.reasonTitle {
+  text-align: center;
+}
+
+.reasonImage {
+  margin-top: 2svh;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  top: -7.5svh;
+}
+
+.reasonTextContainer {
+  position: absolute;
+  width: 73%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 111;
+  top: 2.5svh;
+}
+
+.reasonText {
+  margin: 1svh;
+  font-size: 15px;
 }

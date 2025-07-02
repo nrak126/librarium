@@ -22,11 +22,13 @@ async function fetchFromGemini(...answers: number[]) {
 
 # 技術分野リスト
 - Web
+- フロントエンド
 - モバイルアプリ
 - バックエンド
 - 組み込み
 - デザイン
-- CG・ゲーム
+- CG
+- ゲーム
 - 電子工作
 - インフラ
 - セキュリティ
