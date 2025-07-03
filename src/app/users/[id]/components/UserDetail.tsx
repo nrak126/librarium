@@ -15,7 +15,6 @@ import { BookCardList } from "@/src/app/books/components/BookListCard";
 
 export default function UserDetail() {
   const [clickEditer, setClickEditer] = useState(false);
-  const [clickIcon, setClickIcon] = useState(false);
   const router = useRouter();
   const params = useParams();
   const [user, setUser] = useState<User | null>(null);
@@ -98,14 +97,18 @@ export default function UserDetail() {
     console.log("編集が押されました。");
   };
 
-  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
-    try {
-      console.log("画像が挿入されました。");
-    } catch (err) {
-      console.error("ファイルの読み取りに失敗しました。");
-    }
+    const reader = new FileReader();
+    reader.onload = () => {
+      if (typeof reader.result === "string") {
+        setUser((prev) =>
+          prev ? { ...prev, icon: reader.result as string } : prev
+        );
+      }
+    };
+    reader.readAsDataURL(file);
   };
 
   const handleIcon = () => {
@@ -215,10 +218,12 @@ export default function UserDetail() {
           ) : (
             hist?.map((item, index) =>
               item?.books ? (
-                <div className={styles.booklist}>
+                <div
+                  className={styles.booklist}
+                  key={`${item.books.isbn}-${index}`}
+                >
                   <div
                     className={styles.card}
-                    key={index}
                     onClick={() => handleHistBook(item.books)}
                   >
                     <BookCardList book={item.books} />
