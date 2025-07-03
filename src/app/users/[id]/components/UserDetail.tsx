@@ -19,7 +19,7 @@ export default function UserDetail() {
   const params = useParams();
   const [user, setUser] = useState<User | null>(null);
   const [logedInUser] = useAtom(logedInUserAtom);
-  const [userAtom, setUserAtom] = useAtom(usersAtom);
+  const [, setUserAtom] = useAtom(usersAtom);
   const [hist, setHist] = useState<LoanWithBook[] | null>(null);
   const [newName, setNewName] = useState(user?.name);
   const [newstudentId, setNewstudentId] = useState(user?.studentId);
