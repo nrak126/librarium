@@ -9,7 +9,7 @@ import { useRouter, useParams } from "next/navigation";
 import { Btn } from "@/src/components/book/Btn";
 import { LoanWithBook, User } from "@/src/types";
 import { useAtom } from "jotai";
-import { logedInUserAtom } from "@/src/atoms/atoms";
+import { logedInUserAtom, usersAtom } from "@/src/atoms/atoms";
 import LoadingBrown from "@/src/components/LoadingBrown";
 import { BookCardList } from "@/src/app/books/components/BookListCard";
 
@@ -19,6 +19,7 @@ export default function UserDetail() {
   const params = useParams();
   const [user, setUser] = useState<User | null>(null);
   const [logedInUser] = useAtom(logedInUserAtom);
+  const [userAtom, setUserAtom] = useAtom(usersAtom);
   const [hist, setHist] = useState<LoanWithBook[] | null>(null);
   const [newName, setNewName] = useState(user?.name);
   const [newstudentId, setNewstudentId] = useState(user?.studentId);
@@ -78,11 +79,17 @@ export default function UserDetail() {
       if (newName && newName !== user.name) {
         updatedUser = { ...updatedUser, name: newName };
         setUser(updatedUser);
+        if (!updatedUser) {
+          setUserAtom(updatedUser);
+        }
         console.log("名前が変更されました。");
       }
       if (newstudentId && newstudentId !== user.studentId) {
         updatedUser = { ...updatedUser, studentId: newstudentId };
         setUser(updatedUser);
+        if (!updatedUser) {
+          setUserAtom(updatedUser);
+        }
         console.log("学籍番号が変更されました。");
       }
       // サーバーにも反映
@@ -104,6 +111,9 @@ export default function UserDetail() {
     reader.onload = () => {
       if (typeof reader.result === "string") {
         setUser((prev) =>
+          prev ? { ...prev, icon: reader.result as string } : prev
+        );
+        setUserAtom((prev) =>
           prev ? { ...prev, icon: reader.result as string } : prev
         );
       }
