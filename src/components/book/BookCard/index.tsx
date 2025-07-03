@@ -17,21 +17,19 @@ export const BookCard: React.FC<BookCardProps> = ({
   book,
   width,
   height,
-  className,
 }) => {
   return (
-    <div
-      className={`${classes.BookImg} ${className || ""}`}
-      style={{ width: `${width}px`, height: `${height}px` }}
-    >
-      <Image
-        className={classes.Img}
-        src={book.thumbnail ? book.thumbnail : NotFound}
-        alt="本の表紙画像"
-        width={width}
-        height={height}
-        unoptimized={true}
-      />
+    <div className={classes.BookImg}>
+      <div className={classes.card}>
+        <Image
+          className={classes.Img}
+          src={book.thumbnail ? book.thumbnail : NotFound}
+          alt="本の表紙画像"
+          width={width}
+          height={height}
+          unoptimized={true}
+        />
+      </div>
     </div>
   );
 };

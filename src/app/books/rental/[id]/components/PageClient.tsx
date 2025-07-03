@@ -7,11 +7,13 @@ import { LoanPeriod } from "./LoanPeriod";
 import { useEffect, useState } from "react";
 import LoadingBrown from "@/src/components/LoadingBrown";
 import styles from "./index.module.scss";
+import Link from "next/link";
 
 export default function PageClient({ id }: { id: string }) {
   const [book, setBook] = useState<Book>();
   const [loanPeriod, setLoanPeriod] = useState<number>(0);
-  const [error, setError] = useState(false);
+  const [, setError] = useState(false);
+  const [notFound, setNotFound] = useState(false);
 
   useEffect(() => {
     const fetchBook = async () => {
@@ -24,11 +26,14 @@ export default function PageClient({ id }: { id: string }) {
           }
         );
 
-        if (!res.ok) {
-          throw new Error("Failed to fetch book");
+        const bookData: Book = await res.json();
+
+        // 空のオブジェクトや不正なデータをチェック
+        if (!bookData || !bookData.isbn || Object.keys(bookData).length === 0) {
+          setNotFound(true);
+          return;
         }
 
-        const bookData: Book = await res.json();
         setBook(bookData);
       } catch (error) {
         console.error("本の情報の取得に失敗しました:", error);
@@ -40,6 +45,24 @@ export default function PageClient({ id }: { id: string }) {
     }
   }, [id]);
 
+  if (notFound) {
+    return (
+      <div className={styles.container}>
+        <h2 className={styles.subtitle}>
+          借りようとしている本が見つかりません
+        </h2>
+        <p className={styles.description}>
+          申し訳ありませんが、本が登録されていないか、
+          <br />
+          isbnが間違っている可能性があります。
+        </p>
+        <Link href="/" className={styles.link}>
+          ホームに戻る
+        </Link>
+      </div>
+    );
+  }
+
   // bookがnullの場合はローディング表示
   if (!book) {
     return <LoadingBrown />;
@@ -49,8 +72,8 @@ export default function PageClient({ id }: { id: string }) {
     <>
       <BookInfo book={book} />
       <p className={styles.Text}>貸出期限</p>
-      <LoanPeriod setLoanPeriod={setLoanPeriod} setError={setError}/>
-      <RentBtn book={book} loanPeriod={loanPeriod} error={error} setError={setError}/>
+      <LoanPeriod setLoanPeriod={setLoanPeriod} setError={setError} />
+      <RentBtn book={book} loanPeriod={loanPeriod} />
     </>
   );
 }

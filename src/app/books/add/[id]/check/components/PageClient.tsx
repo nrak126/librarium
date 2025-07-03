@@ -37,16 +37,18 @@ export default function PageClient() {
   return (
     <div>
       {book ? (
-        <>
+        <div className={styles.content}>
           <p className={styles.title}>{book.title}</p>
-          <BookCard
-            book={book}
-            width={150}
-            height={180}
-            className={styles.card}
-          />
+          <div className={styles.author}>
+            <BookCard
+              book={book}
+              width={150}
+              height={180}
+              className={styles.card}
+            />
+          </div>
           <p className={styles.text}>この本を登録しました！</p>
-        </>
+        </div>
       ) : (
         <LoadingBrown />
       )}

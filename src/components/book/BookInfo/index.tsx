@@ -4,6 +4,9 @@ import React, { useState } from "react";
 import classes from "./index.module.scss";
 import { Book } from "@/src/types/book";
 import { BookCard } from "../BookCard";
+import authorIcon from "@/public/author.svg";
+import publisherIcon from "@/public/publisher.svg";
+import Image from "next/image";
 
 export const BookInfo = ({ book }: { book: Book }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -11,23 +14,31 @@ export const BookInfo = ({ book }: { book: Book }) => {
   return (
     <div className={classes.BookInfo}>
       <p className={classes.Title}>{book.title}</p>
-      <hr className={classes.hr} />
       <BookCard book={book} className={classes.card} width={150} height={200} />
 
       {/* 著者情報 */}
-      <div className={classes.InfoBox}>
+      <div className={classes.Author}>
         <div className={classes.AuthorLabel}>
-          <p className={classes.Label}>著者</p>
+          <Image
+            src={authorIcon}
+            alt="著者アイコン"
+            width={127}
+            height={130}
+            className={classes.icon}
+          />
+          <p className={classes.AuthorName}>{book.author}</p>
         </div>
-        <p className={classes.Author}>{book.author}</p>
-      </div>
 
-      {/* 出版社情報 */}
-      <div className={classes.InfoBox}>
-        <div className={classes.PublisherLabel}>
-          <p className={classes.Label}>出版社</p>
+        <div className={classes.publisherLabel}>
+          <Image
+            src={publisherIcon}
+            alt="出版社アイコン"
+            width={127}
+            height={130}
+            className={classes.icon}
+          />
+          <p className={classes.AuthorName}>{book.publisher}</p>
         </div>
-        <p className={classes.Publisher}>{book.publisher}</p>
       </div>
 
       {/* 続きを表示するセクション */}

@@ -24,18 +24,12 @@ export function AuthPage() {
 
   return (
     <div className={styles.container}>
-      {/* <Image
-        src={LoginBackground}
-        alt={"背景画像"}
-        className={styles.background1}
-        priority
-      /> */}
       <div className={styles.whole}>
         <Image
           src={Icon}
           alt={"librariumのアイコン"}
-          width={230}
-          height={230}
+          width={150}
+          height={150}
           className={styles.icon}
           priority
         />

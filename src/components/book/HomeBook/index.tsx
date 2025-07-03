@@ -6,6 +6,8 @@ import { useRouter } from "next/navigation";
 import { StockState } from "../StockState";
 import NotFound from "@/public/bookNot.svg";
 import { Book } from "@/src/types";
+import { useState } from "react";
+import LoadingBrown from "../../LoadingBrown";
 
 type BookListBaseProps = {
   showNumber: boolean;
@@ -13,12 +15,26 @@ type BookListBaseProps = {
 };
 
 export const HomeBook: React.FC<BookListBaseProps> = (props) => {
+  const [loading, setLoading] = useState(false);
   const { showNumber, books } = props;
   const router = useRouter();
 
-  const handleClickDetail = (link: string) => {
-    router.push(`/books/${link}`);
+  const handleClickDetail = async (link: string) => {
+    setLoading(true);
+    try {
+      router.push(`/books/${link}`);
+    } catch (error) {
+      console.error("ページ遷移エラー:", error);
+    }
   };
+
+  if (loading) {
+    return (
+      <div className={style.loadingContainer}>
+        <LoadingBrown />
+      </div>
+    );
+  }
 
   return (
     <div className={style.contents}>
