@@ -212,12 +212,15 @@ export default function UserDetail() {
           ) : (
             hist?.map((item, index) =>
               item?.books ? (
-                <div
-                  className={styles.card}
-                  key={index}
-                  onClick={() => handleHistBook(item.books)}
-                >
-                  <BookCardList book={item.books} />
+                <div className={styles.booklist}>
+                  <div
+                    className={styles.card}
+                    key={index}
+                    onClick={() => handleHistBook(item.books)}
+                  >
+                    <BookCardList book={item.books} />
+                  </div>
+                  <div className={styles.title}>{item.books.title}</div>
                 </div>
               ) : null
             )

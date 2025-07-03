@@ -172,6 +172,19 @@
       grid-template-columns: repeat(3, 1fr); // 3列
       gap: 3vw; // カード間の隙間
       margin-top: 2vh;
+
+        .title {
+          position: relative;
+          top: -3.8svh;
+          right: -2vw;
+          font-size: 8px;
+          width: 80%; // カード幅いっぱい
+          white-space: normal; // 自動改行
+          word-break: break-all; // 長い単語も折り返す
+          text-align: center; // 中央寄せ（お好みで）
+          margin-top: 4px; // カード内での余白調整
+        }
+
     }
   }
 
