@@ -7,9 +7,9 @@ import LoadingBrown from "@/src/components/LoadingBrown";
 import styles from "./BookEdit.module.scss";
 import authorIcon from "@/public/author.svg";
 import publisherIcon from "@/public/publisher.svg";
-import heic2any from "heic2any";
 import Image from "next/image";
 import { BookCard } from "@/src/components/book/BookCard";
+import { convertHeicToJpeg, uploadBookThumbnail } from "@/src/utils/fileUtils";
 
 export const BookEdit = ({ isbn }: { isbn: string }) => {
   const [book, setBook] = useState<Book | null>();
@@ -68,57 +68,21 @@ export const BookEdit = ({ isbn }: { isbn: string }) => {
 
       // HEICファイルの場合はJPEGに変換
       if (file.type === "image/heic") {
-        console.log("HEICファイルを検出、JPEG形式に変換中...");
-
-        try {
-          const convertedBlob = (await heic2any({
-            blob: file,
-            toType: "image/jpeg",
-            quality: 0.8,
-          })) as Blob;
-
-          // 新しいFileオブジェクトを作成
-          const fileName = file.name.replace(/\.heic$/i, ".jpg");
-          fileToUpload = new File([convertedBlob], fileName, {
-            type: "image/jpeg",
-            lastModified: Date.now(),
-          });
-
-          console.log("HEIC変換完了:", fileName);
-        } catch {
-          // console.error("HEIC変換エラー:", conversionError);
-          alert("HEICファイルの変換に失敗しました。");
-          return;
-        }
+        fileToUpload = await convertHeicToJpeg(file);
       }
 
       const formData = new FormData();
       formData.append("file", fileToUpload);
       formData.append("isbn", isbn);
 
-      const response = await fetch("/api/strage/storeBookThumbnail", {
-        method: "POST",
-        body: formData,
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        console.log("サムネイルアップロード成功:", data);
-
-        // 本の情報を更新（サムネイルURLを反映）
-        if (book) {
-          setBook({
-            ...book,
-            thumbnail: data.data?.signedUrl || data.signedUrl,
-          });
-        }
-      } else {
-        const errorData = await response.json();
-        // console.error("サムネイルアップロード失敗:", errorData);
-        alert(`アップロードに失敗しました: ${errorData.error}`);
+      const thumbnailUrl = await uploadBookThumbnail(fileToUpload, isbn);
+      if (thumbnailUrl) {
+        setBook((prev) => {
+          if (!prev) return null;
+          return { ...prev, thumbnail: thumbnailUrl };
+        });
       }
     } catch {
-      // console.error("サムネイルアップロードエラー:", error);
       alert("アップロード中にエラーが発生しました。");
     } finally {
       setUploadLoading(false);
