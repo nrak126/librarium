@@ -8,7 +8,6 @@ import { useAtom } from "jotai";
 import { booksAtom } from "@/src/atoms/atoms";
 import styles from "./BookRegister.module.scss";
 import { Btn } from "@/src/components/book/Btn";
-import { convertHeicToJpeg, uploadBookThumbnail } from "@/src/utils/fileUtils";
 
 interface BookRegisterProps {
   book: Book;
@@ -45,44 +44,6 @@ export const BookRegister: React.FC<BookRegisterProps> = ({ book }) => {
 
   const handleConfirm = () => {
     router.push("../");
-  };
-
-  const handleFileChange = async (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    const file = event.target.files?.[0];
-    if (!file) return;
-
-    setUploadLoading(true);
-
-    try {
-      let fileToUpload = file;
-
-      // HEICファイルの場合はJPEGに変換
-      if (file.type === "image/heic") {
-        console.log("HEICファイルを検出、JPEG形式に変換中...");
-        fileToUpload = await convertHeicToJpeg(file);
-      }
-
-      const formData = new FormData();
-      formData.append("file", fileToUpload);
-      formData.append("isbn", isbn);
-
-      const thumbnailUrl = await uploadBookThumbnail(fileToUpload, isbn);
-
-      // 本の情報を更新（サムネイルURLを反映）
-      if (book) {
-        setBook({
-          ...book,
-          thumbnail: thumbnailUrl,
-        });
-      }
-    } catch (error) {
-      console.error("サムネイルアップロードエラー:", error);
-      alert("アップロード中にエラーが発生しました。");
-    } finally {
-      setUploadLoading(false);
-    }
   };
 
   return (
