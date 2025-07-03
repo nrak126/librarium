@@ -168,13 +168,10 @@
 
     }
     .histlist{
-      display: flex;
-      justify-content: center;
+      display: grid; // 変更
+      grid-template-columns: repeat(3, 1fr); // 3列
+      gap: 3vw; // カード間の隙間
       margin-top: 2vh;
-
-      .card{
-        margin-left: 5%;
-      }
     }
   }
 
