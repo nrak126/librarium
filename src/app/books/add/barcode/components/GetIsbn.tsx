@@ -23,11 +23,7 @@ export const GetIsbn = () => {
       ) : (
         <Barcode
           setIsbn={setIsbn}
-          text={
-            <>
-              追加したい本のバーコードをカメラにかざしてください
-            </>
-          }
+          text="追加したい本のバーコードをカメラにかざしてください"
         />
       )}
     </>
