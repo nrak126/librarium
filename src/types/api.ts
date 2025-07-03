@@ -4,7 +4,7 @@ import { Book } from "./book";
 import { LoanWithBook } from "./loan";
 
 // 共通のAPIレスポンス型
-export interface ApiResponse<T = any> {
+export interface ApiResponse<T> {
   success: boolean;
   data?: T;
   error?: string;
@@ -20,7 +20,7 @@ export interface UploadResponse {
   contentType: string;
 }
 
-export interface BookThumbnailUploadResponse extends ApiResponse<{
+export type BookThumbnailUploadResponse = ApiResponse<{
   isbn: string;
   thumbnailUrl: string;
   signedUrl: string;
@@ -28,16 +28,16 @@ export interface BookThumbnailUploadResponse extends ApiResponse<{
   fileSize: number;
   contentType: string;
   updatedBook?: Book;
-}> {}
+}>
 
 // 書籍情報取得
-export interface BookInfoResponse extends ApiResponse<Book> {}
+export type BookInfoResponse = ApiResponse<Book>
 
 // 貸出履歴
-export interface LoanHistoryResponse extends ApiResponse<LoanWithBook[]> {}
+export type LoanHistoryResponse = ApiResponse<LoanWithBook[]>
 
 // ユーザーアイコンアップロード
-export interface UserIconUploadResponse extends ApiResponse<{
+export type UserIconUploadResponse = ApiResponse<{
   iconUrl: string;
   signedUrl: string;
-}> {}
+}>
