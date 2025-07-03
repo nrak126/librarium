@@ -104,22 +104,7 @@ export default function UserDetail() {
     console.log("編集が押されました。");
   };
 
-  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = () => {
-      if (typeof reader.result === "string") {
-        setUser((prev) =>
-          prev ? { ...prev, icon: reader.result as string } : prev
-        );
-        setUserAtom((prev) =>
-          prev ? { ...prev, icon: reader.result as string } : prev
-        );
-      }
-    };
-    reader.readAsDataURL(file);
-  };
+  const handleImageUpload = () => {};
 
   const handleIcon = () => {
     if (clickEditer === true) {
