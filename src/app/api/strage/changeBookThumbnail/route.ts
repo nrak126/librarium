@@ -4,38 +4,32 @@ import { createSupabaseAdmin } from '@/src/lib/supabase';
 export async function POST(request: NextRequest) {
   try {
     const supabaseAdmin = createSupabaseAdmin();
-
+    
     // FormDataからファイルとISBNを取得
     const formData = await request.formData();
-    const file = formData.get("file") as File;
-    const isbn = formData.get("isbn") as string;
+    const file = formData.get('file') as File;
+    const isbn = formData.get('isbn') as string;
 
     // バリデーション
     if (!file) {
       return NextResponse.json(
-        { error: "ファイルが必要です" },
+        { error: 'ファイルが必要です' },
         { status: 400 }
       );
     }
 
     if (!isbn) {
-      return NextResponse.json({ error: "ISBNが必要です" }, { status: 400 });
+      return NextResponse.json(
+        { error: 'ISBNが必要です' },
+        { status: 400 }
+      );
     }
 
     // ファイルタイプの検証（画像のみ許可、HEICも追加）
-    const allowedTypes = [
-      "image/jpeg",
-      "image/png",
-      "image/webp",
-      "image/gif",
-      "image/heic",
-    ];
+    const allowedTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/gif', 'image/heic'];
     if (!allowedTypes.includes(file.type)) {
       return NextResponse.json(
-        {
-          error:
-            "画像ファイルのみアップロード可能です（JPEG, PNG, WebP, GIF, HEIC）",
-        },
+        { error: '画像ファイルのみアップロード可能です（JPEG, PNG, WebP, GIF, HEIC）' },
         { status: 400 }
       );
     }
@@ -44,36 +38,36 @@ export async function POST(request: NextRequest) {
     const maxSize = 5 * 1024 * 1024; // 5MB
     if (file.size > maxSize) {
       return NextResponse.json(
-        { error: "ファイルサイズが大きすぎます（最大5MB）" },
+        { error: 'ファイルサイズが大きすぎます（最大5MB）' },
         { status: 400 }
       );
     }
 
+    // 本の存在確認
+    const { data: existingBook, error: bookFetchError } = await supabaseAdmin
+      .from('books')
+      .select('isbn, thumbnail')
+      .eq('isbn', isbn)
+      .single();
+
+    if (bookFetchError || !existingBook) {
+      return NextResponse.json(
+        { error: '指定されたISBNの本が見つかりません' },
+        { status: 404 }
+      );
+    }
+    // 古いサムネイルがある場合は削除
+    if (existingBook.thumbnail && existingBook.thumbnail.includes('book-thumbnails')) {
+      const oldFileName = existingBook.thumbnail.split('/').pop();
+      if (oldFileName && oldFileName.startsWith(isbn)) {
+        await supabaseAdmin.storage
+          .from('book-thumbnails')
+          .remove([oldFileName]);
+      }
+    }
+    
     // ファイル名
     const fileName = `${isbn}`;
-
-    // 既存のファイルがある場合は削除
-    try {
-      const { data: existingFiles, error: listError } =
-        await supabaseAdmin.storage.from("book-thumbnails").list("", {
-          search: fileName,
-        });
-
-      if (!listError && existingFiles && existingFiles.length > 0) {
-        console.log("既存のファイルを発見、削除します:", fileName);
-        const { error: deleteError } = await supabaseAdmin.storage
-          .from("book-thumbnails")
-          .remove([fileName]);
-
-        if (deleteError) {
-          console.warn("既存ファイルの削除に失敗:", deleteError);
-        } else {
-          console.log("既存ファイルを削除しました:", fileName);
-        }
-      }
-    } catch (deleteCheckError) {
-      console.warn("既存ファイルのチェック中にエラー:", deleteCheckError);
-    }
 
     // ファイルをArrayBufferに変換
     const arrayBuffer = await file.arrayBuffer();
@@ -81,107 +75,89 @@ export async function POST(request: NextRequest) {
 
     // Supabaseストレージにファイルをアップロード
     const { data: uploadData, error: uploadError } = await supabaseAdmin.storage
-      .from("book-thumbnails") // バケット名
+      .from('book-thumbnails') // バケット名
       .upload(fileName, fileBuffer, {
         contentType: file.type,
-        upsert: false,
+        upsert: false
       });
 
     if (uploadError) {
-      console.error("ストレージアップロードエラー:", uploadError);
-
+      console.error('ストレージアップロードエラー:', uploadError);
+      
       // バケットが存在するかチェック
       const { data: buckets } = await supabaseAdmin.storage.listBuckets();
-      console.log("利用可能なバケット:", buckets);
-
+      console.log('利用可能なバケット:', buckets);
+      
       return NextResponse.json(
-        {
-          error: "ファイルのアップロードに失敗しました",
-          details: uploadError.message,
-        },
+        { error: 'ファイルのアップロードに失敗しました', details: uploadError.message },
         { status: 500 }
       );
     }
 
-    console.log("アップロード成功:", uploadData);
+    console.log('アップロード成功:', uploadData);
 
     // アップロードされたファイルの公開URLを取得
     const { data: urlData } = supabaseAdmin.storage
-      .from("book-thumbnails")
+      .from('book-thumbnails')
       .getPublicUrl(fileName);
 
     const publicUrl = urlData.publicUrl;
-
-    console.log("Generated public URL:", publicUrl);
-    console.log("File name:", fileName);
-
+    
+    console.log('Generated public URL:', publicUrl);
+    console.log('File name:', fileName);
+    
     // 代替手段：サインドURLも生成してみる
     const { data: signedUrlData } = await supabaseAdmin.storage
-      .from("book-thumbnails")
+      .from('book-thumbnails')
       .createSignedUrl(fileName, 60 * 60 * 24 * 365); // 1年間有効
-
-    console.log("Signed URL:", signedUrlData?.signedUrl);
-
+    
+    console.log('Signed URL:', signedUrlData?.signedUrl);
+    
     // URLが正しく生成されているか確認
     if (!publicUrl) {
-      console.error("公開URLの生成に失敗しました");
+      console.error('公開URLの生成に失敗しました');
       return NextResponse.json(
-        { error: "公開URLの生成に失敗しました" },
+        { error: '公開URLの生成に失敗しました' },
         { status: 500 }
       );
     }
 
-    // 本の存在確認
-    const { data: existingBook, error: bookFetchError } = await supabaseAdmin
-      .from("books")
-      .select("isbn, thumbnail")
-      .eq("isbn", isbn)
-      .single();
 
-    // もしすでに登録済みの本なら、本のサムネイルURLを更新する
-    if (existingBook && !bookFetchError) {
-      const { error: updateError } = await supabaseAdmin
-        .from("books")
-        .update({ thumbnail: signedUrlData?.signedUrl })
-        .eq("isbn", isbn)
-        .select();
+    // 本のサムネイルURLを更新
+    const { data: updateData, error: updateError } = await supabaseAdmin
+      .from('books')
+      .update({ thumbnail: publicUrl })
+      .eq('isbn', isbn)
+      .select();
 
-      if (updateError) {
-        console.error("本の更新エラー:", updateError);
-
-        // アップロードしたファイルを削除（ロールバック）
-        await supabaseAdmin.storage.from("book-thumbnails").remove([fileName]);
-
-        return NextResponse.json(
-          { error: "本の情報更新に失敗しました" },
-          { status: 500 }
-        );
-      }
+    if (updateError) {
+      console.error('本の更新エラー:', updateError);
+      // アップロードしたファイルを削除（ロールバック）
+      await supabaseAdmin.storage
+        .from('book-thumbnails')
+        .remove([fileName]);
+      
+      return NextResponse.json(
+        { error: '本の情報更新に失敗しました' },
+        { status: 500 }
+      );
     }
 
-    const { data: updatedData } = await supabaseAdmin
-      .from("books")
-      .select("*")
-      .eq("isbn", isbn)
-      .single();
+    return NextResponse.json({
+      message: 'サムネイルが正常にアップロードされました',
+      thumbnailUrl: publicUrl, // 直接thumbnailUrlとして返す
+      signedUrl: signedUrlData?.signedUrl, // サインドURLも返す
+      data: {
+        isbn,
+        thumbnailUrl: publicUrl,
+        signedUrl: signedUrlData?.signedUrl,
+        fileName,
+        fileSize: file.size,
+        contentType: file.type,
+        updatedBook: updateData[0]
+      }
+    }, { status: 200 });
 
-    return NextResponse.json(
-      {
-        message: "サムネイルが正常にアップロードされました",
-        thumbnailUrl: publicUrl, // 直接thumbnailUrlとして返す
-        signedUrl: signedUrlData?.signedUrl, // サインドURLも返す
-        data: {
-          isbn,
-          thumbnailUrl: publicUrl,
-          signedUrl: signedUrlData?.signedUrl,
-          fileName,
-          fileSize: file.size,
-          contentType: file.type,
-          updatedBook: updatedData,
-        },
-      },
-      { status: 200 }
-    );
   } catch (error) {
     console.error('サムネイルアップロードエラー:', error);
     return NextResponse.json(
