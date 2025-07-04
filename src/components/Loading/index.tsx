@@ -7,8 +7,9 @@ export default function Loading() {
     <>
       <div className={styles.loading}>
         <Image src={hr} width={300} height={50} alt="line" />
-        <p className={styles.p}>now loading...</p>
+        <p className={styles.p}>now loading</p>
         <Image src={hr} width={300} height={50} alt="line" />
+        <p className={styles.ballpulse}></p>
       </div>
     </>
   );
