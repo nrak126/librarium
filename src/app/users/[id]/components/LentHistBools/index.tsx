@@ -15,7 +15,7 @@ export default function LoanHistBooks({
   hists: LoanWithBook[] | null;
 }) {
   const router = useRouter();
-  const [currentPage, setCurrentPage] = useState(0);
+  const [currentPage] = useState(0);
   const booksPerPage = 18; // 1ページあたりの表示数
 
   if (!hists) return null;
