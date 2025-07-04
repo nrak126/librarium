@@ -156,7 +156,8 @@ export function PageContent() {
       ) : (
         <div className={styles.titleAll}>ALL</div>
       )}
-      <UsersList users={result} />
+
+      {result ? <UsersList users={result} /> : <LoadingBrown />}
     </>
   );
 }
