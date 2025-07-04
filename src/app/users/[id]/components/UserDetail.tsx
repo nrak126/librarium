@@ -29,8 +29,6 @@ export default function UserDetail() {
 
   const uid = params.id as string;
 
-  console.log("user", user);
-
   // ユーザーのuidの取得
   useEffect(() => {
     if (!uid) return;
