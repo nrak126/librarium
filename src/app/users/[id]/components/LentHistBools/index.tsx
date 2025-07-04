@@ -3,7 +3,7 @@
 import type { Book } from "@/src/types/book";
 import styles from "./index.module.scss";
 import { useRouter } from "next/navigation";
-import ReactPaginate from "react-paginate";
+// import ReactPaginate from "react-paginate";
 import { useState } from "react";
 import { BookCardList } from "@/src/app/books/components/BookListCard";
 import { ReturnState } from "../ReturnState";
@@ -24,13 +24,13 @@ export default function LoanHistBooks({
     router.push(`/books/${book.isbn}`);
   };
 
-  const handlePageChange = (e: { selected: number }) => {
-    setCurrentPage(e.selected);
-  };
+  // const handlePageChange = (e: { selected: number }) => {
+  //   setCurrentPage(e.selected);
+  // };
 
   const offset = currentPage * booksPerPage;
   const pagedHists = hists.slice(offset, offset + booksPerPage);
-  const pageCount = Math.ceil(hists.length / booksPerPage);
+  // const pageCount = Math.ceil(hists.length / booksPerPage);
 
   return (
     <>
