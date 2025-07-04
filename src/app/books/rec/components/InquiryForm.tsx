@@ -109,12 +109,14 @@ export const InquiryForm: React.FC<Props> = ({ questions }) => {
                 </label>
               ))}
             </div>
-            <p className={styles.label}>そう思わない</p>
+            <p className={styles.label2}>そう思わない</p>
           </div>
           <div className={styles.bar}></div>
         </div>
       ))}
-      <RecBtn handleSearch={handleSearch} />
+      <div className={styles.btn}>
+        <RecBtn handleSearch={handleSearch} />
+      </div>
     </div>
   );
 };
