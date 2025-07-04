@@ -163,25 +163,23 @@ export default function UserDetail() {
 
   return (
     <div className={styles.whole}>
-      <div>
-        <Image
-          src={user.icon}
-          alt={"ユーザーのアイコン"}
-          width={180}
-          height={180}
-          className={styles.icon}
-          priority
-          onClick={handleIcon}
-        />
-        {/* 隠しinputファイル選択 */}
-        <input
-          type="file"
-          accept="image/*"
-          style={{ display: "none" }}
-          ref={fileInputRef}
-          onChange={handleImageUpload}
-        />
-      </div>
+      <Image
+        src={user.icon}
+        alt={"ユーザーのアイコン"}
+        width={180}
+        height={180}
+        className={styles.icon}
+        priority
+        onClick={handleIcon}
+      />
+      {/* 隠しinputファイル選択 */}
+      <input
+        type="file"
+        accept="image/*"
+        style={{ display: "none" }}
+        ref={fileInputRef}
+        onChange={handleImageUpload}
+      />
 
       {user.uid === logedInUser?.uid ? (
         clickEditer ? (
@@ -230,13 +228,12 @@ export default function UserDetail() {
 
       <div className={styles.taglist}>
         <div className={styles.tag}>タグ</div>
+        {clickEditer ? (
+          <TagEdit user={user} setUser={setUser} />
+        ) : (
+          <TagList user={user} />
+        )}
       </div>
-
-      {clickEditer ? (
-        <TagEdit user={user} setUser={setUser} />
-      ) : (
-        <TagList user={user} />
-      )}
 
       <div className={styles.history}>
         <div className={styles.subtitle}>履歴</div>

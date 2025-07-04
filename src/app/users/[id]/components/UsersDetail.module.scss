@@ -3,9 +3,10 @@
   flex-direction: column;
   align-items: center;
   overflow: hidden;
+  gap: 5svh;
+  padding: 2vh 0 6vh 0;
 
   .icon {
-    margin-top: 2vh;
     border: 8px solid #bb9c77;
     border-radius: 50%;
     box-shadow: 0px 2px 10px 0px gray;
@@ -20,7 +21,6 @@
       background: #fffbf5;
       padding: 1% 3.3%;
       box-shadow: 0.5px 3px 4px rgba(123, 98, 60, 0.6); 
-      margin-top: 5vh;
       -webkit-transition: all .3s;
       transition: all .3s;
   }
@@ -38,7 +38,6 @@
     justify-content: space-around;
     color: #635038;
     width: 75%;
-    margin-top: 5vh;
     margin-right: 6.5vh;
 
     .name{
@@ -67,7 +66,6 @@
     display: flex;
     justify-content: space-around;
     color: #77634b;
-    margin-top: 5vh;
     margin-right: 9.5vh;
 
     .id{
@@ -91,85 +89,47 @@
   }
   
   .taglist{
-    width: 80%;
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
     .tag {
-      height: 33%;
+      margin-left: 7%;
+      width: fit-content;
+      height: 2.5%;
       text-align: start;
       color: #77634b;
       font-size: 1.7vh;
       font-weight: 400;
       border-bottom: 1.4px solid #77634b;
-      margin-top: 5vh;
       display: inline-block; 
-    }
-  }
-
-  .trueexp {
-    position: relative;
-    color: #77634b;
-    font-weight: 700;
-    border-bottom: 1px solid #635038;
-    margin-top: 13%;
-    margin-left: 10%;
-    padding-bottom: 0.5%;
-    width: 27%;
-  }
-
-  .falseexp {
-    position: relative;
-    color: #77634b;
-    font-weight: 700;
-    border-bottom: 1px solid #635038;
-    margin-top: 5.5%;
-    margin-left: 10%;
-    padding-bottom: 0.7%;
-    width: 27%;
-  }
-
-  .progressbar {
-    margin-top: 2%;
-    // margin-right: 35%;
-    progress {
-      accent-color: #dd6464;
-      appearance: none;
-      -webkit-appearance: none;
-      outline: none;
-      border: none;
-      height: 3.5vh;
-      width: 35vh;
-    }
-    ::-webkit-progress-bar {
-      background-color: #fffbf5;
-      border: 1px solid #77634b;
-      border-radius: 11px;
-      // width: 190%;
-      // height: 220%;
-    }
-    ::-webkit-progress-value {
-      background-color: #dd6464;
-      border-radius: 10px;
-      border: 1px solid #fffbf5;
     }
   }
 
   .history{
     width: 80%;
-    margin-top: 8vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1svh;
+    
     .subtitle{
+      width: fit-content;
+      display: inline-block;
+      text-align: start;
+      justify-content: start;
+      text-align: left;
       height: 2.5vh;
       color: #77634b;
       font-size: 1.8vh;
       font-weight: 400;
       border-bottom: 1.4px solid #77634b;
-      text-align: left;
-      display: inline-block;
-
     }
     .histlist{
       display: grid; // 変更
       grid-template-columns: repeat(3, 1fr); // 3列
       gap: 3vw; // カード間の隙間
-      margin-top: 2vh;
 
         .title {
           position: relative;
@@ -192,7 +152,6 @@
     justify-content: center;
     align-items: center;
     text-align: center;
-    margin-top: 4svh;
   }
 
   .comment {
