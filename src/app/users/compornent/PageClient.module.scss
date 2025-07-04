@@ -69,3 +69,16 @@
   border-bottom: 1px solid #635038;
   width: 15%;
 }
+
+.notfound{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  width: 80%;
+  color: #635038;
+  border: 2px solid #77634B;
+  height: 10vh;
+  padding: 0 3vh;
+  margin: 15vh auto; 
+}

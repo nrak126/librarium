@@ -157,7 +157,17 @@ export function PageContent() {
         <div className={styles.titleAll}>ALL</div>
       )}
 
-      {result ? <UsersList users={result} /> : <LoadingBrown />}
+      {result ? (
+        !result.length ? (
+          <div className={styles.notfound}>
+            ご指定のキーワードに該当するタグは見つかりませんでした。
+          </div>
+        ) : (
+          <UsersList users={result} />
+        )
+      ) : (
+        <LoadingBrown />
+      )}
     </>
   );
 }
