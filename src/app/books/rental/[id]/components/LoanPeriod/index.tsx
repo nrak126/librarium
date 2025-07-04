@@ -6,7 +6,6 @@ import styles from "./index.module.scss";
 type LoanPeriodProps = {
   setLoanPeriod: (value: number) => void;
   setError: (value: boolean) => void;
-  
 };
 
 export function LoanPeriod({ setLoanPeriod, setError }: LoanPeriodProps) {
