@@ -4,6 +4,7 @@ import React, { ReactNode, useEffect, useRef } from "react";
 import Quagga from "quagga";
 import styles from "./index.module.scss";
 
+
 type BarcodeProps = {
   setIsbn: (isbn: string) => void;
   text: ReactNode;
@@ -14,6 +15,9 @@ export const Barcode: React.FC<BarcodeProps> = ({ setIsbn, text }) => {
   const scannerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    // スクロール無効化
+    document.body.style.overflow = "hidden";
+
     // QuaggaJSの初期化
     Quagga.init(
       {
@@ -51,6 +55,7 @@ export const Barcode: React.FC<BarcodeProps> = ({ setIsbn, text }) => {
 
     // クリーンアップ（コンポーネントのアンマウント時にQuaggaを停止）
     return () => {
+      document.body.style.overflow = "auto";
       Quagga.stop();
     };
   }, [setIsbn]);
