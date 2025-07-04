@@ -38,10 +38,10 @@ export const NavUser: React.FC<Props> = ({ setNavOpen }) => {
   };
 
   return (
-    <div className={style.circle}>
+    <div className={style.circle} onClick={onLink}>
       <div className={style.circle1}>
         <div className={style.circle2}>
-          <div className={style.user} onClick={onLink}>
+          <div className={style.user}>
             <Image
               className={style.userIcon}
               alt={"userIcon"}
