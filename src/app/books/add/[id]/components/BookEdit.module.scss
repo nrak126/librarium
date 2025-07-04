@@ -1,10 +1,11 @@
-.body {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-}
+// .body {
+//   display: flex;
+//   // flex-direction: column;
+//   // justify-content: center;
+//   // align-items: center;
+//   height: 100vh;
+// }
+
 .errorMessage {
   display: flex;
   color: #635038;
@@ -26,13 +27,14 @@
 }
 
 .BookInfo {
-  padding: 8%;
-  border-radius: 8%;
-  position: relative;
+  // padding: 8%;
+  // border-radius: 8%;
+  // position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  // justify-content: center;
+  gap: 5svh;
 }
 
 .title {
@@ -41,7 +43,6 @@
   text-align: center;
   color: #635038;
   padding-bottom: 8px;
-  margin-bottom: 3svh;
   border-radius: 8px;
   background-color: #f9fafb;
   width: fit-content;
@@ -70,22 +71,25 @@
 .Author {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  align-items: flex-start;
+  // justify-content:first baseline;
   color: #635038;
-  margin-top: 7svh;
+  // margin-top: 7svh;
   position: relative;
   width: 85svw;
+  // height: 30svh;
+  gap: 3svh;
+  margin-right: auto;
 }
 
 .AuthorLabel {
   display: flex;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: start;
   gap: 30px;
   height: auto;
-  position: absolute;
-  left: -8svw;
+  // position: absolute;
+  // left: -8svw;
   width: 100%;
   max-width: 300px;
   height: 3svh;
@@ -94,15 +98,15 @@
 .publisherLabel {
   display: flex;
   align-items: center;
-  justify-content: flex-start;
+  // justify-content: flex-start;
   gap: 30px;
   height: auto;
   width: 100%;
   max-width: 300px;
-  position: absolute;
+  // position: absolute;
   left: -8svw;
   height: 3svh;
-  margin-top: 10svh;
+  // margin-top: 10svh;
 }
 
 .AuthorName {
@@ -111,7 +115,6 @@
   color: #635038;
   margin: 0;
   border: 1px solid #d1d5db;
-
   border-radius: 8px;
   background-color: #f9fafb;
   width: 200px;
@@ -119,17 +122,15 @@
 }
 
 .description {
-  margin-top: 14svh;
+  // margin-top: 14svh;
   font-size: 14px;
   font-weight: bold;
   color: #635038;
-  margin-top: 14svh;
   border: 1px solid #d1d5db;
   border-radius: 8px;
   background-color: #f9fafb;
   width: 300px;
   height: 150px;
-
   padding: 8px 4px;
 }
 
@@ -138,20 +139,18 @@
   object-fit: contain;
 }
 
-.Description {
-  width: 70vw;
-  font-size: 13px;
-  font-weight: bold;
-  color: #635038;
-  position: relative;
-  text-align: center;
-  word-break: normal;
-  line-height: 2.5svh;
-  margin-top: 10svh;
+.uploadInput {
+  display: none;
 }
 
-.btnContainer {
-  margin-top: 4svh;
+.uploadBtn {
+  padding: 2px 16px;
+  background-color: #e6e6e6;
+  border-radius: 5px;
+  border: 1px solid #d1d5db;
+  font-size: 12px;
+  font-weight: 550;
+  color: #635038;
 }
 
 // .ReadMore {

@@ -6,9 +6,5 @@ export default async function Page({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  return (
-    <div>
-      <BookEdit isbn={id} />
-    </div>
-  );
+  return <BookEdit isbn={id} />;
 }
