@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { animateScroll as scroll } from "react-scroll";
 import styles from "./index.module.scss";
 import Image from "next/image";
-import before from "@/public/libea_top.svg";
+import before from "@/public/topkuma.svg";
 import after from "@/public/libea_ba.svg";
 
 export const PageTop = () => {
@@ -76,7 +76,6 @@ export const PageTop = () => {
             </div>
           ) : (
             <div className={`${styles.pageTopButton} ${styles.normal}`}>
-              TOP
               <Image
                 onClick={scrollToTop}
                 src={before}
