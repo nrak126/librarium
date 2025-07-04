@@ -2,6 +2,7 @@ import Loading from "../../Loading";
 import styles from "./index.module.scss";
 import { useState } from "react";
 import { User } from "@/src/types";
+import { nameTagList, levelTagList } from "@/src/utils/spritUserTag";
 
 export function TagEdit({
   user,
@@ -71,15 +72,11 @@ export function TagEdit({
               onChange={(e) => setSelectedTag(e.target.value)}
             >
               <option value="">例:CSS</option>
-              <option value="JavaScript">JavaScript</option>
-              <option value="HTML">HTML</option>
-              <option value="CSS">CSS</option>
-              <option value="Next.js">Next.js</option>
-              <option value="React">React</option>
-              <option value="Flutter">Flutter</option>
-              <option value="Python">Python</option>
-              <option value="Unity">Unity</option>
-              <option value="Rust">Rust</option>
+              {nameTagList.map((name, index) => (
+                <option key={index} value={name}>
+                  {name}
+                </option>
+              ))}
             </select>
           </div>
         </div>
@@ -95,12 +92,11 @@ export function TagEdit({
               onChange={(e) => setSelectedLevel(e.target.value)}
             >
               <option value="">例:エキスパート</option>
-              <option value="初心者">初心者</option>
-              <option value="中級者">中級者</option>
-              <option value="上級者">上級者</option>
-              <option value="Hello,Worldの住人">Hello,Worldの住人</option>
-              <option value="エキスパート">エキスパート</option>
-              <option value="チョットデキテル">チョットデキテル</option>
+              {levelTagList.map((level, index) => (
+                <option key={index} value={level}>
+                  {level}
+                </option>
+              ))}
             </select>
           </div>
         </div>
