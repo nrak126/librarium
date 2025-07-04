@@ -3,7 +3,7 @@
   grid-template-columns: repeat(2, auto); /* 2列 */
   grid-template-rows: repeat(2, auto); /* 2行 */
   // background-color: #f4e9d7;
-  border: 1px solid #18140f;
+  border: 1px solid #635038;
   border-radius: 12px;
   padding: 4% 5% 4% 4%;
   text-align: left;
@@ -42,15 +42,12 @@
 }
 
 .selectbox {
-  width: 100%;
+  width: 110%;
   display: flex;
-  position: relative;
   margin-top: 2%;
-  align-items: center;
 
   .tagselect {
-    width: 35%;
-    margin-left: 7%;
+    width: 38%;
     position: relative;
   }
 
@@ -64,8 +61,15 @@
     pointer-events: none;
   }
 
+    .tagbox{
+      color: #635038;
+      text-align: center;
+      padding-left: 2vw;
+      font-size: 12px
+    }
+
   .levelselect {
-    width: 35%;
+    width: 38%;
     margin-left: 1%;
     position: relative;
   }
@@ -78,6 +82,14 @@
     top: 25%;
     right: 0.5rem;
     pointer-events: none;
+  }
+
+  .levelbox{
+      color: #635038;
+      text-align: center;
+      padding-left: 2vw;
+      font-size: 12px
+
   }
 
   select {
@@ -111,4 +123,8 @@
   .tagadd::after{
     transform: scale(1,1); 
   }
+
+  .placeholder {
+  color: rgba(99, 80, 56, 0.5);
+}
 }
