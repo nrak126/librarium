@@ -229,7 +229,7 @@ export default function UserDetail() {
       </div>
 
       <div className={styles.taglist}>
-        <div className={styles.tag}>タグ</div>
+        <div className={styles.subtitle}>タグ</div>
         {clickEditer ? (
           <TagEdit user={user} setUser={setUser} />
         ) : (

@@ -137,10 +137,7 @@
   }
   
   .taglist{
-    width: 80%;
-    display: flex;
-    flex-direction: column;
-    gap: 1.5vh;
+    width: 90%;
 
     .subtitle {
       height: 2.5vh;
@@ -151,6 +148,7 @@
       font-weight: 400;
       border-bottom: 1.4px solid #77634b;
       padding-bottom: 0.5vh;
+      margin-left: 5vw;
     }
   }
 

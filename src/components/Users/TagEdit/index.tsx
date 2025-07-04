@@ -65,10 +65,12 @@ export function TagEdit({
             <select
               name=""
               id=""
-              className={styles.tagbox}
+              className={`${styles.tagbox} ${
+                selectedTag === "" ? styles.placeholder : ""
+              }`}
               onChange={(e) => setSelectedTag(e.target.value)}
             >
-              <option value=""></option>
+              <option value="">例:CSS</option>
               <option value="JavaScript">JavaScript</option>
               <option value="HTML">HTML</option>
               <option value="CSS">CSS</option>
@@ -87,10 +89,12 @@ export function TagEdit({
             <select
               name=""
               id=""
-              className={styles.levelbox}
+              className={`${styles.levelbox} ${
+                selectedLevel === "" ? styles.placeholder : ""
+              }`}
               onChange={(e) => setSelectedLevel(e.target.value)}
             >
-              <option value=""></option>
+              <option value="">例:エキスパート</option>
               <option value="初心者">初心者</option>
               <option value="中級者">中級者</option>
               <option value="上級者">上級者</option>
