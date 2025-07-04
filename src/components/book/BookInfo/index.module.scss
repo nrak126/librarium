@@ -17,15 +17,16 @@
   color: #635038;
   padding-bottom: 8px; // 文字と線の間の余白を追加
   margin-bottom: 3svh;
+  display: inline-block;
+  position: relative; 
+  
 }
 
 .Title::after {
   content: "";
+  display: block;
   position: absolute;
-  top: 6.5svh;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 30%;
+  width: 100%;
   height: 2px;
   background-color: #635038;
   border-radius: 12px;
