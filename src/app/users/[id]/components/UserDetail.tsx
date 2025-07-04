@@ -11,7 +11,6 @@ import { LoanWithBook, User } from "@/src/types";
 import { useAtom } from "jotai";
 import { logedInUserAtom, usersAtom } from "@/src/atoms/atoms";
 import LoadingBrown from "@/src/components/LoadingBrown";
-import { BookCardList } from "@/src/app/books/components/BookListCard";
 import { convertHeicToJpeg, uploadUserIcon } from "@/src/utils/fileUtils";
 import LoanHistBooks from "./LentHistBools";
 
@@ -65,7 +64,7 @@ export default function UserDetail() {
         }
       })();
     }
-  }, [hist, setHist]);
+  }, [hist, uid]);
 
   console.log("hist", hist);
 
@@ -145,10 +144,6 @@ export default function UserDetail() {
       console.log("アイコンがクリックされました。");
       fileInputRef.current?.click();
     }
-  };
-
-  const handleHistBook = (book: LoanWithBook["books"]) => {
-    router.push(`/books/${book.isbn}`);
   };
 
   const handleBack = async () => {
@@ -246,9 +241,11 @@ export default function UserDetail() {
         <div className={styles.subtitle}>履歴</div>
         <div className={styles.histlist}>
           {hist && hist?.length === 0 ? (
-            <div className={styles.noRental}>借りたことのある本がありません</div>
+            <div className={styles.noRental}>
+              借りたことのある本がありません
+            </div>
           ) : (
-          <LoanHistBooks hists={hist} />
+            <LoanHistBooks hists={hist} />
           )}
         </div>
       </div>

@@ -9,12 +9,16 @@ import { BookCardList } from "@/src/app/books/components/BookListCard";
 import { ReturnState } from "../ReturnState";
 import { LoanWithBook } from "@/src/types";
 
-export default function LoanHistBooks({ hists }: { hists: LoanWithBook[] | null }) {
-	if(!hists) return;
-
+export default function LoanHistBooks({
+  hists,
+}: {
+  hists: LoanWithBook[] | null;
+}) {
   const router = useRouter();
   const [currentPage, setCurrentPage] = useState(0);
   const booksPerPage = 18; // 1ページあたりの表示数
+
+  if (!hists) return null;
 
   const handleClick = (book: Book) => {
     router.push(`/books/${book.isbn}`);

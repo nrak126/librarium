@@ -63,7 +63,7 @@ export const BookRec = () => {
       console.error("検索に失敗しました");
       setIsLoading(false); // エラー時もローディング終了
     }
-  }, [loginUser?.interest_tech, setBooks, interestTech]);
+  }, [setBooks, interestTech]);
 
   useEffect(() => {
     if (

@@ -2,7 +2,7 @@
 
 import React from "react";
 import classes from "./index.module.scss";
-import { Book, LoanWithBook } from "@/src/types";
+import { LoanWithBook } from "@/src/types";
 
 export function ReturnState({ hist }: {hist: LoanWithBook}) {
   const isBorrowed = hist.isReturned;
