@@ -24,21 +24,34 @@ export const uploadBookThumbnail: (
   file: File,
   isbn: string
 ) => Promise<string> = async (file: File, isbn: string) => {
+  console.log(
+    "[Client] Starting uploadBookThumbnail for ISBN:",
+    isbn,
+    "file:",
+    file.name
+  );
   const formData = new FormData();
   formData.append("file", file);
   formData.append("isbn", isbn);
 
+  console.log(
+    "[Client] Making POST request to /api/strage/changeBookThumbnail"
+  );
   const response = await fetch("/api/strage/changeBookThumbnail", {
     method: "POST",
     body: formData,
   });
 
+  console.log("[Client] Response status:", response.status, "ok:", response.ok);
+
   if (!response.ok) {
     const errorData = await response.json();
+    console.error("[Client] Upload failed:", errorData);
     throw new Error(errorData.error || "アップロードに失敗しました");
   }
 
   const data = await response.json();
+  console.log("[Client] Upload successful:", data);
   return data.data?.signedUrl || data.signedUrl;
 };
 
@@ -47,7 +60,7 @@ export const uploadUserIcon = async (file: File, userId: string) => {
   formData.append("file", file);
   formData.append("uid", userId);
 
-  const response = await fetch("/api/strage/storeUserIcon", {
+  const response = await fetch("/api/strage/changeUserIcon", {
     method: "POST",
     body: formData,
   });

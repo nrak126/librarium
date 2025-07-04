@@ -3,12 +3,45 @@
   flex-direction: column;
   align-items: center;
   overflow: hidden;
+  gap: 5svh;
+  padding: 2vh 0 6vh 0;
 
   .icon {
-    margin-top: 2vh;
     border: 8px solid #bb9c77;
     border-radius: 50%;
     box-shadow: 0px 2px 10px 0px gray;
+    cursor: pointer;
+    transition: filter 0.3s ease, transform 0.2s ease;
+  }
+
+  .icon:hover {
+    filter: brightness(0.8);
+    transform: scale(1.02);
+  }
+
+  .loadingButton {
+    color: #635038;
+    font-size: 1.5vh;
+    border: 1px solid #635038;
+    border-radius: 7px;
+    background: #fffbf5;
+    padding: 1% 3.3%;
+    box-shadow: 0.5px 3px 4px rgba(123, 98, 60, 0.6); 
+    -webkit-transition: all .3s;
+    transition: all .3s;
+  }
+
+  .confirmButton {
+      float: right;
+      background: #8F7453;
+      font-size: 1.5vh;
+      border: 1px solid #6F4B1F;
+      border-radius: 7px;
+      color: #fffbf5;
+      padding: 1% 3.3%;
+      box-shadow: 0.5px 3px 4px rgba(123, 98, 60, 0.6); 
+      -webkit-transition: all .3s;
+      transition: all .3s;
   }
 
   .editbutton {
@@ -20,13 +53,12 @@
       background: #fffbf5;
       padding: 1% 3.3%;
       box-shadow: 0.5px 3px 4px rgba(123, 98, 60, 0.6); 
-      margin-top: 5vh;
       -webkit-transition: all .3s;
       transition: all .3s;
   }
 
   .editbutton:active{
-     transform: scale(0.9,0.9);
+    transform: scale(0.9,0.9);
   }
 
   .editbutton::after{
@@ -34,30 +66,36 @@
   }
 
   .username {
+    width: 80%;
     display: flex;
-    justify-content: space-around;
-    color: #635038;
-    width: 75%;
-    margin-top: 5vh;
-    margin-right: 6.5vh;
+    flex-direction: row;
+    align-items: center;
+    gap: 2vh;
+
+    .subtitle {
+      width: fit-content;
+      text-align: left;
+      color: #77634b;
+      font-size: 1.8vh;
+      font-weight: 400;
+      padding-bottom: 0.5vh;
+    }
 
     .name{
       width: 60%;
       background-color:#fffbf5;
       border: none;
       margin: 0;
-      padding: 0;
+      margin-left: 4%;
+      padding: 1vh 0;
       border-radius: 0;
       outline: none;
       -webkit-appearance: none;
       -moz-appearance: none;
       appearance: none;
       color: #77634b;
-      align-items: center;
       text-align: center;
       font-size: 2vh;
-      padding-left: 8vw;
-      padding-right: 8vw;
       border-bottom: 2px solid #BB9C77;
     }
   }
@@ -65,24 +103,32 @@
   .studentId {
     width: 80%;
     display: flex;
-    justify-content: space-around;
-    color: #77634b;
-    margin-top: 5vh;
-    margin-right: 9.5vh;
+    flex-direction: row;
+    align-items: center;
+    gap: 2vh;
+    margin-right: 8%;
+
+    .subtitle {
+      width: fit-content;
+      text-align: left;
+      color: #77634b;
+      font-size: 1.8vh;
+      font-weight: 400;
+      padding-bottom: 0.5vh;
+    }
 
     .id{
-      width: 50%;
+      width: 60%;
       background-color:#fffbf5;
       border: none;
       margin: 0;
-      padding: 0;
+      padding: 1vh 0;
       border-radius: 0;
       outline: none;
       -webkit-appearance: none;
       -moz-appearance: none;
       appearance: none;
       color: #77634b;
-      align-items: center;
       text-align: center;
       font-size: 2.4vh;
       border-bottom: 2px solid #BB9C77;
@@ -92,96 +138,63 @@
   
   .taglist{
     width: 80%;
-    .tag {
-      height: 33%;
-      text-align: start;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5vh;
+
+    .subtitle {
+      height: 2.5vh;
+      width: fit-content;
+      text-align: left;
       color: #77634b;
-      font-size: 1.7vh;
+      font-size: 1.8vh;
       font-weight: 400;
       border-bottom: 1.4px solid #77634b;
-      margin-top: 5vh;
-      display: inline-block; 
-    }
-  }
-
-  .trueexp {
-    position: relative;
-    color: #77634b;
-    font-weight: 700;
-    border-bottom: 1px solid #635038;
-    margin-top: 13%;
-    margin-left: 10%;
-    padding-bottom: 0.5%;
-    width: 27%;
-  }
-
-  .falseexp {
-    position: relative;
-    color: #77634b;
-    font-weight: 700;
-    border-bottom: 1px solid #635038;
-    margin-top: 5.5%;
-    margin-left: 10%;
-    padding-bottom: 0.7%;
-    width: 27%;
-  }
-
-  .progressbar {
-    margin-top: 2%;
-    // margin-right: 35%;
-    progress {
-      accent-color: #dd6464;
-      appearance: none;
-      -webkit-appearance: none;
-      outline: none;
-      border: none;
-      height: 3.5vh;
-      width: 35vh;
-    }
-    ::-webkit-progress-bar {
-      background-color: #fffbf5;
-      border: 1px solid #77634b;
-      border-radius: 11px;
-      // width: 190%;
-      // height: 220%;
-    }
-    ::-webkit-progress-value {
-      background-color: #dd6464;
-      border-radius: 10px;
-      border: 1px solid #fffbf5;
+      padding-bottom: 0.5vh;
     }
   }
 
   .history{
     width: 80%;
-    margin-top: 8vh;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5vh;
+    
     .subtitle{
       height: 2.5vh;
+      width: fit-content;
+      text-align: left;
       color: #77634b;
       font-size: 1.8vh;
       font-weight: 400;
       border-bottom: 1.4px solid #77634b;
-      text-align: left;
-      display: inline-block;
-
+      padding-bottom: 0.5vh;
     }
     .histlist{
-      display: grid; // 変更
-      grid-template-columns: repeat(3, 1fr); // 3列
-      gap: 3vw; // カード間の隙間
-      margin-top: 2vh;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 3vw;
 
-        .title {
-          position: relative;
-          top: -3.8svh;
-          right: -2vw;
-          font-size: 8px;
-          width: 80%; // カード幅いっぱい
-          white-space: normal; // 自動改行
-          word-break: break-all; // 長い単語も折り返す
-          text-align: center; // 中央寄せ（お好みで）
-          margin-top: 4px; // カード内での余白調整
-        }
+      .noRental {
+        grid-column: 1 / -1; /* グリッドの全列にまたがる */
+        text-align: center;
+        color: #77634b;
+        font-size: 1.6vh;
+        padding: 2vh 0;
+        margin: 2vh 0;
+      }
+
+      .title {
+        position: relative;
+        top: -3.8svh;
+        right: -2vw;
+        font-size: 8px;
+        width: 80%; // カード幅いっぱい
+        white-space: normal; // 自動改行
+        word-break: break-all; // 長い単語も折り返す
+        text-align: center; // 中央寄せ（お好みで）
+        margin-top: 4px; // カード内での余白調整
+      }
 
     }
   }
@@ -192,7 +205,6 @@
     justify-content: center;
     align-items: center;
     text-align: center;
-    margin-top: 4svh;
   }
 
   .comment {

@@ -11,7 +11,8 @@ import { LoanWithBook, User } from "@/src/types";
 import { useAtom } from "jotai";
 import { logedInUserAtom, usersAtom } from "@/src/atoms/atoms";
 import LoadingBrown from "@/src/components/LoadingBrown";
-import { BookCardList } from "@/src/app/books/components/BookListCard";
+import { convertHeicToJpeg, uploadUserIcon } from "@/src/utils/fileUtils";
+import LoanHistBooks from "./LentHistBools";
 
 export default function UserDetail() {
   const [clickEditer, setClickEditer] = useState(false);
@@ -23,6 +24,7 @@ export default function UserDetail() {
   const [hist, setHist] = useState<LoanWithBook[] | null>(null);
   const [newName, setNewName] = useState(user?.name);
   const [newstudentId, setNewstudentId] = useState(user?.studentId);
+  const [uploadLoading, setUploadLoading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   const uid = params.id as string;
@@ -62,7 +64,7 @@ export default function UserDetail() {
         }
       })();
     }
-  }, [hist, setHist]);
+  }, [hist, uid]);
 
   console.log("hist", hist);
 
@@ -104,17 +106,44 @@ export default function UserDetail() {
     console.log("編集が押されました。");
   };
 
-  const handleImageUpload = () => {};
+  const handleImageUpload = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
 
+    setUploadLoading(true);
+
+    try {
+      let fileToUpload = file;
+
+      // HEICファイルの場合はJPEGに変換
+      if (file.type === "image/heic") {
+        fileToUpload = await convertHeicToJpeg(file);
+      }
+
+      const formData = new FormData();
+      formData.append("file", fileToUpload);
+      formData.append("uid", user.uid);
+
+      const iconUrl = await uploadUserIcon(fileToUpload, user.uid);
+      if (iconUrl) {
+        setUser((prev) => {
+          if (!prev) return null;
+          return { ...prev, icon: iconUrl };
+        });
+      }
+    } catch {
+      alert("アップロード中にエラーが発生しました。");
+    } finally {
+      setUploadLoading(false);
+    }
+  };
   const handleIcon = () => {
     if (clickEditer === true) {
       console.log("アイコンがクリックされました。");
       fileInputRef.current?.click();
     }
-  };
-
-  const handleHistBook = (book: LoanWithBook["books"]) => {
-    router.push(`/books/${book.isbn}`);
   };
 
   const handleBack = async () => {
@@ -130,31 +159,35 @@ export default function UserDetail() {
 
   return (
     <div className={styles.whole}>
-      <div>
-        <Image
-          src={user.icon}
-          alt={"ユーザーのアイコン"}
-          width={180}
-          height={180}
-          className={styles.icon}
-          priority
-          onClick={handleIcon}
-        />
-        {/* 隠しinputファイル選択 */}
-        <input
-          type="file"
-          accept="image/*"
-          style={{ display: "none" }}
-          ref={fileInputRef}
-          onChange={handleImageUpload}
-        />
-      </div>
+      <Image
+        src={user.icon}
+        alt={"ユーザーのアイコン"}
+        width={180}
+        height={180}
+        className={styles.icon}
+        priority
+        onClick={handleIcon}
+      />
+      {/* 隠しinputファイル選択 */}
+      <input
+        type="file"
+        accept="image/*"
+        style={{ display: "none" }}
+        ref={fileInputRef}
+        onChange={handleImageUpload}
+      />
 
       {user.uid === logedInUser?.uid ? (
         clickEditer ? (
-          <button onClick={handleSample} className={styles.editbutton}>
-            完了
-          </button>
+          uploadLoading ? (
+            <button className={styles.loadingButton} disabled>
+              画像アップロード中...
+            </button>
+          ) : (
+            <button onClick={handleSample} className={styles.confirmButton}>
+              完了
+            </button>
+          )
         ) : (
           <button onClick={handleSample} className={styles.editbutton}>
             編集
@@ -197,36 +230,22 @@ export default function UserDetail() {
 
       <div className={styles.taglist}>
         <div className={styles.tag}>タグ</div>
+        {clickEditer ? (
+          <TagEdit user={user} setUser={setUser} />
+        ) : (
+          <TagList user={user} />
+        )}
       </div>
-
-      {clickEditer ? (
-        <TagEdit user={user} setUser={setUser} />
-      ) : (
-        <TagList user={user} />
-      )}
 
       <div className={styles.history}>
         <div className={styles.subtitle}>履歴</div>
         <div className={styles.histlist}>
-          {hist?.length === 0 ? (
-            <div className={styles.noRental}>借りた本はありません</div>
+          {hist && hist?.length === 0 ? (
+            <div className={styles.noRental}>
+              借りたことのある本がありません
+            </div>
           ) : (
-            hist?.map((item, index) =>
-              item?.books ? (
-                <div
-                  className={styles.booklist}
-                  key={`${item.books.isbn}-${index}`}
-                >
-                  <div
-                    className={styles.card}
-                    onClick={() => handleHistBook(item.books)}
-                  >
-                    <BookCardList book={item.books} />
-                  </div>
-                  <div className={styles.title}>{item.books.title}</div>
-                </div>
-              ) : null
-            )
+            <LoanHistBooks hists={hist} />
           )}
         </div>
       </div>

@@ -6,14 +6,30 @@
   border: 1px solid #18140f;
   border-radius: 12px;
   padding: 4% 5% 4% 4%;
-  text-align: left;
-  width: 90%;
+  text-align: center; /* タグ未設定の場合に中央揃え */
+  width: 100%;
+  margin: 0 auto;
   margin-top: 3%;
+  // align-items: center; /* 縦方向も中央揃え */
+  justify-items: center; /* 横方向も中央揃え */
 
   .tag {
     color: #77634b;
     font-size: 1.3vh;
     padding: 2.2% 0;
     margin-left: 7%;
+    text-align: left; /* 個別のタグは左揃えに戻す */
+    justify-self: start; /* 個別のタグは左寄せ */
+  }
+
+  .noTags {
+    grid-column: 1 / -1; /* グリッドの全幅を使用 */
+    color: #77634b;
+    font-size: 1.4vh;
+    text-align: center;
+    padding: 2vh 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 }
