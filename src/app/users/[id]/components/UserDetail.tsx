@@ -13,6 +13,7 @@ import { logedInUserAtom, usersAtom } from "@/src/atoms/atoms";
 import LoadingBrown from "@/src/components/LoadingBrown";
 import { BookCardList } from "@/src/app/books/components/BookListCard";
 import { convertHeicToJpeg, uploadUserIcon } from "@/src/utils/fileUtils";
+import LoanHistBooks from "./LentHistBools";
 
 export default function UserDetail() {
   const [clickEditer, setClickEditer] = useState(false);
@@ -244,25 +245,26 @@ export default function UserDetail() {
       <div className={styles.history}>
         <div className={styles.subtitle}>履歴</div>
         <div className={styles.histlist}>
-          {hist?.length === 0 ? (
-            <div className={styles.noRental}>借りた本はありません</div>
+          {hist && hist?.length === 0 ? (
+            <div className={styles.noRental}>借りたことのある本がありません</div>
           ) : (
-            hist?.map((item, index) =>
-              item?.books ? (
-                <div
-                  className={styles.booklist}
-                  key={`${item.books.isbn}-${index}`}
-                >
-                  <div
-                    className={styles.card}
-                    onClick={() => handleHistBook(item.books)}
-                  >
-                    <BookCardList book={item.books} />
-                  </div>
-                  <div className={styles.title}>{item.books.title}</div>
-                </div>
-              ) : null
-            )
+            // hist?.map((item, index) =>
+            //   item?.books ? (
+            //     <div
+            //       className={styles.booklist}
+            //       key={`${item.books.isbn}-${index}`}
+            //     >
+            //       <div
+            //         className={styles.card}
+            //         onClick={() => handleHistBook(item.books)}
+            //       >
+            //         <BookCardList book={item.books} />
+            //       </div>
+            //       <div className={styles.title}>{item.books.title}</div>
+            //     </div>
+            //   ) : null
+            // )
+          <LoanHistBooks hists={hist} />
           )}
         </div>
       </div>
