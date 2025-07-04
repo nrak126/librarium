@@ -87,7 +87,7 @@ export const ShowRec = () => {
         })()}
         <div className={style.reason}>
           <div className={style.reasonImage}>
-            <Image src={huki} alt="Reason" width={300} height={300} />
+            <Image src={huki} alt="Reason" width={310} height={310} />
           </div>
           <div className={`${style.reasonTextContainer} ${font.className}`}>
             <p className={style.reasonTitle}>［診断理由］</p>
