@@ -23,3 +23,29 @@
     margin-top: 3vh;
   }
 }
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  height: 100vh;
+  padding: 0 20px;
+  margin-top: -70%;
+
+  color: #635038;
+  font-family: "Segoe UI", "Noto Sans JP", sans-serif;
+}
+
+.subtitle {
+  font-size: 24px;
+  margin: 16px 0 8px;
+}
+
+.description {
+  font-size: 14px;
+  max-width: 400px;
+  line-height: 1.6;
+  margin-bottom: 32px;
+}

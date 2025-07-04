@@ -16,6 +16,7 @@ export default function PageClient() {
 
   const [books, setBooks] = useAtom(booksAtom); // Jotai atom でグローバル books 利用
   const [result, setResult] = useState<Book[]>([]);
+  const [hasSearched, setHasSearched] = useState(false);
 
   // 初回のみbooksをフェッチ（すでに取得済ならスキップ）
   useEffect(() => {
@@ -32,6 +33,7 @@ export default function PageClient() {
   useEffect(() => {
     (async () => {
       if (searchName) {
+        setHasSearched(true);
         const fetchFilteredBooks = await fetch(
           `/api/books?search=${searchName}`
         );
@@ -40,9 +42,23 @@ export default function PageClient() {
       } else {
         if (!books) return;
         setResult(books);
+        setHasSearched(false);
       }
     })();
   }, [searchName, books]);
+
+  if (hasSearched && result.length === 0) {
+    return (
+      <div className={styles.container}>
+        <h3 className={styles.subtitle}>本が見つかりませんでした</h3>
+        <p className={styles.description}>
+          申し訳ありませんが、検索された本は存在しません。
+          <br />
+          他のキーワードで探してください。
+        </p>
+      </div>
+    );
+  }
 
   return (
     <>
