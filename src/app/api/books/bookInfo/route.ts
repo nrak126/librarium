@@ -109,33 +109,33 @@ async function fetchFromOpenBD(isbn: string) {
         console.log("onixデータが取得できませんでした:", e);
       }
 
-      if (!summary.cover) {
-        const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
-        const prompt = `
-                # 指示
-                あなたは書籍情報をJSON形式で返すAPIとして振る舞ってください。
-                指定されたISBNコードの書籍情報を、以下のルールに厳密に従ってJSONオブジェクトとして出力してください。
+      // if (!summary.cover) {
+      //   const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
+      //   const prompt = `
+      //           # 指示
+      //           あなたは書籍情報をJSON形式で返すAPIとして振る舞ってください。
+      //           指定されたISBNコードの書籍情報を、以下のルールに厳密に従ってJSONオブジェクトとして出力してください。
 
-                # 全体ルール
-                1.  出力はJSONオブジェクトのみとし、他のテキスト（挨拶、説明、マークダウンの\`\`\`jsonなど）は絶対に含めないでください。
-                thumbnailには、書籍の表紙画像のURLを設定してください。
-                # 情報が見つからない場合のルール
-                書籍情報の一部が見つからない場合は、以下のデフォルト値を必ず使用してください。
-                - "thumbnail": ""
-                # 入力ISBN
-                ${isbn}
-                `;
-        try {
-          const result = await model.generateContent(prompt);
-          const text = result.response.text();
-          const json = JSON.parse(text.replace(/```json|```/g, "").trim());
-          thumbnail = json.thumbnail;
-          console.log("Geminiからのサムネイル取得:");
-        } catch (error) {
-          console.error("Gemini API error:", error);
-          return null;
-        }
-      }
+      //           # 全体ルール
+      //           1.  出力はJSONオブジェクトのみとし、他のテキスト（挨拶、説明、マークダウンの\`\`\`jsonなど）は絶対に含めないでください。
+      //           thumbnailには、書籍の表紙画像のURLを設定してください。
+      //           # 情報が見つからない場合のルール
+      //           書籍情報の一部が見つからない場合は、以下のデフォルト値を必ず使用してください。
+      //           - "thumbnail": ""
+      //           # 入力ISBN
+      //           ${isbn}
+      //           `;
+      //   try {
+      //     const result = await model.generateContent(prompt);
+      //     const text = result.response.text();
+      //     const json = JSON.parse(text.replace(/```json|```/g, "").trim());
+      //     thumbnail = json.thumbnail;
+      //     console.log("Geminiからのサムネイル取得:");
+      //   } catch (error) {
+      //     console.error("Gemini API error:", error);
+      //     return null;
+      //   }
+      // }
 
       return {
         isbn: isbn,
