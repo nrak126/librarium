@@ -1,19 +1,62 @@
-.pageTopButton {
+.pageTopContainer {
   position: fixed;
-  bottom: 20px;
-  right: 20px;
-  width: 60px;
-  height: 60px;
+  bottom: 10px; /* 20px → 10px により下に */
+  right: 10px;  /* 20px → 10px により右に */
+  z-index: 1000;
+  transition: transform 0.6s ease-in-out, opacity 0.6s ease-in-out;
+}
+
+.pageTopContainer.slideIn {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.pageTopContainer.slideOut {
+  transform: translateY(150px); /* 下に移動 */
+  opacity: 0;
+}
+
+.pageTopButton {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-  transition: all 0.3s ease;
-  z-index: 1000;
+  cursor: pointer;
+  transition: transform 0.4s ease; /* アニメーション時間を少し長く */
+
+  &:hover {
+    transform: scale(1.1);
+  }
 
   &:active {
-    transform: translateY(0);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    transform: translateY(2px) scale(0.95);
+  }
+}
+
+.pageTopButton.normal {
+  width: 100px;
+  height: 100px;
+  transform: translate(15px, 15px); /* 通常時も右下に15px移動 */
+  
+  &:hover {
+    transform: translate(15px, 15px) scale(1.1); /* ホバー時も右下位置を維持 */
+  }
+  
+  &:active {
+    transform: translate(15px, 15px) translateY(2px) scale(0.95); /* アクティブ時も右下位置を維持 */
+  }
+}
+
+.pageTopButton.large {
+  width: 160px;
+  height: 160px;
+  transform: translate(30px, 30px) scale(1.0); /* 右下に30px移動（より大きく移動） */
+  
+  &:hover {
+    transform: translate(30px, 30px) scale(1.1); /* ホバー時も右下位置を維持 */
+  }
+  
+  &:active {
+    transform: translate(30px, 30px) translateY(2px) scale(0.95); /* アクティブ時も右下位置を維持 */
   }
 }
