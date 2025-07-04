@@ -35,7 +35,7 @@ export default function LoanHistBooks({
   return (
     <>
       <div className={styles.booksListContainer}>
-        {pageCount > 1 && (
+        {/* {pageCount > 1 && (
           <ReactPaginate
             pageCount={pageCount}
             marginPagesDisplayed={1}
@@ -53,7 +53,7 @@ export default function LoanHistBooks({
             nextLinkClassName={styles.pageLink} // 「次へ」ボタンのa
             breakLabel="..." // 省略記号
           />
-        )}
+        )} */}
         <ul className={styles.booklist}>
           {pagedHists.map((h) => (
             <li key={h.id}>
