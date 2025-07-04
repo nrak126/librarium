@@ -7,6 +7,7 @@ import { usePathname } from "next/navigation";
 import { Btn } from "../book/Btn";
 import { useRouter } from "next/navigation";
 
+
 type BarcodeProps = {
   setIsbn: (isbn: string) => void;
   text: ReactNode;
@@ -29,6 +30,9 @@ export const Barcode: React.FC<BarcodeProps> = ({ setIsbn, text }) => {
   };
 
   useEffect(() => {
+    // スクロール無効化
+    document.body.style.overflow = "hidden";
+
     // QuaggaJSの初期化
     Quagga.init(
       {
@@ -66,6 +70,7 @@ export const Barcode: React.FC<BarcodeProps> = ({ setIsbn, text }) => {
 
     // クリーンアップ（コンポーネントのアンマウント時にQuaggaを停止）
     return () => {
+      document.body.style.overflow = "auto";
       Quagga.stop();
     };
   }, [setIsbn]);
