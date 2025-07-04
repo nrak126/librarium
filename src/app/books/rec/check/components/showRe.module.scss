@@ -56,8 +56,10 @@
   position: absolute;
   width: 73%;
   left: 50%;
+  max-height: 190px;
+  overflow-y: scroll;
   transform: translateX(-50%);
-  z-index: 111;
+  z-index: 10;
   top: 3.5svh;
 }
 
