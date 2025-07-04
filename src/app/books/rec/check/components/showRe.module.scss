@@ -4,14 +4,21 @@
   align-items: center;
   color: #635038;
   gap: 30px;
+  position: relative;
 }
 
 .title {
   font-size: 33px;
 }
 
+.desc {
+  position: absolute;
+  top: 8svh;
+  right: 35%;
+}
+
 .reason {
-  width: 90%;
+  width: 93%;
   position: relative;
   color: #635038;
 }
