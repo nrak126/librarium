@@ -84,7 +84,7 @@ async function fetchFromRakuten(isbn: string) {
 // openBD APIから本の情報を取得する関数
 async function fetchFromOpenBD(isbn: string) {
   console.log("楽天からの取得に失敗");
-  let thumbnail = "";
+  const thumbnail = "";
   console.log("openBDからの取得中:");
   try {
     const response = await axios.get(
