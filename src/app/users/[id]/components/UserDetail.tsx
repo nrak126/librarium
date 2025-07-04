@@ -183,9 +183,15 @@ export default function UserDetail() {
 
       {user.uid === logedInUser?.uid ? (
         clickEditer ? (
-          <button onClick={handleSample} className={styles.editbutton}>
-            完了
-          </button>
+          uploadLoading ? (
+            <button className={styles.loadingButton} disabled>
+              画像アップロード中...
+            </button>
+          ) : (
+            <button onClick={handleSample} className={styles.confirmButton}>
+              完了
+            </button>
+          )
         ) : (
           <button onClick={handleSample} className={styles.editbutton}>
             編集
