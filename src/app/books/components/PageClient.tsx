@@ -8,6 +8,7 @@ import { useSearchParams } from "next/navigation";
 import { useAtom } from "jotai";
 import { booksAtom } from "@/src/atoms/atoms";
 import type { Book } from "@/src/types";
+import LoadingBrown from "@/src/components/LoadingBrown";
 
 export default function PageClient() {
   const searchParams = useSearchParams();
@@ -51,7 +52,7 @@ export default function PageClient() {
           <SearchBar />
           <div className={styles.card}>
             <div className={styles.list}>
-              <BooksList result={result} />
+              {result ? <BooksList result={result} /> : <LoadingBrown />}
             </div>
           </div>
         </div>
