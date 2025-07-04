@@ -21,7 +21,8 @@ export const Genre = () => {
     "組み込み",
     "電子工作",
     "デザイン",
-    "CG/ゲーム",
+    "CG",
+    "ゲーム",
   ];
 
   const handleRadioChange = (genre: string) => {
