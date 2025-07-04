@@ -33,40 +33,42 @@ export default function LoanHistBooks({
   const pageCount = Math.ceil(hists.length / booksPerPage);
 
   return (
-    <div className={styles.booksListContainer}>
-      {pageCount > 1 && (
-        <ReactPaginate
-          pageCount={pageCount}
-          marginPagesDisplayed={1}
-          pageRangeDisplayed={2}
-          onPageChange={handlePageChange}
-          containerClassName={styles.pagination} // ページネーション全体
-          pageClassName={styles.pageItem} // 各ページ番号(li)のクラス
-          pageLinkClassName={styles.pageLink} // 各ページ番号(a)のクラス
-          activeClassName={styles.Active} // 現在ページのliに付与
-          previousLabel="←" // 「前へ」ラベル
-          nextLabel="→" // 「次へ」ラベル
-          previousClassName={styles.pageItem} // 「前へ」ボタンのli
-          nextClassName={styles.pageItem} // 「次へ」ボタンのli
-          previousLinkClassName={styles.pageLink} // 「前へ」ボタンのa
-          nextLinkClassName={styles.pageLink} // 「次へ」ボタンのa
-          breakLabel="..." // 省略記号
-        />
-      )}
-      <ul className={styles.booklist}>
-        {pagedHists.map((h) => (
-          <li key={h.id}>
-            <div className={styles.layout}>
-              <div onClick={() => handleClick(h.books)}>
-                <BookCardList book={h.books} />
+    <>
+      <div className={styles.booksListContainer}>
+        {pageCount > 1 && (
+          <ReactPaginate
+            pageCount={pageCount}
+            marginPagesDisplayed={1}
+            pageRangeDisplayed={2}
+            onPageChange={handlePageChange}
+            containerClassName={styles.pagination} // ページネーション全体
+            pageClassName={styles.pageItem} // 各ページ番号(li)のクラス
+            pageLinkClassName={styles.pageLink} // 各ページ番号(a)のクラス
+            activeClassName={styles.Active} // 現在ページのliに付与
+            previousLabel="←" // 「前へ」ラベル
+            nextLabel="→" // 「次へ」ラベル
+            previousClassName={styles.pageItem} // 「前へ」ボタンのli
+            nextClassName={styles.pageItem} // 「次へ」ボタンのli
+            previousLinkClassName={styles.pageLink} // 「前へ」ボタンのa
+            nextLinkClassName={styles.pageLink} // 「次へ」ボタンのa
+            breakLabel="..." // 省略記号
+          />
+        )}
+        <ul className={styles.booklist}>
+          {pagedHists.map((h) => (
+            <li key={h.id}>
+              <div className={styles.layout}>
+                <div onClick={() => handleClick(h.books)}>
+                  <BookCardList book={h.books} />
+                </div>
+                <div className={styles.stock}>
+                  <ReturnState hist={h} />
+                </div>
               </div>
-              <div className={styles.stock}>
-                <ReturnState hist={h} />
-              </div>
-            </div>
-          </li>
-        ))}
-      </ul>
-    </div>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </>
   );
 }
