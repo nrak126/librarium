@@ -12,6 +12,7 @@ import { useAtom } from "jotai";
 import { logedInUserAtom, usersAtom } from "@/src/atoms/atoms";
 import LoadingBrown from "@/src/components/LoadingBrown";
 import { BookCardList } from "@/src/app/books/components/BookListCard";
+import { convertHeicToJpeg, uploadUserIcon } from "@/src/utils/fileUtils";
 
 export default function UserDetail() {
   const [clickEditer, setClickEditer] = useState(false);
@@ -23,6 +24,7 @@ export default function UserDetail() {
   const [hist, setHist] = useState<LoanWithBook[] | null>(null);
   const [newName, setNewName] = useState(user?.name);
   const [newstudentId, setNewstudentId] = useState(user?.studentId);
+  const [uploadLoading, setUploadLoading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   const uid = params.id as string;
@@ -104,8 +106,39 @@ export default function UserDetail() {
     console.log("編集が押されました。");
   };
 
-  const handleImageUpload = () => {};
+  const handleImageUpload = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
 
+    setUploadLoading(true);
+
+    try {
+      let fileToUpload = file;
+
+      // HEICファイルの場合はJPEGに変換
+      if (file.type === "image/heic") {
+        fileToUpload = await convertHeicToJpeg(file);
+      }
+
+      const formData = new FormData();
+      formData.append("file", fileToUpload);
+      formData.append("uid", user.uid);
+
+      const iconUrl = await uploadUserIcon(fileToUpload, user.uid);
+      if (iconUrl) {
+        setUser((prev) => {
+          if (!prev) return null;
+          return { ...prev, icon: iconUrl };
+        });
+      }
+    } catch {
+      alert("アップロード中にエラーが発生しました。");
+    } finally {
+      setUploadLoading(false);
+    }
+  };
   const handleIcon = () => {
     if (clickEditer === true) {
       console.log("アイコンがクリックされました。");

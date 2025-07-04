@@ -60,7 +60,7 @@ export const uploadUserIcon = async (file: File, userId: string) => {
   formData.append("file", file);
   formData.append("uid", userId);
 
-  const response = await fetch("/api/strage/storeUserIcon", {
+  const response = await fetch("/api/strage/changeUserIcon", {
     method: "POST",
     body: formData,
   });
