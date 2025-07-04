@@ -36,7 +36,7 @@ async function fetchFromGemini(...answers: number[]) {
 # JSONフォーマット
 {
   "recommendation": "（ここに推薦技術を1つ記述）",
-  "reason": "（ここに200字以内の推薦理由を記述）"
+  "reason": "（ここに必ず200字以内の推薦理由を記述）"
 }
 
 # ユーザーの回答
