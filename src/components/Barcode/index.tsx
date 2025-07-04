@@ -7,7 +7,6 @@ import { usePathname } from "next/navigation";
 import { Btn } from "../book/Btn";
 import { useRouter } from "next/navigation";
 
-
 type BarcodeProps = {
   setIsbn: (isbn: string) => void;
   text: string;
@@ -83,15 +82,17 @@ export const Barcode: React.FC<BarcodeProps> = ({ setIsbn, text }) => {
           <div className={styles.circle}>
             <p className={styles.message}>{text}</p>
             <div className={styles.btnContainer}>
-              <p className={styles.text}>
-                バーコードがない場合は手入力で登録を選択してください
-              </p>
               {isAuth && (
-                <Btn
-                  text="手入力で登録"
-                  bgColor="#E2999B"
-                  onClick={handleClick}
-                />
+                <>
+                  <p className={styles.text}>
+                    バーコードがない場合は手入力で登録を選択してください
+                  </p>
+                  <Btn
+                    text="手入力で登録"
+                    bgColor="#E2999B"
+                    onClick={handleClick}
+                  />
+                </>
               )}
             </div>
           </div>
