@@ -171,21 +171,30 @@
       padding-bottom: 0.5vh;
     }
     .histlist{
-      display: grid; // 変更
-      grid-template-columns: repeat(3, 1fr); // 3列
-      gap: 3vw; // カード間の隙間
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 3vw;
 
-        .title {
-          position: relative;
-          top: -3.8svh;
-          right: -2vw;
-          font-size: 8px;
-          width: 80%; // カード幅いっぱい
-          white-space: normal; // 自動改行
-          word-break: break-all; // 長い単語も折り返す
-          text-align: center; // 中央寄せ（お好みで）
-          margin-top: 4px; // カード内での余白調整
-        }
+      .noRental {
+        grid-column: 1 / -1; /* グリッドの全列にまたがる */
+        text-align: center;
+        color: #77634b;
+        font-size: 1.6vh;
+        padding: 2vh 0;
+        margin: 2vh 0;
+      }
+
+      .title {
+        position: relative;
+        top: -3.8svh;
+        right: -2vw;
+        font-size: 8px;
+        width: 80%; // カード幅いっぱい
+        white-space: normal; // 自動改行
+        word-break: break-all; // 長い単語も折り返す
+        text-align: center; // 中央寄せ（お好みで）
+        margin-top: 4px; // カード内での余白調整
+      }
 
     }
   }

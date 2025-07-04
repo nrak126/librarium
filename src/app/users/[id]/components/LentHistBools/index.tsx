@@ -51,7 +51,7 @@ export default function LoanHistBooks({ hists }: { hists: LoanWithBook[] | null 
       )}
       <ul className={styles.booklist}>
         {pagedHists.map((h) => (
-          <li key={h.books.isbn}>
+          <li key={h.id}>
             <div className={styles.layout}>
               <div onClick={() => handleClick(h.books)}>
                 <BookCardList book={h.books} />
