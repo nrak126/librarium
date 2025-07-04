@@ -41,9 +41,39 @@ export const BookEdit = ({ isbn }: { isbn: string }) => {
           const fetchedBook = await fetchBookData(isbn);
           if (fetchedBook) {
             setBook(fetchedBook);
+          } else {
+            // 書籍が見つからない場合は空の書籍を作成
+            const emptyBook: Book = {
+              isbn: isbn,
+              title: "",
+              author: "",
+              publisher: "",
+              description: "",
+              thumbnail: "",
+              createdAt: "",
+              stock: 1,
+              available: 1,
+              tags: [],
+              loan_count: 0,
+            };
+            setBook(emptyBook);
           }
         } catch {
-          // console.error("エラー:", error);
+          // エラー時も空の書籍を作成
+          const emptyBook: Book = {
+            isbn: isbn,
+            title: "",
+            author: "",
+            publisher: "",
+            description: "",
+            thumbnail: "",
+            createdAt: "",
+            stock: 1,
+            available: 1,
+            tags: [],
+            loan_count: 0,
+          };
+          setBook(emptyBook);
         } finally {
           setLoading(false);
         }
@@ -55,6 +85,10 @@ export const BookEdit = ({ isbn }: { isbn: string }) => {
     return <LoadingBrown />;
   }
 
+  if (!book) {
+    return <div>書籍データを読み込めませんでした。</div>;
+  }
+
   const handleFileChange = async (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
@@ -64,16 +98,8 @@ export const BookEdit = ({ isbn }: { isbn: string }) => {
     setUploadLoading(true);
 
     try {
-      let fileToUpload = file;
-
-      // HEICファイルの場合はJPEGに変換
-      if (file.type === "image/heic") {
-        fileToUpload = await convertHeicToJpeg(file);
-      }
-
-      const formData = new FormData();
-      formData.append("file", fileToUpload);
-      formData.append("isbn", isbn);
+      // HEICファイルの場合はJPEGに変換（動的インポート使用）
+      const fileToUpload = await convertHeicToJpeg(file);
 
       const thumbnailUrl = await uploadBookThumbnail(fileToUpload, isbn);
       if (thumbnailUrl) {
@@ -89,160 +115,105 @@ export const BookEdit = ({ isbn }: { isbn: string }) => {
     }
   };
 
-  // if (notFound) {
-  //   return (
-  //     <div className={styles.body}>
-  //       <p className={styles.errorMessage}>
-  //         指定されたISBN（{isbn}）<br />
-  //         の本が見つかりませんでした。
-  //       </p>
-  //       <div className={styles.Btn}>
-  //         <Btn text="ホームに戻る" bgColor="#E2999B" onClick={handleConfirm} />
-  //       </div>
-  //     </div>
-  //   );
-  // }
-
-  if (loading) {
-    return <LoadingBrown />;
-  }
-
-  if (!book) {
-    const emptyBook: Book = {
-      isbn: isbn,
-      title: "",
-      author: "",
-      publisher: "",
-      description: "",
-      thumbnail: "",
-      createdAt: "",
-      stock: 1,
-      available: 1,
-      tags: [],
-      loan_count: 0,
-    };
-    setBook(emptyBook);
-
-    return;
-  }
-
-  const fileClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-    const fileInput = document.getElementById(
-      "thumbnail-upload"
-    ) as HTMLInputElement;
-    if (fileInput) {
-      fileInput.click();
-    }
-  };
-
   return (
-    <div>
-      <div>
-        <form>
-          <div className={styles.BookInfo}>
+    <>
+      <form>
+        <div className={styles.BookInfo}>
+          <input
+            className={styles.title}
+            type="text"
+            value={book?.title || ""}
+            placeholder="タイトルを入力"
+            required
+            onChange={(e) => {
+              setBook((prev) => {
+                if (!prev) return null;
+                return { ...prev, title: e.target.value };
+              });
+            }}
+          />
+
+          <BookCard
+            book={book}
+            className={styles.card}
+            width={150}
+            height={200}
+          />
+
+          <div>
             <input
-              className={styles.title}
-              type="text"
-              value={book?.title || ""}
-              placeholder="タイトルを入力"
-              required
-              onChange={(e) => {
-                setBook((prev) => {
-                  if (!prev) return null;
-                  return { ...prev, title: e.target.value };
-                });
-              }}
+              className={styles.uploadInput}
+              id="thumbnail-upload"
+              type="file"
+              accept="image/jpeg, image/png, image/webp, image/gif, image/heic"
+              onChange={handleFileChange}
+              disabled={uploadLoading}
             />
+            <label htmlFor="thumbnail-upload" className={styles.uploadBtn}>
+              ファイルを選択
+            </label>
+            {uploadLoading && <p>⏳ アップロード中...</p>}
+          </div>
 
-            <BookCard
-              book={book}
-              className={styles.card}
-              width={150}
-              height={200}
-            />
-
-            <div>
-              {/* <label htmlFor="thumbnail-upload">
-                📷 サムネイル画像をアップロード:
-              </label> */}
-              <input
-                id="thumbnail-upload"
-                type="file"
-                accept="image/jpeg, image/png, image/webp, image/gif, image/heic"
-                onChange={handleFileChange}
-                disabled={uploadLoading}
-                style={{ display: "none" }}
+          {/* 著者情報 */}
+          <div className={styles.Author}>
+            <div className={styles.AuthorLabel}>
+              <Image
+                src={authorIcon}
+                alt="著者アイコン"
+                width={127}
+                height={130}
+                className={styles.icon}
               />
-              <button style={{ marginTop: "4svh" }} onClick={fileClick}>
-                ファイルを選択
-              </button>
-              {uploadLoading && <p>⏳ アップロード中...</p>}
+              <input
+                className={styles.AuthorName}
+                value={book?.author || ""}
+                placeholder="著者を入力"
+                type="text"
+                onChange={(e) => {
+                  setBook((prev) => {
+                    if (!prev) return null;
+                    return { ...prev, author: e.target.value };
+                  });
+                }}
+              />
             </div>
-
-            {/* 著者情報 */}
-            <div className={styles.Author}>
-              <div className={styles.AuthorLabel}>
-                <Image
-                  src={authorIcon}
-                  alt="著者アイコン"
-                  width={127}
-                  height={130}
-                  className={styles.icon}
-                />
-                <input
-                  className={styles.AuthorName}
-                  value={book?.author || ""}
-                  placeholder="著者を入力"
-                  type="text"
-                  onChange={(e) => {
-                    setBook((prev) => {
-                      if (!prev) return null;
-                      return { ...prev, author: e.target.value };
-                    });
-                  }}
-                />
-              </div>
-
-              <div className={styles.publisherLabel}>
-                <Image
-                  src={publisherIcon}
-                  alt="出版社アイコン"
-                  width={127}
-                  height={130}
-                  className={styles.icon}
-                />
-                <input
-                  className={styles.AuthorName}
-                  value={book?.publisher || ""}
-                  type="text"
-                  placeholder="出版社を入力"
-                  onChange={(e) => {
-                    setBook((prev) => {
-                      if (!prev) return null;
-                      return { ...prev, publisher: e.target.value };
-                    });
-                  }}
-                />
-              </div>
+            <div className={styles.publisherLabel}>
+              <Image
+                src={publisherIcon}
+                alt="出版社アイコン"
+                width={127}
+                height={130}
+                className={styles.icon}
+              />
+              <input
+                className={styles.AuthorName}
+                value={book?.publisher || ""}
+                type="text"
+                placeholder="出版社を入力"
+                onChange={(e) => {
+                  setBook((prev) => {
+                    if (!prev) return null;
+                    return { ...prev, publisher: e.target.value };
+                  });
+                }}
+              />
             </div>
-            <textarea
-              className={styles.description}
-              value={book?.description || ""}
-              placeholder="詳細を入力してください"
-              onChange={(e) => {
-                setBook((prev) => {
-                  if (!prev) return null;
-                  return { ...prev, description: e.target.value };
-                });
-              }}
-            />
           </div>
-          <div className={styles.btnContainer}>
-            <Btns book={book} />
-          </div>
-        </form>
-      </div>
-    </div>
+          <textarea
+            className={styles.description}
+            value={book?.description || ""}
+            placeholder="詳細を入力してください"
+            onChange={(e) => {
+              setBook((prev) => {
+                if (!prev) return null;
+                return { ...prev, description: e.target.value };
+              });
+            }}
+          />
+          <Btns book={book} isUploading={uploadLoading} />
+        </div>
+      </form>
+    </>
   );
 };

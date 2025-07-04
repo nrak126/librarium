@@ -10,10 +10,11 @@ interface BtnsProps {
   BookAdd?: () => void;
   test?: string;
   book?: Book; // Adjust type as necessary
+  isUploading?: boolean; // Optional prop for loading state
 }
 
 export const Btns: React.FC<BtnsProps> = (props) => {
-  const { book } = props;
+  const { book, isUploading } = props;
   // onst isbn = "9784815618599";
   const router = useRouter();
 
@@ -35,7 +36,12 @@ export const Btns: React.FC<BtnsProps> = (props) => {
         <Btn text="戻る" bgColor="#99C6E2" onClick={handleBack} />
       </div>
       <div className={style.BtnLeft}>
-        <Btn text="確認" bgColor="#E2999B" onClick={bookCheck} />
+        <Btn
+          text={isUploading ? "画像アップロード中..." : "確認"}
+          bgColor={isUploading ? "#F1CCCC" : "#E2999B"}
+          onClick={isUploading ? undefined : bookCheck}
+        />
+ 
       </div>
     </div>
   );
