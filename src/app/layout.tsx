@@ -2,6 +2,7 @@ import "./styles/globals.css";
 import React from "react";
 import { Almarai } from "next/font/google";
 import ConditionalHeader from "./components/ConditionalHeader";
+import { PageTop } from "@/src/components/pageTop";
 // import AppLoader from "./components/AppLoader";
 
 export const metadata = {
@@ -27,6 +28,7 @@ export default function RootLayout({
         {/* <AppLoader> */}
         <ConditionalHeader />
         <main>{children}</main>
+        <PageTop />
         {/* </AppLoader> */}
       </body>
     </html>
