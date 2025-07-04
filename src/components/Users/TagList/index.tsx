@@ -6,13 +6,17 @@ export function TagList({ user }: { user: User | null }) {
   return (
     <>
       <div className={styles.taglist}>
-        {user.tags.map((data, index) => {
-          return (
-            <div key={index} className={styles.tag}>
-              #{data}
-            </div>
-          );
-        })}
+        {user.tags.length === 0 ? (
+          <div className={styles.noTags}>タグ未設定</div>
+        ) : (
+          user.tags.map((data, index) => {
+            return (
+              <div key={index} className={styles.tag}>
+                #{data}
+              </div>
+            );
+          })
+        )}
       </div>
     </>
   );
