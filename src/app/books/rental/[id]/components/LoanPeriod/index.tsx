@@ -6,7 +6,6 @@ import styles from "./index.module.scss";
 type LoanPeriodProps = {
   setLoanPeriod: (value: number) => void;
   setError: (value: boolean) => void;
-  
 };
 
 export function LoanPeriod({ setLoanPeriod, setError }: LoanPeriodProps) {
@@ -21,9 +20,7 @@ export function LoanPeriod({ setLoanPeriod, setError }: LoanPeriodProps) {
 
     const value = Number(rawValue);
 
-    if(setRawValue) {
-      setRawValue(rawValue);
-    }
+
 
     const today = new Date();
     today.setHours(0, 0, 0, 0);
