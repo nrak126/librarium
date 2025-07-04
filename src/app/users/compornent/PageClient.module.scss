@@ -47,14 +47,15 @@
 .titleAll {
   color: #635038;
   font-size: 15px;
-  font-weight: 500px;
   font-family: "Alegreya Sans SC" !important;
   margin-top: 3%;
-  margin-left: 10%;
+  margin-left: 8%;
   margin-bottom: 3%;
+  padding-left: 1vh;
+  padding-right: 1vh;
   letter-spacing: 1px;
   border-bottom: 1px solid #635038;
-  width: 9%;
+  display: inline-block;
 }
 
 .titleSearch {
