@@ -1,14 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
-import { GoogleGenerativeAI } from "@google/generative-ai";
+
 import axios from "axios";
 import { IndustryIdentifier } from "@/src/types/book"; // IndustryIdentifier 型をインポート
 import { console } from "inspector";
-
-const apiKey = process.env.GOOGLE_API_KEY;
-if (!apiKey) {
-  throw new Error("GOOGLE_API_KEY is not defined");
-}
-const genAI = new GoogleGenerativeAI(apiKey);
 
 // Google Books API
 async function fetchFromGoogle(isbn: string) {
