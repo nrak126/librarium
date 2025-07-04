@@ -119,7 +119,11 @@ export const BookRec = () => {
 
   if (isLoading) {
     // ローディング中の表示
-    return <LoadingBrown />;
+    return (
+      <div className={style.loadingContainer}>
+        <LoadingBrown />;
+      </div>
+    );
   }
 
   return (
