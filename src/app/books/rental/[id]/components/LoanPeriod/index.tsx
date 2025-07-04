@@ -21,9 +21,6 @@ export function LoanPeriod({ setLoanPeriod, setError }: LoanPeriodProps) {
 
     const value = Number(rawValue);
 
-    if(setRawValue) {
-      setRawValue(rawValue);
-    }
 
     const today = new Date();
     today.setHours(0, 0, 0, 0);
