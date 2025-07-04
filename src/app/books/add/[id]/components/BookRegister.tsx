@@ -43,7 +43,7 @@ export const BookRegister: React.FC<BookRegisterProps> = ({ book }) => {
   };
 
   const handleConfirm = () => {
-    router.push("../");
+    router.push(`/books/add/${book.isbn}`);
   };
 
   return (
