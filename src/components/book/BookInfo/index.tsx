@@ -13,7 +13,15 @@ export const BookInfo = ({ book }: { book: Book }) => {
 
   return (
     <div className={classes.BookInfo}>
-      <p className={classes.Title}>{book.title}</p>
+      <p
+        className={
+          book.title.length > 25
+            ? `${classes.Title} ${classes.TitleSmall}`
+            : classes.Title
+        }
+      >
+        {book.title}
+      </p>
       <BookCard book={book} className={classes.card} width={150} height={200} />
 
       {/* 著者情報 */}
