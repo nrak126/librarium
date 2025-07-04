@@ -69,12 +69,15 @@ export function TagEdit({
               onChange={(e) => setSelectedTag(e.target.value)}
             >
               <option value=""></option>
-              <option value="front">front</option>
+              <option value="JavaScript">JavaScript</option>
+              <option value="HTML">HTML</option>
+              <option value="CSS">CSS</option>
               <option value="Next.js">Next.js</option>
               <option value="React">React</option>
+              <option value="Flutter">Flutter</option>
               <option value="Python">Python</option>
               <option value="Unity">Unity</option>
-              <option value="CSS">CSS</option>
+              <option value="Rust">Rust</option>
             </select>
           </div>
         </div>
@@ -89,11 +92,11 @@ export function TagEdit({
             >
               <option value=""></option>
               <option value="初心者">初心者</option>
-              <option value="上級者">上級者</option>
-              <option value="チョットデキテル">チョットデキテル</option>
-              <option value="エキスパート">エキスパート</option>
               <option value="中級者">中級者</option>
+              <option value="上級者">上級者</option>
               <option value="Hello,Worldの住人">Hello,Worldの住人</option>
+              <option value="エキスパート">エキスパート</option>
+              <option value="チョットデキテル">チョットデキテル</option>
             </select>
           </div>
         </div>
