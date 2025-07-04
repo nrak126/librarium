@@ -5,10 +5,10 @@ export async function POST(request: NextRequest) {
 	try {
     const supabaseAdmin = createSupabaseAdmin();
 
-    // FormDataからファイルとISBNを取得
+    // FormDataからファイルとuidを取得
     const formData = await request.formData();
     const file = formData.get("file") as File;
-    const isbn = formData.get("isbn") as string;
+    const uid = formData.get("uid") as string;
 
     // バリデーション
     if (!file) {
@@ -18,8 +18,8 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    if (!isbn) {
-      return NextResponse.json({ error: "ISBNが必要です" }, { status: 400 });
+    if (!uid) {
+      return NextResponse.json({ error: "uidが必要です" }, { status: 400 });
     }
 
     // ファイルタイプの検証（画像のみ許可、HEICも追加）
@@ -50,19 +50,19 @@ export async function POST(request: NextRequest) {
     }
 
     // ファイル名
-    const fileName = `${isbn}`;
+    const fileName = `${uid}`;
 
     // 既存のファイルがある場合は削除
     try {
       const { data: existingFiles, error: listError } =
-        await supabaseAdmin.storage.from("book-thumbnails").list("", {
+        await supabaseAdmin.storage.from("user-icons").list("", {
           search: fileName,
         });
 
       if (!listError && existingFiles && existingFiles.length > 0) {
         console.log("既存のファイルを発見、削除します:", fileName);
         const { error: deleteError } = await supabaseAdmin.storage
-          .from("book-thumbnails")
+          .from("user-icons")
           .remove([fileName]);
 
         if (deleteError) {
@@ -81,7 +81,7 @@ export async function POST(request: NextRequest) {
 
     // Supabaseストレージにファイルをアップロード
     const { data: uploadData, error: uploadError } = await supabaseAdmin.storage
-      .from("book-thumbnails") // バケット名
+      .from("user-icons") // バケット名
       .upload(fileName, fileBuffer, {
         contentType: file.type,
         upsert: false,
@@ -107,7 +107,7 @@ export async function POST(request: NextRequest) {
 
     // アップロードされたファイルの公開URLを取得
     const { data: urlData } = supabaseAdmin.storage
-      .from("book-thumbnails")
+      .from("user-icons")
       .getPublicUrl(fileName);
 
     const publicUrl = urlData.publicUrl;
@@ -117,7 +117,7 @@ export async function POST(request: NextRequest) {
 
     // 代替手段：サインドURLも生成してみる
     const { data: signedUrlData } = await supabaseAdmin.storage
-      .from("book-thumbnails")
+      .from("user-icons")
       .createSignedUrl(fileName, 60 * 60 * 24 * 365); // 1年間有効
 
     console.log("Signed URL:", signedUrlData?.signedUrl);
@@ -131,23 +131,39 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // 本のサムネイルURLを更新
-    const { data: updateData, error: updateError } = await supabaseAdmin
-      .from("books")
-      .update({ thumbnail: publicUrl })
-      .eq("isbn", isbn)
-      .select();
+    // ユーザーの存在確認
+    const { data: existingUser, error: userFetchError } = await supabaseAdmin
+      .from("users")
+      .select("id, icon")
+      .eq("id", uid)
+      .single();
 
-    if (updateError) {
-      console.error("本の更新エラー:", updateError);
-      // アップロードしたファイルを削除（ロールバック）
-      await supabaseAdmin.storage.from("book-thumbnails").remove([fileName]);
+    // もしすでに登録済みのユーザーなら、アイコンURLを更新する
+    if (existingUser && !userFetchError) {
+      const { error: updateError } = await supabaseAdmin
+        .from("users")
+        .update({ icon: signedUrlData?.signedUrl })
+        .eq("id", uid)
+        .select();
 
-      return NextResponse.json(
-        { error: "本の情報更新に失敗しました" },
-        { status: 500 }
-      );
+      if (updateError) {
+        console.error("ユーザーの更新エラー:", updateError);
+
+        // アップロードしたファイルを削除（ロールバック）
+        await supabaseAdmin.storage.from("user-icons").remove([fileName]);
+
+        return NextResponse.json(
+          { error: "ユーザーの情報更新に失敗しました" },
+          { status: 500 }
+        );
+      }
     }
+
+    const { data: updatedData } = await supabaseAdmin
+      .from("users")
+      .select("*")
+      .eq("id", uid)
+      .single();
 
     return NextResponse.json(
       {
@@ -155,13 +171,13 @@ export async function POST(request: NextRequest) {
         thumbnailUrl: publicUrl, // 直接thumbnailUrlとして返す
         signedUrl: signedUrlData?.signedUrl, // サインドURLも返す
         data: {
-          isbn,
+          uid,
           thumbnailUrl: publicUrl,
           signedUrl: signedUrlData?.signedUrl,
           fileName,
           fileSize: file.size,
           contentType: file.type,
-          updatedBook: updateData[0],
+          updatedBook: updatedData,
         },
       },
       { status: 200 }
@@ -188,11 +204,11 @@ export async function GET() {
 				contentType: 'multipart/form-data',
 				fields: {
 					file: 'Image file to upload',
-					isbn: 'ISBN of the book to update'
+					uid: 'uid of the book to update'
 				}
 			},
 			example: {
-				curl: `curl -X POST -F "file=@thumbnail.jpg" -F "isbn=9781234567890" ${process.env.NEXT_PUBLIC_BASE_URL}/api/strage/postBookThumbnail`
+				curl: `curl -X POST -F "file=@thumbnail.jpg" -F "uid=9781234567890" ${process.env.NEXT_PUBLIC_BASE_URL}/api/strage/postBookThumbnail`
 			}
 		});
 	} catch {
