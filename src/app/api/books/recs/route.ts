@@ -11,7 +11,7 @@ const genAI = new GoogleGenerativeAI(apiKey);
 async function fetchFromGemini(...answers: number[]) {
   const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
   const prompt = `
-あなたは、ユーザーからの10個の質問回答に基づき、最適な技術分野を推薦するAIです。
+あなたは、ユーザーからの15個の質問回答に基づき、最適な技術分野を推薦するAIです。
 
 
 # 制約条件
@@ -22,11 +22,13 @@ async function fetchFromGemini(...answers: number[]) {
 
 # 技術分野リスト
 - Web
+- フロントエンド
 - モバイルアプリ
 - バックエンド
 - 組み込み
 - デザイン
-- CG・ゲーム
+- CG
+- ゲーム
 - 電子工作
 - インフラ
 - セキュリティ

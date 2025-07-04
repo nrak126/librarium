@@ -6,10 +6,10 @@ import styles from "./index.module.scss";
 type LoanPeriodProps = {
   setLoanPeriod: (value: number) => void;
   setError: (value: boolean) => void;
-  setRawValue?: (value: string) => void;
+  
 };
-export function LoanPeriod({ setLoanPeriod, setError, setRawValue }: LoanPeriodProps) {
 
+export function LoanPeriod({ setLoanPeriod, setError }: LoanPeriodProps) {
 
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const rawValue = e.target.value;

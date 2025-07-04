@@ -21,14 +21,22 @@ export const GetIsbn = () => {
       {isbn ? (
         <LoadingBrown />
       ) : (
-        <Barcode
-          setIsbn={setIsbn}
-          text={
-            <>
-              追加したい本のバーコードをカメラにかざしてください
-            </>
-          }
-        />
+        <>
+          <Barcode
+            setIsbn={setIsbn}
+            text={<>追加したい本のバーコードをカメラにかざしてください</>}
+          />
+          {/* <div
+            style={{
+              textAlign: "center",
+              marginTop: "20px",
+              position: "relative",
+              zIndex: 3,
+            }}
+          >
+            <p>aaaaaaaa</p>
+          </div> */}
+        </>
       )}
     </>
   );

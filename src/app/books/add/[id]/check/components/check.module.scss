@@ -1,18 +1,26 @@
 @import url("https://fonts.googleapis.com/css2?family=Jua&family=Sumana:wght@400;700&family=Yaldevi:wght@200..700&family=Yuji+Mai&display=swap");
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  margin-top: 2svh;
+}
 
 .title {
-  font-size: 13px;
+  font-size: 16px;
   font-weight: bold;
   color: #635038;
   word-break: break-all;
-  position: relative;
-  top: 10vh;
+  position: absolute;
+  top: 4svh;
+  text-align: center;
 }
 
-.card {
-  position: relative;
-  top: 15vh;
-  right: -32%;
+.author {
+  position: absolute;
+  top: 10vh;
 }
 
 .text {
@@ -20,18 +28,14 @@
   font-weight: bold;
   color: #635038;
   word-break: break-all;
-  position: relative;
-  top: 30vh;
+  position: absolute;
+  top: 50svh;
+  text-align: center;
 }
 
 .Btn {
   display: flex;
   flex-direction: column;
-  align-items: center; /* 中央揃え */
-  justify-content: center;
-  text-align: center;
-  width: 24vw;
-  position: relative;
-  top: 36svh;
-  left: 37%;
+  align-items: center;
+  margin-top: 60svh;
 }

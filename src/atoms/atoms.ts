@@ -1,6 +1,6 @@
 import { atomWithStorage } from "jotai/utils";
 import { atom } from "jotai";
-import type { Book, RentalList, User } from "@/src/types";
+import type { Book, LoanWithBook, RentalList, User } from "@/src/types";
 
 // 1時間のミリ秒
 const ONE_HOUR = 60 * 60 * 1000;
@@ -55,3 +55,7 @@ export const rentalAtom = atomWithStorage<RentalList[] | null>(
 export const usersAtom = atomWithStorage<User[]>("users", []);
 export const logedInUserAtom = atomWithStorage<User | null>("userAuth", null);
 export const loginRecBookAtom = atomWithStorage<Book[] | null>("recBook", null);
+export const histAtom = atomWithStorage<LoanWithBook[] | null>(
+  "histBook",
+  null
+);

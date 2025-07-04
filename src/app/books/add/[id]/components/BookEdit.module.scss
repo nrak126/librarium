@@ -1,0 +1,221 @@
+.body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+.errorMessage {
+  display: flex;
+  color: #635038;
+  background-color: #fdf6f0;
+  border: 1px solid #e0d4c4;
+  padding: 12px 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  line-height: 1.6;
+  margin-top: -30%;
+  margin-bottom: 30%;
+  text-align: center;
+}
+.Btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.BookInfo {
+  padding: 8%;
+  border-radius: 8%;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.title {
+  font-size: 14px;
+  font-weight: bold;
+  text-align: center;
+  color: #635038;
+  padding-bottom: 8px;
+  margin-bottom: 3svh;
+  border-radius: 8px;
+  background-color: #f9fafb;
+  width: fit-content;
+  padding: 10px 8px;
+  border: 1px solid #d1d5db;
+}
+
+.title::after {
+  content: "";
+  position: absolute;
+  top: 6.5svh;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  height: 2px;
+  background-color: #635038;
+  border-radius: 12px;
+}
+
+// .hr {
+//   border: 2px solid #635038;
+//   margin: 4% 15%;
+//   width: 70%;
+// }
+
+.Author {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #635038;
+  margin-top: 7svh;
+  position: relative;
+  width: 85svw;
+}
+
+.AuthorLabel {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 30px;
+  height: auto;
+  position: absolute;
+  left: -8svw;
+  width: 100%;
+  max-width: 300px;
+  height: 3svh;
+}
+
+.publisherLabel {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 30px;
+  height: auto;
+  width: 100%;
+  max-width: 300px;
+  position: absolute;
+  left: -8svw;
+  height: 3svh;
+  margin-top: 10svh;
+}
+
+.AuthorName {
+  font-size: 14px;
+  font-weight: bold;
+  color: #635038;
+  margin: 0;
+  border: 1px solid #d1d5db;
+
+  border-radius: 8px;
+  background-color: #f9fafb;
+  width: 200px;
+  padding: 8px 4px;
+}
+
+.description {
+  margin-top: 14svh;
+  font-size: 14px;
+  font-weight: bold;
+  color: #635038;
+  margin-top: 14svh;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  background-color: #f9fafb;
+  width: 300px;
+  height: 150px;
+
+  padding: 8px 4px;
+}
+
+.icon {
+  flex-shrink: 0;
+  object-fit: contain;
+}
+
+.Description {
+  width: 70vw;
+  font-size: 13px;
+  font-weight: bold;
+  color: #635038;
+  position: relative;
+  text-align: center;
+  word-break: normal;
+  line-height: 2.5svh;
+  margin-top: 10svh;
+}
+
+.btnContainer {
+  margin-top: 4svh;
+}
+
+// .ReadMore {
+//   position: relative;
+// }
+
+// .Input {
+//   display: none;
+// }
+
+// .ReadMore p {
+//   position: relative;
+//   height: 10vh;
+//   margin-bottom: 0;
+//   overflow: hidden;
+//   transition: max-height 1s;
+// }
+
+// .ReadMore:has(.Input:checked) p {
+//   height: auto;
+//   padding-bottom: 1%;
+// }
+
+// .ReadMore:has(.Input:checked) p::after {
+//   content: none;
+// }
+
+// .ReadMoreLabel {
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   margin: 0 auto;
+//   margin-top: 3svh;
+//   color: #bfbfbf;
+//   font-size: 0.8em;
+//   cursor: pointer;
+//   text-align: center;
+// }
+
+// .ReadMoreLabel:hover {
+//   color: #635038;
+//   text-decoration: underline;
+// }
+
+// .ReadCloseLabel {
+//   display: none;
+//   justify-content: center;
+//   align-items: center;
+//   margin: 0 auto;
+//   margin-top: 3svh;
+//   color: #bfbfbf;
+//   font-size: 0.8em;
+//   cursor: pointer;
+// }
+
+// .ReadCloseLabel:hover {
+//   color: #635038;
+//   text-decoration: underline;
+// }
+
+// .ReadMore:has(.Input:checked) .ReadMoreLabel {
+//   display: none;
+// }
+
+// .ReadMore:has(.Input:checked) .ReadCloseLabel {
+//   display: flex;
+// }

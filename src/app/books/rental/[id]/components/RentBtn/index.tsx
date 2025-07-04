@@ -17,6 +17,7 @@ export function RentBtn({
 }) {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(false);
   const isAvailableRental = book.available > 0;
   const [, setRental] = useAtom(rentalAtom);
   const [loginUser] = useAtom(logedInUserAtom);
@@ -50,15 +51,14 @@ export function RentBtn({
     window.history.back();
   };
 
-  // const handleClick = async () => {
-  //   if (!loanPeriod) {
-  //     setError(true);
-  //     return;
-  //   }
-  //   setError(false);
-  //   await handleRent();
-  //   router.push(`/books/rental/${book.isbn}/check?q=${loanPeriod}`);
-  // };
+  const handleClick = async () => {
+    if (!loanPeriod) {
+      setError(true);
+      return;
+    }
+    setError(false);
+    await handleRent();
+  };
 
   return (
     <div className={styles.rentalButtonWrapper}>
@@ -72,7 +72,7 @@ export function RentBtn({
               <Btn
                 text={isLoading ? "処理中..." : "借りる"}
                 bgColor={isLoading ? "#F1CCCC" : "#E2999B"}
-                onClick={isLoading ? undefined : handleRent}
+                onClick={isLoading ? undefined : handleClick}
               />
             </div>
           ) : (
@@ -81,6 +81,9 @@ export function RentBtn({
             </div>
           )}
         </div>
+        {error && (
+          <div className={styles.errorMessage}>貸出期間を選択してください</div>
+        )}
       </div>
     </div>
   );

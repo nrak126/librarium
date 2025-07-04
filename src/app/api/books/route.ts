@@ -69,8 +69,69 @@ export async function POST(request: Request) {
 }
 
 // PUT: 本の情報を更新する
-// export async function PUT(request: Request) {
-// }
+export async function PUT(request: Request) {
+  try {
+    const { searchParams } = new URL(request.url);
+    const id = searchParams.get("id");
+    const isbn = searchParams.get("isbn");
+
+    if (!id && !isbn) {
+      return NextResponse.json(
+        { error: "Book ID or ISBN is required" },
+        { status: 400 }
+      );
+    }
+
+    const updateData: Partial<Book> = await request.json();
+
+    // 空のオブジェクトかチェック
+    if (Object.keys(updateData).length === 0) {
+      return NextResponse.json(
+        { error: "No update data provided" },
+        { status: 400 }
+      );
+    }
+
+    let query = supabase.from("books").update(updateData);
+
+    // IDまたはISBNで検索
+    if (id) {
+      query = query.eq("id", id);
+    } else if (isbn) {
+      query = query.eq("isbn", isbn);
+    }
+
+    const { data, error } = await query.select("*").single();
+
+    if (error) {
+      console.error("Supabase error:", error);
+
+      // 認証エラーの場合
+      if (error.message.includes("session") || error.message.includes("auth")) {
+        return NextResponse.json(
+          { error: "Authentication required" },
+          { status: 401 }
+        );
+      }
+
+      // レコードが見つからない場合
+      if (error.code === "PGRST116") {
+        return NextResponse.json({ error: "Book not found" }, { status: 404 });
+      }
+
+      throw error;
+    }
+
+    console.log("Updated book:", data);
+    return NextResponse.json(data, { status: 200 });
+  } catch (error) {
+    console.error("Error updating book:", error);
+    return NextResponse.json(
+      { error: "Failed to update book" },
+      { status: 500 }
+    );
+  }
+}
 
 // DELETE: 本を削除する
 // export async function DELETE(request: Request) {

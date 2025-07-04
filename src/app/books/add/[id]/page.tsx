@@ -1,5 +1,4 @@
-
-import { BookRegister } from "./components/BookRegister";
+import { BookEdit } from "./components/BookEdit";
 
 export default async function Page({
   params,
@@ -9,7 +8,7 @@ export default async function Page({
   const { id } = await params;
   return (
     <div>
-      <BookRegister isbn={id} />
+      <BookEdit isbn={id} />
     </div>
   );
 }
