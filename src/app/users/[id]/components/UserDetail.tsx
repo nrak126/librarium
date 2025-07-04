@@ -248,22 +248,6 @@ export default function UserDetail() {
           {hist && hist?.length === 0 ? (
             <div className={styles.noRental}>借りたことのある本がありません</div>
           ) : (
-            // hist?.map((item, index) =>
-            //   item?.books ? (
-            //     <div
-            //       className={styles.booklist}
-            //       key={`${item.books.isbn}-${index}`}
-            //     >
-            //       <div
-            //         className={styles.card}
-            //         onClick={() => handleHistBook(item.books)}
-            //       >
-            //         <BookCardList book={item.books} />
-            //       </div>
-            //       <div className={styles.title}>{item.books.title}</div>
-            //     </div>
-            //   ) : null
-            // )
           <LoanHistBooks hists={hist} />
           )}
         </div>
