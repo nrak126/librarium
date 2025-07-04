@@ -17,9 +17,9 @@ export default function PageClient() {
   const pathArr = pathname.split("/");
   const isbn = pathArr[pathArr.length - 2];
   const router = useRouter();
-  const seachParams = useSearchParams();
-  const loanPeriodStr = seachParams.get("q") || "";
-  const loanPeriod = Number(loanPeriodStr);
+  const searchParams = useSearchParams();
+  const rawValue = searchParams.get("q") || "";
+  const loanPeriod = Number(rawValue);
   const [books] = useAtom(booksAtom);
 
   // 本のデータ取得（キャッシュ優先）
@@ -28,13 +28,18 @@ export default function PageClient() {
     setBook(cached || null);
   }, [isbn, books]);
 
+
+
   const handleConfirm = () => {
     router.push("/");
   };
 
+  
+
   const today = new Date(loanPeriod);
 
   today.setHours(0, 0, 0, 0);
+
   const year = today.getFullYear();
   const month = today.getMonth() + 1;
   const day = today.getDate();
@@ -53,12 +58,13 @@ export default function PageClient() {
               className={styles.card}
             />
           </div>
-          <p className={styles.Day}>返却期限： {date}</p>
+          <p className={styles.Returndeadline}>返却期限</p>
+          <p className={styles.day}>{date}</p>
         </>
       ) : (
         <LoadingBrown />
       )}
-      <div className={styles.Btn}>
+      <div className={styles.contents}>
         <Btn text="確認した" bgColor="#E2999B" onClick={handleConfirm} />
       </div>
     </div>

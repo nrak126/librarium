@@ -1,12 +1,15 @@
 "use client";
 
+
 import styles from "./index.module.scss";
 
 type LoanPeriodProps = {
   setLoanPeriod: (value: number) => void;
   setError: (value: boolean) => void;
 };
+
 export function LoanPeriod({ setLoanPeriod, setError }: LoanPeriodProps) {
+
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const rawValue = e.target.value;
     if (!rawValue) {
@@ -16,6 +19,8 @@ export function LoanPeriod({ setLoanPeriod, setError }: LoanPeriodProps) {
     setError(false);
 
     const value = Number(rawValue);
+
+
     const today = new Date();
     today.setHours(0, 0, 0, 0);
 
@@ -29,6 +34,8 @@ export function LoanPeriod({ setLoanPeriod, setError }: LoanPeriodProps) {
     }
     const timestamp = targetDate.getTime();
     setLoanPeriod(timestamp);
+
+
   };
 
   return (
@@ -41,7 +48,6 @@ export function LoanPeriod({ setLoanPeriod, setError }: LoanPeriodProps) {
             className={styles.periodbox}
             onChange={handleChange}
           >
-            <option value=""></option>
             <option value="7">1週間</option>
             <option value="14">2週間</option>
             <option value="21">3週間</option>

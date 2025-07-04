@@ -2,58 +2,84 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
+  background-color: #fefaf6;
+  min-height: 100vh;
+  padding: 3svh 5vw;
 }
+
 .title {
-  display: flex;
-  font-size: 17px;
+  font-size: 18px;
   font-weight: bold;
   color: #635038;
-  word-break: break-all;
-  justify-content: center;
-  align-items: center;
-  margin: 0 auto;
+  text-align: center;
   margin-top: 3svh;
+  margin-bottom: 2svh;
+  word-break: break-word;
 }
 
 .author {
   margin-top: 3svh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .card {
-  display: flex;
-  position: relative;
-  top: 15vh;
-  justify-content: center;
-  align-items: center;
-  margin: 0 auto;
+  width: 150px;
+  height: 180px;
+  border-radius: 16px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  object-fit: cover;
 }
 
-.text {
-  font-size: 12px;
+.title {
+  font-size: 15px;
   font-weight: bold;
   color: #635038;
-  word-break: break-all;
+  text-align: center;
   position: relative;
-  top: 30vh;
-  justify-content: center;
-  align-items: center;
+  margin-top: 8svh;
+  padding-bottom: 8px;
+  margin-bottom: 3svh;
 }
 
-.Day {
-  display: flex;
-  font-size: 18px;
+.Returndeadline {
+  font-size: 14px;
   font-weight: bold;
   color: #635038;
+  margin-top: 5svh;
+  margin-bottom: 1.5svh;
   position: relative;
-  top: 10vh;
-  justify-content: center;
-  align-items: center;
-  margin: 0 auto;
+  text-align: center;
+  padding-bottom: 8px;
+}
+
+.Returndeadline::after {
+  content: "";
+  position: absolute;
+  top: 20px;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 120%;
+  height: 2px;
+  background-color: #635038;
+  border-radius: 12px;
+}
+
+
+.day {
+  font-size: 28px;
+  font-weight: bold;
+  color: #635038;
+  margin-bottom: 6svh;
 }
 
 .Btn {
-  width: fit-content;
-  position: relative;
-  top: 15svh;
+  margin-top: auto;
+  margin-bottom: 5svh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
 }

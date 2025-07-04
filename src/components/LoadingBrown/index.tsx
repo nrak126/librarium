@@ -7,8 +7,13 @@ export default function LoadingBrown() {
     <>
       <div className={styles.loading}>
         <Image src={hrBrown} width={300} height={50} alt="line" />
-        <p className={styles.p}>now loading...</p>
+        <p className={styles.p}>now loading</p>
         <Image src={hrBrown} width={300} height={50} alt="line" />
+        <div className={styles.ballpulse}>
+          <div></div>
+          <div></div>
+          <div></div>
+        </div>
       </div>
     </>
   );

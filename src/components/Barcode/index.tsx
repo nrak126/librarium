@@ -3,6 +3,10 @@
 import React, { useEffect, useRef } from "react";
 import Quagga from "quagga";
 import styles from "./index.module.scss";
+import { usePathname } from "next/navigation";
+import { Btn } from "../book/Btn";
+import { useRouter } from "next/navigation";
+
 
 type BarcodeProps = {
   setIsbn: (isbn: string) => void;
@@ -12,8 +16,23 @@ type BarcodeProps = {
 export const Barcode: React.FC<BarcodeProps> = ({ setIsbn, text }) => {
   // カメラ映像を表示するためのRef
   const scannerRef = useRef<HTMLDivElement>(null);
+  const router = useRouter();
+
+  const pathname = usePathname();
+
+  const isAuth =
+    pathname === "/books/add/barcode" ||
+    pathname.startsWith("/books/add/barcode/");
+
+  const handleClick = () => {
+    // 手入力で登録ボタンがクリックされたときの処理
+    router.push("9784048917"); // ここは適切なISBNに変更してください
+  };
 
   useEffect(() => {
+    // スクロール無効化
+    document.body.style.overflow = "hidden";
+
     // QuaggaJSの初期化
     Quagga.init(
       {
@@ -51,17 +70,31 @@ export const Barcode: React.FC<BarcodeProps> = ({ setIsbn, text }) => {
 
     // クリーンアップ（コンポーネントのアンマウント時にQuaggaを停止）
     return () => {
+      document.body.style.overflow = "auto";
       Quagga.stop();
     };
   }, [setIsbn]);
 
   return (
-    <div className={styles.container}>
-      <div ref={scannerRef} className={styles.scanner} />
-
-      <div className={styles.under}>
-        <div className={styles.circle}>
-          <p className={styles.message}>{text}</p>
+    <div className={styles.content}>
+      <div className={styles.container}>
+        <div ref={scannerRef} className={styles.scanner} />
+        <div className={styles.under}>
+          <div className={styles.circle}>
+            <p className={styles.message}>{text}</p>
+            <div className={styles.btnContainer}>
+              <p className={styles.text}>
+                バーコードがない場合は手入力で登録を選択してください
+              </p>
+              {isAuth && (
+                <Btn
+                  text="手入力で登録"
+                  bgColor="#E2999B"
+                  onClick={handleClick}
+                />
+              )}
+            </div>
+          </div>
         </div>
       </div>
     </div>
