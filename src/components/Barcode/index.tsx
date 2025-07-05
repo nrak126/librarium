@@ -84,14 +84,18 @@ export const Barcode: React.FC<BarcodeProps> = ({ setIsbn, text }) => {
             <div className={styles.btnContainer}>
               {isAuth && (
                 <>
-                  <p className={styles.text}>
-                    バーコードがない場合は手入力で登録を選択してください
-                  </p>
-                  <Btn
-                    text="手入力で登録"
-                    bgColor="#E2999B"
-                    onClick={handleClick}
-                  />
+                  <div className={styles.handInput}>
+                    <p className={styles.text}>
+                      バーコードがない場合は手入力で登録を選択してください
+                    </p>
+                    <div className={styles.Btn}>
+                    <Btn
+                      text="手入力で登録"
+                      bgColor="#E2999B"
+                      onClick={handleClick}
+                    />
+                    </div>
+                  </div>
                 </>
               )}
             </div>
