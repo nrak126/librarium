@@ -16,7 +16,7 @@ export default function LoanHistBooks({
 }) {
   const router = useRouter();
   const [currentPage, setCurrentPage] = useState(0);
-  const booksPerPage = 18; // 1ページあたりの表示数
+  const booksPerPage = 12; // 1ページあたりの表示数
 
   if (!hists) return null;
 
@@ -59,7 +59,7 @@ export default function LoanHistBooks({
             <li key={h.id}>
               <div className={styles.layout}>
                 <div onClick={() => handleClick(h.books)}>
-                  <BookCardList book={h.books} />
+                  <BookCardList book={h.books} isShow={true} />
                 </div>
                 <div className={styles.stock}>
                   <ReturnState hist={h} />

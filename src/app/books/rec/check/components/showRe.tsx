@@ -16,7 +16,6 @@ import design from "@/public/design.png";
 import Image from "next/image";
 import huki from "@/public/huki.svg";
 import { Yaldevi } from "next/font/google";
-import yellow from "@/public/yellow.svg";
 
 const font = Yaldevi({
   weight: "400",
@@ -36,9 +35,6 @@ export const ShowRec = () => {
     <>
       <div className={style.contents}>
         <h2 className={style.title}>診断結果</h2>
-        <div className={style.desc}>
-          <Image src={yellow} alt="Yellow" width={30} height={30} />
-        </div>
         <h3 className={style.tech}>{loginUser?.interest_tech}</h3>
       </div>
 
