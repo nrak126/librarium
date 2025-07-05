@@ -2,7 +2,11 @@ import Loading from "../../Loading";
 import styles from "./index.module.scss";
 import { useState } from "react";
 import { User } from "@/src/types";
-import { nameTagList, levelTagList } from "@/src/utils/spritUserTag";
+import {
+  nameTagList,
+  levelTagList,
+  splitUserAllTags,
+} from "@/src/utils/spritUserTag";
 
 export function TagEdit({
   user,
@@ -27,17 +31,43 @@ export function TagEdit({
 
   const handleAdd = () => {
     console.log("追加ボタンが押されました");
-    if (
-      selectedTag &&
-      selectedLevel &&
-      !user.tags.includes(selectedTag + selectedLevel)
-    ) {
-      const newTags = [...user.tags, selectedTag + selectedLevel];
-      setUser({ ...user, tags: newTags });
+    if (selectedTag && selectedLevel) {
+      const newTag = selectedTag + selectedLevel;
+      const allTags = splitUserAllTags(user.tags);
+      console.log("allTags", allTags);
+
+      // 同じnameのタグがあるかチェックして処理
+      let hasExistingTag = false;
+      let newTags = user.tags;
+
+      allTags.map((tag) => {
+        if (tag.name === selectedTag) {
+          hasExistingTag = true;
+          const oldTag = tag.name + tag.level;
+          console.log("既存のタグを削除:", oldTag);
+
+          // 古いタグを除外した新しい配列を作成
+          newTags = user.tags.filter((t) => t !== oldTag);
+          console.log("フィルター後のタグ:", newTags);
+        }
+      });
+
+      if (hasExistingTag) {
+        // 同じnameのタグがあった場合、削除後に新しいタグを追加
+        newTags = [...newTags, newTag];
+        setUser({ ...user, tags: newTags });
+        console.log("既存タグを削除して新しいタグを追加:", newTags);
+      } else {
+        // 同じnameのタグがない場合、そのまま追加
+        newTags = [...user.tags, newTag];
+        setUser({ ...user, tags: newTags });
+        console.log("新しいタグを追加:", newTags);
+      }
+
       setSelectedTag("");
       setSelectedLevel("");
     } else {
-      console.log("タグが選択されていないか、既に存在しています。");
+      console.log("タグとレベルを選択してください。");
     }
   };
   return (
