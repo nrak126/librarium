@@ -16,6 +16,7 @@ export default function PageClient() {
 
   const [books, setBooks] = useAtom(booksAtom); // Jotai atom でグローバル books 利用
   const [result, setResult] = useState<Book[]>([]);
+  const [isLoading, setIsLoading] = useState(false); // ローディング状態を追加
   const [hasSearched, setHasSearched] = useState(false);
 
   // 初回のみbooksをフェッチ（すでに取得済ならスキップ）
@@ -34,14 +35,17 @@ export default function PageClient() {
     (async () => {
       if (searchName) {
         setHasSearched(true);
+        setIsLoading(true);
         const fetchFilteredBooks = await fetch(
           `/api/books?search=${searchName}`
         );
         const filteredBooks: Book[] = await fetchFilteredBooks.json();
         setResult(filteredBooks);
+        setIsLoading(false);
       } else {
         if (!books) return;
         setResult(books);
+
         setHasSearched(false);
       }
     })();
@@ -50,6 +54,7 @@ export default function PageClient() {
   if (hasSearched && result.length === 0) {
     return (
       <div className={styles.container}>
+        <SearchBar />
         <h3 className={styles.subtitle}>本が見つかりませんでした</h3>
         <p className={styles.description}>
           申し訳ありませんが、検索された本は存在しません。
@@ -58,6 +63,10 @@ export default function PageClient() {
         </p>
       </div>
     );
+  }
+
+  if (isLoading) {
+    return <LoadingBrown />;
   }
 
   return (
