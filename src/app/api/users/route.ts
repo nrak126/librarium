@@ -9,7 +9,11 @@ export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const keyword = searchParams.get("search");
   try {
-    let query = supabase.from("users_view").select("*");
+    let query = supabase
+      .from("users_view")
+      .select("*")
+      .order("loan_count", { ascending: false });
+
     if (keyword) {
       query = query.or(
         `name.ilike.%${keyword}%,role.ilike.%${keyword}%,studentId.ilike.%${keyword}%,tags_string.ilike.%${keyword}%`

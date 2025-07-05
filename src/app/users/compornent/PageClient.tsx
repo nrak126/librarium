@@ -42,10 +42,14 @@ export function PageContent() {
       // usersが空の場合のみ初回データを取得
       if (users.length === 0) {
         try {
-          const { data, error } = await supabase.from("users").select("*");
-          if (error) {
-            console.error("ユーザー一覧の取得に失敗しました:", error);
+          const response = await fetch("/api/users");
+          if (!response.ok) {
+            console.error(
+              "ユーザー一覧の取得に失敗しました:",
+              response.statusText
+            );
           } else {
+            const data: User[] = await response.json();
             setUsers(data || []);
             setResult(data || []);
           }
