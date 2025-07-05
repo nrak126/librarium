@@ -59,7 +59,7 @@ export default function LoanHistBooks({
             <li key={h.id}>
               <div className={styles.layout}>
                 <div onClick={() => handleClick(h.books)}>
-                  <BookCardList book={h.books} />
+                  <BookCardList book={h.books} isShow={true} />
                 </div>
                 <div className={styles.stock}>
                   <ReturnState hist={h} />
