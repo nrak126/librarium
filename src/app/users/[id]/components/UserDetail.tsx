@@ -251,7 +251,6 @@ export default function UserDetail() {
           )}
         </div>
       </div>
-
       <div className={styles.backbutton}>
         <Btn text="戻る" bgColor="#99C6E2" onClick={handleBack} />
       </div>

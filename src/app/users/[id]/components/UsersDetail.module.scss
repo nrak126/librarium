@@ -215,14 +215,15 @@
       font-weight: 400;
       border-bottom: 1.4px solid #77634b;
       padding-bottom: 0.5vh;
+      margin-bottom: 2vh;
     }
     .histlist {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 3vw;
-      position: absolute;
-      left: 50%;
-      transform: translateX(-47%);
+      margin-bottom: 4vh;
+      align-self: center;
+      width: 100%;
 
       .noRental {
         grid-column: 1 / -1; /* グリッドの全列にまたがる */
@@ -253,7 +254,8 @@
     justify-content: center;
     align-items: center;
     text-align: center;
-    margin-top: 140svh;
+    margin-bottom: 2vh;
+    margin-top: 2vh; // 画面下部に配置
   }
 
   .comment {
