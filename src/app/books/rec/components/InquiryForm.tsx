@@ -83,7 +83,7 @@ export const InquiryForm: React.FC<Props> = ({ questions }) => {
 
   return (
     <div>
-      <h2 className={styles.title}>お勧め診断</h2>
+      <h2 className={styles.title}>おすすめめ診断</h2>
       <div className={styles.bar}></div>
       {questions.map((question, idx) => (
         <div className={styles.container} key={question}>

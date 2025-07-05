@@ -3,7 +3,7 @@
 import type { Book } from "@/src/types/book";
 import styles from "./index.module.scss";
 import { useRouter } from "next/navigation";
-// import ReactPaginate from "react-paginate";
+import ReactPaginate from "react-paginate";
 import { useState } from "react";
 import { BookCardList } from "@/src/app/books/components/BookListCard";
 import { ReturnState } from "../ReturnState";
@@ -15,7 +15,7 @@ export default function LoanHistBooks({
   hists: LoanWithBook[] | null;
 }) {
   const router = useRouter();
-  const [currentPage] = useState(0);
+  const [currentPage, setCurrentPage] = useState(0);
   const booksPerPage = 18; // 1ページあたりの表示数
 
   if (!hists) return null;
@@ -24,18 +24,18 @@ export default function LoanHistBooks({
     router.push(`/books/${book.isbn}`);
   };
 
-  // const handlePageChange = (e: { selected: number }) => {
-  //   setCurrentPage(e.selected);
-  // };
+  const handlePageChange = (e: { selected: number }) => {
+    setCurrentPage(e.selected);
+  };
 
   const offset = currentPage * booksPerPage;
   const pagedHists = hists.slice(offset, offset + booksPerPage);
-  // const pageCount = Math.ceil(hists.length / booksPerPage);
+  const pageCount = Math.ceil(hists.length / booksPerPage);
 
   return (
     <>
       <div className={styles.booksListContainer}>
-        {/* {pageCount > 1 && (
+        {pageCount > 1 && (
           <ReactPaginate
             pageCount={pageCount}
             marginPagesDisplayed={1}
@@ -53,7 +53,7 @@ export default function LoanHistBooks({
             nextLinkClassName={styles.pageLink} // 「次へ」ボタンのa
             breakLabel="..." // 省略記号
           />
-        )} */}
+        )}
         <ul className={styles.booklist}>
           {pagedHists.map((h) => (
             <li key={h.id}>

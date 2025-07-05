@@ -1,30 +1,30 @@
+.booksListContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
 .booklist {
   display: grid;
   grid-template-columns: repeat(3, 1fr); /* 3列レイアウト */
-  padding: 7%;
-  gap: 0 5%; /* 縦の隙間2%、横の隙間5% */
+  gap: 4% 5%; /* 縦の隙間2%、横の隙間5% */
   list-style: none;
   justify-content: center;
-  position: relative;
-  left: 1%;
 }
-.card {
-  width: 100%; /* 親要素のグリッドサイズに合わせる */
-  display: flex;
-  justify-content: center;
-  position: relative;
-  list-style: none;
-}
+
 .layout {
+  position: relative;
   &:active {
     transform: scale(0.96);
   }
 }
 .stock {
-  position: relative;
-  top: -4.5svh;
+  position: absolute;
+  bottom: -0.5svh;
   right: -2vw;
   font-size: 10px;
+  width: 100px;
 }
 
 // ページネーション
@@ -34,8 +34,7 @@
   justify-content: center;
   list-style: none;
   padding: 0;
-
-  margin: 4svh 0 2svh 0; /* 上2svh、下3svhのマージン */
+  margin: 3svh 0 3svh 0; /* 上2svh、下3svhのマージン */
 }
 
 .pageItem {
@@ -58,9 +57,4 @@
   background: #bb9c77;
   color: #fff;
   font-weight: bold;
-}
-
-.booksListContainer {
-  display: flex;
-  flex-direction: column;
 }

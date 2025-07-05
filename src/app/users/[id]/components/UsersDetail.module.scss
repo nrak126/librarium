@@ -26,50 +26,48 @@
     border-radius: 7px;
     background: #fffbf5;
     padding: 1% 3.3%;
-    box-shadow: 0.5px 3px 4px rgba(123, 98, 60, 0.6); 
-    -webkit-transition: all .3s;
-    transition: all .3s;
+    box-shadow: 0.5px 3px 4px rgba(123, 98, 60, 0.6);
+    -webkit-transition: all 0.3s;
+    transition: all 0.3s;
   }
 
   .confirmButton {
-      float: right;
-      background: #8F7453;
-      font-size: 1.5vh;
-      border: 1px solid #6F4B1F;
-      border-radius: 7px;
-      color: #fffbf5;
-      padding: 1% 3.3%;
-      box-shadow: 0.5px 3px 4px rgba(123, 98, 60, 0.6); 
-      -webkit-transition: all .3s;
-      transition: all .3s;
+    float: right;
+    background: #8f7453;
+    font-size: 1.5vh;
+    border: 1px solid #6f4b1f;
+    border-radius: 7px;
+    color: #fffbf5;
+    padding: 1% 3.3%;
+    box-shadow: 0.5px 3px 4px rgba(123, 98, 60, 0.6);
+    -webkit-transition: all 0.3s;
+    transition: all 0.3s;
   }
 
   .editbutton {
-      float: right;
-      color: #635038;
-      font-size: 1.5vh;
-      border: 1px solid #635038;
-      border-radius: 7px;
-      background: #fffbf5;
-      padding: 1% 3.3%;
-      box-shadow: 0.5px 3px 4px rgba(123, 98, 60, 0.6); 
-      -webkit-transition: all .3s;
-      transition: all .3s;
+    float: right;
+    color: #635038;
+    font-size: 1.5vh;
+    border: 1px solid #635038;
+    border-radius: 7px;
+    background: #fffbf5;
+    padding: 1% 3.3%;
+    box-shadow: 0.5px 3px 4px rgba(123, 98, 60, 0.6);
+    -webkit-transition: all 0.3s;
+    transition: all 0.3s;
   }
 
-  .editbutton:active{
-    transform: scale(0.9,0.9);
+  .editbutton:active {
+    transform: scale(0.9, 0.9);
   }
 
-  .editbutton::after{
-    transform: scale(1.0,1.0);
+  .editbutton::after {
+    transform: scale(1, 1);
   }
 
   .username {
     width: 80%;
-    display: flex;
     flex-direction: row;
-    align-items: center;
     gap: 2vh;
 
     .subtitle {
@@ -78,35 +76,58 @@
       color: #77634b;
       font-size: 1.8vh;
       font-weight: 400;
-      padding-bottom: 0.5vh;
+    }
+  }
+
+  .nameWrapper {
+    width: 60%;
+    position: relative;
+    color: #635038;
+
+    .name {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      bottom: 4.8svh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background: transparent;
+      border: none;
+      outline: none;
+      text-align: center;
+      font-size: inherit;
+      color: inherit;
+      font-family: inherit;
     }
 
-    .name{
-      width: 60%;
-      background-color:#fffbf5;
+    .name::after {
+      content: "";
+      position: absolute;
+      width: 40vw;
+      height: 2px;
+      background-color: #bb9c77;
+      bottom: -2px;
+    }
+
+    // input要素専用のスタイル
+    input.name {
+      background: transparent;
       border: none;
-      margin: 0;
-      margin-left: 4%;
-      padding: 1vh 0;
-      border-radius: 0;
       outline: none;
-      -webkit-appearance: none;
-      -moz-appearance: none;
-      appearance: none;
-      color: #77634b;
       text-align: center;
-      font-size: 2vh;
-      border-bottom: 2px solid #BB9C77;
+      font-size: inherit;
+      color: inherit;
+      font-family: inherit;
+      width: 40vw;
+      border-bottom: 2px solid #bb9c77;
     }
   }
 
   .studentId {
     width: 80%;
-    display: flex;
     flex-direction: row;
-    align-items: center;
     gap: 2vh;
-    margin-right: 8%;
 
     .subtitle {
       width: fit-content;
@@ -114,29 +135,55 @@
       color: #77634b;
       font-size: 1.8vh;
       font-weight: 400;
-      padding-bottom: 0.5vh;
-    }
-
-    .id{
-      width: 60%;
-      background-color:#fffbf5;
-      border: none;
-      margin: 0;
-      padding: 1vh 0;
-      border-radius: 0;
-      outline: none;
-      -webkit-appearance: none;
-      -moz-appearance: none;
-      appearance: none;
-      color: #77634b;
-      text-align: center;
-      font-size: 2.4vh;
-      border-bottom: 2px solid #BB9C77;
-      letter-spacing: 0.3vw;
     }
   }
-  
-  .taglist{
+
+  .idWrapper {
+    width: 60%;
+    position: relative;
+    color: #635038;
+
+    .id {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      bottom: 4.8svh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background: transparent;
+      border: none;
+      outline: none;
+      text-align: center;
+      font-size: inherit;
+      color: inherit;
+      font-family: inherit;
+    }
+
+    .id::after {
+      content: "";
+      position: absolute;
+      width: 40vw;
+      height: 2px;
+      background-color: #bb9c77;
+      bottom: -2px;
+    }
+
+    // input要素専用のスタイル
+    input.id {
+      background: transparent;
+      border: none;
+      outline: none;
+      text-align: center;
+      font-size: inherit;
+      color: inherit;
+      font-family: inherit;
+      width: 40vw;
+      border-bottom: 2px solid #bb9c77;
+    }
+  }
+
+  .taglist {
     width: 90%;
 
     .subtitle {
@@ -152,13 +199,14 @@
     }
   }
 
-  .history{
+  .history {
     width: 80%;
     display: flex;
     flex-direction: column;
-    gap: 1.5vh;
-    
-    .subtitle{
+    margin: 0 auto;
+    position: relative;
+
+    .subtitle {
       height: 2.5vh;
       width: fit-content;
       text-align: left;
@@ -168,10 +216,13 @@
       border-bottom: 1.4px solid #77634b;
       padding-bottom: 0.5vh;
     }
-    .histlist{
+    .histlist {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 3vw;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-47%);
 
       .noRental {
         grid-column: 1 / -1; /* グリッドの全列にまたがる */
@@ -193,7 +244,6 @@
         text-align: center; // 中央寄せ（お好みで）
         margin-top: 4px; // カード内での余白調整
       }
-
     }
   }
 
@@ -203,6 +253,7 @@
     justify-content: center;
     align-items: center;
     text-align: center;
+    margin-top: 140svh;
   }
 
   .comment {
@@ -214,8 +265,8 @@
   }
 }
 
-.percent{
-  display: flex;  
+.percent {
+  display: flex;
   justify-content: space-between;
   font-size: 17px;
   color: #635038;

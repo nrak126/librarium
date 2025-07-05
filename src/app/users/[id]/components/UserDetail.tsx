@@ -194,7 +194,9 @@ export default function UserDetail() {
       ) : null}
 
       <div className={styles.username}>
-        <div className={styles.subtitle}>名前</div>
+        <p className={styles.subtitle}>名前</p>
+      </div>
+      <div className={styles.nameWrapper}>
         {clickEditer ? (
           <input
             type="text"
@@ -205,12 +207,14 @@ export default function UserDetail() {
             }}
           />
         ) : (
-          <div className={styles.name}>{user.name}</div>
+          <p className={styles.name}>{user.name}</p>
         )}
       </div>
 
       <div className={styles.studentId}>
-        <div className={styles.subtitle}>学籍番号</div>
+        <p className={styles.subtitle}>学籍番号</p>
+      </div>
+      <div className={styles.idWrapper}>
         {clickEditer ? (
           <input
             type="text"
@@ -222,7 +226,7 @@ export default function UserDetail() {
             }}
           />
         ) : (
-          <div className={styles.id}>{user.studentId}</div>
+          <p className={styles.id}>{user.studentId}</p>
         )}
       </div>
 
@@ -236,7 +240,7 @@ export default function UserDetail() {
       </div>
 
       <div className={styles.history}>
-        <div className={styles.subtitle}>履歴</div>
+        <p className={styles.subtitle}>履歴</p>
         <div className={styles.histlist}>
           {hist && hist?.length === 0 ? (
             <div className={styles.noRental}>
