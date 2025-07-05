@@ -7,7 +7,13 @@ import { Book } from "@/src/types/book";
 import NotFound from "@/public/bookNot.svg";
 import { StockState } from "@/src/components/book/StockState";
 
-export const BookCardList = ({ book }: { book: Book }) => {
+export const BookCardList = ({
+  book,
+  isShow,
+}: {
+  book: Book;
+  isShow?: boolean;
+}) => {
   return (
     <>
       <div className={classes.card}>
@@ -20,7 +26,7 @@ export const BookCardList = ({ book }: { book: Book }) => {
             height={110}
           />
           <div className={classes.stock}>
-            <StockState initialBook={book} />
+            {!isShow && <StockState initialBook={book} />}
           </div>
         </div>
       </div>

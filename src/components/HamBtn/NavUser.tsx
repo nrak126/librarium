@@ -1,12 +1,13 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React from "react";
 import userIcon from "@/public/next.svg";
 import Image from "next/image";
 import style from "./index.module.scss";
 import { useRouter } from "next/navigation";
-import { supabase } from "@/src/lib/supabase";
-import { User } from "@/src/types";
+
+import { useAtom } from "jotai";
+import { logedInUserAtom } from "@/src/atoms/atoms";
 
 type Props = {
   setNavOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -15,22 +16,7 @@ type Props = {
 export const NavUser: React.FC<Props> = ({ setNavOpen }) => {
   const router = useRouter();
 
-  const [user, setUser] = useState<User | null>(null);
-
-  useEffect(() => {
-    (async () => {
-      const { data, error } = await supabase.auth.getUser();
-      if (error) {
-        console.error("Error fetching user:", error);
-      } else {
-        //もしユーザーがすでに存在（登録済み）していたら、ホームにリダイレクト
-        const response = await fetch(`/api/users/${data.user.id}`);
-
-        const fetchedUser: User = await response.json();
-        setUser(fetchedUser);
-      }
-    })();
-  }, [router]);
+  const [user] = useAtom(logedInUserAtom);
 
   const onLink = () => {
     router.push(`/users/${user?.id}`);

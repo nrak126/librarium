@@ -9,7 +9,7 @@ import { useRouter, useParams } from "next/navigation";
 import { Btn } from "@/src/components/book/Btn";
 import { LoanWithBook, User } from "@/src/types";
 import { useAtom } from "jotai";
-import { logedInUserAtom, usersAtom } from "@/src/atoms/atoms";
+import { logedInUserAtom } from "@/src/atoms/atoms";
 import LoadingBrown from "@/src/components/LoadingBrown";
 import { convertHeicToJpeg, uploadUserIcon } from "@/src/utils/fileUtils";
 import LoanHistBooks from "./LentHistBools";
@@ -19,8 +19,7 @@ export default function UserDetail() {
   const router = useRouter();
   const params = useParams();
   const [user, setUser] = useState<User | null>(null);
-  const [logedInUser] = useAtom(logedInUserAtom);
-  const [, setUserAtom] = useAtom(usersAtom);
+  const [logedInUser, setLogedInUser] = useAtom(logedInUserAtom);
   const [hist, setHist] = useState<LoanWithBook[] | null>(null);
   const [newName, setNewName] = useState(user?.name);
   const [newstudentId, setNewstudentId] = useState(user?.studentId);
@@ -76,21 +75,23 @@ export default function UserDetail() {
       setNewstudentId(user.studentId);
     } else {
       let updatedUser = user;
+      let hasChanged = false;
+
       if (newName && newName !== user.name) {
         updatedUser = { ...updatedUser, name: newName };
-        setUser(updatedUser);
-        if (!updatedUser) {
-          setUserAtom(updatedUser);
-        }
-        console.log("名前が変更されました。");
+        hasChanged = true;
       }
       if (newstudentId && newstudentId !== user.studentId) {
         updatedUser = { ...updatedUser, studentId: newstudentId };
+        hasChanged = true;
+      }
+
+      if (hasChanged) {
         setUser(updatedUser);
-        if (!updatedUser) {
-          setUserAtom(updatedUser);
+        // ログインユーザー自身の情報を更新している場合は、logedInUserAtomも更新
+        if (user.uid === logedInUser?.uid) {
+          setLogedInUser(updatedUser);
         }
-        console.log("学籍番号が変更されました。");
       }
       // サーバーにも反映
       await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/users/${user.uid}`, {
@@ -126,10 +127,13 @@ export default function UserDetail() {
 
       const iconUrl = await uploadUserIcon(fileToUpload, user.uid);
       if (iconUrl) {
-        setUser((prev) => {
-          if (!prev) return null;
-          return { ...prev, icon: iconUrl };
-        });
+        const updatedUser = { ...user, icon: iconUrl };
+        setUser(updatedUser);
+
+        // ログインユーザー自身の情報を更新している場合は、logedInUserAtomも更新
+        if (user.uid === logedInUser?.uid) {
+          setLogedInUser(updatedUser);
+        }
       }
     } catch {
       alert("アップロード中にエラーが発生しました。");
@@ -150,6 +154,12 @@ export default function UserDetail() {
       body: JSON.stringify(user),
       headers: { "Content-Type": "application/json" },
     });
+
+    // ログインユーザー自身の情報を更新している場合は、logedInUserAtomも更新
+    if (user.uid === logedInUser?.uid) {
+      setLogedInUser(user);
+    }
+
     console.log("Backが押されました。");
     await router.back();
     return;
@@ -251,7 +261,6 @@ export default function UserDetail() {
           )}
         </div>
       </div>
-
       <div className={styles.backbutton}>
         <Btn text="戻る" bgColor="#99C6E2" onClick={handleBack} />
       </div>
