@@ -16,7 +16,6 @@ import design from "@/public/design.png";
 import Image from "next/image";
 import huki from "@/public/huki.svg";
 import { Yaldevi } from "next/font/google";
-import yellow from "@/public/yellow.svg";
 
 const font = Yaldevi({
   weight: "400",
