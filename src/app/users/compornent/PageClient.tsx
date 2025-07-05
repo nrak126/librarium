@@ -145,33 +145,35 @@ export function PageContent() {
 
   return (
     <>
-      <div className={styles.whole}>
-        <div className={styles.title}>利用者一覧</div>
-        <div className={styles.bar}>
-          <SearchBar placeholder="ユーザー検索" />
-        </div>
-      </div>
-
-      <div className={styles.myprofile}>MY PROFILE</div>
-      {logedInUser && <UserData user={user} />}
-
-      {searchName ? (
-        <div className={styles.titleSearch}>SEARCH</div>
-      ) : (
-        <div className={styles.titleAll}>ALL</div>
-      )}
-
-      {result ? (
-        !result.length ? (
-          <div className={styles.notfound}>
-            ご指定のキーワードに該当するタグは見つかりませんでした。
+      <div className={styles.first}>
+        <div className={styles.whole}>
+          <div className={styles.title}>利用者一覧</div>
+          <div className={styles.bar}>
+            <SearchBar placeholder="ユーザー検索" />
           </div>
+        </div>
+
+        <div className={styles.myprofile}>MY PROFILE</div>
+        {logedInUser && <UserData user={user} />}
+
+        {searchName ? (
+          <div className={styles.titleSearch}>SEARCH</div>
         ) : (
-          <UsersList users={result} />
-        )
-      ) : (
-        <LoadingBrown />
-      )}
+          <div className={styles.titleAll}>ALL</div>
+        )}
+
+        {result ? (
+          !result.length ? (
+            <div className={styles.notfound}>
+              ご指定のキーワードに該当するタグは見つかりませんでした。
+            </div>
+          ) : (
+            <UsersList users={result} />
+          )
+        ) : (
+          <LoadingBrown />
+        )}
+      </div>
     </>
   );
 }
