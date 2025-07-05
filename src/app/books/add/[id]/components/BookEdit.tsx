@@ -10,11 +10,20 @@ import publisherIcon from "@/public/publisher.svg";
 import Image from "next/image";
 import { BookCard } from "@/src/components/book/BookCard";
 import { convertHeicToJpeg, uploadBookThumbnail } from "@/src/utils/fileUtils";
+import { Btn } from "@/src/components/book/Btn";
 
 export const BookEdit = ({ isbn }: { isbn: string }) => {
   const [book, setBook] = useState<Book | null>();
   const [loading, setLoading] = useState(true);
   const [uploadLoading, setUploadLoading] = useState(false);
+
+  const handleClick = () => {
+    alert("タイトルとサムネイルを入力してください");
+  };
+
+  const handleBack = () => {
+    window.history.back();
+  };
 
   // メインのフェッチ関数（サーバーAPIでGoogle→楽天→Geminiの順で取得）
   const fetchBookData = useCallback(async (isbn: string) => {
@@ -124,7 +133,6 @@ export const BookEdit = ({ isbn }: { isbn: string }) => {
             type="text"
             value={book?.title || ""}
             placeholder="タイトルを入力"
-            required
             onChange={(e) => {
               setBook((prev) => {
                 if (!prev) return null;
@@ -211,7 +219,16 @@ export const BookEdit = ({ isbn }: { isbn: string }) => {
               });
             }}
           />
-          <Btns book={book} isUploading={uploadLoading} />
+          {book?.title && book?.thumbnail ? (
+            <Btns book={book} isUploading={uploadLoading} />
+          ) : (
+            <>
+              <div className={styles.errorBtn}>
+                <Btn text="戻る" bgColor="#99C6E2" onClick={handleBack} />
+                <Btn text="確認" bgColor="#E2999B" onClick={handleClick} />
+              </div>
+            </>
+          )}
         </div>
       </form>
     </>
