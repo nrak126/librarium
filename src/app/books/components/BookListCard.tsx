@@ -23,7 +23,7 @@ export const BookCardList = ({
             src={book.thumbnail || NotFound}
             alt="本の表紙画像"
             width={80}
-            height={120}
+            height={110}
           />
           <div className={classes.stock}>
             {!isShow && <StockState initialBook={book} />}
