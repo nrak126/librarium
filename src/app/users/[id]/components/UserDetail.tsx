@@ -236,7 +236,7 @@ export default function UserDetail() {
       </div>
 
       <div className={styles.history}>
-        <div className={styles.subtitle}>履歴</div>
+        <p className={styles.subtitle}>履歴</p>
         <div className={styles.histlist}>
           {hist && hist?.length === 0 ? (
             <div className={styles.noRental}>
