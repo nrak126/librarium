@@ -1,3 +1,12 @@
+// 変数定義
+$card-bg-color: #f4e9d7;
+$text-color: #635038;
+$shadow-light: 1px 1px 4px gray;
+$shadow-image: 0 4px 8px rgba(0, 0, 0, 0.15), 0 2px 4px rgba(0, 0, 0, 0.1);
+$border-radius: 20px;
+$transition-duration: 0.1s;
+
+// グリッドレイアウト
 .contents {
   margin-top: 3%;
   display: grid;
@@ -13,46 +22,55 @@
   margin-top: 30%;
 }
 
+// ローディング状態
 .loading {
   position: relative;
   top: -28svh;
   z-index: 111;
 }
 
+.loadingContainer {
+  position: relative;
+  bottom: 20svh;
+}
+
+// カードコンポーネント
 .card {
-  background-color: #f4e9d7;
-  border-radius: 20px;
+  background-color: $card-bg-color;
+  border-radius: $border-radius;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start;
+  // justify-content: space-between;
   width: 90%;
   max-width: 160px;
-  height: 150px;
   padding: 10px;
   position: relative;
-  box-shadow: 1px 1px 4px gray;
-  transition: transform 0.1s;
+  box-shadow: $shadow-light;
+  transition: transform $transition-duration;
+  
   &:active {
     transform: scale(0.96);
   }
 }
 
+// 本の画像
 .image {
   width: 90px;
   height: 115px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15), 0 2px 4px rgba(0, 0, 0, 0.1);
-  position: absolute; /* relative → absolute に変更 */
-  top: -30px; /* 上からの位置 */
-  right: 8px; /* 右からの位置 */
+  box-shadow: $shadow-image;
+  position: absolute;
+  top: -30px;
+  right: 8px;
   flex-shrink: 0;
 }
 
+// タイトルテキスト
 .text {
   font-size: 9px;
-  color: #635038;
+  color: $text-color;
   width: 100%;
-  max-width: 120px; /* 140px → 120px に調整（画像との重複を避ける） */
+  max-width: 120px;
   height: 36px;
   overflow: hidden;
   display: -webkit-box;
@@ -61,22 +79,12 @@
   line-clamp: 3;
   line-height: 1.1;
   text-align: center;
-  margin-top: 90px; /* 画像の下に配置 */
+  margin-top: 90px;
   position: relative;
   flex-shrink: 0;
 }
 
-.number {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: fit-content;
-  height: fit-content;
-  font-size: 10px;
-  font-weight: bold;
-  color: white;
-}
-
+// ランキング表示
 .ranking {
   width: fit-content;
   height: fit-content;
@@ -104,6 +112,18 @@
   );
 }
 
+.number {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: fit-content;
+  height: fit-content;
+  font-size: 10px;
+  font-weight: bold;
+  color: white;
+}
+
+// ランキング色のバリエーション
 .gold {
   background-color: #f8d612;
 }
@@ -113,48 +133,23 @@
 }
 
 .bronze {
-  background-color: #ba5d10; /* 銅色 */
+  background-color: #ba5d10;
 }
 
 .default {
-  background-color: #e2e2e2; /* 4位以降はグレー */
+  background-color: #e2e2e2;
 }
 
-// .stock {
-//   position: absolute;
-//   bottom: 0px;
-//   font-size: 9px;
-//   width: 20vw;
-//   text-align: center;
-//   flex-shrink: 0;
-// }
-
-.stock {
-  width: 90%;
-  font-size: 9px;
-  display: flex;
-  flex-direction: column;
-  position: absolute;
-  left: 69%;
-  top: 13.5svh;
-  transform: translateX(-50%);
-}
-
-.loadingContainer {
-  position: relative;
-  bottom: 20svh;
-}
-
+// レスポンシブデザイン
 @media (min-width: 768px) and (max-width: 1024px) {
   .stock {
-    font-size: 10px; /* フォントサイズを少し大きく */
+    font-size: 10px;
     min-width: 70px;
     max-width: 90px;
     right: 10%;
   }
 }
 
-/* デスクトップ用のメディアクエリ */
 @media (min-width: 1025px) {
   .stock {
     font-size: 11px;

@@ -74,9 +74,7 @@ export const HomeBook: React.FC<BookListBaseProps> = (props) => {
                 unoptimized={true}
               />
               <p className={style.text}>{books.title}</p>
-              <div className={style.stock}>
-                <StockState initialBook={books} />
-              </div>
+              <StockState initialBook={books} />
             </div>
           </div>
         );
