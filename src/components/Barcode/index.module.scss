@@ -56,9 +56,9 @@
   text-align: center;
   z-index: 2;
   position: relative;
-  top: 5vh; /* 位置を調整 */
-  left: 30%;
-  max-width: 52svw;
+  top: 15vh; /* 位置を調整 */
+  left: 28%;
+  max-width: 60svw;
   overflow: hidden;
 }
 
@@ -70,8 +70,16 @@
   align-items: center;
   margin-top: 8svh; /* ボタンの位置を調整 */
 }
-
+.handInput {
+  margin-top: 15svh;
+}
 .text {
   font-size: 10px;
   color: #ababab;
+}
+.Btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1.5svh;
 }
