@@ -8,6 +8,7 @@ import Loading from "@/src/components/Loading";
 export const GetIsbn = () => {
   const router = useRouter();
   const [isbn, setIsbn] = useState<string>("");
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
     if (isbn) {
@@ -16,16 +17,24 @@ export const GetIsbn = () => {
     }
   }, [isbn, router]);
 
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+
+    return () => {
+      window.removeEventListener("resize", checkMobile);
+    };
+  }, []);
+
+  const displayText = isMobile
+    ? "借りたい本の裏表紙のバーコードをカメラにかざしてください"
+    : "借りたい本の裏表紙のバーコードをスキャンしてください";
+
   return (
-    <>
-      {isbn ? (
-        <Loading />
-      ) : (
-        <Barcode
-          setIsbn={setIsbn}
-          text={"借りたい本の裏表紙のバーコードをカメラにかざしてください"}
-        />
-      )}
-    </>
+    <>{isbn ? <Loading /> : <Barcode setIsbn={setIsbn} text={displayText} />}</>
   );
 };
